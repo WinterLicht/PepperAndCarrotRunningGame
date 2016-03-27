@@ -1,13 +1,14 @@
 package com.peppercarrot.runninggame.stages;
 
-import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.peppercarrot.runninggame.PaCGame;
-import com.peppercarrot.runninggame.entities.Background;
 import com.peppercarrot.runninggame.entities.Level;
 import com.peppercarrot.runninggame.entities.Runner;
 import com.peppercarrot.runninggame.utils.Assets;
@@ -41,18 +42,23 @@ public class WorldStage extends Stage {
 		charTable.addActor(runner);
 
 		//Set up UI:
+		Button jumpBtnTransparent = new Button(Assets.I.skin, "transparent");
+		int jumpBtnTransparentWidth = 470;
+		jumpBtnTransparent.setTouchable(Touchable.enabled);
 		TextButton jumpButton = new TextButton ("JUMP", Assets.I.skin, "default");
-		jumpButton.addListener(new ChangeListener() {
-			public void changed (ChangeEvent event, Actor actor) {
+		//TODO: try something else to pass touch event to this
+		jumpButton.setTouchable(Touchable.disabled);
+		jumpBtnTransparent.add(jumpButton);
+		jumpBtnTransparent.bottom().left();
+		jumpBtnTransparent.addListener(new InputListener() {
+			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
 				runner.jump();
 				event.cancel();
+				return true;
 			}
 		});
-
-		Background background = new Background(); //infinitely scrolling background
-		uiTable.addActor(background); //TODO: background belongs not to ui...
-		//because it should not updated as ui vertically!
-		uiTable.add(jumpButton);
+		uiTable.debug();
+		uiTable.add(jumpBtnTransparent).width(jumpBtnTransparentWidth).height(uiTable.getHeight());
 		uiTable.bottom().left();
 
 		this.addActor(uiTable);
@@ -66,9 +72,11 @@ public class WorldStage extends Stage {
 				PaCGame.getInstance().camera.position.y - Constants.VIRTUAL_HEIGHT/2);
 
 		this.act(delta);
+		level.update();
+
+		level.renderBackground();
 		this.draw();
-		//TODO: render player over platforms !!!
-		level.render();
+		level.renderForeground();
 		runner.checkCollision(level.getPlatforms());
 	}
 

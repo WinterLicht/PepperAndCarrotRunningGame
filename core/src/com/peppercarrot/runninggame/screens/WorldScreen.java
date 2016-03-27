@@ -6,21 +6,24 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.peppercarrot.runninggame.PaCGame;
+import com.peppercarrot.runninggame.entities.Background;
 import com.peppercarrot.runninggame.stages.WorldStage;
 import com.peppercarrot.runninggame.utils.Constants;
 
 /**
  * Screen for actual game.
  * In render() method are keyboard inputs handled. Handles also the
- * main game camera
+ * main game camera.
  * @author WinterLicht
  *
  */
 public class WorldScreen implements Screen {
 	WorldStage stage;
+	Background background; /** Infinitely scrolling background. */
 
 	public WorldScreen(Viewport viewport) {
 		stage = new WorldStage(viewport);
+		background = new Background();
 	}
 
 	@Override
@@ -41,8 +44,9 @@ public class WorldScreen implements Screen {
 
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		game.batch.begin();
-		game.batch.setColor(0, 0, 0, 1);
-		//may draw something here...
+		game.batch.setColor(1, 1, 1, 1);
+		background.act(delta);
+		background.draw(game.batch, 1f);
 		game.batch.end();
 
 		this.stage.render(delta);

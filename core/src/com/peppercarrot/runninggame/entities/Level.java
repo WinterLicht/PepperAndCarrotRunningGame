@@ -51,7 +51,30 @@ public class Level {
 		tiledMapRenderer2 = new OrthogonalTiledMapRenderer(tiledMap2);
 	}
 
-	public void render(){
+	/**
+	 * Render background layers.
+	 * It is assumed, that 0 and 1 are background
+	 */
+	public void renderBackground(){
+		int[] backgroundLayers = { 0, 1 };
+		tiledMapRenderer1.render(backgroundLayers);
+		tiledMapRenderer2.render(backgroundLayers);
+	}
+
+	/**
+	 * Render foreground layers.
+	 * It is assumed, that 2 is foreground
+	 */
+	public void renderForeground(){
+		int[] foregroundLayers = { 2 };
+		tiledMapRenderer1.render(foregroundLayers);
+		tiledMapRenderer2.render(foregroundLayers);
+	}
+
+	/**
+	 * Update cameras.
+	 */
+	public void update(){
 		if (boundsReached()) {
 			resetMap();
 		}
@@ -61,16 +84,13 @@ public class Level {
 		
 		//Scroll both cameras according to level scroll speed.
 		//Consider offset to the ground and the offset as above.
-
 		this.camera1.position.set(scrollSpeed+camera1.position.x, offsetY-Constants.OFFSET_TO_GROUND, 0);
 		this.camera1.update();
 		tiledMapRenderer1.setView(this.camera1);
-		tiledMapRenderer1.render();
-		
+
 		this.camera2.position.set(scrollSpeed+camera2.position.x, offsetY-Constants.OFFSET_TO_GROUND, 0);
 		this.camera2.update();
 		tiledMapRenderer2.setView(this.camera2);
-		tiledMapRenderer2.render();
 	}
 
 	/**
@@ -109,7 +129,7 @@ public class Level {
 	 * Resets cameras for each level part so it is rendered seemless
 	 */
 	private void resetMap(){
-		//TODO: here to load other map
+		//TODO: here to load other maps randomly
 		if(activeMap == 2) {
 			camera2.position.set(-getMapLength(1), 0, 0);
 			activeMap = 1;
@@ -126,8 +146,7 @@ public class Level {
 	public Array<Integer> getPlatforms(){
 		Array<Integer> vectorArray = new Array<Integer>();
 		if (activeMap == 1) {
-			//TODO: special layer "platforms" should be hear loaded
-			TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap1.getLayers().get(0);
+			TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap1.getLayers().get("platforms");
 			//Get players position in tile coordinates of the current map
 			//Players position is on the left of screen with small offset
 			float pos = (camera1.position.x - Constants.VIRTUAL_WIDTH / 2 + Constants.OFFSET_TO_EDGE) / tiledMap1.getProperties().get("tilewidth", Integer.class);
@@ -148,14 +167,13 @@ public class Level {
 				}
 			}
 		} else { //analog as above
-			TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap2.getLayers().get(0);
+			TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap2.getLayers().get("platforms");
 			float pos = (camera2.position.x - Constants.VIRTUAL_WIDTH / 2 + Constants.OFFSET_TO_EDGE) / tiledMap2.getProperties().get("tilewidth", Integer.class);
 			int min = (int) Math.floor(pos);
 			int max = (int) Math.ceil(pos);
 			if (min == max) max += 1;
 			for (int column = min; column <= max; column++){
 				for (int row = 0; row < layer.getHeight(); row++){
-					//TODO store only topmost!
 					Cell cell = layer.getCell(column, row);
 					if (cell != null) {
 						int vector = tiledMap2.getProperties().get("tilewidth", Integer.class) * (row+1);
