@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.peppercarrot.runninggame.PaCGame;
+import com.peppercarrot.runninggame.utils.Constants;
 
 /**
  * An infinitely scrolling and repeating background.
@@ -25,7 +27,9 @@ public class Background extends Actor{
 	private Rectangle textureRegionBounds2; /** Controlling rectangle in dimensions of the image. */
 	private int speed = -350; /** Scroll speed in x-direction in pixel. */
 
-	public Background() {
+	public Background(int speed) {
+		//Scroll speed of background is lower than this of level
+		this.speed =(int) (-speed*0.4);
 		//TODO: name of the texture image as a parameter?
 		Texture tex = new Texture(Gdx.files.internal("testbg.png"), true);
 		textureRegion = new TextureRegion(tex);
@@ -33,10 +37,6 @@ public class Background extends Actor{
 		height = tex.getHeight();
 		textureRegionBounds1 = new Rectangle(- width / 2, 0, height, height);
 		textureRegionBounds2 = new Rectangle(width / 2, 0, width, height);
-		/*
-		textureRegionBounds1 = new Rectangle(0 - Constants.VIRTUAL_WIDTH / 2, 0, Constants.VIRTUAL_WIDTH, Constants.VIRTUAL_HEIGHT);
-		textureRegionBounds2 = new Rectangle(Constants.VIRTUAL_WIDTH / 2, 0, Constants.VIRTUAL_WIDTH, Constants.VIRTUAL_HEIGHT);
-		 */
 	}
 
 		@Override
@@ -45,6 +45,7 @@ public class Background extends Actor{
 				resetBounds();
 			} else {
 				updateXBounds(delta);
+				updateYBounds();
 			}
 		}
 
@@ -69,7 +70,7 @@ public class Background extends Actor{
 		 * @return
 		 */
 		private boolean leftBoundsReached(float delta) {
-			return (textureRegionBounds2.x + (delta * speed)) <= 0;
+			return (textureRegionBounds2.x <= 0);
 		}
 
 		/**
@@ -77,8 +78,16 @@ public class Background extends Actor{
 		 * @param delta
 		 */
 		private void updateXBounds(float delta) {
-			textureRegionBounds1.x += delta * speed;
-			textureRegionBounds2.x += delta * speed;
+			textureRegionBounds1.x +=  speed;
+			textureRegionBounds2.x +=  speed;
+		}
+		
+		/**
+		 * Update vertically.
+		 */
+		private void updateYBounds(){
+			textureRegionBounds1.y = PaCGame.getInstance().camera.position.y - Constants.VIRTUAL_HEIGHT / 2;
+			textureRegionBounds2.y = textureRegionBounds1.y; 
 		}
 
 		/**

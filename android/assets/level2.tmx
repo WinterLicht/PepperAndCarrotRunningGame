@@ -5,7 +5,7 @@
  </tileset>
  <layer name="background" width="25" height="5">
   <data encoding="base64" compression="zlib">
-   eJxjYBhcQI5E9VJofE4C6mWAWBZNjAOI2UlwgzQRdsgQoQafOTA5HiBmRMKkAJAd2MIDABnPAYE=
+   eJzzY6A9iCBBrRyJZkuh2cFJQL0MEMuiiXEAMTsRboDZIU2EHTJEqMFmDrodPEDMiIRJASA7sIUHAAoFAy8=
   </data>
  </layer>
  <layer name="platforms" width="25" height="5">
@@ -15,7 +15,7 @@
  </layer>
  <layer name="foreground" width="25" height="5">
   <data encoding="base64" compression="zlib">
-   eJxjYBgZwIOGZrtD6SAy9UcToSYQyQ53fApxgBgkNgAftwKD
+   eJxjYKAtcKex+SAQSIQaDxraAfNjEJlmRxNhB0wuiIG8MI1BMgcAUroEDg==
   </data>
  </layer>
 </map>

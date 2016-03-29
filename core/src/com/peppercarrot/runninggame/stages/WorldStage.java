@@ -6,7 +6,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.peppercarrot.runninggame.PaCGame;
 import com.peppercarrot.runninggame.entities.Level;
@@ -23,14 +22,16 @@ public class WorldStage extends Stage {
 	Table charTable; /** Contains characters: player, enemies... */
 	Table uiTable;
 	public Runner runner;
-	Level level;
+	public boolean playerReady = false;
+	public Level level;
+	Table attackButtons;
 
 	public WorldStage(Viewport viewport){
 		super(viewport);
 		charTable = new Table();
 		charTable.setFillParent(true);
 
-		int uiPadding = 60; //padding of borders for ui in pixel
+		int uiPadding = 30; //padding of borders for ui in pixel
 		uiTable = new Table();
 		uiTable.setFillParent(true);
 		uiTable.pad(uiPadding);
@@ -45,21 +46,43 @@ public class WorldStage extends Stage {
 		Button jumpBtnTransparent = new Button(Assets.I.skin, "transparent");
 		int jumpBtnTransparentWidth = 470;
 		jumpBtnTransparent.setTouchable(Touchable.enabled);
-		TextButton jumpButton = new TextButton ("JUMP", Assets.I.skin, "default");
-		//TODO: try something else to pass touch event to this
-		jumpButton.setTouchable(Touchable.disabled);
-		jumpBtnTransparent.add(jumpButton);
-		jumpBtnTransparent.bottom().left();
+		//TextButton jumpButton = new TextButton ("JUMP", Assets.I.skin, "default");
+		//TODO: try something else to pass touch event to this button
+		//jumpButton.setTouchable(Touchable.disabled);
+		//jumpBtnTransparent.add(jumpButton);
+		//jumpBtnTransparent.bottom().left();
 		jumpBtnTransparent.addListener(new InputListener() {
 			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+				if (! ((WorldStage) event.getStage()).playerReady) {
+					level.beginLevel = true;
+				}
 				runner.jump();
 				event.cancel();
 				return true;
 			}
 		});
-		uiTable.debug();
-		uiTable.add(jumpBtnTransparent).width(jumpBtnTransparentWidth).height(uiTable.getHeight());
-		uiTable.bottom().left();
+		jumpBtnTransparent.debug();
+		uiTable.add(jumpBtnTransparent).width(jumpBtnTransparentWidth).height(uiTable.getHeight()).expandX().left();
+		//Attack Buttons
+		attackButtons = new Table();
+		attackButtons.debug();
+		int attackBtnWidth = 470;
+		attackButtons.setWidth(attackBtnWidth);
+		for (int i = 1; i < 4; i++) {
+			Button btn = new Button(Assets.I.skin, "transparent");
+			btn.setTouchable(Touchable.enabled);
+			btn.setName(""+i);
+			btn.addListener(new InputListener() { //TODO: attacks
+				public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+					System.out.println("Attack Button " + event.getListenerActor().getName() + " touched.");
+					event.cancel();
+					return false;
+				}
+			});
+			attackButtons.add(btn).width(attackBtnWidth).height(uiTable.getHeight()/3).right();
+			attackButtons.row();
+		}
+		uiTable.add(attackButtons).width(attackBtnWidth).height(uiTable.getHeight()).right();
 
 		this.addActor(uiTable);
 		this.addActor(charTable);
@@ -80,4 +103,7 @@ public class WorldStage extends Stage {
 		runner.checkCollision(level.getPlatforms());
 	}
 
+	public void beginLevel(){
+		
+	}
 }

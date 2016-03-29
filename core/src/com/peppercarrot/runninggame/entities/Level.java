@@ -24,7 +24,8 @@ import com.peppercarrot.runninggame.utils.Constants;
 public class Level {
 	int offset; /** Offset in pixel when a new level part should be loaded. */
 	int activeMap = 1; /** Helper, indicates which level should be loaded next. */
-	float scrollSpeed = 10; /** Horizontal scroll speed in pixel of the level. */
+	public float scrollSpeed = 8; /** Horizontal scroll speed in pixel of the level. */
+	public boolean beginLevel = false; /** Set to true when player is ready. */
 
 	public OrthographicCamera camera1;
 	public TiledMap tiledMap1;
@@ -36,9 +37,9 @@ public class Level {
 
 	public Level(){
 		this.offset = Constants.VIRTUAL_WIDTH / 2;
-		
+
 		this.camera1 = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		tiledMap1 = new TmxMapLoader().load("level.tmx");
+		tiledMap1 = new TmxMapLoader().load("startlevel.tmx");
 		tiledMapRenderer1 = new OrthogonalTiledMapRenderer(tiledMap1);
 		
 		this.camera2 = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -47,13 +48,14 @@ public class Level {
 		//about to show up in the screen) the part 2 is already
 		//displayed
 		camera2.position.set(-getMapLength(1), 0, 0);
-		tiledMap2 = new TmxMapLoader().load("level2.tmx");
+		tiledMap2 = new TmxMapLoader().load("startlevel.tmx");
 		tiledMapRenderer2 = new OrthogonalTiledMapRenderer(tiledMap2);
 	}
 
 	/**
 	 * Render background layers.
 	 * It is assumed, that 0 and 1 are background
+	 * TODO: recognize background/foreground from layer name 
 	 */
 	public void renderBackground(){
 		int[] backgroundLayers = { 0, 1 };
@@ -75,9 +77,13 @@ public class Level {
 	 * Update cameras.
 	 */
 	public void update(){
-		if (boundsReached()) {
-			resetMap();
-		}
+			if (boundsReached()) {
+				if (beginLevel) { //game is started and player is ready
+					resetMap(); //here are new level parts loaded
+				} else { //loop two start levels without platforms
+					resetCurrentTwoLevels();
+				}
+			}
 		//Consider y-position of the main game camera.
 		//Because this is updated depending of players jump.
 		float offsetY = PaCGame.getInstance().camera.position.y;
@@ -129,7 +135,39 @@ public class Level {
 	 * Resets cameras for each level part so it is rendered seemless
 	 */
 	private void resetMap(){
-		//TODO: here to load other maps randomly
+		double random = Math.random();
+		int mapsAmount = 2;
+		for (int i = 1; i <= mapsAmount; i++) {
+			if ((i-1)*(1f/mapsAmount) <= random && random < i*(1f/mapsAmount)){
+				if(activeMap == 2) {
+					tiledMap2 = new TmxMapLoader().load("level"+i+".tmx");
+					tiledMapRenderer2 = new OrthogonalTiledMapRenderer(tiledMap2);
+					camera2.position.set(-getMapLength(1), 0, 0);
+					activeMap = 1;
+				} else {
+					tiledMap1 = new TmxMapLoader().load("level"+i+".tmx");
+					tiledMapRenderer1 = new OrthogonalTiledMapRenderer(tiledMap1);
+					camera1.position.set(-getMapLength(2), 0, 0);
+					activeMap = 2;
+				}
+				System.out.println("level"+i+".tmx loaded");
+			}
+		}
+		/*
+		if(activeMap == 2) {
+			camera2.position.set(-getMapLength(1), 0, 0);
+			activeMap = 1;
+		} else {
+			camera1.position.set(-getMapLength(2), 0, 0);
+			activeMap = 2;
+		}
+		*/
+	}
+	
+	/**
+	 * To loop the start level without platforms.
+	 */
+	private void resetCurrentTwoLevels() {
 		if(activeMap == 2) {
 			camera2.position.set(-getMapLength(1), 0, 0);
 			activeMap = 1;
@@ -154,15 +192,17 @@ public class Level {
 			int min = (int) Math.floor(pos);
 			int max = (int) Math.ceil(pos);
 			if (min == max) max += 1; //Take then the one further column
-			for (int column = min; column <= max; column++){
-				for (int row = 0; row < layer.getHeight(); row++){
-					//Iterate all cells of this two columns
-					Cell cell = layer.getCell(column, row);
-					if (cell != null) {
-						//If the cell contains an element, it is a platform
-						//Store top y-coordinates of it
-						int vector = tiledMap1.getProperties().get("tilewidth", Integer.class) * (row+1);
-						vectorArray.add(vector);
+			if (layer != null) { //When layer named platforms exists
+				for (int column = min; column <= max; column++){
+					for (int row = 0; row < layer.getHeight(); row++){
+						//Iterate all cells of this two columns
+						Cell cell = layer.getCell(column, row);
+						if (cell != null) {
+							//If the cell contains an element, it is a platform
+							//Store top y-coordinates of it
+							int vector = tiledMap1.getProperties().get("tilewidth", Integer.class) * (row+1);
+							vectorArray.add(vector);
+						}
 					}
 				}
 			}
@@ -172,12 +212,14 @@ public class Level {
 			int min = (int) Math.floor(pos);
 			int max = (int) Math.ceil(pos);
 			if (min == max) max += 1;
-			for (int column = min; column <= max; column++){
-				for (int row = 0; row < layer.getHeight(); row++){
-					Cell cell = layer.getCell(column, row);
-					if (cell != null) {
-						int vector = tiledMap2.getProperties().get("tilewidth", Integer.class) * (row+1);
-						vectorArray.add(vector);
+			if (layer != null) {
+				for (int column = min; column <= max; column++){
+					for (int row = 0; row < layer.getHeight(); row++){
+						Cell cell = layer.getCell(column, row);
+						if (cell != null) {
+							int vector = tiledMap2.getProperties().get("tilewidth", Integer.class) * (row+1);
+							vectorArray.add(vector);
+						}
 					}
 				}
 			}

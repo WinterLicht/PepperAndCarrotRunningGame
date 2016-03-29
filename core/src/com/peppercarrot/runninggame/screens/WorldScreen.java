@@ -14,6 +14,8 @@ import com.peppercarrot.runninggame.utils.Constants;
  * Screen for actual game.
  * In render() method are keyboard inputs handled. Handles also the
  * main game camera.
+ * TODO: Main camera is alligned according the player position, also
+ * other camera should consider the offset.
  * @author WinterLicht
  *
  */
@@ -23,7 +25,7 @@ public class WorldScreen implements Screen {
 
 	public WorldScreen(Viewport viewport) {
 		stage = new WorldStage(viewport);
-		background = new Background();
+		background = new Background((int) stage.level.scrollSpeed);
 	}
 
 	@Override
@@ -37,6 +39,8 @@ public class WorldScreen implements Screen {
 		//Update main game camera.
 		//Main camera is placed in the middle of the game screen,
 		//but moves vertically when player jumps.
+		//TODO: Let the main camera unchanged and add instead
+		//a special camera to render player???
 		game.camera.position.set(Constants.VIRTUAL_WIDTH / 2,
 				stage.runner.getY()+Constants.VIRTUAL_HEIGHT / 2 - Constants.OFFSET_TO_GROUND, 0);
 		game.camera.update();
@@ -56,6 +60,9 @@ public class WorldScreen implements Screen {
 			Gdx.app.exit();
 		}
 		if(Gdx.input.isKeyJustPressed(Keys.SPACE)){
+			if (!stage.playerReady) {
+				stage.level.beginLevel = true;
+			}
 			stage.runner.jump();
 		}
 	}
