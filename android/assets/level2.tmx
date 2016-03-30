@@ -5,7 +5,7 @@
  </tileset>
  <layer name="background" width="25" height="5">
   <data encoding="base64" compression="zlib">
-   eJzzY6A9iCBBrRyJZkuh2cFJQL0MEMuiiXEAMTsRboDZIU2EHTJEqMFmDrodPEDMiIRJASA7sIUHAAoFAy8=
+   eJzzY6A9iCBBrRyJZkuh2cFJQL0MEMuiiXEAMTsRboDZIU2EHTJEqMFnDkyOB4gZkTApAGQHtvAAAOeWAtc=
   </data>
  </layer>
  <layer name="platforms" width="25" height="5">
@@ -16,6 +16,11 @@
  <layer name="foreground" width="25" height="5">
   <data encoding="base64" compression="zlib">
    eJxjYKAtcKex+SAQSIQaDxraAfNjEJlmRxNhB0wuiIG8MI1BMgcAUroEDg==
+  </data>
+ </layer>
+ <layer name="enemies" width="25" height="5">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFgwmwQjEDEk1tAAAHgAAQ
   </data>
  </layer>
 </map>

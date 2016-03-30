@@ -1,21 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="20" height="5" tilewidth="110" tileheight="110">
+<map version="1.0" orientation="orthogonal" width="25" height="5" tilewidth="110" tileheight="110">
  <tileset firstgid="1" name="tileset_neutral_01" tilewidth="110" tileheight="110">
   <image source="tileset_neutral_01.png" width="1100" height="1100"/>
  </tileset>
- <layer name="background" width="20" height="5">
+ <layer name="background" width="25" height="5">
   <data encoding="base64" compression="zlib">
-   eJzzY2BgCGJgOMCABgKhYkFIYjFY1KGDCCAOxqLOnQTzotHMc8djrweSHLJ57qj2oJiHph8niEYyLxhJ3BOPeUEMxIEgHGwANfUP5g==
+   eJzzY2BgCGJgOMCABgKhYkFIYjFY1BEDIoA4GItedxLsiCbCDnc87vNAkkO2wx3VboJ2oJmJE0Qj2RGMJO5JwA50EERYCYY6QnoAWlkPjg==
   </data>
  </layer>
- <layer name="platforms" width="20" height="5">
+ <layer name="platforms" width="25" height="5">
   <data encoding="base64" compression="zlib">
-   eJxjYBh4wATEYlDMTEc76WEXzG/E2gUAOzwAUg==
+   eJxjYBgFpAImIGYeBPYS4w5sagAIaAAV
   </data>
  </layer>
- <layer name="foreground" width="20" height="5">
+ <layer name="foreground" width="25" height="5">
   <data encoding="base64" compression="zlib">
-   eJxjYKAecKeiWSAQSEfzPIg0A9mP+MwLItL8QDQ2AFuLAwY=
+   eJxjYKAecKeiWbhA4CC0w4NIdcjhQ6odQUTaGYiDjQwA36cDBg==
+  </data>
+ </layer>
+ <layer name="enemies" width="25" height="5">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFgwmwQjEDEk1tAAAHgAAQ
   </data>
  </layer>
 </map>

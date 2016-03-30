@@ -32,7 +32,7 @@ public class Runner extends Image {
 	}
 
 	public Runner(){
-		super(new TextureRegion(Assets.I.atlas.findRegion("runner")));
+		super(new TextureRegion(Assets.I.atlas.findRegion("run")));
 		//Runner is always placed with some offset
 		setX(Constants.OFFSET_TO_EDGE);
 		setY(Constants.OFFSET_TO_GROUND);

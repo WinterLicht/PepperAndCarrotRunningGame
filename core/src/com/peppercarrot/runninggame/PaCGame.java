@@ -5,11 +5,11 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
-import com.peppercarrot.runninggame.screens.WorldScreen;
+import com.peppercarrot.runninggame.screens.StartScreen;
 import com.peppercarrot.runninggame.utils.Constants;
 
 /**
- * The main game class
+ * The main game class.
  * @author WinterLicht
  *
  */
@@ -35,7 +35,7 @@ public class PaCGame extends Game {
 		batch = new SpriteBatch();
 		setupCamera();
 		//TODO: Should start with a "start screen"
-		setScreen(new WorldScreen(viewport));
+		setScreen(new StartScreen(viewport));
 	}
 
 	/**

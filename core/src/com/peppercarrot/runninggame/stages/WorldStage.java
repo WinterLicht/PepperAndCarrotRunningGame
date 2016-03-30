@@ -83,6 +83,8 @@ public class WorldStage extends Stage {
 			attackButtons.row();
 		}
 		uiTable.add(attackButtons).width(attackBtnWidth).height(uiTable.getHeight()).right();
+		uiTable.debug();
+		System.out.println("UiTable: "+uiTable.getX());
 
 		this.addActor(uiTable);
 		this.addActor(charTable);
@@ -99,8 +101,9 @@ public class WorldStage extends Stage {
 
 		level.renderBackground();
 		this.draw();
+		level.renderEnemies(delta);
 		level.renderForeground();
-		runner.checkCollision(level.getPlatforms());
+		runner.checkCollision(level.getWallsYPosNearPlayer());
 	}
 
 	public void beginLevel(){

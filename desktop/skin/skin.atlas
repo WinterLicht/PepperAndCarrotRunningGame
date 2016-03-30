@@ -6,7 +6,7 @@ filter: MipMapLinearNearest,Nearest
 repeat: none
 button
   rotate: false
-  xy: 924, 195
+  xy: 1, 1
   size: 22, 22
   split: 5, 5, 5, 5
   pad: 10, 10, 10, 10
@@ -15,7 +15,7 @@ button
   index: -1
 button-disabled
   rotate: false
-  xy: 924, 218
+  xy: 1, 24
   size: 22, 22
   split: 5, 5, 5, 5
   pad: 10, 10, 10, 10
@@ -24,87 +24,101 @@ button-disabled
   index: -1
 button-down
   rotate: false
-  xy: 445, 107
+  xy: 868, 114
   size: 22, 22
   split: 5, 5, 5, 5
   pad: 10, 10, 10, 10
   orig: 22, 22
   offset: 0, 0
   index: -1
+enemy
+  rotate: false
+  xy: 459, 137
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: -1
 jump
   rotate: false
-  xy: 1, 1
+  xy: 570, 137
   size: 110, 110
   orig: 110, 110
   offset: 0, 0
   index: 1
 jump
   rotate: false
-  xy: 258, 130
+  xy: 681, 137
   size: 110, 110
   orig: 110, 110
   offset: 0, 0
   index: 2
 roboto25
   rotate: false
-  xy: 1, 112
+  xy: 202, 119
   size: 256, 128
   orig: 256, 128
   offset: 0, 0
   index: -1
 run
   rotate: false
-  xy: 112, 1
+  xy: 792, 137
   size: 110, 110
   orig: 110, 110
   offset: 0, 0
   index: 1
 run
   rotate: false
-  xy: 369, 130
+  xy: 903, 137
   size: 110, 110
   orig: 110, 110
   offset: 0, 0
   index: 2
 run
   rotate: false
-  xy: 480, 130
+  xy: 202, 8
   size: 110, 110
   orig: 110, 110
   offset: 0, 0
   index: 3
 run
   rotate: false
-  xy: 591, 130
+  xy: 313, 8
   size: 110, 110
   orig: 110, 110
   offset: 0, 0
   index: 4
 run
   rotate: false
-  xy: 702, 130
+  xy: 424, 8
   size: 110, 110
   orig: 110, 110
   offset: 0, 0
   index: 5
 run
   rotate: false
-  xy: 813, 130
+  xy: 535, 26
   size: 110, 110
   orig: 110, 110
   offset: 0, 0
   index: 6
 run
   rotate: false
-  xy: 223, 1
+  xy: 646, 26
   size: 110, 110
   orig: 110, 110
   offset: 0, 0
   index: 7
 run
   rotate: false
-  xy: 334, 19
+  xy: 757, 26
   size: 110, 110
   orig: 110, 110
   offset: 0, 0
   index: 8
+sweep-effect
+  rotate: false
+  xy: 1, 47
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: 1

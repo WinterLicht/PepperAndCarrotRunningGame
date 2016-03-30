@@ -8,8 +8,13 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.peppercarrot.runninggame.PaCGame;
+import com.peppercarrot.runninggame.utils.Assets;
 import com.peppercarrot.runninggame.utils.Constants;
 
 /**
@@ -22,9 +27,8 @@ import com.peppercarrot.runninggame.utils.Constants;
  *
  */
 public class Level {
-	int offset; /** Offset in pixel when a new level part should be loaded. */
 	int activeMap = 1; /** Helper, indicates which level should be loaded next. */
-	public float scrollSpeed = 8; /** Horizontal scroll speed in pixel of the level. */
+	public float scrollSpeed = 10; /** Horizontal scroll speed in pixel of the level. */
 	public boolean beginLevel = false; /** Set to true when player is ready. */
 
 	public OrthographicCamera camera1;
@@ -35,10 +39,12 @@ public class Level {
 	public TiledMap tiledMap2;
 	TiledMapRenderer tiledMapRenderer2;
 
+	Stage enemies1;
+	Stage enemies2;
+	
 	public Level(){
-		this.offset = Constants.VIRTUAL_WIDTH / 2;
-
 		this.camera1 = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		camera1.setToOrtho(false, Constants.VIRTUAL_WIDTH, Constants.VIRTUAL_HEIGHT);
 		tiledMap1 = new TmxMapLoader().load("startlevel.tmx");
 		tiledMapRenderer1 = new OrthogonalTiledMapRenderer(tiledMap1);
 		
@@ -47,9 +53,19 @@ public class Level {
 		//so when it scolls a while (and the end of level part 1 is
 		//about to show up in the screen) the part 2 is already
 		//displayed
+		camera2.setToOrtho(false, Constants.VIRTUAL_WIDTH, Constants.VIRTUAL_HEIGHT);
 		camera2.position.set(-getMapLength(1), 0, 0);
 		tiledMap2 = new TmxMapLoader().load("startlevel.tmx");
 		tiledMapRenderer2 = new OrthogonalTiledMapRenderer(tiledMap2);
+		
+		enemies1 = new Stage(PaCGame.getInstance().viewport);
+		Table t1 = new Table();
+		t1.setFillParent(true);
+		enemies1.addActor(t1);
+		enemies2 = new Stage(PaCGame.getInstance().viewport);
+		Table t2 = new Table();
+		t2.setFillParent(true);
+		enemies2.addActor(t2);
 	}
 
 	/**
@@ -72,6 +88,20 @@ public class Level {
 		tiledMapRenderer1.render(foregroundLayers);
 		tiledMapRenderer2.render(foregroundLayers);
 	}
+	
+	/**
+	 * Scroll enemies towards the player.
+	 */
+	public void updateEnemies() {
+		for (int i = 0; i < ((Table) enemies1.getActors().get(0)).getChildren().size; i++) {
+			Image enemy = (Image) ((Table) enemies1.getActors().get(0)).getChildren().get(i);
+			enemy.setX((int)enemy.getX()-scrollSpeed);
+		}
+		for (int i = 0; i < ((Table) enemies2.getActors().get(0)).getChildren().size; i++) {
+			Image enemy = (Image) ((Table) enemies2.getActors().get(0)).getChildren().get(i);
+			enemy.setX((int)enemy.getX()-scrollSpeed);
+		}
+	}
 
 	/**
 	 * Update cameras.
@@ -90,15 +120,27 @@ public class Level {
 		
 		//Scroll both cameras according to level scroll speed.
 		//Consider offset to the ground and the offset as above.
-		this.camera1.position.set(scrollSpeed+camera1.position.x, offsetY-Constants.OFFSET_TO_GROUND, 0);
+		this.camera1.position.set((int)scrollSpeed+camera1.position.x, offsetY-Constants.OFFSET_TO_GROUND, 0);
 		this.camera1.update();
 		tiledMapRenderer1.setView(this.camera1);
-
-		this.camera2.position.set(scrollSpeed+camera2.position.x, offsetY-Constants.OFFSET_TO_GROUND, 0);
+		
+		this.camera2.position.set((int)scrollSpeed+camera2.position.x, offsetY-Constants.OFFSET_TO_GROUND, 0);
 		this.camera2.update();
 		tiledMapRenderer2.setView(this.camera2);
+		updateEnemies();
 	}
 
+	/**
+	 * Render and update enemies.
+	 * @param delta
+	 */
+	public void renderEnemies(float delta){
+		enemies1.act(delta);
+		enemies1.draw();
+		enemies2.act(delta);
+		enemies2.draw();
+	}
+	
 	/**
 	 * Get length of a Level part in pixel.
 	 * @param i desired map, here 1 or 2
@@ -144,24 +186,17 @@ public class Level {
 					tiledMapRenderer2 = new OrthogonalTiledMapRenderer(tiledMap2);
 					camera2.position.set(-getMapLength(1), 0, 0);
 					activeMap = 1;
+					spawnEnemies(2);
 				} else {
 					tiledMap1 = new TmxMapLoader().load("level"+i+".tmx");
 					tiledMapRenderer1 = new OrthogonalTiledMapRenderer(tiledMap1);
 					camera1.position.set(-getMapLength(2), 0, 0);
 					activeMap = 2;
+					spawnEnemies(1);
 				}
 				System.out.println("level"+i+".tmx loaded");
 			}
 		}
-		/*
-		if(activeMap == 2) {
-			camera2.position.set(-getMapLength(1), 0, 0);
-			activeMap = 1;
-		} else {
-			camera1.position.set(-getMapLength(2), 0, 0);
-			activeMap = 2;
-		}
-		*/
 	}
 	
 	/**
@@ -181,7 +216,7 @@ public class Level {
 	 * Used to check players collision with platforms.
 	 * @return array with integer y-values of all platform tops near the player in pixel.
 	 */
-	public Array<Integer> getPlatforms(){
+	public Array<Integer> getWallsYPosNearPlayer(){
 		Array<Integer> vectorArray = new Array<Integer>();
 		if (activeMap == 1) {
 			TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap1.getLayers().get("platforms");
@@ -227,6 +262,53 @@ public class Level {
 		return vectorArray;
 	}
 
+	private void spawnEnemies(int i){
+		if (i == 1) {
+			enemies1.getActors().get(0).clear();
+			TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap1.getLayers().get("enemies");
+			if (layer != null) {
+				for (int column = 0; column < layer.getWidth(); column++){
+					for (int row = 0; row < layer.getHeight(); row++){
+						Cell cell = layer.getCell(column, row);
+						if (cell != null) {
+							int tileWidth = tiledMap1.getProperties().get("tilewidth", Integer.class);
+							int tileHeight = tiledMap1.getProperties().get("tileheight", Integer.class);
+							float posX = (column+0.5f)*tileWidth;
+							float posY = (row+0.5f)*tileHeight;
+							Image img = new Image(Assets.I.skin.getDrawable("enemy"));
+							img.setOrigin(Align.center);
+							//Not to forget the offset of camera center +width/2
+							//and the tile width, so it is set on center
+							img.setX(posX-camera1.position.x+Constants.VIRTUAL_WIDTH/2-tileWidth/2);
+							img.setY(posY+Constants.OFFSET_TO_EDGE);
+							((Table) enemies1.getActors().get(0)).addActor(img);
+						}
+					}
+				}
+			}
+		} else {
+			enemies2.getActors().get(0).clear();
+			TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap2.getLayers().get("enemies");
+			if (layer != null) {
+				for (int column = 0; column < layer.getWidth(); column++){
+					for (int row = 0; row < layer.getHeight(); row++){
+						Cell cell = layer.getCell(column, row);
+						if (cell != null) {
+							int tileWidth = tiledMap2.getProperties().get("tilewidth", Integer.class);
+							int tileHeight = tiledMap2.getProperties().get("tileheight", Integer.class);
+							float posX = (column+0.5f)*tileWidth;
+							float posY = (row+0.5f)*tileHeight;
+							Image img = new Image(Assets.I.skin.getDrawable("enemy"));
+							img.setOrigin(Align.center);
+							img.setX(posX-camera2.position.x+Constants.VIRTUAL_WIDTH/2-tileWidth/2);
+							img.setY(posY-Constants.OFFSET_TO_EDGE);
+							((Table) enemies2.getActors().get(0)).addActor(img);
+						}
+					}
+				}
+			}
+		}
+	}
 }
 
 
