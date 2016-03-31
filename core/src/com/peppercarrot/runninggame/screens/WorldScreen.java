@@ -59,6 +59,9 @@ public class WorldScreen implements Screen {
 		if(Gdx.input.isKeyJustPressed(Keys.BACK)|| Gdx.input.isKeyPressed(Keys.ESCAPE)){
 			Gdx.app.exit();
 		}
+		if(Gdx.input.isKeyJustPressed(Keys.A)){
+			stage.runner.activateAbility(1);
+		}
 		if(Gdx.input.isKeyJustPressed(Keys.SPACE)){
 			if (!stage.playerReady) {
 				stage.level.beginLevel = true;

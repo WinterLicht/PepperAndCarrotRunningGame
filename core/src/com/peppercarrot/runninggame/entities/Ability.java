@@ -2,15 +2,28 @@ package com.peppercarrot.runninggame.entities;
 
 import com.peppercarrot.runninggame.utils.AnimatedImage;
 
+/**
+ * Player's abilities extend this.
+ * @author WinterLicht
+ *
+ */
 public abstract class Ability {
 	int energyMax; /** Energy to activate ability. */
-	int currentEnergy = 0; /** Current energy */
-	AnimatedImage effect;
+	int currentEnergy = 0; /** Current energy. */
+	public AnimatedImage effect; /** Image representation. */
+	Level level; /** Reference to the level. */
+	Runner runner; /** Reference to the player. */
 
-	public Ability(int c){
-		energyMax = c;
+	public Ability(int energyM, Runner r, Level l){
+		energyMax = energyM;
+		level = l;
+		runner = r;
 	}
-	
-	public abstract void activate();
-	public abstract void update();
+
+	/**
+	 * Update ability.
+	 * @param delta timedelta
+	 */
+	public abstract void update(float delta);
+
 }

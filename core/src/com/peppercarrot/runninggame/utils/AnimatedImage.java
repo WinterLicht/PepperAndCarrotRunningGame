@@ -11,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
  */
 public class AnimatedImage extends Image {
 
-	protected Animation animation = null;
+	public Animation animation = null;
 	private float frameTime = 0;
 	private boolean running = false;
 	private boolean looping = false;
@@ -23,7 +23,7 @@ public class AnimatedImage extends Image {
 
 	@Override
 	public void act(float delta){
-		if(this.running){
+		if(this.running && !animation.isAnimationFinished(delta)){
 			frameTime+=delta;
 			((TextureRegionDrawable)getDrawable()).setRegion(animation.getKeyFrame(frameTime, this.looping));
 		}

@@ -21,8 +21,7 @@ import com.peppercarrot.runninggame.utils.Constants;
  * WIP... Level is constructed of TMX-parts.
  * At the moment there are two TMX-parts loaded. This level parts occur
  * alterating in the level.
- * TODO: more level part to load, random occurrence of parts inside the
- * level, increasing scroll speed, load game entities from TMX ...
+ * TODO: more level part to load, increasing scroll speed, load game entities from TMX ...
  * @author WinterLicht
  *
  */
@@ -39,8 +38,9 @@ public class Level {
 	public TiledMap tiledMap2;
 	TiledMapRenderer tiledMapRenderer2;
 
-	Stage enemies1;
-	Stage enemies2;
+	//This stages contain only one Table that contains enemies.
+	Stage enemies1; /** enemies of map part 1. */
+	Stage enemies2; /** enemies of map part 2. */
 	
 	public Level(){
 		this.camera1 = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -94,11 +94,11 @@ public class Level {
 	 */
 	public void updateEnemies() {
 		for (int i = 0; i < ((Table) enemies1.getActors().get(0)).getChildren().size; i++) {
-			Image enemy = (Image) ((Table) enemies1.getActors().get(0)).getChildren().get(i);
+			Image enemy = getEnemy(1, i);
 			enemy.setX((int)enemy.getX()-scrollSpeed);
 		}
 		for (int i = 0; i < ((Table) enemies2.getActors().get(0)).getChildren().size; i++) {
-			Image enemy = (Image) ((Table) enemies2.getActors().get(0)).getChildren().get(i);
+			Image enemy = getEnemy(2, i);
 			enemy.setX((int)enemy.getX()-scrollSpeed);
 		}
 	}
@@ -262,6 +262,9 @@ public class Level {
 		return vectorArray;
 	}
 
+	/**
+	 * 
+	 */
 	private void spawnEnemies(int i){
 		if (i == 1) {
 			enemies1.getActors().get(0).clear();
@@ -309,8 +312,35 @@ public class Level {
 			}
 		}
 	}
+
+	/**
+	 * Get all alive enemies of two level parts.
+	 * @return array of enemies
+	 */
+	public Array<Image> getAllEnemies(){
+		Array<Image> enemies = new Array<Image>();
+		for (int i = 0; i < ((Table) enemies1.getActors().get(0)).getChildren().size; i++) {
+			Image enemy = getEnemy(1, i);
+			enemies.add(enemy);
+		}
+		for (int i = 0; i < ((Table) enemies2.getActors().get(0)).getChildren().size; i++) {
+			Image enemy = getEnemy(2, i);
+			enemies.add(enemy);
+		}
+		return enemies;
+	}
+
+	/**
+	 * Enemy getter.
+	 * @param i desired map part index, here 1 or 2
+	 * @param index number of enemy
+	 * @return
+	 */
+	public Image getEnemy(int i, int index) {
+		if (i == 1){
+			return (Image) ((Table) enemies1.getActors().get(0)).getChildren().get(index);
+		} else {
+			return (Image) ((Table) enemies2.getActors().get(0)).getChildren().get(index);
+		}
+	}
 }
-
-
-
-

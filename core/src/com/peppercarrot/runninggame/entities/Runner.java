@@ -3,6 +3,7 @@ package com.peppercarrot.runninggame.entities;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.peppercarrot.runninggame.utils.AnimatedImage;
 import com.peppercarrot.runninggame.utils.Assets;
@@ -17,42 +18,60 @@ import com.peppercarrot.runninggame.utils.Constants;
  *
  */
 public class Runner extends Image {
-	State currState = State.RUNNING;
+	public State currState = State.RUNNING;
 	int speedY = 0; /** Vertical speed in pixel. */
 	int maxJumpSpeed = 24; /** Maximum speed when jumping in pixel */
 	
 	AnimatedImage runningAnim;
 	AnimatedImage jumpingAnim;
+	AnimatedImage attackingAnim;
 
+	public SweepAtt ability1; /** simple attack. */
 	/**
 	 * Possible states.
 	 */
 	enum State{
-		RUNNING, FALLING, JUMPING, DOUBLEJUMPING, DYING;
+		RUNNING, FALLING, JUMPING, DOUBLEJUMPING,
+		//TODO: for this states may be an other animation
+		ATTACK_RUNNING, ATTACK_FALLING, ATTACK_JUMPING, ATTACK_DOUBLEJUMPING,
+		DYING;
 	}
 
-	public Runner(){
+	public Runner(Level l){
 		super(new TextureRegion(Assets.I.atlas.findRegion("run")));
+		ability1 = new SweepAtt(0, this, l);
 		//Runner is always placed with some offset
+		setOrigin(Align.center);
 		setX(Constants.OFFSET_TO_EDGE);
 		setY(Constants.OFFSET_TO_GROUND);
 		//Load Animations
 		runningAnim = new AnimatedImage(new Animation(0.099f, Assets.I.getRegions("run"), Animation.PlayMode.LOOP));
+		runningAnim.setOrigin(Align.center);
 		runningAnim.start();
 		jumpingAnim = new AnimatedImage(new Animation(0.17f, Assets.I.getRegions("jump"), Animation.PlayMode.LOOP));
+		jumpingAnim.setOrigin(Align.center);
 		jumpingAnim.start();
+		attackingAnim = new AnimatedImage(new Animation(ability1.durationMax/8, Assets.I.getRegions("attack"), Animation.PlayMode.NORMAL));
+		attackingAnim.setOrigin(Align.center);
+		attackingAnim.start();
 	}
 
 	public void jump(){
-		if (currState == State.RUNNING){
-			currState = State.JUMPING;
+		if (isRunnig()){
+			setJumping();
 			speedY = maxJumpSpeed;
 			return;
 		}
-		if (currState == State.JUMPING){
-			currState = State.DOUBLEJUMPING;
+		if (isJumping()){
+			setDoubleJumping();
 			speedY = maxJumpSpeed;
 			return;
+		}
+	}
+
+	public void activateAbility(int i) {
+		if (i == 1){
+			ability1.activate();
 		}
 	}
 
@@ -82,13 +101,15 @@ public class Runner extends Image {
 		if (speedY < speedOffset){
 			setY(y+Constants.OFFSET_TO_GROUND);
 			speedY = 0;
-			currState = State.RUNNING;
+			setRunnig();
 		}
 	}
 
 	@Override
 	public void act(float delta) {
 		super.act(delta);
+		//Update all attacks
+		ability1.update(delta);
 		//Decide which animation is displayed
 		switch (currState) {
 		case DOUBLEJUMPING:
@@ -109,6 +130,22 @@ public class Runner extends Image {
 			jumpingAnim.act(delta);
 			setDrawable(jumpingAnim.getDrawable());
 			break;
+		case ATTACK_RUNNING:
+			attackingAnim.act(delta);
+			setDrawable(attackingAnim.getDrawable());
+			break;
+		case ATTACK_JUMPING:
+			attackingAnim.act(delta);
+			setDrawable(attackingAnim.getDrawable());
+			break;
+		case ATTACK_DOUBLEJUMPING:
+			attackingAnim.act(delta);
+			setDrawable(attackingAnim.getDrawable());
+			break;
+		case ATTACK_FALLING:
+			attackingAnim.act(delta);
+			setDrawable(attackingAnim.getDrawable());
+			break;
 		default: //Should not be reached
 			break;
 		}
@@ -118,15 +155,70 @@ public class Runner extends Image {
 		float oldYPos = getY();
 		setY(getY() + speedY);
 		//Player can't fall under/below the ground
-		if (getY() < Constants.OFFSET_TO_GROUND) {
-			currState = State.RUNNING;
+		if (getY() < Constants.OFFSET_TO_GROUND) { //land
+			setRunnig();
 			setY(Constants.OFFSET_TO_GROUND);
 		}
-		if (getY() < oldYPos && currState == State.RUNNING) {
+		if (getY() < oldYPos && isRunnig()) {
 			//Player is falling, if his y-position is lowered
 			//and he was previously running.
-			currState = State.FALLING;
+			setFalling();
 		}
 	}
 
+	//Helper methods for states
+	public void setRunnig(){
+		if (isAttacking()) currState = State.ATTACK_RUNNING;
+		else currState = State.RUNNING;
+	}
+	public void setFalling(){
+		if (isAttacking()) currState = State.ATTACK_FALLING;
+		else currState = State.FALLING;
+	}
+	public void setJumping(){
+		if (isAttacking()) currState = State.ATTACK_JUMPING;
+		else currState = State.JUMPING;
+	}
+	public void setDoubleJumping(){
+		if (isAttacking()) currState = State.ATTACK_DOUBLEJUMPING;
+		else currState = State.DOUBLEJUMPING;
+	}
+	/**
+	 * resets also attacking animation.
+	 */
+	public void setAttacking(){
+		attackingAnim.start();
+		switch (currState) {
+		case DOUBLEJUMPING:
+			currState = State.ATTACK_DOUBLEJUMPING;
+			break;
+		case FALLING:
+			currState = State.ATTACK_FALLING;
+			break;
+		case JUMPING:
+			currState = State.ATTACK_JUMPING;
+			break;
+		case RUNNING:
+			currState = State.ATTACK_RUNNING;
+			break;
+		default:
+			break;
+		}
+	}
+	public boolean isAttacking(){
+		return (currState == State.ATTACK_DOUBLEJUMPING || currState == State.ATTACK_RUNNING ||
+				currState == State.ATTACK_FALLING || currState == State.ATTACK_JUMPING);
+	}
+	public boolean isRunnig(){
+		return (currState == State.RUNNING || currState == State.ATTACK_RUNNING);
+	}
+	public boolean isFalling(){
+		return (currState == State.FALLING || currState == State.ATTACK_FALLING);
+	}
+	public boolean isJumping(){
+		return (currState == State.JUMPING || currState == State.ATTACK_JUMPING);
+	}
+	public boolean isDoubleJumping(){
+		return (currState == State.DOUBLEJUMPING || currState == State.ATTACK_DOUBLEJUMPING);
+	}
 }

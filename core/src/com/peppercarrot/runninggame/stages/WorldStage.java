@@ -39,8 +39,9 @@ public class WorldStage extends Stage {
 		uiTable.setHeight(Constants.VIRTUAL_HEIGHT - uiPadding*2);
 
 		level = new Level();
-		runner = new Runner();
+		runner = new Runner(level);
 		charTable.addActor(runner);
+		charTable.addActor(runner.ability1.effect);
 
 		//Set up UI:
 		Button jumpBtnTransparent = new Button(Assets.I.skin, "transparent");
@@ -75,6 +76,7 @@ public class WorldStage extends Stage {
 			btn.addListener(new InputListener() { //TODO: attacks
 				public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
 					System.out.println("Attack Button " + event.getListenerActor().getName() + " touched.");
+					runner.activateAbility(Integer.parseInt(event.getListenerActor().getName()));
 					event.cancel();
 					return false;
 				}
