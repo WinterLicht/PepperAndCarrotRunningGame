@@ -6,63 +6,63 @@ filter: MipMapLinearNearest,Nearest
 repeat: none
 attack
   rotate: false
-  xy: 503, 643
+  xy: 252, 399
   size: 110, 110
   orig: 110, 110
   offset: 0, 0
   index: 1
 attack
   rotate: false
-  xy: 252, 141
+  xy: 363, 399
   size: 110, 110
   orig: 110, 110
   offset: 0, 0
   index: 2
 attack
   rotate: false
-  xy: 754, 765
+  xy: 474, 399
   size: 110, 110
   orig: 110, 110
   offset: 0, 0
   index: 3
 attack
   rotate: false
-  xy: 503, 532
+  xy: 585, 399
   size: 110, 110
   orig: 110, 110
   offset: 0, 0
   index: 4
 attack
   rotate: false
-  xy: 614, 643
+  xy: 696, 399
   size: 110, 110
   orig: 110, 110
   offset: 0, 0
   index: 5
 attack
   rotate: false
-  xy: 252, 30
+  xy: 807, 399
   size: 110, 110
   orig: 110, 110
   offset: 0, 0
   index: 6
 attack
   rotate: false
-  xy: 363, 141
+  xy: 252, 288
   size: 110, 110
   orig: 110, 110
   offset: 0, 0
   index: 7
 attack
   rotate: false
-  xy: 865, 765
+  xy: 1, 270
   size: 110, 110
   orig: 110, 110
   offset: 0, 0
   index: 8
 button
   rotate: false
-  xy: 474, 65
+  xy: 983, 441
   size: 22, 22
   split: 5, 5, 5, 5
   pad: 10, 10, 10, 10
@@ -71,7 +71,7 @@ button
   index: -1
 button-disabled
   rotate: false
-  xy: 252, 7
+  xy: 983, 487
   size: 22, 22
   split: 5, 5, 5, 5
   pad: 10, 10, 10, 10
@@ -80,150 +80,338 @@ button-disabled
   index: -1
 button-down
   rotate: false
-  xy: 976, 853
+  xy: 983, 464
   size: 22, 22
   split: 5, 5, 5, 5
   pad: 10, 10, 10, 10
   orig: 22, 22
   offset: 0, 0
   index: -1
-enemy
+death
   rotate: false
-  xy: 503, 421
+  xy: 112, 270
   size: 110, 110
   orig: 110, 110
   offset: 0, 0
-  index: -1
+  index: 1
+death
+  rotate: false
+  xy: 363, 288
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 2
+death
+  rotate: false
+  xy: 474, 288
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 3
+death
+  rotate: false
+  xy: 585, 288
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 4
+death
+  rotate: false
+  xy: 696, 269
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 5
+death
+  rotate: false
+  xy: 807, 269
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 6
+death
+  rotate: false
+  xy: 223, 177
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 7
+death
+  rotate: false
+  xy: 1, 159
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 8
+death
+  rotate: false
+  xy: 112, 159
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 9
+death
+  rotate: false
+  xy: 334, 177
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 10
+fly-death
+  rotate: false
+  xy: 445, 177
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 1
+fly-death
+  rotate: false
+  xy: 556, 177
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 2
+fly-death
+  rotate: false
+  xy: 667, 158
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 3
+fly-death
+  rotate: false
+  xy: 778, 139
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 4
+fly-death
+  rotate: false
+  xy: 889, 139
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 5
+fly-idle
+  rotate: false
+  xy: 223, 66
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 1
+fly-idle
+  rotate: false
+  xy: 1, 48
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 2
+fly-idle
+  rotate: false
+  xy: 112, 48
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 3
 jump
   rotate: false
-  xy: 614, 532
+  xy: 334, 66
   size: 110, 110
   orig: 110, 110
   offset: 0, 0
   index: 1
 jump
   rotate: false
-  xy: 363, 30
+  xy: 445, 66
   size: 110, 110
   orig: 110, 110
   offset: 0, 0
   index: 2
+potion
+  rotate: false
+  xy: 918, 445
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 1
+potion
+  rotate: false
+  xy: 918, 380
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 2
+potion
+  rotate: false
+  xy: 918, 315
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 3
+potion
+  rotate: false
+  xy: 918, 250
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 4
+potion
+  rotate: false
+  xy: 918, 250
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 5
+potion
+  rotate: false
+  xy: 223, 1
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 6
+potion
+  rotate: false
+  xy: 288, 1
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 7
+potion
+  rotate: false
+  xy: 353, 1
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 8
+potion
+  rotate: false
+  xy: 418, 1
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 9
 roboto25
   rotate: false
-  xy: 754, 876
+  xy: 1, 883
   size: 256, 128
   orig: 256, 128
   offset: 0, 0
   index: -1
 run
   rotate: false
-  xy: 503, 310
+  xy: 556, 66
   size: 110, 110
   orig: 110, 110
   offset: 0, 0
   index: 1
 run
   rotate: false
-  xy: 614, 421
+  xy: 667, 47
   size: 110, 110
   orig: 110, 110
   offset: 0, 0
   index: 2
 run
   rotate: false
-  xy: 614, 310
+  xy: 778, 28
   size: 110, 110
   orig: 110, 110
   offset: 0, 0
   index: 3
 run
   rotate: false
-  xy: 503, 199
+  xy: 889, 28
   size: 110, 110
   orig: 110, 110
   offset: 0, 0
   index: 4
-run
+sweep-effect
   rotate: false
-  xy: 614, 199
-  size: 110, 110
-  orig: 110, 110
+  xy: 258, 761
+  size: 250, 250
+  orig: 250, 250
+  offset: 0, 0
+  index: 1
+sweep-effect
+  rotate: false
+  xy: 1, 632
+  size: 250, 250
+  orig: 250, 250
+  offset: 0, 0
+  index: 2
+sweep-effect
+  rotate: false
+  xy: 252, 510
+  size: 250, 250
+  orig: 250, 250
+  offset: 0, 0
+  index: 3
+sweep-effect
+  rotate: false
+  xy: 1, 381
+  size: 250, 250
+  orig: 250, 250
+  offset: 0, 0
+  index: 4
+sweep-effect
+  rotate: false
+  xy: 503, 510
+  size: 250, 250
+  orig: 250, 250
   offset: 0, 0
   index: 5
-run
+sweep-effect
   rotate: false
-  xy: 474, 88
-  size: 110, 110
-  orig: 110, 110
+  xy: 509, 761
+  size: 250, 250
+  orig: 250, 250
   offset: 0, 0
   index: 6
-run
+sweep-effect
   rotate: false
-  xy: 585, 88
-  size: 110, 110
-  orig: 110, 110
+  xy: 754, 510
+  size: 250, 250
+  orig: 250, 250
   offset: 0, 0
   index: 7
-run
+sweep-effect
   rotate: false
-  xy: 725, 643
-  size: 110, 110
-  orig: 110, 110
+  xy: 760, 761
+  size: 250, 250
+  orig: 250, 250
   offset: 0, 0
   index: 8
-sweep-effect
-  rotate: false
-  xy: 1, 754
-  size: 250, 250
-  orig: 250, 250
-  offset: 0, 0
-  index: 1
-sweep-effect
-  rotate: false
-  xy: 1, 503
-  size: 250, 250
-  orig: 250, 250
-  offset: 0, 0
-  index: 2
-sweep-effect
-  rotate: false
-  xy: 252, 754
-  size: 250, 250
-  orig: 250, 250
-  offset: 0, 0
-  index: 3
-sweep-effect
-  rotate: false
-  xy: 1, 252
-  size: 250, 250
-  orig: 250, 250
-  offset: 0, 0
-  index: 4
-sweep-effect
-  rotate: false
-  xy: 252, 503
-  size: 250, 250
-  orig: 250, 250
-  offset: 0, 0
-  index: 5
-sweep-effect
-  rotate: false
-  xy: 503, 754
-  size: 250, 250
-  orig: 250, 250
-  offset: 0, 0
-  index: 6
-sweep-effect
+
+skin2.png
+size: 512,128
+format: RGBA8888
+filter: MipMapLinearNearest,Nearest
+repeat: none
+run
   rotate: false
   xy: 1, 1
-  size: 250, 250
-  orig: 250, 250
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 5
+run
+  rotate: false
+  xy: 112, 1
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 6
+run
+  rotate: false
+  xy: 223, 1
+  size: 110, 110
+  orig: 110, 110
   offset: 0, 0
   index: 7
-sweep-effect
+run
   rotate: false
-  xy: 252, 252
-  size: 250, 250
-  orig: 250, 250
+  xy: 334, 1
+  size: 110, 110
+  orig: 110, 110
   offset: 0, 0
   index: 8

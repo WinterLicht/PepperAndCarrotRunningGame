@@ -18,9 +18,14 @@
    eJxjYKAecKeiWbhA4CC0w4NIdcjhQ6odQUTaGYiDjQwA36cDBg==
   </data>
  </layer>
- <layer name="enemies" width="25" height="5">
+ <layer name="enemies" width="25" height="5" visible="0">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFgwmwQjEDEk1tAAAHgAAQ
+   eJxjYBi8gHWA9FIKiLUblzps4qT4h5C5ABfUACk=
+  </data>
+ </layer>
+ <layer name="potions" width="25" height="5" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJxjYKA/CKGRWlqaQUt70PXR2r0AxDMB+Q==
   </data>
  </layer>
 </map>

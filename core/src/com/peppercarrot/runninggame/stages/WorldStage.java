@@ -103,12 +103,7 @@ public class WorldStage extends Stage {
 
 		level.renderBackground();
 		this.draw();
-		level.renderEnemies(delta);
+		level.renderEntities(delta);
 		level.renderForeground();
-		runner.checkCollision(level.getWallsYPosNearPlayer());
-	}
-
-	public void beginLevel(){
-		
 	}
 }

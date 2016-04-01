@@ -2,7 +2,7 @@ package com.peppercarrot.runninggame.entities;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Array;
 import com.peppercarrot.runninggame.entities.Runner.State;
 import com.peppercarrot.runninggame.utils.AnimatedImage;
@@ -17,11 +17,12 @@ import com.peppercarrot.runninggame.utils.Assets;
  *
  */
 public class SweepAtt extends Ability {
-	float durationMax = 0.8f;
+	float durationMax = 0.6f; /** How long is attack lasting. */
 	float currentDuration = durationMax;
 
-	public SweepAtt(int energyMax, Runner r, Level l) {
-		super(energyMax, r, l);
+	public SweepAtt(Runner r, Level l) {
+		super(r, l);
+		energyMax = 1;
 		effect = new AnimatedImage(new Animation(durationMax/8, Assets.I.getRegions("sweep-effect"), Animation.PlayMode.NORMAL));
 		effect.setVisible(false);
 		effect.stop();
@@ -34,7 +35,7 @@ public class SweepAtt extends Ability {
 	public void activate() {
 		if (currentDuration >= durationMax ) {
 			//Attack only possible when the previous was finished
-			if (currentEnergy == energyMax) {
+			if (currentEnergy >= energyMax) {
 				//Execute attack
 				runner.setAttacking();
 				currentEnergy = 0;
@@ -93,12 +94,23 @@ public class SweepAtt extends Ability {
 	 * @param enemies
 	 */
 	private void checkCollision(){
-		Array<Image> enemies = level.getAllEnemies();
+		Array<Enemy> enemies;
+		/*
+		if (level.activeMap == 1) {
+			enemies = level.getEntitiesInRadius(200, level.enemies1);
+		} else {
+			enemies = level.getEntitiesInRadius(200, level.enemies2);
+		}
+		*/
+		enemies = level.getAllEnemies();
 		Rectangle effectRect = new Rectangle(effect.getX(), effect.getY(), effect.getWidth(), effect.getHeight());
-		for (Image enemy : enemies) {
-			Rectangle enemyRect = new Rectangle( enemy.getX(), enemy.getY(), enemy.getWidth(), enemy.getHeight());
-			if (effectRect.overlaps(enemyRect)) {
-				enemy.setVisible(false);
+		for (Enemy e : enemies) {
+			//Enemy enemy = (Enemy) e;
+			if (e.isAlive()) {
+				Rectangle enemyRect = new Rectangle(e.getX(), e.getY(), e.getWidth(), e.getHeight());
+				if (effectRect.overlaps(enemyRect)) {
+					e.die();
+				}
 			}
 		}
 	}

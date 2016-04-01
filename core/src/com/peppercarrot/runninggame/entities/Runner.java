@@ -2,6 +2,8 @@ package com.peppercarrot.runninggame.entities;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
@@ -21,12 +23,15 @@ public class Runner extends Image {
 	public State currState = State.RUNNING;
 	int speedY = 0; /** Vertical speed in pixel. */
 	int maxJumpSpeed = 24; /** Maximum speed when jumping in pixel */
-	
+
 	AnimatedImage runningAnim;
 	AnimatedImage jumpingAnim;
 	AnimatedImage attackingAnim;
+	
+	Level level;
 
 	public SweepAtt ability1; /** simple attack. */
+
 	/**
 	 * Possible states.
 	 */
@@ -39,7 +44,8 @@ public class Runner extends Image {
 
 	public Runner(Level l){
 		super(new TextureRegion(Assets.I.atlas.findRegion("run")));
-		ability1 = new SweepAtt(0, this, l);
+		ability1 = new SweepAtt(this, l);
+		level = l;
 		//Runner is always placed with some offset
 		setOrigin(Align.center);
 		setX(Constants.OFFSET_TO_EDGE);
@@ -76,18 +82,17 @@ public class Runner extends Image {
 	}
 
 	/**
-	 * Check collision between player and other entities.
-	 * TODO: Collision not only between platforms!!
-	 * @param vectorArray y-coordinates of all platform tops near the player
+	 * Check collision between player and platforms
 	 */
-	public void checkCollision(Array<Integer> vectorArray){
+	private void checkCollision(){
+		Array<Integer> platformTops = level.getWallsYPosNearPlayer();
 		//Players position
 		float posY = getY() - Constants.OFFSET_TO_GROUND;
 		//Offset in pixel
 		int offsetTop = 12;
 		int offsetBottom = 10;
-		for (int i = 0; i < vectorArray.size; i++){
-			Integer tileTop = vectorArray.get(i);
+		for (int i = 0; i < platformTops.size; i++){
+			Integer tileTop = platformTops.get(i);
 			//Player lands if he is near platforms top
 			if( tileTop - offsetBottom < posY && posY < tileTop + offsetTop) {
 				land(tileTop);
@@ -95,6 +100,41 @@ public class Runner extends Image {
 		}
 	}
 
+	/**
+	 * Collision between enemies and potions.
+	 */
+	private void checkEntityCollision(){
+		Array<Actor> enemies;
+		Array<Actor> potions;
+		if (level.activeMap == 1) {
+			enemies = level.getEntitiesInRadius(200, level.enemies1);
+			potions = level.getEntitiesInRadius(200, level.potions1);
+		} else {
+			enemies = level.getEntitiesInRadius(200, level.enemies2);
+			potions = level.getEntitiesInRadius(200, level.potions2);
+		}
+		Rectangle hitbox = new Rectangle(getX(), getY(), getWidth(), getHeight());
+		for (Actor e : enemies) {
+			Enemy enemy = (Enemy) e;
+			Rectangle enemyRect = new Rectangle(enemy.getX(), enemy.getY(), enemy.getWidth(), enemy.getHeight());
+			if (hitbox.overlaps(enemyRect) && enemy.isAlive()) {
+				//enemy.die();//TODO Player dies!!
+				System.out.println("Enemy collision");
+			}
+		}
+		for (Actor p : potions) {
+			Rectangle potionRect = new Rectangle(p.getX(), p.getY(), p.getWidth(), p.getHeight());
+			if (p.isVisible() && hitbox.overlaps(potionRect)){
+				p.setVisible(false); //TODO various potions
+				ability1.currentEnergy += 1;
+			}
+		}
+	}
+
+	/**
+	 * Land on given y-coordinate position.
+	 * @param y
+	 */
 	public void land(float y){
 		//Player lands only if his speed is small enough
 		int speedOffset = 8;
@@ -108,6 +148,8 @@ public class Runner extends Image {
 	@Override
 	public void act(float delta) {
 		super.act(delta);
+		checkCollision();
+		checkEntityCollision();
 		//Update all attacks
 		ability1.update(delta);
 		//Decide which animation is displayed

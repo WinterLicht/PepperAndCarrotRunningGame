@@ -2,32 +2,37 @@ package com.peppercarrot.runninggame.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.peppercarrot.runninggame.PaCGame;
+import com.peppercarrot.runninggame.utils.AnimatedImage;
 import com.peppercarrot.runninggame.utils.Assets;
 import com.peppercarrot.runninggame.utils.Constants;
 
 /**
  * WIP... Level is constructed of TMX-parts.
  * At the moment there are two TMX-parts loaded. This level parts occur
- * alterating in the level.
- * TODO: more level part to load, increasing scroll speed, load game entities from TMX ...
+ * alterating in the level. Scroll speed is increasind every few level
+ * parts that where loaded.
+ * TODO: more level part to load, load game entities from TMX ...
  * @author WinterLicht
  *
  */
 public class Level {
 	int activeMap = 1; /** Helper, indicates which level should be loaded next. */
-	public float scrollSpeed = 10; /** Horizontal scroll speed in pixel of the level. */
+	public float scrollSpeed = 6; /** Horizontal scroll speed in pixel of the level. */
+	int counter4SpeedIncr = 0; /** Counts level resets. */
+	int speedIncrAt = 4; /** How often speed will be increased. */
 	public boolean beginLevel = false; /** Set to true when player is ready. */
 
 	public OrthographicCamera camera1;
@@ -41,13 +46,16 @@ public class Level {
 	//This stages contain only one Table that contains enemies.
 	Stage enemies1; /** enemies of map part 1. */
 	Stage enemies2; /** enemies of map part 2. */
+
+	Stage potions1;
+	Stage potions2;
 	
 	public Level(){
 		this.camera1 = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		camera1.setToOrtho(false, Constants.VIRTUAL_WIDTH, Constants.VIRTUAL_HEIGHT);
 		tiledMap1 = new TmxMapLoader().load("startlevel.tmx");
 		tiledMapRenderer1 = new OrthogonalTiledMapRenderer(tiledMap1);
-		
+
 		this.camera2 = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		//the second camera is placed far on the left of level-part 2
 		//so when it scolls a while (and the end of level part 1 is
@@ -57,7 +65,8 @@ public class Level {
 		camera2.position.set(-getMapLength(1), 0, 0);
 		tiledMap2 = new TmxMapLoader().load("startlevel.tmx");
 		tiledMapRenderer2 = new OrthogonalTiledMapRenderer(tiledMap2);
-		
+
+		//Enemies container
 		enemies1 = new Stage(PaCGame.getInstance().viewport);
 		Table t1 = new Table();
 		t1.setFillParent(true);
@@ -66,6 +75,16 @@ public class Level {
 		Table t2 = new Table();
 		t2.setFillParent(true);
 		enemies2.addActor(t2);
+
+		//Potions (Power-Ups) container
+		potions1 = new Stage(PaCGame.getInstance().viewport);
+		Table t1_ = new Table();
+		t1_.setFillParent(true);
+		potions1.addActor(t1_);
+		potions2 = new Stage(PaCGame.getInstance().viewport);
+		Table t2_ = new Table();
+		t2_.setFillParent(true);
+		potions2.addActor(t2_);
 	}
 
 	/**
@@ -88,18 +107,15 @@ public class Level {
 		tiledMapRenderer1.render(foregroundLayers);
 		tiledMapRenderer2.render(foregroundLayers);
 	}
-	
+
 	/**
-	 * Scroll enemies towards the player.
+	 * Updates game entities.
+	 * @param entities
 	 */
-	public void updateEnemies() {
-		for (int i = 0; i < ((Table) enemies1.getActors().get(0)).getChildren().size; i++) {
-			Image enemy = getEnemy(1, i);
-			enemy.setX((int)enemy.getX()-scrollSpeed);
-		}
-		for (int i = 0; i < ((Table) enemies2.getActors().get(0)).getChildren().size; i++) {
-			Image enemy = getEnemy(2, i);
-			enemy.setX((int)enemy.getX()-scrollSpeed);
+	private void updateEntities(Stage entities) {
+		for (int i = 0; i < ((Table) entities.getActors().get(0)).getChildren().size; i++) {
+			Actor entity = getEntity(entities, i);
+			entity.setX((int)entity.getX()-scrollSpeed);
 		}
 	}
 
@@ -127,18 +143,25 @@ public class Level {
 		this.camera2.position.set((int)scrollSpeed+camera2.position.x, offsetY-Constants.OFFSET_TO_GROUND, 0);
 		this.camera2.update();
 		tiledMapRenderer2.setView(this.camera2);
-		updateEnemies();
+		updateEntities(enemies1);
+		updateEntities(enemies2);
+		updateEntities(potions1);
+		updateEntities(potions2);
 	}
 
 	/**
-	 * Render and update enemies.
-	 * @param delta
+	 * Render and update game entities.
+	 * @param delta timedelta
 	 */
-	public void renderEnemies(float delta){
+	public void renderEntities(float delta){
 		enemies1.act(delta);
 		enemies1.draw();
 		enemies2.act(delta);
 		enemies2.draw();
+		potions1.act(delta);
+		potions1.draw();
+		potions2.act(delta);
+		potions2.draw();
 	}
 	
 	/**
@@ -186,19 +209,25 @@ public class Level {
 					tiledMapRenderer2 = new OrthogonalTiledMapRenderer(tiledMap2);
 					camera2.position.set(-getMapLength(1), 0, 0);
 					activeMap = 1;
-					spawnEnemies(2);
+					spawnEntities(2);
 				} else {
 					tiledMap1 = new TmxMapLoader().load("level"+i+".tmx");
 					tiledMapRenderer1 = new OrthogonalTiledMapRenderer(tiledMap1);
 					camera1.position.set(-getMapLength(2), 0, 0);
 					activeMap = 2;
-					spawnEnemies(1);
+					spawnEntities(1);
+				}
+				counter4SpeedIncr += 1;
+				if (counter4SpeedIncr >= speedIncrAt){
+					counter4SpeedIncr = 0;
+					System.out.println("Speed increased");
+					scrollSpeed += 1;
 				}
 				System.out.println("level"+i+".tmx loaded");
 			}
 		}
 	}
-	
+
 	/**
 	 * To loop the start level without platforms.
 	 */
@@ -265,7 +294,7 @@ public class Level {
 	/**
 	 * 
 	 */
-	private void spawnEnemies(int i){
+	private void spawnEntities(int i){
 		if (i == 1) {
 			enemies1.getActors().get(0).clear();
 			TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap1.getLayers().get("enemies");
@@ -273,18 +302,40 @@ public class Level {
 				for (int column = 0; column < layer.getWidth(); column++){
 					for (int row = 0; row < layer.getHeight(); row++){
 						Cell cell = layer.getCell(column, row);
-						if (cell != null) {
+						if (cell != null) { //TODO: recognize which enemy by cell property
 							int tileWidth = tiledMap1.getProperties().get("tilewidth", Integer.class);
 							int tileHeight = tiledMap1.getProperties().get("tileheight", Integer.class);
 							float posX = (column+0.5f)*tileWidth;
-							float posY = (row+0.5f)*tileHeight;
-							Image img = new Image(Assets.I.skin.getDrawable("enemy"));
-							img.setOrigin(Align.center);
+							float posY = (row+1f)*tileHeight;
+							Enemy enemy = new Enemy("fly");
+							enemy.setOrigin(Align.center);
 							//Not to forget the offset of camera center +width/2
 							//and the tile width, so it is set on center
-							img.setX(posX-camera1.position.x+Constants.VIRTUAL_WIDTH/2-tileWidth/2);
-							img.setY(posY+Constants.OFFSET_TO_EDGE);
-							((Table) enemies1.getActors().get(0)).addActor(img);
+							enemy.setX(posX-camera1.position.x+Constants.VIRTUAL_WIDTH/2-enemy.getWidth()/2);
+							enemy.setY(posY+Constants.OFFSET_TO_EDGE-enemy.getHeight()/2);
+							((Table) enemies1.getActors().get(0)).addActor(enemy);
+						}
+					}
+				}
+			}
+			//Potions
+			potions1.getActors().get(0).clear();
+			layer = (TiledMapTileLayer) tiledMap1.getLayers().get("potions");
+			if (layer != null) {
+				for (int column = 0; column < layer.getWidth(); column++){
+					for (int row = 0; row < layer.getHeight(); row++){
+						Cell cell = layer.getCell(column, row);
+						if (cell != null) { //TODO: recognize which potion by cell property
+							int tileWidth = tiledMap1.getProperties().get("tilewidth", Integer.class);
+							int tileHeight = tiledMap1.getProperties().get("tileheight", Integer.class);
+							float posX = (column+0.5f)*tileWidth;
+							float posY = (row+1f)*tileHeight;
+							AnimatedImage potion = new AnimatedImage(new Animation(0.14f, Assets.I.getRegions("potion"), Animation.PlayMode.LOOP));
+							potion.setOrigin(Align.center);
+							potion.setX(posX-camera1.position.x+Constants.VIRTUAL_WIDTH/2-potion.getWidth()/2);
+							potion.setY(posY+Constants.OFFSET_TO_EDGE-potion.getHeight()/2);
+							potion.start();
+							((Table) potions1.getActors().get(0)).addActor(potion);
 						}
 					}
 				}
@@ -300,12 +351,36 @@ public class Level {
 							int tileWidth = tiledMap2.getProperties().get("tilewidth", Integer.class);
 							int tileHeight = tiledMap2.getProperties().get("tileheight", Integer.class);
 							float posX = (column+0.5f)*tileWidth;
-							float posY = (row+0.5f)*tileHeight;
-							Image img = new Image(Assets.I.skin.getDrawable("enemy"));
-							img.setOrigin(Align.center);
-							img.setX(posX-camera2.position.x+Constants.VIRTUAL_WIDTH/2-tileWidth/2);
-							img.setY(posY-Constants.OFFSET_TO_EDGE);
-							((Table) enemies2.getActors().get(0)).addActor(img);
+							float posY = (row+1f)*tileHeight;
+							Enemy enemy = new Enemy("fly");
+							enemy.setOrigin(Align.center);
+							//Not to forget the offset of camera center +width/2
+							//and the tile width, so it is set on center
+							enemy.setX(posX-camera2.position.x+Constants.VIRTUAL_WIDTH/2-enemy.getWidth()/2);
+							enemy.setY(posY+Constants.OFFSET_TO_EDGE-enemy.getHeight()/2);
+							((Table) enemies2.getActors().get(0)).addActor(enemy);
+						}
+					}
+				}
+			}
+			//Potions
+			potions2.getActors().get(0).clear();
+			layer = (TiledMapTileLayer) tiledMap2.getLayers().get("potions");
+			if (layer != null) {
+				for (int column = 0; column < layer.getWidth(); column++){
+					for (int row = 0; row < layer.getHeight(); row++){
+						Cell cell = layer.getCell(column, row);
+						if (cell != null) {
+							int tileWidth = tiledMap2.getProperties().get("tilewidth", Integer.class);
+							int tileHeight = tiledMap2.getProperties().get("tileheight", Integer.class);
+							float posX = (column+0.5f)*tileWidth;
+							float posY = (row+1f)*tileHeight;
+							AnimatedImage potion = new AnimatedImage(new Animation(0.14f, Assets.I.getRegions("potion"), Animation.PlayMode.LOOP));
+							potion.setOrigin(Align.center);
+							potion.setX(posX-camera2.position.x+Constants.VIRTUAL_WIDTH/2-potion.getWidth()/2);
+							potion.setY(posY+Constants.OFFSET_TO_EDGE-potion.getHeight()/2);
+							potion.start();
+							((Table) potions2.getActors().get(0)).addActor(potion);
 						}
 					}
 				}
@@ -314,33 +389,60 @@ public class Level {
 	}
 
 	/**
-	 * Get all alive enemies of two level parts.
+	 * Get all alive enemies of active level part.
 	 * @return array of enemies
 	 */
-	public Array<Image> getAllEnemies(){
-		Array<Image> enemies = new Array<Image>();
+	public Array<Enemy> getAllEnemies(){
+		Array<Enemy> enemies = new Array<Enemy>();
+		if (activeMap == 1) {
+			for (int i = 0; i < ((Table) enemies1.getActors().get(0)).getChildren().size; i++) {
+				Enemy enemy = (Enemy) getEntity(enemies1, i);
+				enemies.add(enemy);
+			}
+		} else {
+			for (int i = 0; i < ((Table) enemies2.getActors().get(0)).getChildren().size; i++) {
+				Enemy enemy = (Enemy) getEntity(enemies2, i);
+				enemies.add(enemy);
+			}
+		}
+		return enemies;
+		/*
+		Array<Enemy> enemies = new Array<Enemy>();
 		for (int i = 0; i < ((Table) enemies1.getActors().get(0)).getChildren().size; i++) {
-			Image enemy = getEnemy(1, i);
+			Enemy enemy = (Enemy) getEntity(enemies1, i);
 			enemies.add(enemy);
 		}
 		for (int i = 0; i < ((Table) enemies2.getActors().get(0)).getChildren().size; i++) {
-			Image enemy = getEnemy(2, i);
+			Enemy enemy = (Enemy) getEntity(enemies2, i);
 			enemies.add(enemy);
 		}
 		return enemies;
+		*/
 	}
 
 	/**
-	 * Enemy getter.
-	 * @param i desired map part index, here 1 or 2
-	 * @param index number of enemy
+	 * Get desired entities in given radius.
+	 * @param radius in pixel
+	 * @param entities
 	 * @return
 	 */
-	public Image getEnemy(int i, int index) {
-		if (i == 1){
-			return (Image) ((Table) enemies1.getActors().get(0)).getChildren().get(index);
-		} else {
-			return (Image) ((Table) enemies2.getActors().get(0)).getChildren().get(index);
+	public Array<Actor> getEntitiesInRadius(int radius, Stage entities){
+		Array<Actor> entityArray = new Array<Actor>();
+		for (Actor entity : ((Table) entities.getActors().get(0)).getChildren()) {
+			if (entity.getX() < radius) {
+				entityArray.add(entity);
+			}
 		}
+		return entityArray;
+	}
+
+	/**
+	 * Entity getter.
+	 * @param entities stage of entities
+	 * @param index
+	 * @return entity as actor (cast it)
+	 */
+	public Actor getEntity(Stage entities, int index) {
+		return ((Table) entities.getActors().get(0)).getChildren().get(index);
 	}
 }

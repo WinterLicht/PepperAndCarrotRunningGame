@@ -14,8 +14,7 @@ public abstract class Ability {
 	Level level; /** Reference to the level. */
 	Runner runner; /** Reference to the player. */
 
-	public Ability(int energyM, Runner r, Level l){
-		energyMax = energyM;
+	public Ability(Runner r, Level l){
 		level = l;
 		runner = r;
 	}
