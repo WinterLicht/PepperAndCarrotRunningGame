@@ -2,6 +2,7 @@ package com.peppercarrot.runninggame.entities;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Align;
 import com.peppercarrot.runninggame.utils.AnimatedImage;
@@ -14,6 +15,7 @@ import com.peppercarrot.runninggame.utils.Assets;
  */
 public class Enemy extends Image {
 	public State currState = State.IDLE;
+	//Animations
 	AnimatedImage idleAnim;
 	AnimatedImage dyingAnim;
 	
@@ -34,6 +36,9 @@ public class Enemy extends Image {
 		dyingAnim.setOrigin(Align.center);
 	}
 
+	/**
+	 * Sets also image invisible.
+	 */
 	public void die() {
 		idleAnim.stop();
 		dyingAnim.start();
@@ -43,6 +48,11 @@ public class Enemy extends Image {
 
 	public boolean isAlive(){
 		return (currState != State.DYING);
+	}
+
+	public Rectangle getHitBox(){
+		Rectangle enemyRect = new Rectangle(this.getX(), this.getY(), this.getWidth(), this.getHeight());
+		return enemyRect;
 	}
 
 	@Override

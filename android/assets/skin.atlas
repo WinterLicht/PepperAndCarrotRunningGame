@@ -157,6 +157,30 @@ death
   orig: 110, 110
   offset: 0, 0
   index: 10
+energy
+  rotate: false
+  xy: 743, 391
+  size: 46, 7
+  split: 4, 4, 0, 4
+  orig: 46, 7
+  offset: 0, 0
+  index: -1
+energy-empty
+  rotate: false
+  xy: 696, 391
+  size: 46, 7
+  split: 4, 4, 4, 0
+  orig: 46, 7
+  offset: 0, 0
+  index: -1
+energy-end
+  rotate: false
+  xy: 790, 393
+  size: 46, 5
+  split: 4, 4, 4, 0
+  orig: 46, 5
+  offset: 0, 0
+  index: -1
 fly-death
   rotate: false
   xy: 445, 177

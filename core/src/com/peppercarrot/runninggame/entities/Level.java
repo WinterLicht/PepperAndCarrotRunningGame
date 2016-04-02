@@ -2,7 +2,6 @@ package com.peppercarrot.runninggame.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -15,8 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.peppercarrot.runninggame.PaCGame;
-import com.peppercarrot.runninggame.utils.AnimatedImage;
-import com.peppercarrot.runninggame.utils.Assets;
 import com.peppercarrot.runninggame.utils.Constants;
 
 /**
@@ -330,7 +327,7 @@ public class Level {
 							int tileHeight = tiledMap1.getProperties().get("tileheight", Integer.class);
 							float posX = (column+0.5f)*tileWidth;
 							float posY = (row+1f)*tileHeight;
-							AnimatedImage potion = new AnimatedImage(new Animation(0.14f, Assets.I.getRegions("potion"), Animation.PlayMode.LOOP));
+							Potion potion = new Potion(1);
 							potion.setOrigin(Align.center);
 							potion.setX(posX-camera1.position.x+Constants.VIRTUAL_WIDTH/2-potion.getWidth()/2);
 							potion.setY(posY+Constants.OFFSET_TO_EDGE-potion.getHeight()/2);
@@ -375,7 +372,7 @@ public class Level {
 							int tileHeight = tiledMap2.getProperties().get("tileheight", Integer.class);
 							float posX = (column+0.5f)*tileWidth;
 							float posY = (row+1f)*tileHeight;
-							AnimatedImage potion = new AnimatedImage(new Animation(0.14f, Assets.I.getRegions("potion"), Animation.PlayMode.LOOP));
+							Potion potion = new Potion(1);
 							potion.setOrigin(Align.center);
 							potion.setX(posX-camera2.position.x+Constants.VIRTUAL_WIDTH/2-potion.getWidth()/2);
 							potion.setY(posY+Constants.OFFSET_TO_EDGE-potion.getHeight()/2);
@@ -389,51 +386,53 @@ public class Level {
 	}
 
 	/**
-	 * Get all alive enemies of active level part.
-	 * @return array of enemies
+	 * Enemies in given radius of the active level part.
+	 * @param radius in pixel
+	 * @return
 	 */
-	public Array<Enemy> getAllEnemies(){
-		Array<Enemy> enemies = new Array<Enemy>();
+	public Array<Enemy> getEnemiesInRadius(int radius) {
+		Array<Enemy> enemyArray = new Array<Enemy>();
 		if (activeMap == 1) {
 			for (int i = 0; i < ((Table) enemies1.getActors().get(0)).getChildren().size; i++) {
 				Enemy enemy = (Enemy) getEntity(enemies1, i);
-				enemies.add(enemy);
+				if (enemy.getX() < radius) {
+					enemyArray.add(enemy);
+				}
 			}
 		} else {
 			for (int i = 0; i < ((Table) enemies2.getActors().get(0)).getChildren().size; i++) {
 				Enemy enemy = (Enemy) getEntity(enemies2, i);
-				enemies.add(enemy);
+				if (enemy.getX() < radius) {
+					enemyArray.add(enemy);
+				}
 			}
 		}
-		return enemies;
-		/*
-		Array<Enemy> enemies = new Array<Enemy>();
-		for (int i = 0; i < ((Table) enemies1.getActors().get(0)).getChildren().size; i++) {
-			Enemy enemy = (Enemy) getEntity(enemies1, i);
-			enemies.add(enemy);
-		}
-		for (int i = 0; i < ((Table) enemies2.getActors().get(0)).getChildren().size; i++) {
-			Enemy enemy = (Enemy) getEntity(enemies2, i);
-			enemies.add(enemy);
-		}
-		return enemies;
-		*/
+		return enemyArray;
 	}
 
 	/**
-	 * Get desired entities in given radius.
+	 * Potions in given radius of the active level part.
 	 * @param radius in pixel
-	 * @param entities
 	 * @return
 	 */
-	public Array<Actor> getEntitiesInRadius(int radius, Stage entities){
-		Array<Actor> entityArray = new Array<Actor>();
-		for (Actor entity : ((Table) entities.getActors().get(0)).getChildren()) {
-			if (entity.getX() < radius) {
-				entityArray.add(entity);
+	public Array<Potion> getPotionsInRadius(int radius) {
+		Array<Potion> potionArray = new Array<Potion>();
+		if (activeMap == 1) {
+			for (int i = 0; i < ((Table) potions1.getActors().get(0)).getChildren().size; i++) {
+				Potion potion = (Potion) getEntity(potions1, i);
+				if (potion.getX() < radius) {
+					potionArray.add(potion);
+				}
+			}
+		} else {
+			for (int i = 0; i < ((Table) potions2.getActors().get(0)).getChildren().size; i++) {
+				Potion potion = (Potion) getEntity(potions2, i);
+				if (potion.getX() < radius) {
+					potionArray.add(potion);
+				}
 			}
 		}
-		return entityArray;
+		return potionArray;
 	}
 
 	/**

@@ -4,14 +4,21 @@
       	pink: {hex: "E70065"},
       	cyan: {hex: "00E4E7"},
     },
+    
 	com.badlogic.gdx.graphics.g2d.BitmapFont: {  
     	default: { file: roboto25.fnt },
     },
+    
     com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {  
       default: { up: button, down: button-down, checked: button-down, disabled: button-down },  
       transparent: { }
      },
-     com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {  
-      default: { up: button, down: button-down, checked: button-down, disabled: button-down, font: default, fontColor: pink, disabledFontColor: white, downFontColor: white },
-      },
+     
+	com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {  
+		default: { up: button, down: button-down, checked: button-down, disabled: button-disabled, font: default, fontColor: pink, disabledFontColor: white, downFontColor: white },
+	},
+	
+	com.badlogic.gdx.scenes.scene2d.ui.ProgressBar$ProgressBarStyle: {
+		abilityEnergy: { background: energy, knobBefore: energy, knobAfter: energy-end }
+	}
 }

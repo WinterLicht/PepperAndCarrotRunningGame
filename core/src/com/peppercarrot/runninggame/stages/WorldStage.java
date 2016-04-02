@@ -66,27 +66,14 @@ public class WorldStage extends Stage {
 		uiTable.add(jumpBtnTransparent).width(jumpBtnTransparentWidth).height(uiTable.getHeight()).expandX().left();
 		//Attack Buttons
 		attackButtons = new Table();
-		attackButtons.debug();
-		int attackBtnWidth = 470;
-		attackButtons.setWidth(attackBtnWidth);
-		for (int i = 1; i < 4; i++) {
-			Button btn = new Button(Assets.I.skin, "transparent");
-			btn.setTouchable(Touchable.enabled);
-			btn.setName(""+i);
-			btn.addListener(new InputListener() { //TODO: attacks
-				public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-					System.out.println("Attack Button " + event.getListenerActor().getName() + " touched.");
-					runner.activateAbility(Integer.parseInt(event.getListenerActor().getName()));
-					event.cancel();
-					return false;
-				}
-			});
-			attackButtons.add(btn).width(attackBtnWidth).height(uiTable.getHeight()/3).right();
-			attackButtons.row();
-		}
-		uiTable.add(attackButtons).width(attackBtnWidth).height(uiTable.getHeight()).right();
-		uiTable.debug();
-		System.out.println("UiTable: "+uiTable.getX());
+		attackButtons.add(runner.ability3.table).expandY().right().top();
+		attackButtons.row();
+		attackButtons.add(runner.ability2.table).expandY().right().center();
+		attackButtons.row();
+		attackButtons.add(runner.ability1.table).expandY().right().bottom();
+		attackButtons.row();
+
+		uiTable.add(attackButtons).height(uiTable.getHeight()).expand().right();
 
 		this.addActor(uiTable);
 		this.addActor(charTable);

@@ -2,7 +2,11 @@ package com.peppercarrot.runninggame.entities;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.peppercarrot.runninggame.entities.Runner.State;
 import com.peppercarrot.runninggame.utils.AnimatedImage;
@@ -19,10 +23,27 @@ import com.peppercarrot.runninggame.utils.Assets;
 public class SweepAtt extends Ability {
 	float durationMax = 0.6f; /** How long is attack lasting. */
 	float currentDuration = durationMax;
+	//TODO: currentEnergy and energyMax replace by energy.getvalue.
 
 	public SweepAtt(Runner r, Level l) {
 		super(r, l);
-		energyMax = 1;
+		//Button
+		button = new Button(Assets.I.skin, "default");
+		button.setTouchable(Touchable.enabled);
+		button.setName(""+1);
+		button.addListener(new ClickListener() {
+			public void clicked (InputEvent event, float x, float y) {
+				System.out.println("Attack Button " + event.getListenerActor().getName() + " touched.");
+				runner.activateAbility(Integer.parseInt(event.getListenerActor().getName()));
+				((Button) event.getListenerActor()).setChecked(false);
+				event.cancel();
+			}
+		});
+		energy = new ProgressBar(0, 4, 1, true, Assets.I.skin, "abilityEnergy");
+		energy.setValue(0);
+		table.add(button).width(180).height(180).left();
+		table.add(energy).height(180).right().expandY();
+		//Animation of attack
 		effect = new AnimatedImage(new Animation(durationMax/8, Assets.I.getRegions("sweep-effect"), Animation.PlayMode.NORMAL));
 		effect.setVisible(false);
 		effect.stop();
@@ -35,10 +56,10 @@ public class SweepAtt extends Ability {
 	public void activate() {
 		if (currentDuration >= durationMax ) {
 			//Attack only possible when the previous was finished
-			if (currentEnergy >= energyMax) {
+			if (energy.getValue() >= energy.getMaxValue()) {
 				//Execute attack
 				runner.setAttacking();
-				currentEnergy = 0;
+				energy.setValue(0);
 				updatePosition();
 				effect.setVisible(true);
 				effect.start();
@@ -46,6 +67,15 @@ public class SweepAtt extends Ability {
 				System.out.println("not enough energy");
 			}
 		}
+	}
+
+	public void increaseEnergy(int incr){
+		if (energy.getValue()+incr <=  energy.getMaxValue()) {
+			energy.setValue(energy.getValue() + incr);
+		} else {
+			energy.setValue(energy.getMaxValue());
+		}
+		//energy.setValue(currentEnergy);
 	}
 
 	/**
@@ -90,24 +120,16 @@ public class SweepAtt extends Ability {
 	}
 
 	/**
-	 * Check collision and TODO remove the enemy.
+	 * Check collision and let the hit enemy die.
 	 * @param enemies
 	 */
 	private void checkCollision(){
 		Array<Enemy> enemies;
-		/*
-		if (level.activeMap == 1) {
-			enemies = level.getEntitiesInRadius(200, level.enemies1);
-		} else {
-			enemies = level.getEntitiesInRadius(200, level.enemies2);
-		}
-		*/
-		enemies = level.getAllEnemies();
+		enemies = level.getEnemiesInRadius(600);
 		Rectangle effectRect = new Rectangle(effect.getX(), effect.getY(), effect.getWidth(), effect.getHeight());
 		for (Enemy e : enemies) {
-			//Enemy enemy = (Enemy) e;
 			if (e.isAlive()) {
-				Rectangle enemyRect = new Rectangle(e.getX(), e.getY(), e.getWidth(), e.getHeight());
+				Rectangle enemyRect = e.getHitBox();
 				if (effectRect.overlaps(enemyRect)) {
 					e.die();
 				}

@@ -3,7 +3,6 @@ package com.peppercarrot.runninggame.entities;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
@@ -15,7 +14,6 @@ import com.peppercarrot.runninggame.utils.Constants;
  * Playable character class.
  * The runner is only able to move horizontally, other entities are
  * moving towards player. Runner can jump and doublejump.
- * TODO: attacks ...
  * @author WinterLicht
  *
  */
@@ -26,11 +24,13 @@ public class Runner extends Image {
 
 	AnimatedImage runningAnim;
 	AnimatedImage jumpingAnim;
-	AnimatedImage attackingAnim;
+	AnimatedImage attackingAnim; //TODO: various animations for various attacks.
 	
 	Level level;
 
-	public SweepAtt ability1; /** simple attack. */
+	public SweepAtt ability1; /** Simple attack. */
+	public BlackHole ability2; /** Remove game entities. */
+	public TimeDistortion ability3; /** Slow down level scroll speed. */
 
 	/**
 	 * Possible states.
@@ -45,6 +45,8 @@ public class Runner extends Image {
 	public Runner(Level l){
 		super(new TextureRegion(Assets.I.atlas.findRegion("run")));
 		ability1 = new SweepAtt(this, l);
+		ability2 = new BlackHole(this, level);
+		ability3 = new TimeDistortion(this, level);
 		level = l;
 		//Runner is always placed with some offset
 		setOrigin(Align.center);
@@ -78,7 +80,7 @@ public class Runner extends Image {
 	public void activateAbility(int i) {
 		if (i == 1){
 			ability1.activate();
-		}
+		} // TODO: other abilities
 	}
 
 	/**
@@ -104,31 +106,29 @@ public class Runner extends Image {
 	 * Collision between enemies and potions.
 	 */
 	private void checkEntityCollision(){
-		Array<Actor> enemies;
-		Array<Actor> potions;
-		if (level.activeMap == 1) {
-			enemies = level.getEntitiesInRadius(200, level.enemies1);
-			potions = level.getEntitiesInRadius(200, level.potions1);
-		} else {
-			enemies = level.getEntitiesInRadius(200, level.enemies2);
-			potions = level.getEntitiesInRadius(200, level.potions2);
-		}
-		Rectangle hitbox = new Rectangle(getX(), getY(), getWidth(), getHeight());
-		for (Actor e : enemies) {
-			Enemy enemy = (Enemy) e;
+		Array<Enemy> enemies = level.getEnemiesInRadius(400);
+		Array<Potion> potions = level.getPotionsInRadius(400);
+		Rectangle hitbox = getHitBox();
+		for (Enemy enemy : enemies) {
 			Rectangle enemyRect = new Rectangle(enemy.getX(), enemy.getY(), enemy.getWidth(), enemy.getHeight());
 			if (hitbox.overlaps(enemyRect) && enemy.isAlive()) {
 				//enemy.die();//TODO Player dies!!
 				System.out.println("Enemy collision");
 			}
 		}
-		for (Actor p : potions) {
+		for (Potion p : potions) {
 			Rectangle potionRect = new Rectangle(p.getX(), p.getY(), p.getWidth(), p.getHeight());
 			if (p.isVisible() && hitbox.overlaps(potionRect)){
 				p.setVisible(false); //TODO various potions
-				ability1.currentEnergy += 1;
+				ability1.increaseEnergy(1);
 			}
 		}
+	}
+
+	public Rectangle getHitBox() {
+		int offset = 30; //slightly smaller hitbox of the player as his sprite.
+		Rectangle hitBox = new Rectangle(getX()+offset, getY()+offset, getWidth()-offset*2, getHeight()-offset*2);
+		return hitBox;
 	}
 
 	/**
@@ -148,10 +148,10 @@ public class Runner extends Image {
 	@Override
 	public void act(float delta) {
 		super.act(delta);
-		checkCollision();
-		checkEntityCollision();
 		//Update all attacks
 		ability1.update(delta);
+		ability2.update(delta);
+		ability3.update(delta);
 		//Decide which animation is displayed
 		switch (currState) {
 		case DOUBLEJUMPING:
@@ -206,6 +206,8 @@ public class Runner extends Image {
 			//and he was previously running.
 			setFalling();
 		}
+		checkCollision();
+		checkEntityCollision();
 	}
 
 	//Helper methods for states
