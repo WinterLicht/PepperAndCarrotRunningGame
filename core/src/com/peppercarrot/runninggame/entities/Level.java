@@ -27,7 +27,7 @@ import com.peppercarrot.runninggame.utils.Constants;
  */
 public class Level {
 	int activeMap = 1; /** Helper, indicates which level should be loaded next. */
-	public float scrollSpeed = 6; /** Horizontal scroll speed in pixel of the level. */
+	public float scrollSpeed = 8; /** Horizontal scroll speed in pixel of the level. */
 	int counter4SpeedIncr = 0; /** Counts level resets. */
 	int speedIncrAt = 4; /** How often speed will be increased. */
 	public boolean beginLevel = false; /** Set to true when player is ready. */
@@ -112,7 +112,7 @@ public class Level {
 	private void updateEntities(Stage entities) {
 		for (int i = 0; i < ((Table) entities.getActors().get(0)).getChildren().size; i++) {
 			Actor entity = getEntity(entities, i);
-			entity.setX((int)entity.getX()-scrollSpeed);
+			entity.setX(entity.getX()-scrollSpeed);
 		}
 	}
 
@@ -120,24 +120,24 @@ public class Level {
 	 * Update cameras.
 	 */
 	public void update(){
-			if (boundsReached()) {
-				if (beginLevel) { //game is started and player is ready
-					resetMap(); //here are new level parts loaded
-				} else { //loop two start levels without platforms
-					resetCurrentTwoLevels();
-				}
+		if (boundsReached()) {
+			if (beginLevel) { //game is started and player is ready
+				resetMap(); //here are new level parts loaded
+			} else { //loop two start levels without platforms
+				resetCurrentTwoLevels();
 			}
+		}
 		//Consider y-position of the main game camera.
 		//Because this is updated depending of players jump.
 		float offsetY = PaCGame.getInstance().camera.position.y;
 		
 		//Scroll both cameras according to level scroll speed.
 		//Consider offset to the ground and the offset as above.
-		this.camera1.position.set((int)scrollSpeed+camera1.position.x, offsetY-Constants.OFFSET_TO_GROUND, 0);
+		this.camera1.position.set(scrollSpeed+camera1.position.x, offsetY-Constants.OFFSET_TO_GROUND, 0);
 		this.camera1.update();
 		tiledMapRenderer1.setView(this.camera1);
 		
-		this.camera2.position.set((int)scrollSpeed+camera2.position.x, offsetY-Constants.OFFSET_TO_GROUND, 0);
+		this.camera2.position.set(scrollSpeed+camera2.position.x, offsetY-Constants.OFFSET_TO_GROUND, 0);
 		this.camera2.update();
 		tiledMapRenderer2.setView(this.camera2);
 		updateEntities(enemies1);
@@ -218,7 +218,7 @@ public class Level {
 				if (counter4SpeedIncr >= speedIncrAt){
 					counter4SpeedIncr = 0;
 					System.out.println("Speed increased");
-					scrollSpeed += 1;
+					scrollSpeed += (1);
 				}
 				System.out.println("level"+i+".tmx loaded");
 			}
@@ -395,14 +395,14 @@ public class Level {
 		if (activeMap == 1) {
 			for (int i = 0; i < ((Table) enemies1.getActors().get(0)).getChildren().size; i++) {
 				Enemy enemy = (Enemy) getEntity(enemies1, i);
-				if (enemy.getX() < radius) {
+				if (0 < enemy.getX() && enemy.getX() < radius) {
 					enemyArray.add(enemy);
 				}
 			}
 		} else {
 			for (int i = 0; i < ((Table) enemies2.getActors().get(0)).getChildren().size; i++) {
 				Enemy enemy = (Enemy) getEntity(enemies2, i);
-				if (enemy.getX() < radius) {
+				if (0 < enemy.getX() && enemy.getX() < radius) {
 					enemyArray.add(enemy);
 				}
 			}
@@ -420,14 +420,14 @@ public class Level {
 		if (activeMap == 1) {
 			for (int i = 0; i < ((Table) potions1.getActors().get(0)).getChildren().size; i++) {
 				Potion potion = (Potion) getEntity(potions1, i);
-				if (potion.getX() < radius) {
+				if (0 < potion.getX() && potion.getX() < radius) {
 					potionArray.add(potion);
 				}
 			}
 		} else {
 			for (int i = 0; i < ((Table) potions2.getActors().get(0)).getChildren().size; i++) {
 				Potion potion = (Potion) getEntity(potions2, i);
-				if (potion.getX() < radius) {
+				if (0 < potion.getX() && potion.getX() < radius) {
 					potionArray.add(potion);
 				}
 			}

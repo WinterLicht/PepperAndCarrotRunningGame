@@ -45,8 +45,8 @@ public class Runner extends Image {
 	public Runner(Level l){
 		super(new TextureRegion(Assets.I.atlas.findRegion("run")));
 		ability1 = new SweepAtt(this, l);
-		ability2 = new BlackHole(this, level);
-		ability3 = new TimeDistortion(this, level);
+		ability2 = new BlackHole(this, l);
+		ability3 = new TimeDistortion(this, l);
 		level = l;
 		//Runner is always placed with some offset
 		setOrigin(Align.center);
@@ -78,9 +78,19 @@ public class Runner extends Image {
 	}
 
 	public void activateAbility(int i) {
-		if (i == 1){
+		switch (i) {
+		case 1:
 			ability1.activate();
-		} // TODO: other abilities
+			break;
+		case 2:
+			ability2.activate();
+			break;
+		case 3:
+			ability3.activate();
+			break;
+		default:
+			break;
+		}
 	}
 
 	/**
@@ -119,8 +129,11 @@ public class Runner extends Image {
 		for (Potion p : potions) {
 			Rectangle potionRect = new Rectangle(p.getX(), p.getY(), p.getWidth(), p.getHeight());
 			if (p.isVisible() && hitbox.overlaps(potionRect)){
-				p.setVisible(false); //TODO various potions
+				p.collected();
+				//TODO various potions
 				ability1.increaseEnergy(1);
+				ability2.increaseEnergy(1);
+				ability3.increaseEnergy(1);
 			}
 		}
 	}

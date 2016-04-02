@@ -21,25 +21,23 @@ import com.peppercarrot.runninggame.utils.Assets;
  *
  */
 public class SweepAtt extends Ability {
-	float durationMax = 0.6f; /** How long is attack lasting. */
-	float currentDuration = durationMax;
-	//TODO: currentEnergy and energyMax replace by energy.getvalue.
 
 	public SweepAtt(Runner r, Level l) {
 		super(r, l);
+		durationMax = 0.6f;
+		currentDuration = durationMax;
 		//Button
 		button = new Button(Assets.I.skin, "default");
 		button.setTouchable(Touchable.enabled);
 		button.setName(""+1);
 		button.addListener(new ClickListener() {
 			public void clicked (InputEvent event, float x, float y) {
-				System.out.println("Attack Button " + event.getListenerActor().getName() + " touched.");
-				runner.activateAbility(Integer.parseInt(event.getListenerActor().getName()));
+				activate();
 				((Button) event.getListenerActor()).setChecked(false);
 				event.cancel();
 			}
 		});
-		energy = new ProgressBar(0, 4, 1, true, Assets.I.skin, "abilityEnergy");
+		energy = new ProgressBar(0, 1, 1, true, Assets.I.skin, "abilityEnergy");
 		energy.setValue(0);
 		table.add(button).width(180).height(180).left();
 		table.add(energy).height(180).right().expandY();
@@ -47,35 +45,6 @@ public class SweepAtt extends Ability {
 		effect = new AnimatedImage(new Animation(durationMax/8, Assets.I.getRegions("sweep-effect"), Animation.PlayMode.NORMAL));
 		effect.setVisible(false);
 		effect.stop();
-	}
-
-	/**
-	 * Activate ability and check if any enemy was hit.
-	 * @param enemies
-	 */
-	public void activate() {
-		if (currentDuration >= durationMax ) {
-			//Attack only possible when the previous was finished
-			if (energy.getValue() >= energy.getMaxValue()) {
-				//Execute attack
-				runner.setAttacking();
-				energy.setValue(0);
-				updatePosition();
-				effect.setVisible(true);
-				effect.start();
-			} else {
-				System.out.println("not enough energy");
-			}
-		}
-	}
-
-	public void increaseEnergy(int incr){
-		if (energy.getValue()+incr <=  energy.getMaxValue()) {
-			energy.setValue(energy.getValue() + incr);
-		} else {
-			energy.setValue(energy.getMaxValue());
-		}
-		//energy.setValue(currentEnergy);
 	}
 
 	/**
@@ -88,7 +57,7 @@ public class SweepAtt extends Ability {
 
 	@Override
 	public void update(float delta) {
-		if (currentDuration < 0) {
+		if (currentDuration >= durationMax) {
 			//Attack ending
 			switch (runner.currState) {
 			case ATTACK_DOUBLEJUMPING:
@@ -106,7 +75,6 @@ public class SweepAtt extends Ability {
 			default:
 				break;
 			}
-			currentDuration = durationMax;
 			effect.stop();
 			effect.setVisible(false);
 		} else {
@@ -114,7 +82,7 @@ public class SweepAtt extends Ability {
 				//Attack is currently executing
 				updatePosition();
 				checkCollision();
-				currentDuration -= delta;
+				currentDuration += delta;
 			}
 		}
 	}
@@ -124,8 +92,7 @@ public class SweepAtt extends Ability {
 	 * @param enemies
 	 */
 	private void checkCollision(){
-		Array<Enemy> enemies;
-		enemies = level.getEnemiesInRadius(600);
+		 Array<Enemy> enemies = level.getEnemiesInRadius(600);
 		Rectangle effectRect = new Rectangle(effect.getX(), effect.getY(), effect.getWidth(), effect.getHeight());
 		for (Enemy e : enemies) {
 			if (e.isAlive()) {
@@ -135,5 +102,13 @@ public class SweepAtt extends Ability {
 				}
 			}
 		}
+	}
+
+	@Override
+	protected void execute() {
+		runner.setAttacking();
+		updatePosition();
+		effect.setVisible(true);
+		effect.start();
 	}
 }

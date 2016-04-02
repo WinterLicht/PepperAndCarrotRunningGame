@@ -13,4 +13,7 @@ public class Potion extends AnimatedImage {
 		this.type = type;
 	}
 
+	public void collected() {
+		setVisible(false);
+	}
 }

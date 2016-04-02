@@ -42,6 +42,8 @@ public class WorldStage extends Stage {
 		runner = new Runner(level);
 		charTable.addActor(runner);
 		charTable.addActor(runner.ability1.effect);
+		charTable.addActor(runner.ability2.effect);
+		//charTable.addActor(runner.ability3.effect);
 
 		//Set up UI:
 		Button jumpBtnTransparent = new Button(Assets.I.skin, "transparent");

@@ -23,11 +23,11 @@ public class AnimatedImage extends Image {
 
 	@Override
 	public void act(float delta){
+		super.act(delta);
 		if(this.running && !animation.isAnimationFinished(delta)){
 			frameTime+=delta;
 			((TextureRegionDrawable)getDrawable()).setRegion(animation.getKeyFrame(frameTime, this.looping));
 		}
-		super.act(delta);
 	}
 
 	public void start(){
