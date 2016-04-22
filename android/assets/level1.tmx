@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="25" height="5" tilewidth="110" tileheight="110">
- <tileset firstgid="1" name="tileset_neutral_01" tilewidth="110" tileheight="110">
-  <image source="tileset_neutral_01.png" width="1100" height="1100"/>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="7" tilewidth="95" tileheight="95">
+ <tileset firstgid="1" name="tileset_neutral_01" tilewidth="95" tileheight="95">
+  <image source="tileset_neutral_01.png" width="950" height="950"/>
  </tileset>
- <layer name="background" width="25" height="5">
+ <layer name="background" width="30" height="7">
   <data encoding="base64" compression="zlib">
-   eJzzY2BgCGJgOMCABgKhYkFIYjFY1BEDIoA4GItedxLsiCbCDnc87vNAkkO2wx3VboJ2oJmJE0Qj2RGMJO5JwA50EERYCYY6QnoAWlkPjg==
+   eJxjYBgFo2AUUAoAA0gAAQ==
   </data>
  </layer>
- <layer name="platforms" width="25" height="5">
+ <layer name="platforms" width="30" height="7">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFpAImIGYeBPYS4w5sagAIaAAV
+   eJxjYBgFMMAExMwD7QgSAMi9Ymh4KLkfGSD7hVI/DES4AADkpADx
   </data>
  </layer>
- <layer name="foreground" width="25" height="5">
+ <layer name="foreground" width="30" height="7">
   <data encoding="base64" compression="zlib">
-   eJxjYKAecKeiWbhA4CC0w4NIdcjhQ6odQUTaGYiDjQwA36cDBg==
+   eJxjYBgFo2AUUAoAA0gAAQ==
   </data>
  </layer>
- <layer name="enemies" width="25" height="5" visible="0">
+ <layer name="enemies" width="30" height="7" visible="0">
   <data encoding="base64" compression="zlib">
-   eJxjYBi8gHWA9FIKiLUblzps4qT4h5C5ABfUACk=
+   eJxjYBicgHWgHUABGMpuhwFa+GE4hAsuAAAkuAAV
   </data>
  </layer>
- <layer name="potions" width="25" height="5" visible="0">
+ <layer name="potions" width="30" height="7" visible="0">
   <data encoding="base64" compression="zlib">
-   eJxjYKA/CKGRWlqaQUt70PXR2r0AxDMB+Q==
+   eJxjYBgFuADHQDtgGIChGob43I0uB+IDAB4oACk=
   </data>
  </layer>
 </map>

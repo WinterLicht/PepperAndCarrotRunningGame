@@ -148,63 +148,63 @@ filter: MipMapLinearNearest,Nearest
 repeat: none
 attack
   rotate: false
-  xy: 1, 778
-  size: 110, 110
-  orig: 110, 110
+  xy: 1, 704
+  size: 190, 190
+  orig: 190, 190
   offset: 0, 0
   index: 1
 attack
   rotate: false
-  xy: 258, 907
-  size: 110, 110
-  orig: 110, 110
+  xy: 1, 513
+  size: 190, 190
+  orig: 190, 190
   offset: 0, 0
   index: 2
 attack
   rotate: false
-  xy: 1, 667
-  size: 110, 110
-  orig: 110, 110
+  xy: 1, 322
+  size: 190, 190
+  orig: 190, 190
   offset: 0, 0
   index: 3
 attack
   rotate: false
-  xy: 112, 778
-  size: 110, 110
-  orig: 110, 110
+  xy: 1, 131
+  size: 190, 190
+  orig: 190, 190
   offset: 0, 0
   index: 4
 attack
   rotate: false
-  xy: 369, 907
-  size: 110, 110
-  orig: 110, 110
+  xy: 258, 833
+  size: 190, 190
+  orig: 190, 190
   offset: 0, 0
   index: 5
 attack
   rotate: false
-  xy: 1, 556
-  size: 110, 110
-  orig: 110, 110
+  xy: 449, 833
+  size: 190, 190
+  orig: 190, 190
   offset: 0, 0
   index: 6
 attack
   rotate: false
-  xy: 112, 667
-  size: 110, 110
-  orig: 110, 110
+  xy: 640, 833
+  size: 190, 190
+  orig: 190, 190
   offset: 0, 0
   index: 7
 attack
   rotate: false
-  xy: 480, 907
-  size: 110, 110
-  orig: 110, 110
+  xy: 831, 833
+  size: 190, 190
+  orig: 190, 190
   offset: 0, 0
   index: 8
 button
   rotate: false
-  xy: 399, 551
+  xy: 192, 849
   size: 22, 22
   split: 5, 5, 5, 5
   pad: 10, 10, 10, 10
@@ -213,7 +213,7 @@ button
   index: -1
 button-disabled
   rotate: false
-  xy: 924, 930
+  xy: 192, 872
   size: 22, 22
   split: 5, 5, 5, 5
   pad: 10, 10, 10, 10
@@ -222,7 +222,7 @@ button-disabled
   index: -1
 button-down
   rotate: false
-  xy: 989, 995
+  xy: 956, 420
   size: 22, 22
   split: 5, 5, 5, 5
   pad: 10, 10, 10, 10
@@ -231,267 +231,322 @@ button-down
   index: -1
 death
   rotate: false
-  xy: 1, 445
+  xy: 1, 20
   size: 110, 110
   orig: 110, 110
   offset: 0, 0
   index: 1
-death
+doublejump
   rotate: false
-  xy: 112, 556
-  size: 110, 110
-  orig: 110, 110
-  offset: 0, 0
-  index: 2
-death
-  rotate: false
-  xy: 591, 907
-  size: 110, 110
-  orig: 110, 110
-  offset: 0, 0
-  index: 3
-death
-  rotate: false
-  xy: 1, 334
-  size: 110, 110
-  orig: 110, 110
-  offset: 0, 0
-  index: 4
-death
-  rotate: false
-  xy: 112, 445
-  size: 110, 110
-  orig: 110, 110
-  offset: 0, 0
-  index: 5
-death
-  rotate: false
-  xy: 702, 907
-  size: 110, 110
-  orig: 110, 110
-  offset: 0, 0
-  index: 6
-death
-  rotate: false
-  xy: 1, 223
-  size: 110, 110
-  orig: 110, 110
-  offset: 0, 0
-  index: 7
-death
-  rotate: false
-  xy: 112, 334
-  size: 110, 110
-  orig: 110, 110
-  offset: 0, 0
-  index: 8
-death
-  rotate: false
-  xy: 813, 907
-  size: 110, 110
-  orig: 110, 110
-  offset: 0, 0
-  index: 9
-death
-  rotate: false
-  xy: 1, 112
-  size: 110, 110
-  orig: 110, 110
-  offset: 0, 0
-  index: 10
-fly-death
-  rotate: false
-  xy: 112, 223
-  size: 110, 110
-  orig: 110, 110
+  xy: 192, 642
+  size: 190, 190
+  orig: 190, 190
   offset: 0, 0
   index: 1
-fly-death
+fall
   rotate: false
-  xy: 1, 1
-  size: 110, 110
-  orig: 110, 110
+  xy: 192, 451
+  size: 190, 190
+  orig: 190, 190
+  offset: 0, 0
+  index: 1
+fall
+  rotate: false
+  xy: 383, 642
+  size: 190, 190
+  orig: 190, 190
   offset: 0, 0
   index: 2
-fly-death
+fall
   rotate: false
-  xy: 112, 112
-  size: 110, 110
-  orig: 110, 110
+  xy: 192, 260
+  size: 190, 190
+  orig: 190, 190
   offset: 0, 0
   index: 3
-fly-death
+jump
+  rotate: false
+  xy: 383, 451
+  size: 190, 190
+  orig: 190, 190
+  offset: 0, 0
+  index: 1
+jump
+  rotate: false
+  xy: 574, 642
+  size: 190, 190
+  orig: 190, 190
+  offset: 0, 0
+  index: 2
+jump
+  rotate: false
+  xy: 383, 260
+  size: 190, 190
+  orig: 190, 190
+  offset: 0, 0
+  index: 3
+potion
+  rotate: false
+  xy: 956, 768
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 1
+potion
+  rotate: false
+  xy: 112, 66
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 2
+potion
   rotate: false
   xy: 112, 1
-  size: 110, 110
-  orig: 110, 110
-  offset: 0, 0
-  index: 4
-fly-death
-  rotate: false
-  xy: 223, 778
-  size: 110, 110
-  orig: 110, 110
-  offset: 0, 0
-  index: 5
-fly-idle
-  rotate: false
-  xy: 223, 667
-  size: 110, 110
-  orig: 110, 110
-  offset: 0, 0
-  index: 1
-fly-idle
-  rotate: false
-  xy: 223, 556
-  size: 110, 110
-  orig: 110, 110
-  offset: 0, 0
-  index: 2
-fly-idle
-  rotate: false
-  xy: 223, 445
-  size: 110, 110
-  orig: 110, 110
-  offset: 0, 0
-  index: 3
-jump
-  rotate: false
-  xy: 223, 334
-  size: 110, 110
-  orig: 110, 110
-  offset: 0, 0
-  index: 1
-jump
-  rotate: false
-  xy: 223, 223
-  size: 110, 110
-  orig: 110, 110
-  offset: 0, 0
-  index: 2
-potion
-  rotate: false
-  xy: 924, 953
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: 1
-potion
-  rotate: false
-  xy: 334, 509
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: 2
-potion
-  rotate: false
-  xy: 445, 620
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: 3
 potion
   rotate: false
-  xy: 556, 731
+  xy: 956, 703
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: 4
 potion
   rotate: false
-  xy: 556, 731
+  xy: 956, 703
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: 5
 potion
   rotate: false
-  xy: 667, 842
+  xy: 956, 638
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: 6
 potion
   rotate: false
-  xy: 334, 444
+  xy: 956, 573
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: 7
 potion
   rotate: false
-  xy: 732, 842
+  xy: 956, 508
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: 8
 potion
   rotate: false
-  xy: 334, 379
+  xy: 956, 443
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: 9
 roboto25
   rotate: false
-  xy: 1, 889
+  xy: 1, 895
   size: 256, 128
   orig: 256, 128
   offset: 0, 0
   index: -1
 run
   rotate: false
-  xy: 223, 112
-  size: 110, 110
-  orig: 110, 110
+  xy: 574, 451
+  size: 190, 190
+  orig: 190, 190
   offset: 0, 0
   index: 1
 run
   rotate: false
-  xy: 223, 1
-  size: 110, 110
-  orig: 110, 110
+  xy: 765, 642
+  size: 190, 190
+  orig: 190, 190
   offset: 0, 0
   index: 2
 run
   rotate: false
-  xy: 334, 796
+  xy: 574, 260
+  size: 190, 190
+  orig: 190, 190
+  offset: 0, 0
+  index: 3
+run
+  rotate: false
+  xy: 765, 451
+  size: 190, 190
+  orig: 190, 190
+  offset: 0, 0
+  index: 4
+run
+  rotate: false
+  xy: 765, 260
+  size: 190, 190
+  orig: 190, 190
+  offset: 0, 0
+  index: 5
+run
+  rotate: false
+  xy: 192, 69
+  size: 190, 190
+  orig: 190, 190
+  offset: 0, 0
+  index: 6
+run
+  rotate: false
+  xy: 383, 69
+  size: 190, 190
+  orig: 190, 190
+  offset: 0, 0
+  index: 7
+run
+  rotate: false
+  xy: 574, 69
+  size: 190, 190
+  orig: 190, 190
+  offset: 0, 0
+  index: 8
+run
+  rotate: false
+  xy: 765, 69
+  size: 190, 190
+  orig: 190, 190
+  offset: 0, 0
+  index: 9
+
+skin3.png
+size: 1024,512
+format: RGBA8888
+filter: MipMapLinearNearest,Nearest
+repeat: none
+death
+  rotate: false
+  xy: 1, 112
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 2
+death
+  rotate: false
+  xy: 192, 303
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 3
+death
+  rotate: false
+  xy: 1, 1
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 4
+death
+  rotate: false
+  xy: 303, 303
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 5
+death
+  rotate: false
+  xy: 414, 303
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 6
+death
+  rotate: false
+  xy: 525, 303
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 7
+death
+  rotate: false
+  xy: 636, 303
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 8
+death
+  rotate: false
+  xy: 747, 303
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 9
+death
+  rotate: false
+  xy: 858, 303
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 10
+fly-death
+  rotate: false
+  xy: 112, 112
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 1
+fly-death
+  rotate: false
+  xy: 112, 1
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 2
+fly-death
+  rotate: false
+  xy: 223, 192
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 3
+fly-death
+  rotate: false
+  xy: 223, 81
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 4
+fly-death
+  rotate: false
+  xy: 334, 192
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 5
+fly-idle
+  rotate: false
+  xy: 334, 81
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 1
+fly-idle
+  rotate: false
+  xy: 445, 192
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 2
+fly-idle
+  rotate: false
+  xy: 445, 81
   size: 110, 110
   orig: 110, 110
   offset: 0, 0
   index: 3
 run
   rotate: false
-  xy: 334, 685
-  size: 110, 110
-  orig: 110, 110
+  xy: 1, 223
+  size: 190, 190
+  orig: 190, 190
   offset: 0, 0
-  index: 4
-run
-  rotate: false
-  xy: 445, 796
-  size: 110, 110
-  orig: 110, 110
-  offset: 0, 0
-  index: 5
-run
-  rotate: false
-  xy: 334, 574
-  size: 110, 110
-  orig: 110, 110
-  offset: 0, 0
-  index: 6
-run
-  rotate: false
-  xy: 445, 685
-  size: 110, 110
-  orig: 110, 110
-  offset: 0, 0
-  index: 7
-run
-  rotate: false
-  xy: 556, 796
-  size: 110, 110
-  orig: 110, 110
-  offset: 0, 0
-  index: 8
+  index: 10

@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="12" height="6" tilewidth="110" tileheight="110">
- <tileset firstgid="1" name="tileset_neutral_01" tilewidth="110" tileheight="110">
-  <image source="tileset_neutral_01.png" width="1100" height="1100"/>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="15" height="7" tilewidth="95" tileheight="95">
+ <tileset firstgid="1" name="tileset_neutral_01" tilewidth="95" tileheight="95">
+  <image source="tileset_neutral_01.png" width="950" height="950"/>
  </tileset>
- <layer name="background" width="12" height="6">
+ <layer name="background" width="15" height="7">
   <data encoding="base64" compression="zlib">
-   eJxNjzEOQCEIQ52Q7+LMzP3vKD95TTq8BEqLmGutHmL4IIdCO2iXOqDRivrQB1qS06zoN762HWHzILvtTe1OkF8ZUeTSdoRl5dH9fue1u/Tn3/cAV24ECQ==
+   eJxjYBgFgx0AAAGkAAE=
   </data>
  </layer>
- <layer name="Tile Layer 2" width="12" height="6">
+ <layer name="Kachelebene 2" width="15" height="7">
   <data encoding="base64" compression="zlib">
-   eJxjYBgF+AAAASAAAQ==
+   eJxjYBgFgx0AAAGkAAE=
   </data>
  </layer>
- <layer name="Tile Layer 3" width="12" height="6">
+ <layer name="Kachelebene 3" width="15" height="7">
   <data encoding="base64" compression="zlib">
-   eJxjYBgF+AAAASAAAQ==
+   eJxjYBgFgx0AAAGkAAE=
   </data>
  </layer>
 </map>

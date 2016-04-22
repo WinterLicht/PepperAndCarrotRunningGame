@@ -24,6 +24,8 @@ public class Runner extends Image {
 
 	AnimatedImage runningAnim;
 	AnimatedImage jumpingAnim;
+	AnimatedImage doubleJumpingAnim;
+	AnimatedImage fallingAnim;
 	AnimatedImage attackingAnim; //TODO: various animations for various attacks.
 	
 	Level level;
@@ -53,12 +55,18 @@ public class Runner extends Image {
 		setX(Constants.OFFSET_TO_EDGE);
 		setY(Constants.OFFSET_TO_GROUND);
 		//Load Animations
-		runningAnim = new AnimatedImage(new Animation(0.099f, Assets.I.getRegions("run"), Animation.PlayMode.LOOP));
+		runningAnim = new AnimatedImage(new Animation(0.079f, Assets.I.getRegions("run"), Animation.PlayMode.LOOP));
 		runningAnim.setOrigin(Align.center);
 		runningAnim.start();
-		jumpingAnim = new AnimatedImage(new Animation(0.17f, Assets.I.getRegions("jump"), Animation.PlayMode.LOOP));
+		jumpingAnim = new AnimatedImage(new Animation(0.15f, Assets.I.getRegions("jump"), Animation.PlayMode.LOOP));
 		jumpingAnim.setOrigin(Align.center);
 		jumpingAnim.start();
+		doubleJumpingAnim = new AnimatedImage(new Animation(0.17f, Assets.I.getRegions("doublejump"), Animation.PlayMode.LOOP));
+		doubleJumpingAnim.setOrigin(Align.center);
+		doubleJumpingAnim.start();
+		fallingAnim = new AnimatedImage(new Animation(0.17f, Assets.I.getRegions("fall"), Animation.PlayMode.NORMAL));
+		fallingAnim.setOrigin(Align.center);
+		fallingAnim.start();
 		attackingAnim = new AnimatedImage(new Animation(ability1.durationMax/8, Assets.I.getRegions("attack"), Animation.PlayMode.NORMAL));
 		attackingAnim.setOrigin(Align.center);
 		attackingAnim.start();
@@ -168,8 +176,8 @@ public class Runner extends Image {
 		//Decide which animation is displayed
 		switch (currState) {
 		case DOUBLEJUMPING:
-			jumpingAnim.act(delta);
-			setDrawable(jumpingAnim.getDrawable());
+			doubleJumpingAnim.act(delta);
+			setDrawable(doubleJumpingAnim.getDrawable());
 			break;
 		case DYING:
 			break;
@@ -182,8 +190,8 @@ public class Runner extends Image {
 			setDrawable(runningAnim.getDrawable());
 			break;
 		case FALLING:
-			jumpingAnim.act(delta);
-			setDrawable(jumpingAnim.getDrawable());
+			fallingAnim.act(delta);
+			setDrawable(fallingAnim.getDrawable());
 			break;
 		case ATTACK_RUNNING:
 			attackingAnim.act(delta);
@@ -209,15 +217,15 @@ public class Runner extends Image {
 		//Move
 		float oldYPos = getY();
 		setY(getY() + speedY);
+		if (getY() < oldYPos && !isAttacking()) {
+			//Player is falling, if his y-position is lowered
+			//and he was previously running.
+			setFalling();
+		}
 		//Player can't fall under/below the ground
 		if (getY() < Constants.OFFSET_TO_GROUND) { //land
 			setRunnig();
 			setY(Constants.OFFSET_TO_GROUND);
-		}
-		if (getY() < oldYPos && isRunnig()) {
-			//Player is falling, if his y-position is lowered
-			//and he was previously running.
-			setFalling();
 		}
 		checkCollision();
 		checkEntityCollision();

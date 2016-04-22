@@ -37,12 +37,12 @@ public class SweepAtt extends Ability {
 				event.cancel();
 			}
 		});
-		energy = new ProgressBar(0, 1, 1, true, Assets.I.skin, "abilityEnergy");
+		energy = new ProgressBar(0, 0, 1, true, Assets.I.skin, "abilityEnergy");
 		energy.setValue(0);
 		table.add(button).width(180).height(180).left();
 		table.add(energy).height(180).right().expandY();
 		//Animation of attack
-		effect = new AnimatedImage(new Animation(durationMax/8, Assets.I.getRegions("sweep-effect"), Animation.PlayMode.NORMAL));
+		effect = new AnimatedImage(new Animation(durationMax/7, Assets.I.getRegions("sweep-effect"), Animation.PlayMode.NORMAL));
 		effect.setVisible(false);
 		effect.stop();
 	}
