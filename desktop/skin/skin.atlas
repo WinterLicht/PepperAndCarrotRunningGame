@@ -243,44 +243,51 @@ doublejump
   orig: 190, 190
   offset: 0, 0
   index: 1
-fall
+doublejump
   rotate: false
   xy: 192, 451
   size: 190, 190
   orig: 190, 190
   offset: 0, 0
-  index: 1
+  index: 2
 fall
   rotate: false
   xy: 383, 642
   size: 190, 190
   orig: 190, 190
   offset: 0, 0
-  index: 2
+  index: 1
 fall
   rotate: false
   xy: 192, 260
   size: 190, 190
   orig: 190, 190
   offset: 0, 0
-  index: 3
-jump
+  index: 2
+fall
   rotate: false
   xy: 383, 451
   size: 190, 190
   orig: 190, 190
   offset: 0, 0
-  index: 1
+  index: 3
 jump
   rotate: false
   xy: 574, 642
   size: 190, 190
   orig: 190, 190
   offset: 0, 0
-  index: 2
+  index: 1
 jump
   rotate: false
   xy: 383, 260
+  size: 190, 190
+  orig: 190, 190
+  offset: 0, 0
+  index: 2
+jump
+  rotate: false
+  xy: 574, 451
   size: 190, 190
   orig: 190, 190
   offset: 0, 0
@@ -357,67 +364,60 @@ roboto25
   index: -1
 run
   rotate: false
-  xy: 574, 451
+  xy: 765, 642
   size: 190, 190
   orig: 190, 190
   offset: 0, 0
   index: 1
 run
   rotate: false
-  xy: 765, 642
+  xy: 574, 260
   size: 190, 190
   orig: 190, 190
   offset: 0, 0
   index: 2
 run
   rotate: false
-  xy: 574, 260
+  xy: 765, 451
   size: 190, 190
   orig: 190, 190
   offset: 0, 0
   index: 3
 run
   rotate: false
-  xy: 765, 451
+  xy: 765, 260
   size: 190, 190
   orig: 190, 190
   offset: 0, 0
   index: 4
 run
   rotate: false
-  xy: 765, 260
+  xy: 192, 69
   size: 190, 190
   orig: 190, 190
   offset: 0, 0
   index: 5
 run
   rotate: false
-  xy: 192, 69
+  xy: 383, 69
   size: 190, 190
   orig: 190, 190
   offset: 0, 0
   index: 6
 run
   rotate: false
-  xy: 383, 69
+  xy: 574, 69
   size: 190, 190
   orig: 190, 190
   offset: 0, 0
   index: 7
 run
   rotate: false
-  xy: 574, 69
-  size: 190, 190
-  orig: 190, 190
-  offset: 0, 0
-  index: 8
-run
-  rotate: false
   xy: 765, 69
   size: 190, 190
   orig: 190, 190
   offset: 0, 0
-  index: 9
+  index: 8
 
 skin3.png
 size: 1024,512
@@ -426,126 +426,133 @@ filter: MipMapLinearNearest,Nearest
 repeat: none
 death
   rotate: false
-  xy: 1, 112
+  xy: 192, 383
   size: 110, 110
   orig: 110, 110
   offset: 0, 0
   index: 2
-death
-  rotate: false
-  xy: 192, 303
-  size: 110, 110
-  orig: 110, 110
-  offset: 0, 0
-  index: 3
 death
   rotate: false
   xy: 1, 1
   size: 110, 110
   orig: 110, 110
   offset: 0, 0
+  index: 3
+death
+  rotate: false
+  xy: 192, 272
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
   index: 4
 death
   rotate: false
-  xy: 303, 303
+  xy: 303, 383
   size: 110, 110
   orig: 110, 110
   offset: 0, 0
   index: 5
 death
   rotate: false
-  xy: 414, 303
+  xy: 192, 161
   size: 110, 110
   orig: 110, 110
   offset: 0, 0
   index: 6
 death
   rotate: false
-  xy: 525, 303
+  xy: 303, 272
   size: 110, 110
   orig: 110, 110
   offset: 0, 0
   index: 7
 death
   rotate: false
-  xy: 636, 303
+  xy: 414, 383
   size: 110, 110
   orig: 110, 110
   offset: 0, 0
   index: 8
 death
   rotate: false
-  xy: 747, 303
+  xy: 303, 161
   size: 110, 110
   orig: 110, 110
   offset: 0, 0
   index: 9
 death
   rotate: false
-  xy: 858, 303
+  xy: 414, 272
   size: 110, 110
   orig: 110, 110
   offset: 0, 0
   index: 10
 fly-death
   rotate: false
-  xy: 112, 112
+  xy: 525, 383
   size: 110, 110
   orig: 110, 110
   offset: 0, 0
   index: 1
 fly-death
   rotate: false
-  xy: 112, 1
+  xy: 414, 161
   size: 110, 110
   orig: 110, 110
   offset: 0, 0
   index: 2
 fly-death
   rotate: false
-  xy: 223, 192
+  xy: 525, 272
   size: 110, 110
   orig: 110, 110
   offset: 0, 0
   index: 3
 fly-death
   rotate: false
-  xy: 223, 81
+  xy: 636, 383
   size: 110, 110
   orig: 110, 110
   offset: 0, 0
   index: 4
 fly-death
   rotate: false
-  xy: 334, 192
+  xy: 525, 161
   size: 110, 110
   orig: 110, 110
   offset: 0, 0
   index: 5
 fly-idle
   rotate: false
-  xy: 334, 81
+  xy: 636, 272
   size: 110, 110
   orig: 110, 110
   offset: 0, 0
   index: 1
 fly-idle
   rotate: false
-  xy: 445, 192
+  xy: 747, 383
   size: 110, 110
   orig: 110, 110
   offset: 0, 0
   index: 2
 fly-idle
   rotate: false
-  xy: 445, 81
+  xy: 636, 161
   size: 110, 110
   orig: 110, 110
   offset: 0, 0
   index: 3
 run
   rotate: false
-  xy: 1, 223
+  xy: 1, 303
+  size: 190, 190
+  orig: 190, 190
+  offset: 0, 0
+  index: 9
+run
+  rotate: false
+  xy: 1, 112
   size: 190, 190
   orig: 190, 190
   offset: 0, 0
