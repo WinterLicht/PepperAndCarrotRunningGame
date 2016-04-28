@@ -146,62 +146,6 @@ size: 1024,1024
 format: RGBA8888
 filter: MipMapLinearNearest,Nearest
 repeat: none
-attack
-  rotate: false
-  xy: 1, 704
-  size: 190, 190
-  orig: 190, 190
-  offset: 0, 0
-  index: 1
-attack
-  rotate: false
-  xy: 1, 513
-  size: 190, 190
-  orig: 190, 190
-  offset: 0, 0
-  index: 2
-attack
-  rotate: false
-  xy: 1, 322
-  size: 190, 190
-  orig: 190, 190
-  offset: 0, 0
-  index: 3
-attack
-  rotate: false
-  xy: 1, 131
-  size: 190, 190
-  orig: 190, 190
-  offset: 0, 0
-  index: 4
-attack
-  rotate: false
-  xy: 258, 833
-  size: 190, 190
-  orig: 190, 190
-  offset: 0, 0
-  index: 5
-attack
-  rotate: false
-  xy: 449, 833
-  size: 190, 190
-  orig: 190, 190
-  offset: 0, 0
-  index: 6
-attack
-  rotate: false
-  xy: 640, 833
-  size: 190, 190
-  orig: 190, 190
-  offset: 0, 0
-  index: 7
-attack
-  rotate: false
-  xy: 831, 833
-  size: 190, 190
-  orig: 190, 190
-  offset: 0, 0
-  index: 8
 button
   rotate: false
   xy: 192, 849
@@ -236,62 +180,174 @@ death
   orig: 110, 110
   offset: 0, 0
   index: 1
-doublejump
+pepper_attack
+  rotate: false
+  xy: 1, 704
+  size: 190, 190
+  orig: 190, 190
+  offset: 0, 0
+  index: 1
+pepper_attack
+  rotate: false
+  xy: 1, 513
+  size: 190, 190
+  orig: 190, 190
+  offset: 0, 0
+  index: 2
+pepper_attack
+  rotate: false
+  xy: 1, 322
+  size: 190, 190
+  orig: 190, 190
+  offset: 0, 0
+  index: 3
+pepper_attack
+  rotate: false
+  xy: 1, 131
+  size: 190, 190
+  orig: 190, 190
+  offset: 0, 0
+  index: 4
+pepper_attack
+  rotate: false
+  xy: 258, 833
+  size: 190, 190
+  orig: 190, 190
+  offset: 0, 0
+  index: 5
+pepper_attack
+  rotate: false
+  xy: 449, 833
+  size: 190, 190
+  orig: 190, 190
+  offset: 0, 0
+  index: 6
+pepper_attack
+  rotate: false
+  xy: 640, 833
+  size: 190, 190
+  orig: 190, 190
+  offset: 0, 0
+  index: 7
+pepper_attack
+  rotate: false
+  xy: 831, 833
+  size: 190, 190
+  orig: 190, 190
+  offset: 0, 0
+  index: 8
+pepper_doublejump
   rotate: false
   xy: 192, 642
   size: 190, 190
   orig: 190, 190
   offset: 0, 0
   index: 1
-doublejump
+pepper_doublejump
   rotate: false
   xy: 192, 451
   size: 190, 190
   orig: 190, 190
   offset: 0, 0
   index: 2
-fall
+pepper_fall
   rotate: false
   xy: 383, 642
   size: 190, 190
   orig: 190, 190
   offset: 0, 0
   index: 1
-fall
+pepper_fall
   rotate: false
   xy: 192, 260
   size: 190, 190
   orig: 190, 190
   offset: 0, 0
   index: 2
-fall
+pepper_fall
   rotate: false
   xy: 383, 451
   size: 190, 190
   orig: 190, 190
   offset: 0, 0
   index: 3
-jump
+pepper_jump
   rotate: false
   xy: 574, 642
   size: 190, 190
   orig: 190, 190
   offset: 0, 0
   index: 1
-jump
+pepper_jump
   rotate: false
   xy: 383, 260
   size: 190, 190
   orig: 190, 190
   offset: 0, 0
   index: 2
-jump
+pepper_jump
   rotate: false
   xy: 574, 451
   size: 190, 190
   orig: 190, 190
   offset: 0, 0
   index: 3
+pepper_run
+  rotate: false
+  xy: 765, 642
+  size: 190, 190
+  orig: 190, 190
+  offset: 0, 0
+  index: 1
+pepper_run
+  rotate: false
+  xy: 574, 260
+  size: 190, 190
+  orig: 190, 190
+  offset: 0, 0
+  index: 2
+pepper_run
+  rotate: false
+  xy: 765, 451
+  size: 190, 190
+  orig: 190, 190
+  offset: 0, 0
+  index: 3
+pepper_run
+  rotate: false
+  xy: 765, 260
+  size: 190, 190
+  orig: 190, 190
+  offset: 0, 0
+  index: 4
+pepper_run
+  rotate: false
+  xy: 192, 69
+  size: 190, 190
+  orig: 190, 190
+  offset: 0, 0
+  index: 5
+pepper_run
+  rotate: false
+  xy: 383, 69
+  size: 190, 190
+  orig: 190, 190
+  offset: 0, 0
+  index: 6
+pepper_run
+  rotate: false
+  xy: 574, 69
+  size: 190, 190
+  orig: 190, 190
+  offset: 0, 0
+  index: 7
+pepper_run
+  rotate: false
+  xy: 765, 69
+  size: 190, 190
+  orig: 190, 190
+  offset: 0, 0
+  index: 8
 potion
   rotate: false
   xy: 956, 768
@@ -362,68 +418,82 @@ roboto25
   orig: 256, 128
   offset: 0, 0
   index: -1
-run
-  rotate: false
-  xy: 765, 642
-  size: 190, 190
-  orig: 190, 190
-  offset: 0, 0
-  index: 1
-run
-  rotate: false
-  xy: 574, 260
-  size: 190, 190
-  orig: 190, 190
-  offset: 0, 0
-  index: 2
-run
-  rotate: false
-  xy: 765, 451
-  size: 190, 190
-  orig: 190, 190
-  offset: 0, 0
-  index: 3
-run
-  rotate: false
-  xy: 765, 260
-  size: 190, 190
-  orig: 190, 190
-  offset: 0, 0
-  index: 4
-run
-  rotate: false
-  xy: 192, 69
-  size: 190, 190
-  orig: 190, 190
-  offset: 0, 0
-  index: 5
-run
-  rotate: false
-  xy: 383, 69
-  size: 190, 190
-  orig: 190, 190
-  offset: 0, 0
-  index: 6
-run
-  rotate: false
-  xy: 574, 69
-  size: 190, 190
-  orig: 190, 190
-  offset: 0, 0
-  index: 7
-run
-  rotate: false
-  xy: 765, 69
-  size: 190, 190
-  orig: 190, 190
-  offset: 0, 0
-  index: 8
 
 skin3.png
 size: 1024,512
 format: RGBA8888
 filter: MipMapLinearNearest,Nearest
 repeat: none
+carrot_run
+  rotate: false
+  xy: 747, 277
+  size: 105, 105
+  orig: 105, 105
+  offset: 0, 0
+  index: 1
+carrot_run
+  rotate: false
+  xy: 858, 388
+  size: 105, 105
+  orig: 105, 105
+  offset: 0, 0
+  index: 2
+carrot_run
+  rotate: false
+  xy: 747, 171
+  size: 105, 105
+  orig: 105, 105
+  offset: 0, 0
+  index: 3
+carrot_run
+  rotate: false
+  xy: 112, 6
+  size: 105, 105
+  orig: 105, 105
+  offset: 0, 0
+  index: 4
+carrot_run
+  rotate: false
+  xy: 218, 55
+  size: 105, 105
+  orig: 105, 105
+  offset: 0, 0
+  index: 5
+carrot_run
+  rotate: false
+  xy: 324, 55
+  size: 105, 105
+  orig: 105, 105
+  offset: 0, 0
+  index: 6
+carrot_run
+  rotate: false
+  xy: 430, 55
+  size: 105, 105
+  orig: 105, 105
+  offset: 0, 0
+  index: 7
+carrot_run
+  rotate: false
+  xy: 536, 55
+  size: 105, 105
+  orig: 105, 105
+  offset: 0, 0
+  index: 8
+carrot_run
+  rotate: false
+  xy: 642, 55
+  size: 105, 105
+  orig: 105, 105
+  offset: 0, 0
+  index: 9
+carrot_run
+  rotate: false
+  xy: 748, 65
+  size: 105, 105
+  orig: 105, 105
+  offset: 0, 0
+  index: 10
 death
   rotate: false
   xy: 192, 383
@@ -543,14 +613,14 @@ fly-idle
   orig: 110, 110
   offset: 0, 0
   index: 3
-run
+pepper_run
   rotate: false
   xy: 1, 303
   size: 190, 190
   orig: 190, 190
   offset: 0, 0
   index: 9
-run
+pepper_run
   rotate: false
   xy: 1, 112
   size: 190, 190

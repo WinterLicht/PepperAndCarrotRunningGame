@@ -39,7 +39,7 @@ public class WorldStage extends Stage {
 		uiTable.setHeight(Constants.VIRTUAL_HEIGHT - uiPadding*2);
 
 		level = new Level();
-		runner = new Runner(level);
+		runner = new Runner(level, "pepper");
 		charTable.addActor(runner);
 		charTable.addActor(runner.ability1.effect);
 		charTable.addActor(runner.ability2.effect);

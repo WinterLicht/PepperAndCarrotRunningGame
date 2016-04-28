@@ -18,6 +18,7 @@ import com.peppercarrot.runninggame.utils.Constants;
  *
  */
 public class Runner extends Image {
+	String name;
 	public State currState = State.RUNNING;
 	int speedY = 0; /** Vertical speed in pixel. */
 	int maxJumpSpeed = 24; /** Maximum speed when jumping in pixel */
@@ -44,8 +45,9 @@ public class Runner extends Image {
 		DYING;
 	}
 
-	public Runner(Level l){
-		super(new TextureRegion(Assets.I.atlas.findRegion("run")));
+	public Runner(Level l, String name){
+		super(new TextureRegion(Assets.I.atlas.findRegion(name+"_run")));
+		this.name = name;
 		ability1 = new SweepAtt(this, l);
 		ability2 = new BlackHole(this, l);
 		ability3 = new TimeDistortion(this, l);
@@ -55,19 +57,19 @@ public class Runner extends Image {
 		setX(Constants.OFFSET_TO_EDGE);
 		setY(Constants.OFFSET_TO_GROUND);
 		//Load Animations
-		runningAnim = new AnimatedImage(new Animation(0.079f, Assets.I.getRegions("run"), Animation.PlayMode.LOOP));
+		runningAnim = new AnimatedImage(new Animation(0.079f, Assets.I.getRegions(name+"_run"), Animation.PlayMode.LOOP));
 		runningAnim.setOrigin(Align.center);
 		runningAnim.start();
-		jumpingAnim = new AnimatedImage(new Animation(0.15f, Assets.I.getRegions("jump"), Animation.PlayMode.LOOP));
+		jumpingAnim = new AnimatedImage(new Animation(0.144f, Assets.I.getRegions(name+"_jump"), Animation.PlayMode.LOOP));
 		jumpingAnim.setOrigin(Align.center);
 		jumpingAnim.start();
-		doubleJumpingAnim = new AnimatedImage(new Animation(0.17f, Assets.I.getRegions("doublejump"), Animation.PlayMode.LOOP));
+		doubleJumpingAnim = new AnimatedImage(new Animation(0.144f, Assets.I.getRegions(name+"_doublejump"), Animation.PlayMode.LOOP));
 		doubleJumpingAnim.setOrigin(Align.center);
 		doubleJumpingAnim.start();
-		fallingAnim = new AnimatedImage(new Animation(0.17f, Assets.I.getRegions("fall"), Animation.PlayMode.NORMAL));
+		fallingAnim = new AnimatedImage(new Animation(0.14f, Assets.I.getRegions(name+"_fall"), Animation.PlayMode.LOOP));
 		fallingAnim.setOrigin(Align.center);
 		fallingAnim.start();
-		attackingAnim = new AnimatedImage(new Animation(ability1.durationMax/8, Assets.I.getRegions("attack"), Animation.PlayMode.NORMAL));
+		attackingAnim = new AnimatedImage(new Animation(ability1.durationMax/8, Assets.I.getRegions(name+"_attack"), Animation.PlayMode.NORMAL));
 		attackingAnim.setOrigin(Align.center);
 		attackingAnim.start();
 	}
