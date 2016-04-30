@@ -10,7 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
-import com.peppercarrot.runninggame.utils.AnimatedImage;
+import com.nGame.utils.scene2d.AnimatedDrawable;
+import com.nGame.utils.scene2d.AnimatedImage;
 import com.peppercarrot.runninggame.utils.Assets;
 import com.peppercarrot.runninggame.utils.Constants;
 
@@ -45,9 +46,8 @@ public class BlackHole extends Ability {
 		table.add(button).width(180).height(180).left();
 		table.add(energy).height(180).right().expandY();
 		//Animation of attack
-		effect = new AnimatedImage(new Animation(durationMax/8, Assets.I.getRegions("black-hole"), Animation.PlayMode.LOOP_PINGPONG));
+		effect = new AnimatedImage(new AnimatedDrawable(new Animation(durationMax/8, Assets.I.getRegions("black-hole"), Animation.PlayMode.LOOP_PINGPONG)));
 		effect.setVisible(false);
-		effect.stop();
 	}
 
 	@Override
@@ -61,7 +61,6 @@ public class BlackHole extends Ability {
 			for (Potion potion : potions) {
 				potion.collected();
 			}
-			effect.stop();
 			effect.setVisible(false);
 		} else {
 			//Effect active
@@ -74,7 +73,7 @@ public class BlackHole extends Ability {
 		effect.setX((Constants.VIRTUAL_WIDTH*3)/4);
 		effect.setY(Constants.VIRTUAL_HEIGHT);
 		effect.setVisible(true);
-		effect.start();
+		effect.reset();
 		enemies = level.getEnemiesInRadius(Constants.VIRTUAL_WIDTH);
 		potions = level.getPotionsInRadius(Constants.VIRTUAL_WIDTH);
 		for (Enemy enemy : enemies) {

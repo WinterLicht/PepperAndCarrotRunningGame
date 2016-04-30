@@ -7,7 +7,7 @@ package com.peppercarrot.runninggame.utils;
  */
 public class Constants {
 	//Offsets for the runner in pixel
-	public static int OFFSET_TO_GROUND = 247; /** Runner can't fall below this number. */
+	public static int OFFSET_TO_GROUND = 207; /** Runner can't fall below this number. */
 	public static int OFFSET_TO_EDGE = 187; /** Runners offset to the left edge of the screen. */
 
 	//(visible) Game dimensions in pixel

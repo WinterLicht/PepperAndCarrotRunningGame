@@ -331,7 +331,6 @@ public class Level {
 							potion.setOrigin(Align.center);
 							potion.setX(posX-camera1.position.x+Constants.VIRTUAL_WIDTH/2-potion.getWidth()/2);
 							potion.setY(posY+Constants.OFFSET_TO_EDGE-potion.getHeight()/2);
-							potion.start();
 							((Table) potions1.getActors().get(0)).addActor(potion);
 						}
 					}
@@ -376,7 +375,6 @@ public class Level {
 							potion.setOrigin(Align.center);
 							potion.setX(posX-camera2.position.x+Constants.VIRTUAL_WIDTH/2-potion.getWidth()/2);
 							potion.setY(posY+Constants.OFFSET_TO_EDGE-potion.getHeight()/2);
-							potion.start();
 							((Table) potions2.getActors().get(0)).addActor(potion);
 						}
 					}

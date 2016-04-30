@@ -5,7 +5,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Align;
-import com.peppercarrot.runninggame.utils.AnimatedImage;
+import com.nGame.utils.scene2d.AnimatedDrawable;
+import com.nGame.utils.scene2d.AnimatedImage;
 import com.peppercarrot.runninggame.utils.Assets;
 
 /**
@@ -28,10 +29,9 @@ public class Enemy extends Image {
 		super(new TextureRegion(Assets.I.atlas.findRegion(name+"-idle")));
 		setName("enemy");
 		//Load Animations
-		idleAnim = new AnimatedImage(new Animation(0.099f, Assets.I.getRegions(name+"-idle"), Animation.PlayMode.LOOP));
+		idleAnim = new AnimatedImage(new AnimatedDrawable(new Animation(0.099f, Assets.I.getRegions(name+"-idle"), Animation.PlayMode.LOOP)));
 		idleAnim.setOrigin(Align.center);
-		idleAnim.start();
-		dyingAnim = new AnimatedImage(new Animation(0.01f, Assets.I.getRegions(name+"-death"), Animation.PlayMode.NORMAL));
+		dyingAnim = new AnimatedImage(new AnimatedDrawable(new Animation(0.07f, Assets.I.getRegions(name+"-death"), Animation.PlayMode.NORMAL)));
 		dyingAnim.setVisible(false);
 		dyingAnim.setOrigin(Align.center);
 	}
@@ -40,9 +40,8 @@ public class Enemy extends Image {
 	 * Sets also image invisible.
 	 */
 	public void die() {
-		idleAnim.stop();
-		dyingAnim.start();
 		dyingAnim.setVisible(true);
+		dyingAnim.reset();
 		currState = State.DYING;
 	}
 
@@ -62,9 +61,12 @@ public class Enemy extends Image {
 		case DYING:
 			dyingAnim.act(delta);
 			setDrawable(dyingAnim.getDrawable());
-			if (dyingAnim.animation.isAnimationFinished(delta)){
+			//FIXME: why isAnimationFinished always false??
+			/*
+			if (dyingAnim.getAnimatedDrawable().getAnimation().isAnimationFinished(delta)){
 				System.out.println("enemy death animation finished");
 			}
+			*/
 			break;
 		case IDLE:
 			idleAnim.act(delta);

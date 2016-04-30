@@ -3,7 +3,7 @@ package com.peppercarrot.runninggame.entities;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.peppercarrot.runninggame.utils.AnimatedImage;
+import com.nGame.utils.scene2d.AnimatedImage;
 
 /**
  * Player's abilities extend this.

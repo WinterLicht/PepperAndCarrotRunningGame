@@ -1,0 +1,3 @@
+[submodule "ngame"]
+	path = ngame
+	url = https://github.com/WinterLicht/ngame.git

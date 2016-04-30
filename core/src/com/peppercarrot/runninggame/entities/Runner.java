@@ -6,7 +6,8 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
-import com.peppercarrot.runninggame.utils.AnimatedImage;
+import com.nGame.utils.scene2d.AnimatedDrawable;
+import com.nGame.utils.scene2d.AnimatedImage;
 import com.peppercarrot.runninggame.utils.Assets;
 import com.peppercarrot.runninggame.utils.Constants;
 
@@ -57,21 +58,16 @@ public class Runner extends Image {
 		setX(Constants.OFFSET_TO_EDGE);
 		setY(Constants.OFFSET_TO_GROUND);
 		//Load Animations
-		runningAnim = new AnimatedImage(new Animation(0.079f, Assets.I.getRegions(name+"_run"), Animation.PlayMode.LOOP));
+		runningAnim = new AnimatedImage(new AnimatedDrawable(new Animation(0.079f, Assets.I.getRegions(name+"_run"), Animation.PlayMode.LOOP)));
 		runningAnim.setOrigin(Align.center);
-		runningAnim.start();
-		jumpingAnim = new AnimatedImage(new Animation(0.144f, Assets.I.getRegions(name+"_jump"), Animation.PlayMode.LOOP));
+		jumpingAnim = new AnimatedImage(new AnimatedDrawable(new Animation(0.144f, Assets.I.getRegions(name+"_jump"), Animation.PlayMode.LOOP_PINGPONG)));
 		jumpingAnim.setOrigin(Align.center);
-		jumpingAnim.start();
-		doubleJumpingAnim = new AnimatedImage(new Animation(0.144f, Assets.I.getRegions(name+"_doublejump"), Animation.PlayMode.LOOP));
+		doubleJumpingAnim = new AnimatedImage(new AnimatedDrawable(new Animation(0.144f, Assets.I.getRegions(name+"_doublejump"), Animation.PlayMode.LOOP_PINGPONG)));
 		doubleJumpingAnim.setOrigin(Align.center);
-		doubleJumpingAnim.start();
-		fallingAnim = new AnimatedImage(new Animation(0.14f, Assets.I.getRegions(name+"_fall"), Animation.PlayMode.LOOP));
+		fallingAnim = new AnimatedImage(new AnimatedDrawable(new Animation(0.14f, Assets.I.getRegions(name+"_fall"), Animation.PlayMode.LOOP_PINGPONG)));
 		fallingAnim.setOrigin(Align.center);
-		fallingAnim.start();
-		attackingAnim = new AnimatedImage(new Animation(ability1.durationMax/8, Assets.I.getRegions(name+"_attack"), Animation.PlayMode.NORMAL));
+		attackingAnim = new AnimatedImage(new AnimatedDrawable(new Animation(ability1.durationMax/8, Assets.I.getRegions(name+"_attack"), Animation.PlayMode.NORMAL)));
 		attackingAnim.setOrigin(Align.center);
-		attackingAnim.start();
 	}
 
 	public void jump(){
@@ -254,7 +250,7 @@ public class Runner extends Image {
 	 * resets also attacking animation.
 	 */
 	public void setAttacking(){
-		attackingAnim.start();
+		attackingAnim.reset();
 		switch (currState) {
 		case DOUBLEJUMPING:
 			currState = State.ATTACK_DOUBLEJUMPING;

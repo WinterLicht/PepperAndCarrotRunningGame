@@ -39,6 +39,7 @@ project(":desktop") {
         compile project(":core")
         compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+        compile "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
     }
 }
 
@@ -71,12 +72,24 @@ project(":html") {
     }
 }
 
+project(":ngame") {
+    apply plugin: "java"
+
+
+    dependencies {
+        compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+        compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
+        compile fileTree(dir: 'libs', include: '*.jar')
+    }
+}
+
 project(":core") {
     apply plugin: "java"
 
 
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+        compile project(":ngame")
     }
 }
 

@@ -77,8 +77,8 @@ public class WorldStage extends Stage {
 
 		uiTable.add(attackButtons).height(uiTable.getHeight()).expand().right();
 
-		this.addActor(uiTable);
 		this.addActor(charTable);
+		this.addActor(uiTable);
 	}
 
 	public void render(float delta){
