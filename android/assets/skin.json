@@ -8,7 +8,11 @@
 	com.badlogic.gdx.graphics.g2d.BitmapFont: {  
     	default: { file: roboto25.fnt },
     },
-    
+
+    com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
+      default: { font: default, fontColor: white },
+    }
+
     com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {  
       default: { up: button, down: button-down, checked: button-down, disabled: button-down },  
       transparent: { }

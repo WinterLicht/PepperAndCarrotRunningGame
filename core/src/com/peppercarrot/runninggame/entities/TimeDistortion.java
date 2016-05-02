@@ -44,18 +44,18 @@ public class TimeDistortion extends Ability {
 	@Override
 	public void update(float delta) {
 		if (currentDuration >= durationMax) {
-			//Effect ending
+			//Effect is ending
 			level.scrollSpeed = oldLevelSpeed;
 		} else {
 			//Effect active
-			//Calculate current scrollspeed
 			currentDuration += delta;
 			float scrollSpeed;
+			//Calculate current scrollspeed
 			if (currentDuration < durationMax/2) {
 				//scrollSpeed changing from 0 to speedDistortion
 				scrollSpeed = speedDistortion*currentDuration * 2 / durationMax;
 			} else {
-				//scrollSpeed changing frm speedDistortion to 0
+				//scrollSpeed changing from speedDistortion to 0
 				scrollSpeed = -((speedDistortion*currentDuration * 2 / durationMax)-speedDistortion*2);
 			}
 			level.scrollSpeed = oldLevelSpeed - scrollSpeed;

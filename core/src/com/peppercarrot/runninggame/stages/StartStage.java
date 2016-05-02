@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.peppercarrot.runninggame.PaCGame;
@@ -23,7 +24,7 @@ public class StartStage extends Stage {
 		rootTable.setFillParent(true);
 		rootTable.setWidth(Constants.VIRTUAL_WIDTH);
 		rootTable.setHeight(Constants.VIRTUAL_HEIGHT);
-		rootTable.setBackground("button-down");
+		rootTable.setBackground("button-down"); //invisible button
 		rootTable.setTouchable(Touchable.enabled);
 		rootTable.addListener(new InputListener() {
 			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
@@ -32,8 +33,11 @@ public class StartStage extends Stage {
 				return true;
 			}
 		});
-		rootTable.debug();
-		rootTable.top().right();
+		Label label = new Label("Touch to start", Assets.I.skin, "default");
+		label.addAction(Actions.forever(Actions.sequence( Actions.fadeOut(1f),
+	    		Actions.fadeIn(1.4f))));
+		rootTable.add(label).bottom().padBottom(60);
+		rootTable.bottom();
 		this.addActor(rootTable);
 	}
 
@@ -50,7 +54,7 @@ public class StartStage extends Stage {
 	}
 	
 	/**
-	 * small animation of the backgroundpicture that takes fadeOutTime long.
+	 * Fade out animation that takes fadeOutTime long.
 	 * @param fadeOutTime
 	 */
 	public void switchScreen(float fadeOutTime){

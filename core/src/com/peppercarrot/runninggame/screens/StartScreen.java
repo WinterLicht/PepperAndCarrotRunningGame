@@ -29,7 +29,7 @@ public class StartScreen implements Screen {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		game.batch.begin();
 		game.batch.setColor(1, 1, 1, 1);
-		//...
+		//TODO: render some background image
 		game.batch.end();
 		
 		stage.render(delta);

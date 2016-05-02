@@ -4,12 +4,16 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.peppercarrot.runninggame.PaCGame;
 import com.peppercarrot.runninggame.entities.Level;
 import com.peppercarrot.runninggame.entities.Runner;
+import com.peppercarrot.runninggame.screens.LoseScreen;
 import com.peppercarrot.runninggame.utils.Assets;
 import com.peppercarrot.runninggame.utils.Constants;
 
@@ -25,6 +29,8 @@ public class WorldStage extends Stage {
 	public boolean playerReady = false;
 	public Level level;
 	Table attackButtons;
+	boolean gamePaused = false; /** when false, level logic will be updated.s */
+	Label hintLabel;
 
 	public WorldStage(Viewport viewport){
 		super(viewport);
@@ -49,6 +55,11 @@ public class WorldStage extends Stage {
 		Button jumpBtnTransparent = new Button(Assets.I.skin, "transparent");
 		int jumpBtnTransparentWidth = 470;
 		jumpBtnTransparent.setTouchable(Touchable.enabled);
+		hintLabel = new Label("press on the left side of the screen to 'jump'", Assets.I.skin, "default");
+		hintLabel.setWrap(true);
+		hintLabel.setTouchable(Touchable.disabled);
+		jumpBtnTransparent.add(hintLabel).width(jumpBtnTransparentWidth).top();
+		jumpBtnTransparent.top();
 		//TextButton jumpButton = new TextButton ("JUMP", Assets.I.skin, "default");
 		//TODO: try something else to pass touch event to this button
 		//jumpButton.setTouchable(Touchable.disabled);
@@ -57,6 +68,7 @@ public class WorldStage extends Stage {
 		jumpBtnTransparent.addListener(new InputListener() {
 			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
 				if (! ((WorldStage) event.getStage()).playerReady) {
+					hintLabel.addAction(Actions.fadeOut(0.48f));
 					level.beginLevel = true;
 				}
 				runner.jump();
@@ -64,7 +76,6 @@ public class WorldStage extends Stage {
 				return true;
 			}
 		});
-		jumpBtnTransparent.debug();
 		uiTable.add(jumpBtnTransparent).width(jumpBtnTransparentWidth).height(uiTable.getHeight()).expandX().left();
 		//Attack Buttons
 		attackButtons = new Table();
@@ -88,11 +99,34 @@ public class WorldStage extends Stage {
 				PaCGame.getInstance().camera.position.y - Constants.VIRTUAL_HEIGHT/2);
 
 		this.act(delta);
-		level.update();
+		if (!runner.isDying() && !gamePaused){
+			level.update();
+		}else{
+			switchToLoseScreen();
+		}
 
 		level.renderBackground();
 		this.draw();
 		level.renderEntities(delta);
 		level.renderForeground();
+	}
+
+	public void switchToLoseScreen(){
+		if (!gamePaused) {
+			uiTable.setTouchable(Touchable.disabled);
+			//fade out animation
+			float fadeOutTime = 0.48f;
+			getRoot().getColor().a = 1;
+		    SequenceAction sequenceAction = new SequenceAction();
+		    sequenceAction.addAction( Actions.fadeOut(fadeOutTime) );
+		    sequenceAction.addAction( Actions.run(new Runnable() {
+		        @Override
+		        public void run() {
+		        	PaCGame.getInstance().setScreen(new LoseScreen(getViewport()));
+		        }
+		    }));
+		    getRoot().addAction(sequenceAction);
+		    gamePaused = true;
+		}
 	}
 }

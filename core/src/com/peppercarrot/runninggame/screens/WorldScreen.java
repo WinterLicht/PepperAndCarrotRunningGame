@@ -16,6 +16,7 @@ import com.peppercarrot.runninggame.utils.Constants;
  * main game camera.
  * TODO: Main camera is alligned according the player position, also
  * other camera should consider the offset.
+ * TODO: background in world stage as attribute?
  * @author WinterLicht
  *
  */
@@ -59,8 +60,14 @@ public class WorldScreen implements Screen {
 		if(Gdx.input.isKeyJustPressed(Keys.BACK)|| Gdx.input.isKeyPressed(Keys.ESCAPE)){
 			Gdx.app.exit();
 		}
-		if(Gdx.input.isKeyJustPressed(Keys.A)){
+		if(Gdx.input.isKeyJustPressed(Keys.C)){
 			stage.runner.activateAbility(1);
+		}
+		if(Gdx.input.isKeyJustPressed(Keys.X)){
+			stage.runner.activateAbility(2);
+		}
+		if(Gdx.input.isKeyJustPressed(Keys.Y)){
+			stage.runner.activateAbility(3);
 		}
 		if(Gdx.input.isKeyJustPressed(Keys.SPACE)){
 			if (!stage.playerReady) {

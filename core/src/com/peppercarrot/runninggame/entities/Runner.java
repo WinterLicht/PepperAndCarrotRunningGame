@@ -28,7 +28,7 @@ public class Runner extends Image {
 	AnimatedImage jumpingAnim;
 	AnimatedImage doubleJumpingAnim;
 	AnimatedImage fallingAnim;
-	AnimatedImage attackingAnim; //TODO: various animations for various attacks.
+	AnimatedImage attackingAnim; //TODO: various animations for various attacks?
 	
 	Level level;
 
@@ -129,8 +129,8 @@ public class Runner extends Image {
 			Rectangle enemyRect = new Rectangle(enemy.getX(), enemy.getY(), enemy.getWidth(), enemy.getHeight());
 			if (hitbox.overlaps(enemyRect) && enemy.isAlive()) {
 				//enemy.die();//TODO Player dies!!
-				System.out.println("Enemy collision");
-			}
+				this.setDying();
+				}
 		}
 		for (Potion p : potions) {
 			Rectangle potionRect = new Rectangle(p.getX(), p.getY(), p.getWidth(), p.getHeight());
@@ -246,6 +246,9 @@ public class Runner extends Image {
 		if (isAttacking()) currState = State.ATTACK_DOUBLEJUMPING;
 		else currState = State.DOUBLEJUMPING;
 	}
+	public void setDying(){
+		currState = State.DYING;
+	}
 	/**
 	 * resets also attacking animation.
 	 */
@@ -283,5 +286,8 @@ public class Runner extends Image {
 	}
 	public boolean isDoubleJumping(){
 		return (currState == State.DOUBLEJUMPING || currState == State.ATTACK_DOUBLEJUMPING);
+	}
+	public boolean isDying(){
+		return (currState == State.DYING);
 	}
 }
