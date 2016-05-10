@@ -3,7 +3,6 @@ package com.peppercarrot.runninggame.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.peppercarrot.runninggame.PaCGame;
 import com.peppercarrot.runninggame.entities.Background;
@@ -17,6 +16,7 @@ import com.peppercarrot.runninggame.utils.Constants;
  * background in world stage as attribute?
  * 
  * @author WinterLicht
+ * @author momsen
  *
  */
 public class WorldScreen extends ScreenAdapter {
@@ -52,10 +52,7 @@ public class WorldScreen extends ScreenAdapter {
 		// a special camera to render player???
 		game.camera.position.set(Constants.VIRTUAL_WIDTH / 2,
 				stage.runner.getY() + Constants.VIRTUAL_HEIGHT / 2 - Constants.OFFSET_TO_GROUND, 0);
-		game.camera.update();
-		game.batch.setProjectionMatrix(game.camera.combined);
 
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		renderBackground(game);
 		this.stage.render(delta);
 
@@ -90,7 +87,6 @@ public class WorldScreen extends ScreenAdapter {
 
 	@Override
 	public void resize(int width, int height) {
-		PaCGame.getInstance().viewport.update(width, height);
 		stage.getViewport().update(width, height, true);
 	}
 }
