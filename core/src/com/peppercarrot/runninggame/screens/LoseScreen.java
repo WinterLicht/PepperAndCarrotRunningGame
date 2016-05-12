@@ -10,7 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.peppercarrot.runninggame.PaCGame;
 import com.peppercarrot.runninggame.utils.Assets;
 import com.peppercarrot.runninggame.utils.Constants;
@@ -25,14 +24,14 @@ public class LoseScreen extends ScreenAdapter {
 	boolean goToWorldMap = false;
 	boolean goToStartScreen = false;
 
-	public LoseScreen(Viewport viewport) {
-		stage = new Stage(viewport);
+	public LoseScreen() {
+		stage = new Stage(PaCGame.getInstance().viewport);
 		// set up stage
-		Table table = new Table(Assets.I.skin);
+		final Table table = new Table(Assets.I.skin);
 		table.setFillParent(true);
 		table.setWidth(Constants.VIRTUAL_WIDTH);
 		table.setHeight(Constants.VIRTUAL_HEIGHT);
-		TextButton tryAgainBtn = new TextButton("Try again", Assets.I.skin, "default");
+		final TextButton tryAgainBtn = new TextButton("Try again", Assets.I.skin, "default");
 		tryAgainBtn.addListener(new InputListener() {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -41,7 +40,7 @@ public class LoseScreen extends ScreenAdapter {
 				return true;
 			}
 		});
-		TextButton exitBtn = new TextButton("Exit", Assets.I.skin, "default");
+		final TextButton exitBtn = new TextButton("Exit", Assets.I.skin, "default");
 		exitBtn.addListener(new InputListener() {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -63,7 +62,7 @@ public class LoseScreen extends ScreenAdapter {
 
 	@Override
 	public void render(float delta) {
-		PaCGame game = PaCGame.getInstance();
+		final PaCGame game = PaCGame.getInstance();
 
 		game.batch.begin();
 		game.batch.setColor(1, 1, 1, 1);
@@ -94,16 +93,16 @@ public class LoseScreen extends ScreenAdapter {
 	 */
 	public void switchScreen(float fadeOutTime) {
 		stage.getRoot().getColor().a = 1;
-		SequenceAction sequenceAction = new SequenceAction();
+		final SequenceAction sequenceAction = new SequenceAction();
 		sequenceAction.addAction(Actions.fadeOut(fadeOutTime));
 		sequenceAction.addAction(Actions.run(new Runnable() {
 			@Override
 			public void run() {
 				if (goToWorldMap) {
-					PaCGame.getInstance().setScreen(new WorldScreen(stage.getViewport()));
+					PaCGame.getInstance().setScreen(new WorldScreen());
 				}
 				if (goToStartScreen) {
-					PaCGame.getInstance().setScreen(new StartScreen(stage.getViewport()));
+					PaCGame.getInstance().setScreen(new StartScreen());
 				}
 			}
 		}));

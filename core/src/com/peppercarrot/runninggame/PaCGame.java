@@ -39,8 +39,9 @@ public class PaCGame extends Game {
 	public void create() {
 		batch = new SpriteBatch();
 		setupCamera();
+
 		// TODO: Should start with a "start screen"
-		setScreen(new StartScreen(viewport));
+		setScreen(new StartScreen());
 	}
 
 	/**

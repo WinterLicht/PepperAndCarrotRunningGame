@@ -3,7 +3,6 @@ package com.peppercarrot.runninggame.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.peppercarrot.runninggame.PaCGame;
 import com.peppercarrot.runninggame.stages.StartStage;
 
@@ -15,8 +14,8 @@ import com.peppercarrot.runninggame.stages.StartStage;
 public class StartScreen extends ScreenAdapter {
 	StartStage stage;
 
-	public StartScreen(Viewport viewport) {
-		stage = new StartStage(viewport);
+	public StartScreen() {
+		stage = new StartStage();
 	}
 
 	@Override
@@ -26,7 +25,7 @@ public class StartScreen extends ScreenAdapter {
 
 	@Override
 	public void render(float delta) {
-		PaCGame game = PaCGame.getInstance();
+		final PaCGame game = PaCGame.getInstance();
 
 		game.batch.begin();
 		game.batch.setColor(1, 1, 1, 1);
