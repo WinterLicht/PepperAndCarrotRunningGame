@@ -66,7 +66,7 @@ public class Runner extends Image {
 		doubleJumpingAnim.setOrigin(Align.center);
 		fallingAnim = new AnimatedImage(new AnimatedDrawable(new Animation(0.14f, Assets.I.getRegions(name+"_fall"), Animation.PlayMode.LOOP_PINGPONG)));
 		fallingAnim.setOrigin(Align.center);
-		attackingAnim = new AnimatedImage(new AnimatedDrawable(new Animation(ability1.durationMax/8, Assets.I.getRegions(name+"_attack"), Animation.PlayMode.NORMAL)));
+		attackingAnim = new AnimatedImage(new AnimatedDrawable(new Animation(ability1.durationMax/7, Assets.I.getRegions(name+"_attack"), Animation.PlayMode.NORMAL)));
 		attackingAnim.setOrigin(Align.center);
 	}
 
