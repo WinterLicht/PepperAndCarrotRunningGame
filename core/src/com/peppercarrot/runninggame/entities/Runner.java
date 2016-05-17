@@ -1,14 +1,19 @@
 package com.peppercarrot.runninggame.entities;
 
+import java.util.List;
+
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Align;
 import com.nGame.utils.scene2d.AnimatedDrawable;
 import com.nGame.utils.scene2d.AnimatedImage;
 import com.peppercarrot.runninggame.utils.Assets;
 import com.peppercarrot.runninggame.utils.Constants;
+import com.peppercarrot.runninggame.world.LevelStream;
+import com.peppercarrot.runninggame.world.Platform;
 
 /**
  * Playable character class. The runner is only able to move horizontally, other
@@ -90,24 +95,9 @@ public class Runner extends Image {
 		}
 	}
 
-	// /**
-	// * Check collision between player and platforms
-	// */
-	// private void checkCollision() {
-	// final Array<Integer> platformTops = level.getWallsYPosNearPlayer();
-	// // Players position
-	// final float posY = getY() - Constants.OFFSET_TO_GROUND;
-	// // Offset in pixel
-	// final int offsetTop = 12;
-	// final int offsetBottom = 10;
-	// for (int i = 0; i < platformTops.size; i++) {
-	// final Integer tileTop = platformTops.get(i);
-	// // Player lands if he is near platforms top
-	// if (tileTop - offsetBottom < posY && posY < tileTop + offsetTop) {
-	// land(tileTop);
-	// }
-	// }
-	// }
+	public void applyCollision(LevelStream levelStream) {
+		applyPlatformCollision(levelStream.getPlatformsNear(getX()));
+	}
 	//
 	// /**
 	// * Collision between enemies and potions.
@@ -136,6 +126,25 @@ public class Runner extends Image {
 	// }
 	// }
 	// }
+
+	private void applyPlatformCollision(List<Platform> platforms) {
+		// Offset in pixel
+		final int offsetTop = 12;
+		final int offsetBottom = 10;
+		final Vector2 position = new Vector2();
+		for (final Platform platform : platforms) {
+			platform.retrieveAbsolutePosition(position);
+			if (position.x >= getX()) {
+				break;
+			}
+
+			if (getX() >= position.x && getX() <= position.x + platform.getW()) {
+				if (position.y - offsetBottom < getY() && getY() < position.y + offsetTop) {
+					land(position.y);
+				}
+			}
+		}
+	}
 
 	public Rectangle getHitBox() {
 		final int offset = 30; // slightly smaller hitbox of the player as his
@@ -221,8 +230,6 @@ public class Runner extends Image {
 			setRunnig();
 			setY(Constants.OFFSET_TO_GROUND);
 		}
-		// checkCollision();
-		// checkEntityCollision();
 	}
 
 	// Helper methods for states
@@ -304,5 +311,9 @@ public class Runner extends Image {
 
 	public boolean isDying() {
 		return (currState == State.DYING);
+	}
+
+	private float getCollisionBottom() {
+		return getY();
 	}
 }

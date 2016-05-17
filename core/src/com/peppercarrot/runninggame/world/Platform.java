@@ -2,26 +2,26 @@ package com.peppercarrot.runninggame.world;
 
 import java.util.Comparator;
 
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+
 public class Platform {
 
-	private final float x;
-	private final float y;
+	private final Actor parent;
 	private final float w;
 	private final float h;
+	private final Vector2 relativePosition;
 
-	public Platform(float x, float y, float w, float h) {
-		this.x = x;
-		this.y = y;
+	public Platform(Actor parent, float x, float y, float w, float h) {
+		this.parent = parent;
+		this.relativePosition = new Vector2(x, y);
 		this.w = w;
 		this.h = h;
 	}
 
-	public float getX() {
-		return x;
-	}
-
-	public float getY() {
-		return y;
+	public void retrieveAbsolutePosition(Vector2 position) {
+		position.set(relativePosition);
+		parent.localToStageCoordinates(position);
 	}
 
 	public float getW() {
@@ -36,7 +36,7 @@ public class Platform {
 
 		@Override
 		public int compare(Platform left, Platform right) {
-			return Float.compare(left.x, right.x);
+			return Float.compare(left.relativePosition.x, right.relativePosition.x);
 		}
 	}
 }

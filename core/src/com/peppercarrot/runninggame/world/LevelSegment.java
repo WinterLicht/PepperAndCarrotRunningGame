@@ -13,7 +13,6 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.utils.Align;
-import com.peppercarrot.runninggame.PaCGame;
 import com.peppercarrot.runninggame.entities.Enemy;
 import com.peppercarrot.runninggame.entities.Potion;
 import com.peppercarrot.runninggame.utils.ActorXPositionComparator;
@@ -25,6 +24,8 @@ import com.peppercarrot.runninggame.utils.ActorXPositionComparator;
  *
  */
 public class LevelSegment extends Group {
+
+	private final OrthographicCamera camera;
 
 	private final TiledMapRenderer renderer;
 
@@ -38,7 +39,9 @@ public class LevelSegment extends Group {
 
 	private final List<Platform> platforms = new ArrayList<Platform>();
 
-	public LevelSegment(String assetName, float startOffset, TiledMap map, TiledMapRenderer renderer) {
+	public LevelSegment(OrthographicCamera camera, String assetName, float startOffset, TiledMap map,
+			TiledMapRenderer renderer) {
+		this.camera = camera;
 		this.assetName = assetName;
 		this.renderer = renderer;
 
@@ -78,7 +81,8 @@ public class LevelSegment extends Group {
 			for (int row = 0; row < tiledLayer.getHeight(); row++) {
 				final Cell cell = tiledLayer.getCell(column, row);
 				if (cell != null) {
-					platformsInLayer.add(new Platform(column * tileWidth, row * tileHeight, tileWidth, tileHeight));
+					platformsInLayer
+							.add(new Platform(this, column * tileWidth, row * tileHeight, tileWidth, tileHeight));
 				}
 			}
 		}
@@ -157,8 +161,7 @@ public class LevelSegment extends Group {
 			applyTransform(batch, computeTransform());
 		}
 
-		final OrthographicCamera baseCamera = PaCGame.getInstance().camera;
-		renderer.setView(baseCamera.combined, -getX(), -getY(), baseCamera.viewportWidth, baseCamera.viewportHeight);
+		renderer.setView(camera.combined, -getX(), -getY(), camera.viewportWidth, camera.viewportHeight);
 		drawChildren(batch, parentAlpha);
 
 		if (isTransform()) {

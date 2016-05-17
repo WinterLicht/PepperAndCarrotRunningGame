@@ -22,17 +22,6 @@ import com.peppercarrot.runninggame.utils.Constants;
  * - Player<br />
  * - UI<br />
  * 
- * In render() method are keyboard inputs handled. Handles also the main game
- * camera. TODO: Main camera is alligned according the player position, also
- * other camera should consider the offset. TODO: background in world stage as
- * attribute?
- * 
- * TODO:
- * 
- * - Decide who is responsible for interaction: ui or screen. if the screen
- * itself is responsible, then it has to delegate the initial hinting to the ui.
- * it also has to observe the touch events of the ui-jump-button.
- * 
  * @author WinterLicht
  * @author momsen
  *
@@ -54,7 +43,7 @@ public class WorldScreen extends ScreenAdapter {
 	public WorldScreen() {
 		runner = new Runner("pepper");
 
-		stage = new WorldStage(runner);
+		stage = new WorldStage(Constants.VIRTUAL_WIDTH, Constants.VIRTUAL_HEIGHT, runner);
 
 		ui = initializeUi(runner);
 	}
@@ -66,13 +55,13 @@ public class WorldScreen extends ScreenAdapter {
 			@Override
 			public void invoke() {
 				if (!gameStarted) {
-					stage.getLevelStream().start();
+					stage.start();
 				}
 				runner.jump();
 			}
 		});
 
-		ui.onAcitvateAbility(new AbilityActivationListener() {
+		ui.onActivateAbility(new AbilityActivationListener() {
 			@Override
 			public void activate(Ability ability) {
 				ability.activate(runner, stage);
@@ -100,13 +89,6 @@ public class WorldScreen extends ScreenAdapter {
 	}
 
 	private void update(float delta) {
-		final PaCGame game = PaCGame.getInstance();
-		// Update main game camera.
-		// Main camera is placed in the middle of the game screen,
-		// but moves vertically when player jumps.
-		game.camera.position.set(Constants.VIRTUAL_WIDTH / 2,
-				runner.getY() + Constants.VIRTUAL_HEIGHT / 2 - Constants.OFFSET_TO_GROUND, 0);
-
 		if (!runner.isDying() && !gamePaused) {
 			stage.move(worldSpeed * delta);
 			stage.act(delta);
@@ -135,18 +117,16 @@ public class WorldScreen extends ScreenAdapter {
 		if (Gdx.input.isKeyJustPressed(Keys.Y)) {
 			ui.getAbilitySlot3().activate(runner, stage);
 		}
+		if (Gdx.input.isKeyJustPressed(Keys.TAB)) {
+			Gdx.app.log("<debug>", "break");
+		}
 		if (Gdx.input.isKeyJustPressed(Keys.SPACE)) {
 			if (!gameStarted) {
-				stage.getLevelStream().start();
+				stage.start();
 				gameStarted = true;
 			}
 			runner.jump();
 		}
-	}
-
-	@Override
-	public void resize(int width, int height) {
-		stage.getViewport().update(width, height, true);
 	}
 
 	public void switchToLoseScreen() {

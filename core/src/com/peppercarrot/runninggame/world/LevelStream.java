@@ -2,11 +2,13 @@ package com.peppercarrot.runninggame.world;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
@@ -14,7 +16,6 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.utils.Queue;
-import com.peppercarrot.runninggame.PaCGame;
 
 /**
  * Level stream. Appends a new segment, when a currently one is to be finished.
@@ -69,7 +70,14 @@ public class LevelStream extends Group {
 	 */
 	private final float firstSegmentAdditionalStartOffset;
 
-	public LevelStream(Batch batch, float segmentStartOffset, float firstSegmentAdditionalStartOffset) {
+	/**
+	 * World camera to render the segments.
+	 */
+	private final OrthographicCamera camera;
+
+	public LevelStream(OrthographicCamera camera, Batch batch, float segmentStartOffset,
+			float firstSegmentAdditionalStartOffset) {
+		this.camera = camera;
 		this.assetManager.setLoader(TiledMap.class, new TmxMapLoader());
 		this.renderer = new OrthogonalTiledMapRenderer(null, batch);
 		this.segmentStartOffset = segmentStartOffset;
@@ -139,12 +147,12 @@ public class LevelStream extends Group {
 			return null;
 		}
 
-		return new LevelSegment(currentlyLoadedSegmentFile, offset + segmentStartOffset,
+		return new LevelSegment(camera, currentlyLoadedSegmentFile, offset + segmentStartOffset,
 				assetManager.get(currentlyLoadedSegmentFile), renderer);
 	}
 
 	private boolean reachedRightBorder(LevelSegment segment) {
-		return segment.getRightX() <= PaCGame.getInstance().viewport.getWorldWidth();
+		return segment.getRightX() <= camera.viewportWidth;
 	}
 
 	private boolean reachedLeftBorder(LevelSegment segment) {
@@ -186,5 +194,15 @@ public class LevelStream extends Group {
 		for (final LevelSegment segment : segments) {
 			segment.moveLeft(offset);
 		}
+	}
+
+	public List<Platform> getPlatformsNear(float x) {
+		for (final LevelSegment segment : segments) {
+			if (segment.getX() <= x && x <= segment.getRightX()) {
+				return segment.getPlatforms();
+			}
+		}
+
+		return Collections.emptyList();
 	}
 }

@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.peppercarrot.runninggame.utils.Constants;
 
 /**
  * An infinitely scrolling and repeating background. The viewport has to be set
@@ -35,19 +34,17 @@ public class Background extends Actor {
 
 	private float viewportY;
 
-	public Background(String backgroundPicture) {
+	public Background(String backgroundPicture, int virtualWidth, int virtualHeight) {
 		texture = new Texture(Gdx.files.internal(backgroundPicture), true);
 		texture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
 		textureWidth = texture.getWidth();
 		textureHeight = texture.getHeight();
 
-		centerOffsetY = -Constants.VIRTUAL_HEIGHT / 2.0f;
+		centerOffsetY = -virtualHeight / 2.0f;
 
-		columnsIfCentered = Constants.VIRTUAL_WIDTH / textureWidth
-				+ (Constants.VIRTUAL_WIDTH % textureWidth > 0 ? 1 : 0);
+		columnsIfCentered = virtualWidth / textureWidth + (virtualWidth % textureWidth > 0 ? 1 : 0);
 
-		rowsIfCentered = Constants.VIRTUAL_HEIGHT / textureHeight
-				+ (Constants.VIRTUAL_HEIGHT % textureHeight > 0 ? 1 : 0);
+		rowsIfCentered = virtualHeight / textureHeight + (virtualHeight % textureHeight > 0 ? 1 : 0);
 	}
 
 	public float getViewportX() {
@@ -80,6 +77,10 @@ public class Background extends Actor {
 		final int rowOffset = (int) (viewportY / textureHeight);
 		final int rows = rowsIfCentered + (clipY != 0 ? 1 : 0);
 
+		// Gdx.app.log("<dbg>",
+		// "drawing background starting at " + rowOffset + ", " + viewportY + ",
+		// " + textureHeight + ", " + rows);
+
 		for (int row = 0; row < rows; row++) {
 			for (int col = 0; col < columns; col++) {
 				// Base camera does not alter the x position, the clip will be
@@ -88,9 +89,10 @@ public class Background extends Actor {
 
 				// Base camera does alter the y position, the clip will not be
 				// scrolled but framed
-				final float tileY = (row + rowOffset) * textureHeight + centerOffsetY;
+				// TODO: why do we need the clip offset?
+				final float tileY = (row + rowOffset) * textureHeight + centerOffsetY - clipY;
 
-				batch.draw(texture, getX() + tileX, getY() + tileY, textureWidth, textureHeight);
+				batch.draw(texture, tileX, tileY, textureWidth, textureHeight);
 			}
 		}
 	}

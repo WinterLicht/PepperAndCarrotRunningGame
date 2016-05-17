@@ -83,7 +83,7 @@ public class WorldUiStage extends AbstractStage {
 		});
 	}
 
-	public void onAcitvateAbility(AbilityActivationListener listener) {
+	public void onActivateAbility(AbilityActivationListener listener) {
 		abilityWidget1.setAbilityActivationListener(listener);
 		abilityWidget2.setAbilityActivationListener(listener);
 		abilityWidget3.setAbilityActivationListener(listener);
