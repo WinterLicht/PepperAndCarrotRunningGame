@@ -1,10 +1,7 @@
 package com.peppercarrot.runninggame.entities;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.nGame.utils.scene2d.AnimatedImage;
+import com.peppercarrot.runninggame.stages.WorldStage;
 
 /**
  * Player's abilities extend this.
@@ -13,46 +10,32 @@ import com.nGame.utils.scene2d.AnimatedImage;
  *
  */
 public abstract class Ability {
-	public AnimatedImage effect;
-	/** Image representation. */
-	Level level;
-	/** Reference to the level. */
-	Runner runner;
-	/** Reference to the player. */
-	public Table table;
-	/** Add this to the world stage for graphical representation. */
-	Button button;
-	/** Button for activation. */
-	ProgressBar energy;
 	/**
 	 * This bar shows if ability can be activated and stores values of energy
 	 * amount to activate.
 	 */
 	float durationMax;
 	/** How long is effect lasting. */
-	float currentDuration;
+	private float currentDuration;
 
-	public Ability(Runner r, Level l) {
-		level = l;
-		runner = r;
-		table = new Table();
-	}
+	private int energy;
+
+	private int maxEnergy;
 
 	public void increaseEnergy(int incr) {
-		if (energy.getValue() + incr <= energy.getMaxValue()) {
-			energy.setValue(energy.getValue() + incr);
-		} else {
-			energy.setValue(energy.getMaxValue());
+		energy += incr;
+		if (energy > maxEnergy) {
+			energy = maxEnergy;
 		}
 	}
 
-	public void activate() {
+	public void activate(Runner runner, WorldStage worldStage) {
 		if (currentDuration >= durationMax) {
 			// Activate ability only possible when the previous was finished
-			if (energy.getValue() >= energy.getMaxValue()) {
-				energy.setValue(0);
+			if (energy >= maxEnergy) {
+				energy = 0;
 				currentDuration = 0f;
-				execute();
+				execute(runner, worldStage);
 			}
 		} else {
 			Gdx.app.log(getClass().getSimpleName(), "not enough energy");
@@ -61,5 +44,13 @@ public abstract class Ability {
 
 	public abstract void update(float delta);
 
-	protected abstract void execute();
+	protected abstract void execute(Runner runner, WorldStage worldStage);
+
+	public int getEnergy() {
+		return energy;
+	}
+
+	public int getMaxEnergy() {
+		return maxEnergy;
+	}
 }

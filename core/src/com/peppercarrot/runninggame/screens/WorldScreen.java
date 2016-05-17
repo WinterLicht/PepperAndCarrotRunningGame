@@ -5,9 +5,9 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.ScreenAdapter;
 import com.peppercarrot.runninggame.Callback;
 import com.peppercarrot.runninggame.PaCGame;
-import com.peppercarrot.runninggame.entities.Background;
-import com.peppercarrot.runninggame.entities.Level;
+import com.peppercarrot.runninggame.entities.Ability;
 import com.peppercarrot.runninggame.entities.Runner;
+import com.peppercarrot.runninggame.stages.AbilityWidget.AbilityActivationListener;
 import com.peppercarrot.runninggame.stages.WorldStage;
 import com.peppercarrot.runninggame.stages.WorldUiStage;
 import com.peppercarrot.runninggame.utils.Constants;
@@ -33,10 +33,6 @@ import com.peppercarrot.runninggame.utils.Constants;
  * itself is responsible, then it has to delegate the initial hinting to the ui.
  * it also has to observe the touch events of the ui-jump-button.
  * 
- * - Level streaming. After a tmx is loaded, its content will be inserted into
- * the world stage. If the level is done, the content will be removed (if still
- * remaining) while the next is loaded.
- * 
  * @author WinterLicht
  * @author momsen
  *
@@ -47,39 +43,46 @@ public class WorldScreen extends ScreenAdapter {
 
 	private boolean gameStarted = false;
 
-	private final Level level;
-
 	private final Runner runner;
 
 	private final WorldStage stage;
 
 	private final WorldUiStage ui;
 
-	/**
-	 * TODO: Should be calculated within the background, but since there are no
-	 * seemingless scrolling cameras at the moment, this is just incremented by
-	 * scroll-speed.
-	 */
-	private float backgroundScrollX = 0.0f;
-
-	/**
-	 * Infinitely scrolling background.
-	 */
-	private final Background background;
+	private final float worldSpeed = 400.0f;
 
 	public WorldScreen() {
-		level = new Level();
-		runner = new Runner(level, "pepper");
+		runner = new Runner("pepper");
 
-		ui = new WorldUiStage(runner);
+		stage = new WorldStage(runner);
+
+		ui = initializeUi(runner);
+	}
+
+	private WorldUiStage initializeUi(Runner runner) {
+		final WorldUiStage ui = new WorldUiStage();
+
 		ui.onJumpTouched(new Callback() {
 			@Override
 			public void invoke() {
-				level.beginLevel = true;
+				if (!gameStarted) {
+					stage.getLevelStream().start();
+				}
+				runner.jump();
 			}
 		});
-		background = new Background("testbg.png");
-		stage = new WorldStage(runner, level);
+
+		ui.onAcitvateAbility(new AbilityActivationListener() {
+			@Override
+			public void activate(Ability ability) {
+				ability.activate(runner, stage);
+			}
+		});
+
+		ui.setAbilitySlot1(runner.ability3);
+		ui.setAbilitySlot2(runner.ability2);
+		ui.setAbilitySlot3(runner.ability1);
+		return ui;
 	}
 
 	@Override
@@ -89,34 +92,32 @@ public class WorldScreen extends ScreenAdapter {
 
 	@Override
 	public void render(float delta) {
-		update();
+		update(delta);
 
-		draw(delta);
+		draw();
 
 		processInput();
 	}
 
-	private void update() {
+	private void update(float delta) {
+		final PaCGame game = PaCGame.getInstance();
+		// Update main game camera.
+		// Main camera is placed in the middle of the game screen,
+		// but moves vertically when player jumps.
+		game.camera.position.set(Constants.VIRTUAL_WIDTH / 2,
+				runner.getY() + Constants.VIRTUAL_HEIGHT / 2 - Constants.OFFSET_TO_GROUND, 0);
+
 		if (!runner.isDying() && !gamePaused) {
-			level.update();
+			stage.move(worldSpeed * delta);
+			stage.act(delta);
+			ui.act(delta);
 		} else {
 			switchToLoseScreen();
 		}
 	}
 
-	private void draw(float delta) {
-		final PaCGame game = PaCGame.getInstance();
-		// Update main game camera.
-		// Main camera is placed in the middle of the game screen,
-		// but moves vertically when player jumps.
-		// TODO: Let the main camera unchanged and add instead
-		// a special camera to render player???
-		game.camera.position.set(Constants.VIRTUAL_WIDTH / 2,
-				runner.getY() + Constants.VIRTUAL_HEIGHT / 2 - Constants.OFFSET_TO_GROUND, 0);
-
-		renderBackground(game);
-		stage.render(delta);
-		ui.act(delta);
+	private void draw() {
+		stage.draw();
 		ui.draw();
 	}
 
@@ -126,29 +127,21 @@ public class WorldScreen extends ScreenAdapter {
 			Gdx.app.exit();
 		}
 		if (Gdx.input.isKeyJustPressed(Keys.C)) {
-			runner.activateAbility(1);
+			ui.getAbilitySlot1().activate(runner, stage);
 		}
 		if (Gdx.input.isKeyJustPressed(Keys.X)) {
-			runner.activateAbility(2);
+			ui.getAbilitySlot2().activate(runner, stage);
 		}
 		if (Gdx.input.isKeyJustPressed(Keys.Y)) {
-			runner.activateAbility(3);
+			ui.getAbilitySlot3().activate(runner, stage);
 		}
 		if (Gdx.input.isKeyJustPressed(Keys.SPACE)) {
 			if (!gameStarted) {
-				level.beginLevel = true;
+				stage.getLevelStream().start();
 				gameStarted = true;
 			}
 			runner.jump();
 		}
-	}
-
-	private void renderBackground(PaCGame game) {
-		game.batch.begin();
-		game.batch.setColor(1, 1, 1, 1);
-		background.draw(game.batch, backgroundScrollX, runner.getY());
-		backgroundScrollX += level.scrollSpeed;
-		game.batch.end();
 	}
 
 	@Override

@@ -7,7 +7,7 @@ import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -63,17 +63,26 @@ public class LevelStream extends Group {
 	 */
 	private final float segmentStartOffset;
 
-	public LevelStream(SpriteBatch batch, float segmentStartOffset) {
+	/**
+	 * Offset at which the first segment should start in addition to
+	 * {@link #segmentStartOffset}.
+	 */
+	private final float firstSegmentAdditionalStartOffset;
+
+	public LevelStream(Batch batch, float segmentStartOffset, float firstSegmentAdditionalStartOffset) {
 		this.assetManager.setLoader(TiledMap.class, new TmxMapLoader());
 		this.renderer = new OrthogonalTiledMapRenderer(null, batch);
 		this.segmentStartOffset = segmentStartOffset;
+		this.firstSegmentAdditionalStartOffset = firstSegmentAdditionalStartOffset;
 	}
 
 	/**
 	 * Starts streaming the segments
 	 */
 	public void start() {
-		startLoadingNextLevelSegment();
+		if (currentlyLoadedSegmentFile == null) {
+			startLoadingNextLevelSegment();
+		}
 	}
 
 	private void startLoadingNextLevelSegment() {
@@ -96,7 +105,7 @@ public class LevelStream extends Group {
 		if (segments.size == 0) {
 			// insert first segment
 			if (nextLevelSegmentReady()) {
-				appendNextSegment(0.0f);
+				appendNextSegment(firstSegmentAdditionalStartOffset);
 				startLoadingNextLevelSegment();
 			}
 		} else {

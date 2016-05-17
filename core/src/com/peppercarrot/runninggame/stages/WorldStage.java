@@ -1,8 +1,9 @@
 package com.peppercarrot.runninggame.stages;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.peppercarrot.runninggame.entities.Level;
+import com.peppercarrot.runninggame.entities.Background;
 import com.peppercarrot.runninggame.entities.Runner;
+import com.peppercarrot.runninggame.utils.Constants;
+import com.peppercarrot.runninggame.world.LevelStream;
 
 /**
  * Contains game entities.
@@ -11,32 +12,35 @@ import com.peppercarrot.runninggame.entities.Runner;
  *
  */
 public class WorldStage extends AbstractStage {
-	Table charTable;
-	/** Contains characters: player, enemies... */
-	public boolean playerReady = false;
-	private final Level level;
+	private final LevelStream levelStream;
 
-	/** when false, level logic will be updated.s */
+	private final Background background;
 
-	public WorldStage(Runner runner, Level level) {
-		this.level = level;
-		charTable = new Table();
-		charTable.setFillParent(true);
+	private final Runner runner;
 
-		charTable.addActor(runner);
-		charTable.addActor(runner.ability1.effect);
-		charTable.addActor(runner.ability2.effect);
-		// charTable.addActor(runner.ability3.effect);
+	public WorldStage(Runner runner) {
+		this.runner = runner;
+		background = new Background("testbg.png");
+		addActor(background);
 
-		this.addActor(charTable);
+		levelStream = new LevelStream(getBatch(), 0.0f,
+				0.0f/*
+					 * PaCGame.getInstance().viewport.getWorldWidth() * 1.5f,
+					 * PaCGame.getInstance().viewport.getWorldWidth()
+					 */);
+		levelStream.setY(Constants.OFFSET_TO_GROUND);
+		addActor(levelStream);
+
+		addActor(runner);
 	}
 
-	public void render(float delta) {
-		this.act(delta);
+	public LevelStream getLevelStream() {
+		return levelStream;
+	}
 
-		level.renderBackground();
-		this.draw();
-		level.renderEntities(delta);
-		level.renderForeground();
+	public void move(float offset) {
+		background.moveViewportLeft(offset);
+		background.setViewportY(runner.getY());
+		levelStream.moveLeft(offset);
 	}
 }

@@ -1,5 +1,9 @@
 package com.peppercarrot.runninggame.world;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.MapLayer;
@@ -12,6 +16,7 @@ import com.badlogic.gdx.utils.Align;
 import com.peppercarrot.runninggame.PaCGame;
 import com.peppercarrot.runninggame.entities.Enemy;
 import com.peppercarrot.runninggame.entities.Potion;
+import com.peppercarrot.runninggame.utils.ActorXPositionComparator;
 
 /**
  * A single level segment loaded from a tile map
@@ -26,6 +31,12 @@ public class LevelSegment extends Group {
 	private final String assetName;
 
 	private final int segmentWidth;
+
+	private final List<Potion> potions = new ArrayList<Potion>();
+
+	private final List<Enemy> enemies = new ArrayList<Enemy>();
+
+	private final List<Platform> platforms = new ArrayList<Platform>();
 
 	public LevelSegment(String assetName, float startOffset, TiledMap map, TiledMapRenderer renderer) {
 		this.assetName = assetName;
@@ -44,29 +55,39 @@ public class LevelSegment extends Group {
 				// property. Then we'll need only one method for iterating over
 				// tiles
 				if ("enemies".equals(name)) {
-					createEnemies(tiledLayer, tilewidth, tileheight);
+					enemies.addAll(createEnemies(tiledLayer, tilewidth, tileheight));
 				} else if ("potions".equals(name)) {
-					createPotions(tiledLayer, tilewidth, tileheight);
+					potions.addAll(createPotions(tiledLayer, tilewidth, tileheight));
 				} else {
 					addActor(new TmxLayerActor(tiledLayer, renderer));
+					platforms.addAll(extractPlatforms(tiledLayer, tilewidth, tileheight));
 				}
 			}
 			// TODO: Allow image-layers, espacially for enemies and potions
 		}
 
+		platforms.sort(new Platform.XPositionComparator());
+		enemies.sort(new ActorXPositionComparator());
+		potions.sort(new ActorXPositionComparator());
 		setX(startOffset);
 	}
 
-	/**
-	 * Gets the base asset name of which this segment is loaded
-	 * 
-	 * @return asset name
-	 */
-	public String getAssetName() {
-		return assetName;
+	private Collection<Platform> extractPlatforms(TiledMapTileLayer tiledLayer, float tileWidth, float tileHeight) {
+		final List<Platform> platformsInLayer = new ArrayList<>();
+		for (int column = 0; column <= tiledLayer.getWidth(); column++) {
+			for (int row = 0; row < tiledLayer.getHeight(); row++) {
+				final Cell cell = tiledLayer.getCell(column, row);
+				if (cell != null) {
+					platformsInLayer.add(new Platform(column * tileWidth, row * tileHeight, tileWidth, tileHeight));
+				}
+			}
+		}
+
+		return platformsInLayer;
 	}
 
-	private void createEnemies(TiledMapTileLayer layer, int tilewidth, int tileheight) {
+	private Collection<Enemy> createEnemies(TiledMapTileLayer layer, int tilewidth, int tileheight) {
+		final List<Enemy> enemiesInLayer = new ArrayList<Enemy>();
 		final float centerOffsetX = tilewidth / 2.0f;
 		final float centerOffsetY = tileheight / 2.0f;
 
@@ -76,13 +97,15 @@ public class LevelSegment extends Group {
 				final Cell cell = layer.getCell(column, row);
 				// TODO: recognize which enemy by cell property
 				if (cell != null) {
-					createEnemy(column, row, tilewidth, tileheight, centerOffsetX, centerOffsetY);
+					final Enemy enemy = createEnemy(column, row, tilewidth, tileheight, centerOffsetX, centerOffsetY);
+					enemiesInLayer.add(enemy);
 				}
 			}
 		}
+		return enemiesInLayer;
 	}
 
-	private void createEnemy(int column, int row, int tilewidth, int tileheight, float centerOffsetX,
+	private Enemy createEnemy(int column, int row, int tilewidth, int tileheight, float centerOffsetX,
 			float centerOffsetY) {
 		final float posX = (column + 0.5f) * tilewidth;
 		final float posY = (row + 1f) * tileheight;
@@ -91,9 +114,12 @@ public class LevelSegment extends Group {
 		enemy.setX(posX - enemy.getWidth() / 2);
 		enemy.setY(posY - enemy.getHeight() / 2);
 		addActor(enemy);
+
+		return enemy;
 	}
 
-	private void createPotions(TiledMapTileLayer layer, Integer tilewidth, Integer tileheight) {
+	private List<Potion> createPotions(TiledMapTileLayer layer, Integer tilewidth, Integer tileheight) {
+		final List<Potion> potionsInLayer = new ArrayList<Potion>();
 		final float centerOffsetX = tilewidth / 2.0f;
 		final float centerOffsetY = tileheight / 2.0f;
 
@@ -103,13 +129,16 @@ public class LevelSegment extends Group {
 				final Cell cell = layer.getCell(column, row);
 				// TODO: recognize which potion by cell property
 				if (cell != null) {
-					createPotion(column, row, tilewidth, tileheight, centerOffsetX, centerOffsetY);
+					final Potion potion = createPotion(column, row, tilewidth, tileheight, centerOffsetX,
+							centerOffsetY);
+					potionsInLayer.add(potion);
 				}
 			}
 		}
+		return potionsInLayer;
 	}
 
-	private void createPotion(int column, int row, int tilewidth, int tileheight, float centerOffsetX,
+	private Potion createPotion(int column, int row, int tilewidth, int tileheight, float centerOffsetX,
 			float centerOffsetY) {
 		final float posX = (column + 0.5f) * tilewidth;
 		final float posY = (row + 1f) * tileheight;
@@ -118,6 +147,8 @@ public class LevelSegment extends Group {
 		potion.setX(posX - potion.getWidth() / 2);
 		potion.setY(posY - potion.getHeight() / 2);
 		addActor(potion);
+
+		return potion;
 	}
 
 	@Override
@@ -136,6 +167,15 @@ public class LevelSegment extends Group {
 	}
 
 	/**
+	 * Gets the base asset name of which this segment is loaded
+	 * 
+	 * @return asset name
+	 */
+	public String getAssetName() {
+		return assetName;
+	}
+
+	/**
 	 * Moves this segment to the left by a specific offset
 	 * 
 	 * @param offset
@@ -151,5 +191,32 @@ public class LevelSegment extends Group {
 	 */
 	public float getRightX() {
 		return getX() + segmentWidth;
+	}
+
+	/**
+	 * Returns the list of all platforms ordered by x position.
+	 * 
+	 * @return list of all platforms
+	 */
+	public List<Platform> getPlatforms() {
+		return platforms;
+	}
+
+	/**
+	 * Returns the list of all enemies ordered by x position.
+	 * 
+	 * @return list of all enemies
+	 */
+	public List<Enemy> getEnemies() {
+		return enemies;
+	}
+
+	/**
+	 * Returns the list of all potions ordered by x position.
+	 * 
+	 * @return list of all potions
+	 */
+	public List<Potion> getPotions() {
+		return potions;
 	}
 }

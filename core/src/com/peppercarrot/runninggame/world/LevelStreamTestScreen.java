@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.peppercarrot.runninggame.PaCGame;
+import com.peppercarrot.runninggame.utils.Constants;
 
 public class LevelStreamTestScreen extends ScreenAdapter {
 	private final LevelStream levelStream;
@@ -15,7 +16,7 @@ public class LevelStreamTestScreen extends ScreenAdapter {
 
 	public LevelStreamTestScreen() {
 		levelStream = new LevelStream(PaCGame.getInstance().batch,
-				PaCGame.getInstance().viewport.getWorldWidth() * 1.5f);
+				PaCGame.getInstance().viewport.getWorldWidth() * 1.5f, Constants.VIRTUAL_WIDTH);
 
 		stage = new Stage(PaCGame.getInstance().viewport, PaCGame.getInstance().batch);
 		stage.addActor(levelStream);

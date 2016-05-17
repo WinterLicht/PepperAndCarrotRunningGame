@@ -3,6 +3,7 @@ package com.peppercarrot.runninggame.entities;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.peppercarrot.runninggame.utils.Constants;
 
 /**
@@ -16,7 +17,7 @@ import com.peppercarrot.runninggame.utils.Constants;
  * @author momsen
  *
  */
-public class Background {
+public class Background extends Actor {
 
 	private final int textureWidth;
 
@@ -29,6 +30,10 @@ public class Background {
 	private final int rowsIfCentered;
 
 	private final float centerOffsetY;
+
+	private float viewportX;
+
+	private float viewportY;
 
 	public Background(String backgroundPicture) {
 		texture = new Texture(Gdx.files.internal(backgroundPicture), true);
@@ -45,38 +50,47 @@ public class Background {
 				+ (Constants.VIRTUAL_HEIGHT % textureHeight > 0 ? 1 : 0);
 	}
 
-	/**
-	 * Renders a viewport clip of the background starting at a specific
-	 * position.
-	 * 
-	 * @param batch
-	 *            Sprite batch to render. Begin and End have to be called
-	 *            elsewhere.
-	 * @param x
-	 *            position of the viewport clip to render
-	 * @param y
-	 *            position of the viewport clip to render
-	 */
-	public void draw(Batch batch, float x, float y) {
-		float clipX = -(x % textureWidth);
-		float clipY = (y % textureHeight);
+	public float getViewportX() {
+		return viewportX;
+	}
 
-		int columns = columnsIfCentered + (clipX != 0 ? 1 : 0);
+	public void setViewportX(float viewportX) {
+		this.viewportX = viewportX;
+	}
 
-		int rowOffset = (int) (y / textureHeight);
-		int rows = rowsIfCentered + (clipY != 0 ? 1 : 0);
+	public void moveViewportLeft(float offset) {
+		viewportX += offset;
+	}
+
+	public float getViewportY() {
+		return viewportY;
+	}
+
+	public void setViewportY(float viewportY) {
+		this.viewportY = viewportY;
+	}
+
+	@Override
+	public void draw(Batch batch, float parentAlpha) {
+		final float clipX = -(viewportX % textureWidth);
+		final float clipY = (viewportY % textureHeight);
+
+		final int columns = columnsIfCentered + (clipX != 0 ? 1 : 0);
+
+		final int rowOffset = (int) (viewportY / textureHeight);
+		final int rows = rowsIfCentered + (clipY != 0 ? 1 : 0);
 
 		for (int row = 0; row < rows; row++) {
 			for (int col = 0; col < columns; col++) {
 				// Base camera does not alter the x position, the clip will be
 				// scrolled
-				float tileX = clipX + col * textureWidth;
+				final float tileX = clipX + col * textureWidth;
 
 				// Base camera does alter the y position, the clip will not be
 				// scrolled but framed
-				float tileY = (row + rowOffset) * textureHeight + centerOffsetY;
+				final float tileY = (row + rowOffset) * textureHeight + centerOffsetY;
 
-				batch.draw(texture, tileX, tileY, textureWidth, textureHeight);
+				batch.draw(texture, getX() + tileX, getY() + tileY, textureWidth, textureHeight);
 			}
 		}
 	}

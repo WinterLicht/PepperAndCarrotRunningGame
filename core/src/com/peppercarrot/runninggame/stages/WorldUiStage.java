@@ -8,19 +8,22 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.peppercarrot.runninggame.Callback;
-import com.peppercarrot.runninggame.entities.Runner;
+import com.peppercarrot.runninggame.entities.Ability;
+import com.peppercarrot.runninggame.stages.AbilityWidget.AbilityActivationListener;
 import com.peppercarrot.runninggame.utils.Assets;
 import com.peppercarrot.runninggame.utils.Constants;
 
 public class WorldUiStage extends AbstractStage {
+
 	Table uiTable;
 	Label hintLabel;
 	Table attackButtons;
 	private final Button jumpBtnTransparent;
-	private final Runner runner;
+	private final AbilityWidget abilityWidget1;
+	private final AbilityWidget abilityWidget2;
+	private final AbilityWidget abilityWidget3;
 
-	public WorldUiStage(Runner runner) {
-		this.runner = runner;
+	public WorldUiStage() {
 		final int uiPadding = 30; // padding of borders for ui in pixel
 		uiTable = new Table();
 		uiTable.setFillParent(true);
@@ -46,11 +49,14 @@ public class WorldUiStage extends AbstractStage {
 		uiTable.add(jumpBtnTransparent).width(jumpBtnTransparentWidth).height(uiTable.getHeight()).expandX().left();
 		// Attack Buttons
 		attackButtons = new Table();
-		attackButtons.add(runner.ability3.table).expandY().right().top();
+		abilityWidget1 = new AbilityWidget();
+		attackButtons.add(abilityWidget1).expandY().right().top();
 		attackButtons.row();
-		attackButtons.add(runner.ability2.table).expandY().right().center();
+		abilityWidget2 = new AbilityWidget();
+		attackButtons.add(abilityWidget2).expandY().right().center();
 		attackButtons.row();
-		attackButtons.add(runner.ability1.table).expandY().right().bottom();
+		abilityWidget3 = new AbilityWidget();
+		attackButtons.add(abilityWidget3).expandY().right().bottom();
 		attackButtons.row();
 
 		uiTable.add(attackButtons).height(uiTable.getHeight()).expand().right();
@@ -69,12 +75,41 @@ public class WorldUiStage extends AbstractStage {
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 				if (!hintFaded) {
 					hintLabel.addAction(Actions.fadeOut(0.48f));
-					callback.invoke();
 					hintFaded = true;
 				}
-				runner.jump();
+				callback.invoke();
 				return true;
 			}
 		});
+	}
+
+	public void onAcitvateAbility(AbilityActivationListener listener) {
+		abilityWidget1.setAbilityActivationListener(listener);
+		abilityWidget2.setAbilityActivationListener(listener);
+		abilityWidget3.setAbilityActivationListener(listener);
+	}
+
+	public void setAbilitySlot1(Ability ability) {
+		abilityWidget1.setAbility(ability);
+	}
+
+	public Ability getAbilitySlot1() {
+		return abilityWidget1.getAbility();
+	}
+
+	public void setAbilitySlot2(Ability ability) {
+		abilityWidget2.setAbility(ability);
+	}
+
+	public Ability getAbilitySlot2() {
+		return abilityWidget2.getAbility();
+	}
+
+	public void setAbilitySlot3(Ability ability) {
+		abilityWidget3.setAbility(ability);
+	}
+
+	public Ability getAbilitySlot3() {
+		return abilityWidget3.getAbility();
 	}
 }
