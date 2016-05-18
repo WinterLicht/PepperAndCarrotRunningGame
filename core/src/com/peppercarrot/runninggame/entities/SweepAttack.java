@@ -1,15 +1,14 @@
 package com.peppercarrot.runninggame.entities;
 
-import java.util.List;
-
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.nGame.utils.scene2d.AnimatedDrawable;
 import com.nGame.utils.scene2d.AnimatedImage;
 import com.peppercarrot.runninggame.entities.Runner.State;
 import com.peppercarrot.runninggame.stages.WorldStage;
 import com.peppercarrot.runninggame.utils.Assets;
+import com.peppercarrot.runninggame.utils.CollisionUtil;
+import com.peppercarrot.runninggame.world.collision.IEnemyCollisionAwareActor;
 
 /**
  * Simple sweep attack. This attack is executed around the player. It's image
@@ -22,31 +21,41 @@ import com.peppercarrot.runninggame.utils.Assets;
  */
 public class SweepAttack extends Ability {
 
-	private final AnimatedImage effect;
+	public static class Effect extends AnimatedImage implements IEnemyCollisionAwareActor {
+
+		public Effect(float duration) {
+			super(new AnimatedDrawable(
+					new Animation(duration / 7, Assets.I.getRegions("sweep-effect"), Animation.PlayMode.NORMAL)));
+		}
+
+		@Override
+		public void retrieveHitbox(Rectangle rectangle) {
+			CollisionUtil.retrieveHitbox(this, rectangle);
+		}
+
+		@Override
+		public boolean onHitEnemy(Enemy enemy) {
+			if (enemy.isAlive()) {
+				enemy.die();
+			}
+
+			return false;
+		}
+	}
+
+	private final Effect effect;
 
 	private WorldStage worldStage;
-
-	private final Vector2 tempPosition = new Vector2();
-
-	private final Rectangle tempEffectHitbox = new Rectangle();
-
-	private final Rectangle tempEnemyHitbox = new Rectangle();
 
 	public SweepAttack(Runner runner) {
 		super(runner, 0, 0.6f);
 
-		effect = new AnimatedImage(new AnimatedDrawable(
-				new Animation(getDuration() / 7, Assets.I.getRegions("sweep-effect"), Animation.PlayMode.NORMAL)));
+		effect = new Effect(getDuration());
 		effect.setVisible(false);
 	}
 
 	@Override
 	protected void internalUpdate(float delta) {
-		if (isRunning()) {
-			if (effect.isVisible() && worldStage != null) {
-				checkEnemyCollision(worldStage);
-			}
-		}
 	}
 
 	@Override
@@ -57,31 +66,12 @@ public class SweepAttack extends Ability {
 		runner.addActor(effect);
 		effect.setVisible(true);
 		effect.reset();
-	}
-
-	private void checkEnemyCollision(WorldStage worldStage) {
-		tempPosition.x = effect.getX();
-		tempPosition.y = effect.getY();
-		getRunner().localToStageCoordinates(tempPosition);
-
-		tempEffectHitbox.x = tempPosition.x;
-		tempEffectHitbox.y = tempPosition.y;
-		tempEffectHitbox.width = effect.getWidth();
-		tempEffectHitbox.height = effect.getHeight();
-
-		final List<Enemy> enemies = worldStage.getLevelStream().getEnemiesNear(tempPosition.x);
-		for (final Enemy enemy : enemies) {
-			if (enemy.isAlive()) {
-				enemy.retrieveRectangle(tempEnemyHitbox);
-				if (tempEffectHitbox.overlaps(tempEnemyHitbox)) {
-					enemy.die();
-				}
-			}
-		}
+		worldStage.addEnemyAwareActor(effect);
 	}
 
 	@Override
 	protected void finish() {
+		worldStage.removeEnemyAwareActor(effect);
 		effect.setVisible(false);
 
 		final Runner runner = getRunner();

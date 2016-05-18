@@ -1,11 +1,8 @@
 package com.peppercarrot.runninggame.entities;
 
-import java.util.List;
-
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Align;
@@ -13,8 +10,10 @@ import com.nGame.utils.scene2d.AnimatedDrawable;
 import com.nGame.utils.scene2d.AnimatedImage;
 import com.peppercarrot.runninggame.utils.Assets;
 import com.peppercarrot.runninggame.utils.Constants;
-import com.peppercarrot.runninggame.world.LevelStream;
 import com.peppercarrot.runninggame.world.Platform;
+import com.peppercarrot.runninggame.world.collision.IEnemyCollisionAwareActor;
+import com.peppercarrot.runninggame.world.collision.IPlatformCollisionAwareActor;
+import com.peppercarrot.runninggame.world.collision.IPotionCollisionAwareActor;
 
 /**
  * Playable character class. The runner is only able to move horizontally, other
@@ -23,7 +22,8 @@ import com.peppercarrot.runninggame.world.Platform;
  * @author WinterLicht
  *
  */
-public class Runner extends Group {
+public class Runner extends Group
+		implements IPlatformCollisionAwareActor, IEnemyCollisionAwareActor, IPotionCollisionAwareActor {
 	String name;
 	public State currState = State.RUNNING;
 	int speedY = 0;
@@ -97,70 +97,6 @@ public class Runner extends Group {
 			speedY = maxJumpSpeed;
 			return;
 		}
-	}
-
-	public void applyCollision(LevelStream levelStream) {
-		applyPlatformCollision(levelStream.getPlatformsNear(getX()));
-
-		final Rectangle hitbox = getHitBox();
-		applyEnemyCollision(hitbox, levelStream.getEnemiesNear(getX()));
-		applyPotionCollision(hitbox, levelStream.getPotionsNear(getX()));
-	}
-
-	private void applyPlatformCollision(List<Platform> platforms) {
-		// Offset in pixel
-		final int offsetTop = 12;
-		final int offsetBottom = 10;
-		final Vector2 platformPosition = new Vector2();
-		final float x = getX();
-		final float y = getY();
-		for (final Platform platform : platforms) {
-			platform.retrieveAbsolutePosition(platformPosition);
-			if (platformPosition.x >= x) {
-				break;
-			}
-
-			if (platformPosition.x <= x && x <= platformPosition.x + platform.getW()) {
-				final float platformTop = platformPosition.y + platform.getH();
-				if (platformTop - offsetBottom <= y && y <= platformTop + offsetTop) {
-					land(platformTop);
-					break;
-				}
-			}
-		}
-	}
-
-	private void applyEnemyCollision(Rectangle hitbox, List<Enemy> enemies) {
-		final Rectangle enemyRectangle = new Rectangle();
-		for (final Enemy enemy : enemies) {
-			enemy.retrieveRectangle(enemyRectangle);
-			if (enemy.isAlive() && hitbox.overlaps(enemyRectangle)) {
-				setDying();
-			}
-		}
-	}
-
-	private void applyPotionCollision(Rectangle hitbox, List<Potion> potions) {
-		final Rectangle potionRectangle = new Rectangle();
-		for (final Potion potion : potions) {
-			potion.retrieveRectangle(potionRectangle);
-			if (potion.isVisible() && hitbox.overlaps(potionRectangle)) {
-				potion.collected();
-				// TODO various potions
-				ability1.increaseEnergy(1);
-				ability2.increaseEnergy(1);
-				ability3.increaseEnergy(1);
-			}
-		}
-	}
-
-	private Rectangle getHitBox() {
-		final int offset = 30;
-
-		// slightly smaller hitbox of the player as his sprite.
-		final Rectangle hitBox = new Rectangle(getX() + offset, getY() + offset, getWidth() - offset * 2,
-				getHeight() - offset * 2);
-		return hitBox;
 	}
 
 	/**
@@ -322,15 +258,59 @@ public class Runner extends Group {
 		return (currState == State.DYING);
 	}
 
-	private float getCollisionBottom() {
-		return getY();
-	}
-
 	public State getCurrentState() {
 		return currState;
 	}
 
 	public void setState(State state) {
 		currState = state;
+	}
+
+	@Override
+	public void retrieveHitbox(Rectangle rectangle) {
+		final int offset = 30;
+
+		// slightly smaller hitbox of the player as his sprite.
+		rectangle.x = getX() + offset;
+		rectangle.y = getY() + offset;
+		rectangle.width = runnerImage.getWidth() - offset * 2;
+		rectangle.height = runnerImage.getHeight() - offset * 2;
+	}
+
+	@Override
+	public boolean onHitPotion(Potion potion) {
+		if (potion.isVisible()) {
+			potion.collected();
+			ability1.increaseEnergy(1);
+			ability2.increaseEnergy(1);
+			ability3.increaseEnergy(1);
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean onHitEnemy(Enemy enemy) {
+		if (enemy.isAlive()) {
+			setDying();
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public float getPlatformCollisionX() {
+		return getX();
+	}
+
+	@Override
+	public float getPlatformCollisionY() {
+		return getY();
+	}
+
+	@Override
+	public boolean onHitPlatform(Platform platform, float platformHitTop) {
+		land(platformHitTop);
+		return true;
 	}
 }

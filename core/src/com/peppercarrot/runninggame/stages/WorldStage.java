@@ -1,5 +1,6 @@
 package com.peppercarrot.runninggame.stages;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -14,6 +15,9 @@ import com.peppercarrot.runninggame.entities.Runner;
 import com.peppercarrot.runninggame.utils.Constants;
 import com.peppercarrot.runninggame.world.LevelStream;
 import com.peppercarrot.runninggame.world.Platform;
+import com.peppercarrot.runninggame.world.collision.IEnemyCollisionAwareActor;
+import com.peppercarrot.runninggame.world.collision.IPlatformCollisionAwareActor;
+import com.peppercarrot.runninggame.world.collision.IPotionCollisionAwareActor;
 
 /**
  * Contains game entities.
@@ -37,6 +41,18 @@ public class WorldStage extends AbstractStage {
 
 	private float speedFactor = 1.0f;
 
+	private final List<IEnemyCollisionAwareActor> enemyCollisionAwareActors = new ArrayList<IEnemyCollisionAwareActor>();
+
+	private final List<IPotionCollisionAwareActor> potionAwareActors = new ArrayList<IPotionCollisionAwareActor>();
+
+	private final List<IPlatformCollisionAwareActor> platformAwareActors = new ArrayList<IPlatformCollisionAwareActor>();
+
+	private final Vector2 tempPlatformPosition = new Vector2();
+
+	private final Rectangle tempActorRectangle = new Rectangle();
+
+	private final Rectangle tempTargetRectangle = new Rectangle();
+
 	public WorldStage(int virtualWidth, int virtualHeight, Runner runner) {
 		camera = new OrthographicCamera(virtualWidth, virtualHeight);
 
@@ -49,6 +65,10 @@ public class WorldStage extends AbstractStage {
 
 		this.runner = runner;
 		addActor(runner);
+
+		enemyCollisionAwareActors.add(runner);
+		potionAwareActors.add(runner);
+		platformAwareActors.add(runner);
 	}
 
 	public LevelStream getLevelStream() {
@@ -74,36 +94,36 @@ public class WorldStage extends AbstractStage {
 	private void debugRenderCollisionBounds() {
 		debugCollisionShapeRenderer.setProjectionMatrix(camera.combined);
 
-		final Vector2 position = new Vector2();
-		final Rectangle rectangle = new Rectangle();
-
 		final List<Platform> platforms = levelStream.getPlatformsNear(runner.getX());
 		for (final Platform platform : platforms) {
-			platform.retrieveAbsolutePosition(position);
+			platform.retrieveAbsolutePosition(tempPlatformPosition);
 
 			debugCollisionShapeRenderer.begin(ShapeType.Filled);
 			debugCollisionShapeRenderer.setColor(1, 1, 0, 1);
-			debugCollisionShapeRenderer.rect(position.x, position.y, platform.getW(), platform.getH());
+			debugCollisionShapeRenderer.rect(tempPlatformPosition.x, tempPlatformPosition.y, platform.getW(),
+					platform.getH());
 			debugCollisionShapeRenderer.end();
 		}
 
 		final List<Enemy> enemies = levelStream.getEnemiesNear(runner.getX());
 		for (final Enemy enemy : enemies) {
-			enemy.retrieveRectangle(rectangle);
+			enemy.retrieveHitbox(tempTargetRectangle);
 
 			debugCollisionShapeRenderer.begin(ShapeType.Filled);
 			debugCollisionShapeRenderer.setColor(1, 0, 0, 1);
-			debugCollisionShapeRenderer.rect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+			debugCollisionShapeRenderer.rect(tempTargetRectangle.x, tempTargetRectangle.y, tempTargetRectangle.width,
+					tempTargetRectangle.height);
 			debugCollisionShapeRenderer.end();
 		}
 
 		final List<Potion> potions = levelStream.getPotionsNear(runner.getX());
 		for (final Potion potion : potions) {
-			potion.retrieveRectangle(rectangle);
+			potion.retrieveHitbox(tempTargetRectangle);
 
 			debugCollisionShapeRenderer.begin(ShapeType.Filled);
 			debugCollisionShapeRenderer.setColor(0, 1, 0, 1);
-			debugCollisionShapeRenderer.rect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+			debugCollisionShapeRenderer.rect(tempTargetRectangle.x, tempTargetRectangle.y, tempTargetRectangle.width,
+					tempTargetRectangle.height);
 			debugCollisionShapeRenderer.end();
 		}
 
@@ -121,7 +141,85 @@ public class WorldStage extends AbstractStage {
 
 		super.act(delta * speedFactor);
 
-		runner.applyCollision(levelStream);
+		processCollisions();
+	}
+
+	private void processCollisions() {
+		processPlatforms();
+
+		processEnemies();
+
+		processPotions();
+	}
+
+	private void processPlatforms() {
+		if (!platformAwareActors.isEmpty()) {
+			final int offsetTop = 12;
+			final int offsetBottom = 10;
+
+			final List<Platform> platforms = levelStream.getPlatformsNear(runner.getX());
+
+			for (final IPlatformCollisionAwareActor actor : platformAwareActors) {
+				final float x = actor.getPlatformCollisionX();
+				final float y = actor.getPlatformCollisionY();
+
+				for (final Platform platform : platforms) {
+					platform.retrieveAbsolutePosition(tempPlatformPosition);
+					if (tempPlatformPosition.x >= x) {
+						break;
+					}
+
+					if (tempPlatformPosition.x <= x && x <= tempPlatformPosition.x + platform.getW()) {
+						final float platformTop = tempPlatformPosition.y + platform.getH();
+						if (platformTop - offsetBottom <= y && y <= platformTop + offsetTop) {
+							if (actor.onHitPlatform(platform, platformTop)) {
+								break;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	private void processEnemies() {
+		if (!enemyCollisionAwareActors.isEmpty()) {
+			for (final IEnemyCollisionAwareActor actor : enemyCollisionAwareActors) {
+				actor.retrieveHitbox(tempActorRectangle);
+
+				final List<Enemy> enemies = levelStream.getEnemiesNear(tempActorRectangle.x);
+				for (final Enemy enemy : enemies) {
+					enemy.retrieveHitbox(tempTargetRectangle);
+
+					if (tempActorRectangle.overlaps(tempTargetRectangle)) {
+						if (actor.onHitEnemy(enemy)) {
+							break;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	private void processPotions() {
+		if (!potionAwareActors.isEmpty()) {
+			for (final IPotionCollisionAwareActor actor : potionAwareActors) {
+				actor.retrieveHitbox(tempActorRectangle);
+
+				final List<Potion> potions = levelStream.getPotionsNear(tempActorRectangle.x);
+				for (final Potion potion : potions) {
+					if (potion.isVisible()) {
+						potion.retrieveHitbox(tempTargetRectangle);
+
+						if (tempActorRectangle.overlaps(tempTargetRectangle)) {
+							if (actor.onHitPotion(potion)) {
+								break;
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 
 	public void start() {
@@ -134,5 +232,21 @@ public class WorldStage extends AbstractStage {
 
 	public void setSpeedFactor(float speedFactor) {
 		this.speedFactor = speedFactor;
+	}
+
+	public void addEnemyAwareActor(IEnemyCollisionAwareActor actor) {
+		enemyCollisionAwareActors.add(actor);
+	}
+
+	public void removeEnemyAwareActor(IEnemyCollisionAwareActor actor) {
+		enemyCollisionAwareActors.remove(actor);
+	}
+
+	public void addPotionAwareActor(IPotionCollisionAwareActor actor) {
+		potionAwareActors.add(actor);
+	}
+
+	public void removePotionAwareActor(IPotionCollisionAwareActor actor) {
+		potionAwareActors.remove(actor);
 	}
 }

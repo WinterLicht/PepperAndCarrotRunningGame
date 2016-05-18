@@ -3,12 +3,12 @@ package com.peppercarrot.runninggame.entities;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Align;
 import com.nGame.utils.scene2d.AnimatedDrawable;
 import com.nGame.utils.scene2d.AnimatedImage;
 import com.peppercarrot.runninggame.utils.Assets;
+import com.peppercarrot.runninggame.utils.CollisionUtil;
 
 /**
  * Enemy.
@@ -21,7 +21,6 @@ public class Enemy extends Image {
 	// Animations
 	AnimatedImage idleAnim;
 	AnimatedImage dyingAnim;
-	private final Vector2 tempPosition = new Vector2();
 
 	enum State {
 		IDLE, DYING;
@@ -76,14 +75,7 @@ public class Enemy extends Image {
 		}
 	}
 
-	public void retrieveRectangle(Rectangle rectangle) {
-		tempPosition.x = getX();
-		tempPosition.y = getY();
-		getParent().localToStageCoordinates(tempPosition);
-
-		rectangle.x = tempPosition.x;
-		rectangle.y = tempPosition.y;
-		rectangle.width = getWidth();
-		rectangle.height = getHeight();
+	public void retrieveHitbox(Rectangle rectangle) {
+		CollisionUtil.retrieveHitbox(this, rectangle);
 	}
 }
