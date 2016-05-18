@@ -5,8 +5,11 @@ import java.util.List;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.peppercarrot.runninggame.entities.Background;
+import com.peppercarrot.runninggame.entities.Enemy;
+import com.peppercarrot.runninggame.entities.Potion;
 import com.peppercarrot.runninggame.entities.Runner;
 import com.peppercarrot.runninggame.utils.Constants;
 import com.peppercarrot.runninggame.world.LevelStream;
@@ -66,19 +69,41 @@ public class WorldStage extends AbstractStage {
 	private void debugRenderCollisionBounds() {
 		debugCollisionShapeRenderer.setProjectionMatrix(camera.combined);
 
-		final List<Platform> platforms = levelStream.getPlatformsNear(runner.getX());
 		final Vector2 position = new Vector2();
+		final Rectangle rectangle = new Rectangle();
+
+		final List<Platform> platforms = levelStream.getPlatformsNear(runner.getX());
 		for (final Platform platform : platforms) {
+			platform.retrieveAbsolutePosition(position);
+
 			debugCollisionShapeRenderer.begin(ShapeType.Filled);
 			debugCollisionShapeRenderer.setColor(1, 1, 0, 1);
-
-			platform.retrieveAbsolutePosition(position);
 			debugCollisionShapeRenderer.rect(position.x, position.y, platform.getW(), platform.getH());
 			debugCollisionShapeRenderer.end();
 		}
 
+		final List<Enemy> enemies = levelStream.getEnemiesNear(runner.getX());
+		for (final Enemy enemy : enemies) {
+			enemy.retrieveRectangle(rectangle);
+
+			debugCollisionShapeRenderer.begin(ShapeType.Filled);
+			debugCollisionShapeRenderer.setColor(1, 0, 0, 1);
+			debugCollisionShapeRenderer.rect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+			debugCollisionShapeRenderer.end();
+		}
+
+		final List<Potion> potions = levelStream.getPotionsNear(runner.getX());
+		for (final Potion potion : potions) {
+			potion.retrieveRectangle(rectangle);
+
+			debugCollisionShapeRenderer.begin(ShapeType.Filled);
+			debugCollisionShapeRenderer.setColor(0, 1, 0, 1);
+			debugCollisionShapeRenderer.rect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+			debugCollisionShapeRenderer.end();
+		}
+
 		debugCollisionShapeRenderer.begin(ShapeType.Filled);
-		debugCollisionShapeRenderer.setColor(1, 0, 0, 1);
+		debugCollisionShapeRenderer.setColor(1, 1, 1, 1);
 		debugCollisionShapeRenderer.rect(runner.getX(), runner.getY(), 100, 100);
 		debugCollisionShapeRenderer.end();
 	}

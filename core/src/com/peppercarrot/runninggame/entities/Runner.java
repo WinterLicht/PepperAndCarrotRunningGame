@@ -97,35 +97,11 @@ public class Runner extends Image {
 
 	public void applyCollision(LevelStream levelStream) {
 		applyPlatformCollision(levelStream.getPlatformsNear(getX()));
+
+		final Rectangle hitbox = getHitBox();
+		applyEnemyCollision(hitbox, levelStream.getEnemiesNear(getX()));
+		applyPotionCollision(hitbox, levelStream.getPotionsNear(getX()));
 	}
-	//
-	// /**
-	// * Collision between enemies and potions.
-	// */
-	// private void checkEntityCollision() {
-	// final Array<Enemy> enemies = level.getEnemiesInRadius(400);
-	// final Array<Potion> potions = level.getPotionsInRadius(400);
-	// final Rectangle hitbox = getHitBox();
-	// for (final Enemy enemy : enemies) {
-	// final Rectangle enemyRect = new Rectangle(enemy.getX(), enemy.getY(),
-	// enemy.getWidth(), enemy.getHeight());
-	// if (hitbox.overlaps(enemyRect) && enemy.isAlive()) {
-	// // enemy.die();//TODO Player dies!!
-	// this.setDying();
-	// }
-	// }
-	// for (final Potion p : potions) {
-	// final Rectangle potionRect = new Rectangle(p.getX(), p.getY(),
-	// p.getWidth(), p.getHeight());
-	// if (p.isVisible() && hitbox.overlaps(potionRect)) {
-	// p.collected();
-	// // TODO various potions
-	// ability1.increaseEnergy(1);
-	// ability2.increaseEnergy(1);
-	// ability3.increaseEnergy(1);
-	// }
-	// }
-	// }
 
 	private void applyPlatformCollision(List<Platform> platforms) {
 		// Offset in pixel
@@ -150,9 +126,34 @@ public class Runner extends Image {
 		}
 	}
 
-	public Rectangle getHitBox() {
-		final int offset = 30; // slightly smaller hitbox of the player as his
-								// sprite.
+	private void applyEnemyCollision(Rectangle hitbox, List<Enemy> enemies) {
+		final Rectangle enemyRectangle = new Rectangle();
+		for (final Enemy enemy : enemies) {
+			enemy.retrieveRectangle(enemyRectangle);
+			if (enemy.isAlive() && hitbox.overlaps(enemyRectangle)) {
+				setDying();
+			}
+		}
+	}
+
+	private void applyPotionCollision(Rectangle hitbox, List<Potion> potions) {
+		final Rectangle potionRectangle = new Rectangle();
+		for (final Potion potion : potions) {
+			potion.retrieveRectangle(potionRectangle);
+			if (potion.isVisible() && hitbox.overlaps(potionRectangle)) {
+				potion.collected();
+				// TODO various potions
+				ability1.increaseEnergy(1);
+				ability2.increaseEnergy(1);
+				ability3.increaseEnergy(1);
+			}
+		}
+	}
+
+	private Rectangle getHitBox() {
+		final int offset = 30;
+
+		// slightly smaller hitbox of the player as his sprite.
 		final Rectangle hitBox = new Rectangle(getX() + offset, getY() + offset, getWidth() - offset * 2,
 				getHeight() - offset * 2);
 		return hitBox;

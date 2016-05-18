@@ -16,6 +16,8 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.utils.Queue;
+import com.peppercarrot.runninggame.entities.Enemy;
+import com.peppercarrot.runninggame.entities.Potion;
 
 /**
  * Level stream. Appends a new segment, when a currently one is to be finished.
@@ -200,6 +202,26 @@ public class LevelStream extends Group {
 		for (final LevelSegment segment : segments) {
 			if (segment.getX() <= x && x <= segment.getRightX()) {
 				return segment.getPlatforms();
+			}
+		}
+
+		return Collections.emptyList();
+	}
+
+	public List<Enemy> getEnemiesNear(float x) {
+		for (final LevelSegment segment : segments) {
+			if (segment.getX() <= x && x <= segment.getRightX()) {
+				return segment.getEnemies();
+			}
+		}
+
+		return Collections.emptyList();
+	}
+
+	public List<Potion> getPotionsNear(float x) {
+		for (final LevelSegment segment : segments) {
+			if (segment.getX() <= x && x <= segment.getRightX()) {
+				return segment.getPotions();
 			}
 		}
 

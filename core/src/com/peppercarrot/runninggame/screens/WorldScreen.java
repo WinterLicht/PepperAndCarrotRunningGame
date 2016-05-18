@@ -89,13 +89,17 @@ public class WorldScreen extends ScreenAdapter {
 	}
 
 	private void update(float delta) {
-		if (!runner.isDying() && !gamePaused) {
+		if (!gamePaused) {
 			stage.move(worldSpeed * delta);
-			stage.act(delta);
-			ui.act(delta);
-		} else {
+		}
+
+		final boolean wasDying = runner.isDying();
+		stage.act(delta);
+		if (!gamePaused && !wasDying && runner.isDying()) {
 			switchToLoseScreen();
 		}
+
+		ui.act(delta);
 	}
 
 	private void draw() {
@@ -130,19 +134,17 @@ public class WorldScreen extends ScreenAdapter {
 	}
 
 	public void switchToLoseScreen() {
-		if (!gamePaused) {
-			ui.disable();
+		ui.disable();
 
-			final float fadeOutTime = 0.48f;
-			ui.fadeOut(true, fadeOutTime, null);
-			stage.fadeOut(true, fadeOutTime, new Runnable() {
-				@Override
-				public void run() {
-					PaCGame.getInstance().setScreen(new LoseScreen());
-				}
-			});
+		final float fadeOutTime = 0.48f;
+		ui.fadeOut(true, fadeOutTime, null);
+		stage.fadeOut(true, fadeOutTime, new Runnable() {
+			@Override
+			public void run() {
+				PaCGame.getInstance().setScreen(new LoseScreen());
+			}
+		});
 
-			gamePaused = true;
-		}
+		gamePaused = true;
 	}
 }
