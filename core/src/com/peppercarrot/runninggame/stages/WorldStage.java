@@ -33,6 +33,10 @@ public class WorldStage extends AbstractStage {
 
 	private final ShapeRenderer debugCollisionShapeRenderer = new ShapeRenderer();
 
+	private final float speed = 400.0f;
+
+	private float speedFactor = 1.0f;
+
 	public WorldStage(int virtualWidth, int virtualHeight, Runner runner) {
 		camera = new OrthographicCamera(virtualWidth, virtualHeight);
 
@@ -51,7 +55,8 @@ public class WorldStage extends AbstractStage {
 		return levelStream;
 	}
 
-	public void move(float offset) {
+	public void move(float delta) {
+		final float offset = delta * speed * speedFactor;
 		background.moveViewportLeft(offset);
 		background.setViewportY(runner.getY());
 		levelStream.moveLeft(offset);
@@ -114,12 +119,20 @@ public class WorldStage extends AbstractStage {
 				runner.getY() + camera.viewportHeight / 2 - Constants.OFFSET_TO_GROUND, 0);
 		camera.update();
 
-		super.act(delta);
+		super.act(delta * speedFactor);
 
 		runner.applyCollision(levelStream);
 	}
 
 	public void start() {
 		levelStream.start();
+	}
+
+	public float getSpeedFactor() {
+		return speedFactor;
+	}
+
+	public void setSpeedFactor(float speedFactor) {
+		this.speedFactor = speedFactor;
 	}
 }

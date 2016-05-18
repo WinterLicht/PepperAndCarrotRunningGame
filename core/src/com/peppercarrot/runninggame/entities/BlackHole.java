@@ -1,7 +1,13 @@
 package com.peppercarrot.runninggame.entities;
 
-import com.badlogic.gdx.utils.Array;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.nGame.utils.scene2d.AnimatedDrawable;
+import com.nGame.utils.scene2d.AnimatedImage;
 import com.peppercarrot.runninggame.stages.WorldStage;
+import com.peppercarrot.runninggame.utils.Assets;
 
 /**
  * Moves all game entities to the top left corner of the screen.
@@ -10,45 +16,26 @@ import com.peppercarrot.runninggame.stages.WorldStage;
  *
  */
 public class BlackHole extends Ability {
-	Array<Enemy> enemies;
-	Array<Potion> potions;
+	private final AnimatedImage effect;
 
-	public BlackHole() {
-		// durationMax = 1f;
-		// currentDuration = durationMax;
-		// enemies = new Array<Enemy>();
-		// potions = new Array<Potion>();
-		// // Animation of attack
-		// effect = new AnimatedImage(new AnimatedDrawable(
-		// new Animation(durationMax / 8, Assets.I.getRegions("black-hole"),
-		// Animation.PlayMode.LOOP_PINGPONG)));
-		// effect.setVisible(false);
+	private final List<Enemy> affectedEnemies = new ArrayList<Enemy>();
+
+	private final List<Potion> affectedPotions = new ArrayList<Potion>();
+
+	public BlackHole(Runner runner) {
+		super(runner, 1, 1.0f);
+		effect = new AnimatedImage(new AnimatedDrawable(
+				new Animation(getDuration() / 8, Assets.I.getRegions("black-hole"), Animation.PlayMode.LOOP_PINGPONG)));
+		effect.setVisible(false);
 	}
 
 	@Override
-	public void update(float delta) {
-		// if (currentDuration >= durationMax) {
-		// // Effect ending
-		// for (final Enemy enemy : enemies) {
-		// enemy.die();
-		// enemy.setVisible(false);
-		// }
-		// for (final Potion potion : potions) {
-		// potion.collected();
-		// }
-		// effect.setVisible(false);
-		// } else {
-		// // Effect active
-		// currentDuration += delta;
-		// }
-	}
-
-	@Override
-	protected void execute(Runner runner, WorldStage worldStage) {
+	protected void execute(WorldStage worldStage) {
 		// effect.setX((Constants.VIRTUAL_WIDTH * 3) / 4);
 		// effect.setY(Constants.VIRTUAL_HEIGHT);
 		// effect.setVisible(true);
 		// effect.reset();
+		//
 		// enemies = level.getEnemiesInRadius(Constants.VIRTUAL_WIDTH);
 		// potions = level.getPotionsInRadius(Constants.VIRTUAL_WIDTH);
 		// for (final Enemy enemy : enemies) {
@@ -67,4 +54,19 @@ public class BlackHole extends Ability {
 		// }
 	}
 
+	@Override
+	protected void internalUpdate(float delta) {
+	}
+
+	@Override
+	protected void finish() {
+		for (final Enemy enemy : affectedEnemies) {
+			enemy.die();
+			enemy.setVisible(false);
+		}
+		for (final Potion potion : affectedPotions) {
+			potion.collected();
+		}
+		effect.setVisible(false);
+	}
 }

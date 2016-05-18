@@ -7,44 +7,88 @@ import com.peppercarrot.runninggame.stages.WorldStage;
  * Player's abilities extend this.
  * 
  * @author WinterLicht
+ * @author momsen
  *
  */
 public abstract class Ability {
-	/**
-	 * This bar shows if ability can be activated and stores values of energy
-	 * amount to activate.
-	 */
-	float durationMax;
-	/** How long is effect lasting. */
-	private float currentDuration;
 
+	/**
+	 * The parent runner
+	 */
+	private final Runner runner;
+
+	/**
+	 * How much energy does this ability currently have
+	 */
 	private int energy;
 
-	private int maxEnergy;
+	/**
+	 * Hoch much energy does this ability need
+	 */
+	private final int maxEnergy;
 
-	public void increaseEnergy(int incr) {
-		energy += incr;
+	/**
+	 * How long is effect lasting.
+	 */
+	private final float duration;
+
+	/**
+	 * Is this ability currently running
+	 */
+	private boolean running;
+
+	/**
+	 * How long is this ability running.
+	 */
+	private float currentDuration;
+
+	public Ability(Runner runner, int maxEnergy, float duration) {
+		this.runner = runner;
+		this.maxEnergy = maxEnergy;
+		this.duration = duration;
+	}
+
+	public void increaseEnergy(int value) {
+		energy += value;
 		if (energy > maxEnergy) {
 			energy = maxEnergy;
 		}
 	}
 
-	public void activate(Runner runner, WorldStage worldStage) {
-		if (currentDuration >= durationMax) {
-			// Activate ability only possible when the previous was finished
+	public void update(float delta) {
+		coolDown(delta);
+		internalUpdate(delta);
+	}
+
+	protected abstract void internalUpdate(float delta);
+
+	private void coolDown(float delta) {
+		if (running) {
+			currentDuration += delta;
+			if (currentDuration > duration) {
+				finish();
+				running = false;
+				currentDuration = 0.0f;
+			}
+		}
+	}
+
+	protected abstract void finish();
+
+	public void activate(WorldStage worldStage) {
+		if (!running) {
 			if (energy >= maxEnergy) {
-				energy = 0;
+				execute(worldStage);
 				currentDuration = 0f;
-				execute(runner, worldStage);
+				energy = 0;
+				running = true;
 			}
 		} else {
 			Gdx.app.log(getClass().getSimpleName(), "not enough energy");
 		}
 	}
 
-	public abstract void update(float delta);
-
-	protected abstract void execute(Runner runner, WorldStage worldStage);
+	protected abstract void execute(WorldStage worldStage);
 
 	public int getEnergy() {
 		return energy;
@@ -52,5 +96,21 @@ public abstract class Ability {
 
 	public int getMaxEnergy() {
 		return maxEnergy;
+	}
+
+	public float getCurrentDuration() {
+		return currentDuration;
+	}
+
+	public float getDuration() {
+		return duration;
+	}
+
+	public boolean isRunning() {
+		return running;
+	}
+
+	public Runner getRunner() {
+		return runner;
 	}
 }

@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Align;
 import com.nGame.utils.scene2d.AnimatedDrawable;
@@ -22,7 +23,7 @@ import com.peppercarrot.runninggame.world.Platform;
  * @author WinterLicht
  *
  */
-public class Runner extends Image {
+public class Runner extends Group {
 	String name;
 	public State currState = State.RUNNING;
 	int speedY = 0;
@@ -30,6 +31,7 @@ public class Runner extends Image {
 	int maxJumpSpeed = 24;
 	/** Maximum speed when jumping in pixel */
 
+	Image runnerImage;
 	AnimatedImage runningAnim;
 	AnimatedImage jumpingAnim;
 	AnimatedImage doubleJumpingAnim;
@@ -37,7 +39,7 @@ public class Runner extends Image {
 	AnimatedImage attackingAnim; // TODO: various animations for various
 									// attacks?
 
-	public SweepAtt ability1;
+	public SweepAttack ability1;
 	/** Simple attack. */
 	public BlackHole ability2;
 	/** Remove game entities. */
@@ -55,11 +57,12 @@ public class Runner extends Image {
 	}
 
 	public Runner(String name) {
-		super(new TextureRegion(Assets.I.atlas.findRegion(name + "_run")));
 		this.name = name;
-		ability1 = new SweepAtt();
-		ability2 = new BlackHole();
-		ability3 = new TimeDistortion();
+		runnerImage = new Image(new TextureRegion(Assets.I.atlas.findRegion(name + "_run")));
+		addActor(runnerImage);
+		ability1 = new SweepAttack(this);
+		ability2 = new BlackHole(this);
+		ability3 = new TimeDistortion(this);
 		// Runner is always placed with some offset
 		setOrigin(Align.center);
 		setX(Constants.OFFSET_TO_EDGE);
@@ -77,7 +80,8 @@ public class Runner extends Image {
 		fallingAnim = new AnimatedImage(new AnimatedDrawable(
 				new Animation(0.14f, Assets.I.getRegions(name + "_fall"), Animation.PlayMode.LOOP_PINGPONG)));
 		fallingAnim.setOrigin(Align.center);
-		attackingAnim = new AnimatedImage(new AnimatedDrawable(new Animation(ability1.durationMax / 8,
+
+		attackingAnim = new AnimatedImage(new AnimatedDrawable(new Animation(ability1.getDuration() / 8,
 				Assets.I.getRegions(name + "_attack"), Animation.PlayMode.NORMAL)));
 		attackingAnim.setOrigin(Align.center);
 	}
@@ -185,37 +189,37 @@ public class Runner extends Image {
 		switch (currState) {
 		case DOUBLEJUMPING:
 			doubleJumpingAnim.act(delta);
-			setDrawable(doubleJumpingAnim.getDrawable());
+			runnerImage.setDrawable(doubleJumpingAnim.getDrawable());
 			break;
 		case DYING:
 			break;
 		case JUMPING:
 			jumpingAnim.act(delta);
-			setDrawable(jumpingAnim.getDrawable());
+			runnerImage.setDrawable(jumpingAnim.getDrawable());
 			break;
 		case RUNNING:
 			runningAnim.act(delta);
-			setDrawable(runningAnim.getDrawable());
+			runnerImage.setDrawable(runningAnim.getDrawable());
 			break;
 		case FALLING:
 			fallingAnim.act(delta);
-			setDrawable(fallingAnim.getDrawable());
+			runnerImage.setDrawable(fallingAnim.getDrawable());
 			break;
 		case ATTACK_RUNNING:
 			attackingAnim.act(delta);
-			setDrawable(attackingAnim.getDrawable());
+			runnerImage.setDrawable(attackingAnim.getDrawable());
 			break;
 		case ATTACK_JUMPING:
 			attackingAnim.act(delta);
-			setDrawable(attackingAnim.getDrawable());
+			runnerImage.setDrawable(attackingAnim.getDrawable());
 			break;
 		case ATTACK_DOUBLEJUMPING:
 			attackingAnim.act(delta);
-			setDrawable(attackingAnim.getDrawable());
+			runnerImage.setDrawable(attackingAnim.getDrawable());
 			break;
 		case ATTACK_FALLING:
 			attackingAnim.act(delta);
-			setDrawable(attackingAnim.getDrawable());
+			runnerImage.setDrawable(attackingAnim.getDrawable());
 			break;
 		default: // Should not be reached
 			break;
@@ -320,5 +324,13 @@ public class Runner extends Image {
 
 	private float getCollisionBottom() {
 		return getY();
+	}
+
+	public State getCurrentState() {
+		return currState;
+	}
+
+	public void setState(State state) {
+		currState = state;
 	}
 }

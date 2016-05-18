@@ -38,8 +38,6 @@ public class WorldScreen extends ScreenAdapter {
 
 	private final WorldUiStage ui;
 
-	private final float worldSpeed = 400.0f;
-
 	public WorldScreen() {
 		runner = new Runner("pepper");
 
@@ -64,7 +62,7 @@ public class WorldScreen extends ScreenAdapter {
 		ui.onActivateAbility(new AbilityActivationListener() {
 			@Override
 			public void activate(Ability ability) {
-				ability.activate(runner, stage);
+				ability.activate(stage);
 			}
 		});
 
@@ -90,7 +88,7 @@ public class WorldScreen extends ScreenAdapter {
 
 	private void update(float delta) {
 		if (!gamePaused) {
-			stage.move(worldSpeed * delta);
+			stage.move(delta);
 		}
 
 		final boolean wasDying = runner.isDying();
@@ -113,13 +111,13 @@ public class WorldScreen extends ScreenAdapter {
 			Gdx.app.exit();
 		}
 		if (Gdx.input.isKeyJustPressed(Keys.C)) {
-			ui.getAbilitySlot1().activate(runner, stage);
+			ui.getAbilitySlot1().activate(stage);
 		}
 		if (Gdx.input.isKeyJustPressed(Keys.X)) {
-			ui.getAbilitySlot2().activate(runner, stage);
+			ui.getAbilitySlot2().activate(stage);
 		}
 		if (Gdx.input.isKeyJustPressed(Keys.Y)) {
-			ui.getAbilitySlot3().activate(runner, stage);
+			ui.getAbilitySlot3().activate(stage);
 		}
 		if (Gdx.input.isKeyJustPressed(Keys.TAB)) {
 			Gdx.app.log("<debug>", "break");

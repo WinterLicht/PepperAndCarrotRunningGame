@@ -53,11 +53,6 @@ public class Enemy extends Image {
 		return (currState != State.DYING);
 	}
 
-	public Rectangle getHitBox() {
-		final Rectangle enemyRect = new Rectangle(this.getX(), this.getY(), this.getWidth(), this.getHeight());
-		return enemyRect;
-	}
-
 	@Override
 	public void act(float delta) {
 		super.act(delta);

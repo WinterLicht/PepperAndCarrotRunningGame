@@ -12,42 +12,30 @@ import com.peppercarrot.runninggame.stages.WorldStage;
  *
  */
 public class TimeDistortion extends Ability {
-	// float speedDistortion = 4;
-	// float oldLevelSpeed;
 
-	public TimeDistortion() {
-		// durationMax = 8f;
-		// currentDuration = durationMax;
-		// oldLevelSpeed = l.scrollSpeed;
+	private float previousSpeedFactor;
+
+	private WorldStage worldStage;
+
+	public TimeDistortion(Runner runner) {
+		super(runner, 6, 8.0f);
 	}
 
 	@Override
-	public void update(float delta) {
-		// if (currentDuration >= durationMax) {
-		// // Effect is ending
-		// level.scrollSpeed = oldLevelSpeed;
-		// } else {
-		// // Effect active
-		// currentDuration += delta;
-		// float scrollSpeed;
-		// // Calculate current scrollspeed
-		// if (currentDuration < durationMax / 2) {
-		// // scrollSpeed changing from 0 to speedDistortion
-		// scrollSpeed = speedDistortion * currentDuration * 2 / durationMax;
-		// } else {
-		// // scrollSpeed changing from speedDistortion to 0
-		// scrollSpeed = -((speedDistortion * currentDuration * 2 / durationMax)
-		// - speedDistortion * 2);
-		// }
-		// level.scrollSpeed = oldLevelSpeed - scrollSpeed;
-		// }
+	protected void execute(WorldStage worldStage) {
+		this.worldStage = worldStage;
+		previousSpeedFactor = worldStage.getSpeedFactor();
+
+		worldStage.setSpeedFactor(0.5f);
 	}
 
-	// @Override
-	// protected void execute() {
-	// oldLevelSpeed = level.scrollSpeed;
-	// }
 	@Override
-	protected void execute(Runner runner, WorldStage worldStage) {
+	protected void internalUpdate(float delta) {
+		// TODO: Tween the speed factor from factor => 0 => factor => previous
+	}
+
+	@Override
+	protected void finish() {
+		worldStage.setSpeedFactor(previousSpeedFactor);
 	}
 }
