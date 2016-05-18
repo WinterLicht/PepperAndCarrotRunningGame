@@ -131,16 +131,20 @@ public class Runner extends Image {
 		// Offset in pixel
 		final int offsetTop = 12;
 		final int offsetBottom = 10;
-		final Vector2 position = new Vector2();
+		final Vector2 platformPosition = new Vector2();
+		final float x = getX();
+		final float y = getY();
 		for (final Platform platform : platforms) {
-			platform.retrieveAbsolutePosition(position);
-			if (position.x >= getX()) {
+			platform.retrieveAbsolutePosition(platformPosition);
+			if (platformPosition.x >= x) {
 				break;
 			}
 
-			if (getX() >= position.x && getX() <= position.x + platform.getW()) {
-				if (position.y - offsetBottom < getY() && getY() < position.y + offsetTop) {
-					land(position.y);
+			if (platformPosition.x <= x && x <= platformPosition.x + platform.getW()) {
+				final float platformTop = platformPosition.y + platform.getH();
+				if (platformTop - offsetBottom <= y && y <= platformTop + offsetTop) {
+					land(platformTop);
+					break;
 				}
 			}
 		}
@@ -163,7 +167,7 @@ public class Runner extends Image {
 		// Player lands only if his speed is small enough
 		final int speedOffset = 8;
 		if (speedY < speedOffset) {
-			setY(y + Constants.OFFSET_TO_GROUND);
+			setY(y);
 			speedY = 0;
 			setRunnig();
 		}
