@@ -28,8 +28,6 @@ public class Background extends Actor {
 
 	private final int rowsIfCentered;
 
-	private final float centerOffsetY;
-
 	private float viewportX;
 
 	private float viewportY;
@@ -40,10 +38,7 @@ public class Background extends Actor {
 		textureWidth = texture.getWidth();
 		textureHeight = texture.getHeight();
 
-		centerOffsetY = -virtualHeight / 2.0f;
-
 		columnsIfCentered = virtualWidth / textureWidth + (virtualWidth % textureWidth > 0 ? 1 : 0);
-
 		rowsIfCentered = virtualHeight / textureHeight + (virtualHeight % textureHeight > 0 ? 1 : 0);
 	}
 
@@ -73,25 +68,14 @@ public class Background extends Actor {
 		final float clipY = (viewportY % textureHeight);
 
 		final int columns = columnsIfCentered + (clipX != 0 ? 1 : 0);
-
-		final int rowOffset = (int) (viewportY / textureHeight);
 		final int rows = rowsIfCentered + (clipY != 0 ? 1 : 0);
-
-		// Gdx.app.log("<dbg>",
-		// "drawing background starting at " + rowOffset + ", " + viewportY + ",
-		// " + textureHeight + ", " + rows);
 
 		for (int row = 0; row < rows; row++) {
 			for (int col = 0; col < columns; col++) {
-				// Base camera does not alter the x position, the clip will be
-				// scrolled
+				// Base camera does not alter the x and y position, the clip
+				// will be scrolled
 				final float tileX = clipX + col * textureWidth;
-
-				// Base camera does alter the y position, the clip will not be
-				// scrolled but framed
-				// TODO: why do we need the clip offset?
-				final float tileY = (row + rowOffset) * textureHeight + centerOffsetY - clipY;
-
+				final float tileY = row * textureHeight - clipY;
 				batch.draw(texture, tileX, tileY, textureWidth, textureHeight);
 			}
 		}

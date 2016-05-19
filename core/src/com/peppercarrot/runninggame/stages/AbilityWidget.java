@@ -15,13 +15,13 @@ public class AbilityWidget extends Table {
 		void activate(Ability ability);
 	}
 
-	private AbilityActivationListener listener;
-
 	private final Button button;
 
 	private final ProgressBar energy;
 
 	private Ability ability;
+
+	private AbilityActivationListener listener;
 
 	public AbilityWidget() {
 		button = new Button(Assets.I.skin, "default");
@@ -66,6 +66,7 @@ public class AbilityWidget extends Table {
 
 		if (ability != null) {
 			energy.setValue(ability.getEnergy());
+			button.setTouchable(ability.isRunning() ? Touchable.disabled : Touchable.enabled);
 		}
 	}
 

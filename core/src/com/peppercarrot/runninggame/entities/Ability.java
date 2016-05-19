@@ -48,6 +48,13 @@ public abstract class Ability {
 		this.duration = duration;
 	}
 
+	/**
+	 * Increate the available energy for this ability. Will be clipped at {#link
+	 * {@link #maxEnergy}.
+	 * 
+	 * @param value
+	 *            energy to add
+	 */
 	public void increaseEnergy(int value) {
 		energy += value;
 		if (energy > maxEnergy) {
@@ -55,11 +62,23 @@ public abstract class Ability {
 		}
 	}
 
+	/**
+	 * Updates the effect. If it is currently running, a cool down will be done.
+	 * 
+	 * @param delta
+	 *            time since last frame
+	 */
 	public void update(float delta) {
 		coolDown(delta);
 		internalUpdate(delta);
 	}
 
+	/**
+	 * Specific ability update
+	 * 
+	 * @param delta
+	 *            time since last frame
+	 */
 	protected abstract void internalUpdate(float delta);
 
 	private void coolDown(float delta) {
@@ -73,8 +92,18 @@ public abstract class Ability {
 		}
 	}
 
+	/**
+	 * Called after the effect is done
+	 */
 	protected abstract void finish();
 
+	/**
+	 * Activate the effect for a corresponding world, if it is not currently
+	 * running and it has enough energy.
+	 * 
+	 * @param worldStage
+	 *            game world
+	 */
 	public void activate(WorldStage worldStage) {
 		if (!running) {
 			if (energy >= maxEnergy) {
@@ -88,6 +117,12 @@ public abstract class Ability {
 		}
 	}
 
+	/**
+	 * Specific ability execution
+	 * 
+	 * @param worldStage
+	 *            game world
+	 */
 	protected abstract void execute(WorldStage worldStage);
 
 	public int getEnergy() {

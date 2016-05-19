@@ -7,18 +7,20 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.peppercarrot.runninggame.Callback;
 import com.peppercarrot.runninggame.entities.Ability;
 import com.peppercarrot.runninggame.stages.AbilityWidget.AbilityActivationListener;
 import com.peppercarrot.runninggame.utils.Assets;
+import com.peppercarrot.runninggame.utils.Callback;
 import com.peppercarrot.runninggame.utils.Constants;
 
 public class WorldUiStage extends AbstractStage {
 
-	Table uiTable;
-	Label hintLabel;
-	Table attackButtons;
+	private final Table uiTable;
+	private final Label hintLabel;
+	private final Table attackButtons;
+
 	private final Button jumpBtnTransparent;
+
 	private final AbilityWidget abilityWidget1;
 	private final AbilityWidget abilityWidget2;
 	private final AbilityWidget abilityWidget3;

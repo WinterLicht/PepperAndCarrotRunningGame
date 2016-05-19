@@ -36,6 +36,7 @@ public class BlackHole extends Ability {
 		// effect.setVisible(true);
 		// effect.reset();
 		//
+		// worldStage.getLevelStream().getEnemiesNear(x)
 		// enemies = level.getEnemiesInRadius(Constants.VIRTUAL_WIDTH);
 		// potions = level.getPotionsInRadius(Constants.VIRTUAL_WIDTH);
 		// for (final Enemy enemy : enemies) {

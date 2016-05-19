@@ -12,7 +12,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.utils.Queue;
@@ -80,7 +79,7 @@ public class LevelStream extends Group {
 	public LevelStream(OrthographicCamera camera, Batch batch, float segmentStartOffset,
 			float firstSegmentAdditionalStartOffset) {
 		this.camera = camera;
-		this.assetManager.setLoader(TiledMap.class, new TmxMapLoader());
+		this.assetManager.setLoader(TiledMap.class, new LevelSegmentTmxLoader());
 		this.renderer = new OrthogonalTiledMapRenderer(null, batch);
 		this.segmentStartOffset = segmentStartOffset;
 		this.firstSegmentAdditionalStartOffset = firstSegmentAdditionalStartOffset;
@@ -99,10 +98,6 @@ public class LevelStream extends Group {
 		currentlyLoadedSegmentFile = allFiles.get(lastLoadedIndex);
 		lastLoadedIndex = (lastLoadedIndex + 1) % allFiles.size();
 
-		// TODO: use custom loader (for "Level-Segment") so that referenced
-		// files and animations are loaded as well (like enemies etc). We need
-		// to parse the xml file and find all object-layers to find the needed
-		// assets.
 		assetManager.load(currentlyLoadedSegmentFile, TiledMap.class);
 		Gdx.app.debug(LOG_TAG, "Started loading of level " + currentlyLoadedSegmentFile);
 	}

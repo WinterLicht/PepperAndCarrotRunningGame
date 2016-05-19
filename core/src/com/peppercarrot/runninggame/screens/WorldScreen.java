@@ -3,13 +3,13 @@ package com.peppercarrot.runninggame.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.ScreenAdapter;
-import com.peppercarrot.runninggame.Callback;
 import com.peppercarrot.runninggame.PaCGame;
 import com.peppercarrot.runninggame.entities.Ability;
 import com.peppercarrot.runninggame.entities.Runner;
 import com.peppercarrot.runninggame.stages.AbilityWidget.AbilityActivationListener;
 import com.peppercarrot.runninggame.stages.WorldStage;
 import com.peppercarrot.runninggame.stages.WorldUiStage;
+import com.peppercarrot.runninggame.utils.Callback;
 import com.peppercarrot.runninggame.utils.Constants;
 
 /**

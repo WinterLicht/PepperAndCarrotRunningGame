@@ -78,7 +78,7 @@ public class WorldStage extends AbstractStage {
 	public void move(float delta) {
 		final float offset = delta * speed * speedFactor;
 		background.moveViewportLeft(offset);
-		background.setViewportY(runner.getY());
+		background.setViewportY(runner.getY() - Constants.OFFSET_TO_GROUND);
 		levelStream.moveLeft(offset);
 	}
 
