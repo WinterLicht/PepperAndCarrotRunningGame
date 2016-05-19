@@ -2,6 +2,7 @@ package com.peppercarrot.runninggame.world;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -74,9 +75,9 @@ public class LevelSegment extends Group {
 			}
 		}
 
-		platforms.sort(new Platform.XPositionComparator());
-		enemies.sort(new ActorXPositionComparator());
-		potions.sort(new ActorXPositionComparator());
+		Collections.sort(platforms, new Platform.XPositionComparator());
+		Collections.sort(enemies, new ActorXPositionComparator());
+		Collections.sort(potions, new ActorXPositionComparator());
 	}
 
 	/**
