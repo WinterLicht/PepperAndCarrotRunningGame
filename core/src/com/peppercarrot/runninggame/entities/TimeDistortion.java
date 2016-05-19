@@ -9,6 +9,7 @@ import com.peppercarrot.runninggame.stages.WorldStage;
  * effect ends.
  * 
  * @author WinterLicht
+ * @author momsen
  *
  */
 public class TimeDistortion extends Ability {
@@ -17,21 +18,29 @@ public class TimeDistortion extends Ability {
 
 	private WorldStage worldStage;
 
+	private final float halfDuration;
+
 	public TimeDistortion(Runner runner) {
 		super(runner, 6, 8.0f);
+		halfDuration = getDuration() / 2.0f;
 	}
 
 	@Override
 	protected void execute(WorldStage worldStage) {
 		this.worldStage = worldStage;
 		previousSpeedFactor = worldStage.getSpeedFactor();
-
-		worldStage.setSpeedFactor(0.5f);
 	}
 
 	@Override
 	protected void internalUpdate(float delta) {
-		// TODO: Tween the speed factor from factor => 0 => factor => previous
+		if (isRunning()) {
+			final float currentDuration = getCurrentDuration();
+			if (currentDuration >= halfDuration) {
+				worldStage.setSpeedFactor((currentDuration - halfDuration) / halfDuration);
+			} else {
+				worldStage.setSpeedFactor(1 - currentDuration / halfDuration);
+			}
+		}
 	}
 
 	@Override

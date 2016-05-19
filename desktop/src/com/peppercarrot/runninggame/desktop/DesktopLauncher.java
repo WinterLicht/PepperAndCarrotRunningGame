@@ -9,8 +9,8 @@ public class DesktopLauncher {
 	public static void main(String[] arg) {
 		final LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.title = "Pepper and Carrot Running Game";
-		config.width = Constants.VIRTUAL_WIDTH / 10;
-		config.height = Constants.VIRTUAL_HEIGHT / 10;
+		config.width = Constants.VIRTUAL_WIDTH;
+		config.height = Constants.VIRTUAL_HEIGHT;
 		final PaCGame game = PaCGame.getInstance();
 		new LwjglApplication(game, config);
 		// TODO: to generate a texture atlas

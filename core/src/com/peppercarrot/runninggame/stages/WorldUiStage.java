@@ -25,6 +25,8 @@ public class WorldUiStage extends AbstractStage {
 	private final AbilityWidget abilityWidget2;
 	private final AbilityWidget abilityWidget3;
 
+	private boolean hintFaded = false;
+
 	public WorldUiStage() {
 		final int uiPadding = 30; // padding of borders for ui in pixel
 		uiTable = new Table();
@@ -71,18 +73,21 @@ public class WorldUiStage extends AbstractStage {
 
 	public void onJumpTouched(Callback callback) {
 		jumpBtnTransparent.addListener(new InputListener() {
-			private boolean hintFaded = false;
 
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				if (!hintFaded) {
-					hintLabel.addAction(Actions.fadeOut(0.48f));
-					hintFaded = true;
-				}
+				hideHint();
 				callback.invoke();
 				return true;
 			}
 		});
+	}
+
+	public void hideHint() {
+		if (!hintFaded) {
+			hintLabel.addAction(Actions.fadeOut(0.48f));
+			hintFaded = true;
+		}
 	}
 
 	public void onActivateAbility(AbilityActivationListener listener) {

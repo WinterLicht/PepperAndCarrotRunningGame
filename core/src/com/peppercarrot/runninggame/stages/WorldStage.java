@@ -8,11 +8,11 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.peppercarrot.runninggame.entities.Background;
 import com.peppercarrot.runninggame.entities.Enemy;
 import com.peppercarrot.runninggame.entities.Potion;
 import com.peppercarrot.runninggame.entities.Runner;
 import com.peppercarrot.runninggame.utils.Constants;
+import com.peppercarrot.runninggame.world.Background;
 import com.peppercarrot.runninggame.world.LevelStream;
 import com.peppercarrot.runninggame.world.Platform;
 import com.peppercarrot.runninggame.world.collision.IEnemyCollisionAwareActor;
@@ -139,7 +139,7 @@ public class WorldStage extends AbstractStage {
 				runner.getY() + camera.viewportHeight / 2 - Constants.OFFSET_TO_GROUND, 0);
 		camera.update();
 
-		super.act(delta * speedFactor);
+		super.act(delta);
 
 		processCollisions();
 	}

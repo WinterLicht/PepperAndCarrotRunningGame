@@ -124,6 +124,7 @@ public class WorldScreen extends ScreenAdapter {
 		}
 		if (Gdx.input.isKeyJustPressed(Keys.SPACE)) {
 			if (!gameStarted) {
+				ui.hideHint();
 				stage.start();
 				gameStarted = true;
 			}
