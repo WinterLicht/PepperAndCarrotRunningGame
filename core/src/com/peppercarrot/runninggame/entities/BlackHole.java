@@ -47,7 +47,7 @@ public class BlackHole extends Ability {
 	@Override
 	protected void execute(WorldStage worldStage) {
 		final float effectXPosition = getRunner().getX() + (Constants.VIRTUAL_WIDTH * 3) / 4;
-		final float effectYPosition = getRunner().getX() + Constants.VIRTUAL_HEIGHT;
+		final float effectYPosition = getRunner().getY() + Constants.VIRTUAL_HEIGHT;
 
 		effect.setX(effectXPosition);
 		effect.setY(effectYPosition);

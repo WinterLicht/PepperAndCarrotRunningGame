@@ -44,7 +44,7 @@ public class LevelSegmentLoader extends AsynchronousAssetLoader<LevelSegment, Pa
 
 	@Override
 	public LevelSegment loadSync(AssetManager manager, String fileName, FileHandle file, Parameter parameter) {
-		return new LevelSegment(camera, fileName, manager.get(parameter.getTmxFile()), renderer);
+		return new LevelSegment(camera, fileName, manager.get(parameter.getTmxFile(), TiledMap.class), renderer);
 	}
 
 	@SuppressWarnings("rawtypes")

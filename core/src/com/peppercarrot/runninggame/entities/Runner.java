@@ -90,12 +90,9 @@ public class Runner extends Group
 		if (isRunnig()) {
 			setJumping();
 			speedY = maxJumpSpeed;
-			return;
-		}
-		if (isJumping()) {
+		} else if (isJumping()) {
 			setDoubleJumping();
 			speedY = maxJumpSpeed;
-			return;
 		}
 	}
 

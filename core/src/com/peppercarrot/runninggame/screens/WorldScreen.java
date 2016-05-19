@@ -43,10 +43,10 @@ public class WorldScreen extends ScreenAdapter {
 
 		stage = new WorldStage(Constants.VIRTUAL_WIDTH, Constants.VIRTUAL_HEIGHT, runner);
 
-		ui = initializeUi(runner);
+		ui = initializeUi();
 	}
 
-	private WorldUiStage initializeUi(Runner runner) {
+	private WorldUiStage initializeUi() {
 		final WorldUiStage ui = new WorldUiStage();
 
 		ui.onJumpTouched(new Callback() {

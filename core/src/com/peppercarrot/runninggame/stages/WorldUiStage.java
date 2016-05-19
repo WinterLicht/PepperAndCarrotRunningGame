@@ -26,6 +26,7 @@ public class WorldUiStage extends AbstractStage {
 	private final AbilityWidget abilityWidget3;
 
 	private boolean hintFaded = false;
+	private Callback jumpBtnCallback;
 
 	public WorldUiStage() {
 		final int uiPadding = 30; // padding of borders for ui in pixel
@@ -43,6 +44,16 @@ public class WorldUiStage extends AbstractStage {
 		hintLabel.setTouchable(Touchable.disabled);
 		jumpBtnTransparent.add(hintLabel).width(jumpBtnTransparentWidth).top();
 		jumpBtnTransparent.top();
+		jumpBtnTransparent.addListener(new InputListener() {
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				hideHint();
+				if (jumpBtnCallback != null) {
+					jumpBtnCallback.invoke();
+				}
+				return true;
+			}
+		});
 
 		// TextButton jumpButton = new TextButton ("JUMP", Assets.I.skin,
 		// "default");
@@ -72,15 +83,7 @@ public class WorldUiStage extends AbstractStage {
 	}
 
 	public void onJumpTouched(Callback callback) {
-		jumpBtnTransparent.addListener(new InputListener() {
-
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				hideHint();
-				callback.invoke();
-				return true;
-			}
-		});
+		jumpBtnCallback = callback;
 	}
 
 	public void hideHint() {
