@@ -9,8 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
  * Renders a tiled layer. Does only work with the level segment as a parent,
  * since the renderer needs to be configured correctly.
  * 
- * TODO: define property for z-index
- * 
  * @author momsen
  *
  */

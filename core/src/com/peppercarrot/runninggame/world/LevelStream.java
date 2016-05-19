@@ -34,6 +34,8 @@ public class LevelStream extends Group {
 
 	private int lastLoadedIndex = 0;
 
+	private int levelIndex = 0;
+
 	/**
 	 * Asset manager to load all segment assets (tile maps etc)
 	 */
@@ -52,7 +54,7 @@ public class LevelStream extends Group {
 	/**
 	 * Name of the currently loaded asset
 	 */
-	private String currentlyLoadedSegmentFile;
+	private String currentlyLoadedSegmentName;
 
 	/**
 	 * Never call {@link TiledMapRenderer#render()} on this instance, since the
@@ -79,8 +81,9 @@ public class LevelStream extends Group {
 	public LevelStream(OrthographicCamera camera, Batch batch, float segmentStartOffset,
 			float firstSegmentAdditionalStartOffset) {
 		this.camera = camera;
-		this.assetManager.setLoader(TiledMap.class, new LevelSegmentTmxLoader());
 		this.renderer = new OrthogonalTiledMapRenderer(null, batch);
+		this.assetManager.setLoader(LevelSegment.class, new LevelSegmentLoader(camera, renderer));
+		this.assetManager.setLoader(TiledMap.class, new LevelSegmentTmxLoader());
 		this.segmentStartOffset = segmentStartOffset;
 		this.firstSegmentAdditionalStartOffset = firstSegmentAdditionalStartOffset;
 	}
@@ -89,17 +92,19 @@ public class LevelStream extends Group {
 	 * Starts streaming the segments
 	 */
 	public void start() {
-		if (currentlyLoadedSegmentFile == null) {
+		if (currentlyLoadedSegmentName == null) {
 			startLoadingNextLevelSegment();
 		}
 	}
 
 	private void startLoadingNextLevelSegment() {
-		currentlyLoadedSegmentFile = allFiles.get(lastLoadedIndex);
+		final String currentFile = allFiles.get(lastLoadedIndex);
 		lastLoadedIndex = (lastLoadedIndex + 1) % allFiles.size();
 
-		assetManager.load(currentlyLoadedSegmentFile, TiledMap.class);
-		Gdx.app.debug(LOG_TAG, "Started loading of level " + currentlyLoadedSegmentFile);
+		currentlyLoadedSegmentName = "segment" + (levelIndex++);
+		assetManager.load(currentlyLoadedSegmentName, LevelSegment.class,
+				new LevelSegmentLoader.Parameter(currentFile));
+		Gdx.app.debug(LOG_TAG, "Started loading of level " + currentlyLoadedSegmentName);
 	}
 
 	@Override
@@ -128,24 +133,24 @@ public class LevelStream extends Group {
 	}
 
 	private boolean nextLevelSegmentReady() {
-		return assetManager.isLoaded(currentlyLoadedSegmentFile);
+		return assetManager.isLoaded(currentlyLoadedSegmentName);
 	}
 
-	private void appendNextSegment(float offset) {
-		final LevelSegment segment = getNextLevelSegment(offset);
+	private void appendNextSegment(float additionalOffset) {
+		final LevelSegment segment = getNextLevelSegment();
+		segment.setX(additionalOffset + segmentStartOffset);
 		addActor(segment);
 		segments.addLast(segment);
 
 		Gdx.app.debug(LOG_TAG, "Completely loaded level " + segment.getAssetName() + ". Inserting into stage");
 	}
 
-	private LevelSegment getNextLevelSegment(float offset) {
+	private LevelSegment getNextLevelSegment() {
 		if (!nextLevelSegmentReady()) {
 			return null;
 		}
 
-		return new LevelSegment(camera, currentlyLoadedSegmentFile, offset + segmentStartOffset,
-				assetManager.get(currentlyLoadedSegmentFile), renderer);
+		return assetManager.get(currentlyLoadedSegmentName, LevelSegment.class);
 	}
 
 	private boolean reachedRightBorder(LevelSegment segment) {
@@ -158,7 +163,7 @@ public class LevelStream extends Group {
 
 	private void removeSegment(LevelSegment segment) {
 		removeActor(segment);
-		if (!currentlyLoadedSegmentFile.equals(segment.getAssetName())) {
+		if (!currentlyLoadedSegmentName.equals(segment.getAssetName())) {
 			assetManager.unload(segment.getAssetName());
 		}
 		Gdx.app.debug(LOG_TAG, "Removing segment " + segment.getAssetName());

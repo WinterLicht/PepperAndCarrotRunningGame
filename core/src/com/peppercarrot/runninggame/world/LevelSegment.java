@@ -7,6 +7,7 @@ import java.util.List;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -29,8 +30,6 @@ public class LevelSegment extends Group {
 
 	private final TiledMapRenderer renderer;
 
-	private final String assetName;
-
 	private final int segmentWidth;
 
 	private final List<Potion> potions = new ArrayList<Potion>();
@@ -39,8 +38,9 @@ public class LevelSegment extends Group {
 
 	private final List<Platform> platforms = new ArrayList<Platform>();
 
-	public LevelSegment(OrthographicCamera camera, String assetName, float startOffset, TiledMap map,
-			TiledMapRenderer renderer) {
+	private final String assetName;
+
+	public LevelSegment(OrthographicCamera camera, String assetName, TiledMap map, TiledMapRenderer renderer) {
 		this.camera = camera;
 		this.assetName = assetName;
 		this.renderer = renderer;
@@ -52,27 +52,79 @@ public class LevelSegment extends Group {
 		for (final MapLayer layer : map.getLayers()) {
 			if (layer instanceof TiledMapTileLayer) {
 				final TiledMapTileLayer tiledLayer = (TiledMapTileLayer) layer;
-				final String name = layer.getName();
+				final MapProperties properties = layer.getProperties();
 
-				// TODO: Merge layers and create entities by tag, name or
-				// property. Then we'll need only one method for iterating over
-				// tiles
-				if ("enemies".equals(name)) {
-					enemies.addAll(createEnemies(tiledLayer, tilewidth, tileheight));
-				} else if ("potions".equals(name)) {
-					potions.addAll(createPotions(tiledLayer, tilewidth, tileheight));
-				} else {
-					addActor(new TmxLayerActor(tiledLayer, renderer));
+				final boolean renderLayer = getBooleanProperty(properties, "render", false);
+				if (renderLayer) {
+					final int zIndex = getIntProperty(properties, "z-index", 0);
+					final TmxLayerActor actor = new TmxLayerActor(tiledLayer, renderer);
+					actor.setZIndex(zIndex);
+					addActor(actor);
+				}
+
+				final boolean eventLayer = getBooleanProperty(properties, "events", false);
+				if (eventLayer) {
+					extractEnemies(tiledLayer, tilewidth, tileheight);
+				}
+
+				final boolean collisionLayer = getBooleanProperty(properties, "platforms", false);
+				if (collisionLayer) {
 					platforms.addAll(extractPlatforms(tiledLayer, tilewidth, tileheight));
 				}
 			}
-			// TODO: Allow image-layers, espacially for enemies and potions
 		}
 
 		platforms.sort(new Platform.XPositionComparator());
 		enemies.sort(new ActorXPositionComparator());
 		potions.sort(new ActorXPositionComparator());
-		setX(startOffset);
+	}
+
+	/**
+	 * Gets the base asset name of which this segment is loaded
+	 * 
+	 * @return asset name
+	 */
+	public String getAssetName() {
+		return assetName;
+	}
+
+	private static boolean getBooleanProperty(MapProperties properties, String name, boolean defaultValue) {
+		final String value = properties.get(name, String.class);
+		if (value == null) {
+			return defaultValue;
+		}
+
+		return Boolean.valueOf(value);
+	}
+
+	private static int getIntProperty(MapProperties properties, String name, int defaultValue) {
+		final String value = properties.get(name, String.class);
+		if (value == null) {
+			return defaultValue;
+		}
+
+		return Integer.parseInt(value);
+	}
+
+	private void extractEnemies(TiledMapTileLayer layer, int tilewidth, int tileheight) {
+		final float centerOffsetX = tilewidth / 2.0f;
+		final float centerOffsetY = tileheight / 2.0f;
+
+		for (int column = 0; column < layer.getWidth(); column++) {
+			for (int row = 0; row < layer.getHeight(); row++) {
+
+				final Cell cell = layer.getCell(column, row);
+				if (cell != null) {
+					final String type = cell.getTile().getProperties().get("type", String.class);
+					if ("enemy".equals(type)) {
+						enemies.add(createEnemy(column, row, tilewidth, tileheight, centerOffsetX, centerOffsetY));
+					}
+					if ("potion".equals(type)) {
+						potions.add(createPotion(column, row, tilewidth, tileheight, centerOffsetX, centerOffsetY));
+					}
+				}
+			}
+		}
 	}
 
 	private Collection<Platform> extractPlatforms(TiledMapTileLayer tiledLayer, float tileWidth, float tileHeight) {
@@ -90,25 +142,6 @@ public class LevelSegment extends Group {
 		return platformsInLayer;
 	}
 
-	private Collection<Enemy> createEnemies(TiledMapTileLayer layer, int tilewidth, int tileheight) {
-		final List<Enemy> enemiesInLayer = new ArrayList<Enemy>();
-		final float centerOffsetX = tilewidth / 2.0f;
-		final float centerOffsetY = tileheight / 2.0f;
-
-		for (int column = 0; column < layer.getWidth(); column++) {
-			for (int row = 0; row < layer.getHeight(); row++) {
-
-				final Cell cell = layer.getCell(column, row);
-				// TODO: recognize which enemy by cell property
-				if (cell != null) {
-					final Enemy enemy = createEnemy(column, row, tilewidth, tileheight, centerOffsetX, centerOffsetY);
-					enemiesInLayer.add(enemy);
-				}
-			}
-		}
-		return enemiesInLayer;
-	}
-
 	private Enemy createEnemy(int column, int row, int tilewidth, int tileheight, float centerOffsetX,
 			float centerOffsetY) {
 		final float posX = (column + 0.5f) * tilewidth;
@@ -120,26 +153,6 @@ public class LevelSegment extends Group {
 		addActor(enemy);
 
 		return enemy;
-	}
-
-	private List<Potion> createPotions(TiledMapTileLayer layer, Integer tilewidth, Integer tileheight) {
-		final List<Potion> potionsInLayer = new ArrayList<Potion>();
-		final float centerOffsetX = tilewidth / 2.0f;
-		final float centerOffsetY = tileheight / 2.0f;
-
-		for (int column = 0; column < layer.getWidth(); column++) {
-			for (int row = 0; row < layer.getHeight(); row++) {
-
-				final Cell cell = layer.getCell(column, row);
-				// TODO: recognize which potion by cell property
-				if (cell != null) {
-					final Potion potion = createPotion(column, row, tilewidth, tileheight, centerOffsetX,
-							centerOffsetY);
-					potionsInLayer.add(potion);
-				}
-			}
-		}
-		return potionsInLayer;
 	}
 
 	private Potion createPotion(int column, int row, int tilewidth, int tileheight, float centerOffsetX,
@@ -167,15 +180,6 @@ public class LevelSegment extends Group {
 		if (isTransform()) {
 			resetTransform(batch);
 		}
-	}
-
-	/**
-	 * Gets the base asset name of which this segment is loaded
-	 * 
-	 * @return asset name
-	 */
-	public String getAssetName() {
-		return assetName;
 	}
 
 	/**
