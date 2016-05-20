@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.ScreenAdapter;
 import com.peppercarrot.runninggame.PaCGame;
 import com.peppercarrot.runninggame.entities.Ability;
+import com.peppercarrot.runninggame.entities.Pepper;
 import com.peppercarrot.runninggame.entities.Runner;
 import com.peppercarrot.runninggame.stages.AbilityWidget.AbilityActivationListener;
 import com.peppercarrot.runninggame.stages.WorldStage;
@@ -39,7 +40,7 @@ public class WorldScreen extends ScreenAdapter {
 	private final WorldUiStage ui;
 
 	public WorldScreen() {
-		runner = new Runner("pepper");
+		runner = new Pepper("pepper");
 
 		stage = new WorldStage(Constants.VIRTUAL_WIDTH, Constants.VIRTUAL_HEIGHT, runner);
 

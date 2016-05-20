@@ -420,209 +420,265 @@ roboto25
   index: -1
 
 skin3.png
-size: 1024,512
+size: 1024,1024
 format: RGBA8888
 filter: MipMapLinearNearest,Nearest
 repeat: none
-carrot_run
+carrot_doublejump
   rotate: false
-  xy: 747, 277
+  xy: 525, 610
   size: 105, 105
   orig: 105, 105
   offset: 0, 0
   index: 1
-carrot_run
+carrot_doublejump
   rotate: false
-  xy: 858, 388
+  xy: 636, 721
   size: 105, 105
   orig: 105, 105
   offset: 0, 0
   index: 2
-carrot_run
+carrot_fall
   rotate: false
-  xy: 747, 171
+  xy: 747, 832
+  size: 105, 105
+  orig: 105, 105
+  offset: 0, 0
+  index: 1
+carrot_fall
+  rotate: false
+  xy: 853, 832
+  size: 105, 105
+  orig: 105, 105
+  offset: 0, 0
+  index: 2
+carrot_fall
+  rotate: false
+  xy: 112, 450
+  size: 105, 105
+  orig: 105, 105
+  offset: 0, 0
+  index: 3
+carrot_jump
+  rotate: false
+  xy: 112, 344
+  size: 105, 105
+  orig: 105, 105
+  offset: 0, 0
+  index: 1
+carrot_jump
+  rotate: false
+  xy: 112, 238
+  size: 105, 105
+  orig: 105, 105
+  offset: 0, 0
+  index: 2
+carrot_jump
+  rotate: false
+  xy: 112, 132
   size: 105, 105
   orig: 105, 105
   offset: 0, 0
   index: 3
 carrot_run
   rotate: false
-  xy: 112, 6
+  xy: 112, 26
+  size: 105, 105
+  orig: 105, 105
+  offset: 0, 0
+  index: 1
+carrot_run
+  rotate: false
+  xy: 218, 499
+  size: 105, 105
+  orig: 105, 105
+  offset: 0, 0
+  index: 2
+carrot_run
+  rotate: false
+  xy: 218, 393
+  size: 105, 105
+  orig: 105, 105
+  offset: 0, 0
+  index: 3
+carrot_run
+  rotate: false
+  xy: 324, 499
   size: 105, 105
   orig: 105, 105
   offset: 0, 0
   index: 4
 carrot_run
   rotate: false
-  xy: 218, 55
+  xy: 218, 287
   size: 105, 105
   orig: 105, 105
   offset: 0, 0
   index: 5
 carrot_run
   rotate: false
-  xy: 324, 55
+  xy: 324, 393
   size: 105, 105
   orig: 105, 105
   offset: 0, 0
   index: 6
 carrot_run
   rotate: false
-  xy: 430, 55
+  xy: 218, 181
   size: 105, 105
   orig: 105, 105
   offset: 0, 0
   index: 7
 carrot_run
   rotate: false
-  xy: 536, 55
+  xy: 324, 287
   size: 105, 105
   orig: 105, 105
   offset: 0, 0
   index: 8
 carrot_run
   rotate: false
-  xy: 642, 55
+  xy: 218, 75
   size: 105, 105
   orig: 105, 105
   offset: 0, 0
   index: 9
 carrot_run
   rotate: false
-  xy: 748, 65
+  xy: 324, 181
   size: 105, 105
   orig: 105, 105
   offset: 0, 0
   index: 10
 death
   rotate: false
-  xy: 192, 383
+  xy: 192, 827
   size: 110, 110
   orig: 110, 110
   offset: 0, 0
   index: 2
 death
+  rotate: false
+  xy: 1, 445
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 3
+death
+  rotate: false
+  xy: 192, 716
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 4
+death
+  rotate: false
+  xy: 303, 827
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 5
+death
+  rotate: false
+  xy: 1, 334
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 6
+death
+  rotate: false
+  xy: 192, 605
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 7
+death
+  rotate: false
+  xy: 303, 716
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 8
+death
+  rotate: false
+  xy: 414, 827
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 9
+death
+  rotate: false
+  xy: 1, 223
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 10
+fly-death
+  rotate: false
+  xy: 303, 605
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 1
+fly-death
+  rotate: false
+  xy: 414, 716
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 2
+fly-death
+  rotate: false
+  xy: 525, 827
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 3
+fly-death
+  rotate: false
+  xy: 1, 112
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 4
+fly-death
+  rotate: false
+  xy: 414, 605
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 5
+fly-idle
+  rotate: false
+  xy: 525, 716
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 1
+fly-idle
+  rotate: false
+  xy: 636, 827
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 2
+fly-idle
   rotate: false
   xy: 1, 1
   size: 110, 110
   orig: 110, 110
   offset: 0, 0
   index: 3
-death
-  rotate: false
-  xy: 192, 272
-  size: 110, 110
-  orig: 110, 110
-  offset: 0, 0
-  index: 4
-death
-  rotate: false
-  xy: 303, 383
-  size: 110, 110
-  orig: 110, 110
-  offset: 0, 0
-  index: 5
-death
-  rotate: false
-  xy: 192, 161
-  size: 110, 110
-  orig: 110, 110
-  offset: 0, 0
-  index: 6
-death
-  rotate: false
-  xy: 303, 272
-  size: 110, 110
-  orig: 110, 110
-  offset: 0, 0
-  index: 7
-death
-  rotate: false
-  xy: 414, 383
-  size: 110, 110
-  orig: 110, 110
-  offset: 0, 0
-  index: 8
-death
-  rotate: false
-  xy: 303, 161
-  size: 110, 110
-  orig: 110, 110
-  offset: 0, 0
-  index: 9
-death
-  rotate: false
-  xy: 414, 272
-  size: 110, 110
-  orig: 110, 110
-  offset: 0, 0
-  index: 10
-fly-death
-  rotate: false
-  xy: 525, 383
-  size: 110, 110
-  orig: 110, 110
-  offset: 0, 0
-  index: 1
-fly-death
-  rotate: false
-  xy: 414, 161
-  size: 110, 110
-  orig: 110, 110
-  offset: 0, 0
-  index: 2
-fly-death
-  rotate: false
-  xy: 525, 272
-  size: 110, 110
-  orig: 110, 110
-  offset: 0, 0
-  index: 3
-fly-death
-  rotate: false
-  xy: 636, 383
-  size: 110, 110
-  orig: 110, 110
-  offset: 0, 0
-  index: 4
-fly-death
-  rotate: false
-  xy: 525, 161
-  size: 110, 110
-  orig: 110, 110
-  offset: 0, 0
-  index: 5
-fly-idle
-  rotate: false
-  xy: 636, 272
-  size: 110, 110
-  orig: 110, 110
-  offset: 0, 0
-  index: 1
-fly-idle
-  rotate: false
-  xy: 747, 383
-  size: 110, 110
-  orig: 110, 110
-  offset: 0, 0
-  index: 2
-fly-idle
-  rotate: false
-  xy: 636, 161
-  size: 110, 110
-  orig: 110, 110
-  offset: 0, 0
-  index: 3
 pepper_run
   rotate: false
-  xy: 1, 303
+  xy: 1, 747
   size: 190, 190
   orig: 190, 190
   offset: 0, 0
   index: 9
 pepper_run
   rotate: false
-  xy: 1, 112
+  xy: 1, 556
   size: 190, 190
   orig: 190, 190
   offset: 0, 0

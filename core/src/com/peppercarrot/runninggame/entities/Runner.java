@@ -1,12 +1,10 @@
 package com.peppercarrot.runninggame.entities;
 
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Align;
-import com.nGame.utils.scene2d.AnimatedDrawable;
 import com.nGame.utils.scene2d.AnimatedImage;
 import com.peppercarrot.runninggame.utils.Assets;
 import com.peppercarrot.runninggame.utils.Constants;
@@ -22,10 +20,11 @@ import com.peppercarrot.runninggame.world.collision.IPotionCollisionAwareActor;
  * @author WinterLicht
  *
  */
-public class Runner extends Group
+public abstract class Runner extends Group
 		implements IPlatformCollisionAwareActor, IEnemyCollisionAwareActor, IPotionCollisionAwareActor {
 	String name;
 	public State currState = State.RUNNING;
+	Pet pet;
 	int speedY = 0;
 	/** Vertical speed in pixel. */
 	int maxJumpSpeed = 24;
@@ -36,16 +35,11 @@ public class Runner extends Group
 	AnimatedImage jumpingAnim;
 	AnimatedImage doubleJumpingAnim;
 	AnimatedImage fallingAnim;
-	AnimatedImage attackingAnim; // TODO: various animations for various
-									// attacks?
+	AnimatedImage attackingAnim;
 
-	public SweepAttack ability1;
-	/** Simple attack. */
-	public BlackHole ability2;
-	/** Remove game entities. */
-	public TimeDistortion ability3;
-
-	/** Slow down level scroll speed. */
+	public Ability ability1;
+	public Ability ability2;
+	public Ability ability3;
 
 	/**
 	 * Possible states.
@@ -60,31 +54,19 @@ public class Runner extends Group
 		this.name = name;
 		runnerImage = new Image(new TextureRegion(Assets.I.atlas.findRegion(name + "_run")));
 		addActor(runnerImage);
-		ability1 = new SweepAttack(this);
-		ability2 = new BlackHole(this);
-		ability3 = new TimeDistortion(this);
+		initAbilities();
+		initAnimations();
+		initPet();
+		addActor(pet);
 		// Runner is always placed with some offset
 		setOrigin(Align.center);
 		setX(Constants.OFFSET_TO_EDGE);
 		setY(Constants.OFFSET_TO_GROUND);
-		// Load Animations
-		runningAnim = new AnimatedImage(new AnimatedDrawable(
-				new Animation(0.079f, Assets.I.getRegions(name + "_run"), Animation.PlayMode.LOOP)));
-		runningAnim.setOrigin(Align.center);
-		jumpingAnim = new AnimatedImage(new AnimatedDrawable(
-				new Animation(0.144f, Assets.I.getRegions(name + "_jump"), Animation.PlayMode.LOOP_PINGPONG)));
-		jumpingAnim.setOrigin(Align.center);
-		doubleJumpingAnim = new AnimatedImage(new AnimatedDrawable(
-				new Animation(0.144f, Assets.I.getRegions(name + "_doublejump"), Animation.PlayMode.LOOP_PINGPONG)));
-		doubleJumpingAnim.setOrigin(Align.center);
-		fallingAnim = new AnimatedImage(new AnimatedDrawable(
-				new Animation(0.14f, Assets.I.getRegions(name + "_fall"), Animation.PlayMode.LOOP_PINGPONG)));
-		fallingAnim.setOrigin(Align.center);
-
-		attackingAnim = new AnimatedImage(new AnimatedDrawable(new Animation(ability1.getDuration() / 8,
-				Assets.I.getRegions(name + "_attack"), Animation.PlayMode.NORMAL)));
-		attackingAnim.setOrigin(Align.center);
 	}
+
+	protected abstract void initAbilities();
+	protected abstract void initAnimations();
+	protected abstract void initPet();
 
 	public void jump() {
 		if (isRunnig()) {
@@ -168,7 +150,8 @@ public class Runner extends Group
 			setFalling();
 		}
 		// Player can't fall under/below the ground
-		if (getY() < Constants.OFFSET_TO_GROUND) { // land
+		if (getY() < Constants.OFFSET_TO_GROUND) {
+			land(Constants.OFFSET_TO_GROUND);
 			setRunnig();
 			setY(Constants.OFFSET_TO_GROUND);
 		}
