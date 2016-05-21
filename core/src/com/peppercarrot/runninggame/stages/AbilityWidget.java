@@ -66,7 +66,7 @@ public class AbilityWidget extends Table {
 
 		if (ability != null) {
 			energy.setValue(ability.getEnergy());
-			button.setTouchable(ability.isRunning() ? Touchable.disabled : Touchable.enabled);
+			//button.setTouchable(ability.isRunning() ? Touchable.disabled : Touchable.enabled);
 		}
 	}
 

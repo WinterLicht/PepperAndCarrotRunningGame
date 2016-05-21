@@ -10,7 +10,6 @@ public class Pepper extends Runner {
 
 	public Pepper(String name) {
 		super(name);
-
 	}
 
 	@Override
@@ -40,8 +39,9 @@ public class Pepper extends Runner {
 	@Override
 	protected void initAbilities() {
 		ability1 = new SweepAttack(this);
-		ability2 = new BlackHole(this);
-		ability3 = new TimeDistortion(this);
+		//TODO: better always here maxEnery+duration as parameter
+		ability2 = new ProjectileAttack(this, 0, 1);
+		ability3 = new CarrotCharge(this);
 	}
 
 }

@@ -24,13 +24,13 @@ public abstract class Runner extends Group
 		implements IPlatformCollisionAwareActor, IEnemyCollisionAwareActor, IPotionCollisionAwareActor {
 	String name;
 	public State currState = State.RUNNING;
-	Pet pet;
+	public Pet pet;
 	int speedY = 0;
 	/** Vertical speed in pixel. */
 	int maxJumpSpeed = 24;
 	/** Maximum speed when jumping in pixel */
 
-	Image runnerImage;
+	public Image runnerImage;
 	AnimatedImage runningAnim;
 	AnimatedImage jumpingAnim;
 	AnimatedImage doubleJumpingAnim;
@@ -57,7 +57,6 @@ public abstract class Runner extends Group
 		initAbilities();
 		initAnimations();
 		initPet();
-		addActor(pet);
 		// Runner is always placed with some offset
 		setOrigin(Align.center);
 		setX(Constants.OFFSET_TO_EDGE);

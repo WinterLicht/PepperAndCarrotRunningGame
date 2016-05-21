@@ -11,6 +11,7 @@ public abstract class Pet extends Group {
 
 	//maybe needs state...later
 	//public State currState = State.RUNNING;
+	String name;
 	Runner owner;
 	Image petImage;
 	AnimatedImage runningAnim;
@@ -19,10 +20,13 @@ public abstract class Pet extends Group {
 	AnimatedImage fallingAnim;
 	
 	public Pet(String name, Runner runner) {
+		this.name = name;
 		owner = runner;
 		petImage = new Image(new TextureRegion(Assets.I.atlas.findRegion(name + "_run")));
 		addActor(petImage);
 		setOrigin(Align.center);
 	}
+
+	public abstract void initAnimations();
 
 }

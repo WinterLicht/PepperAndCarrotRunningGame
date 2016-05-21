@@ -28,19 +28,19 @@ public abstract class Ability {
 	private final int maxEnergy;
 
 	/**
-	 * How long is effect lasting.
+	 * How long is effect lasting, negative means no cooldown.
 	 */
-	private final float duration;
+	protected final float duration;
 
 	/**
 	 * Is this ability currently running
 	 */
-	private boolean running;
+	protected boolean running;
 
 	/**
 	 * How long is this ability running.
 	 */
-	private float currentDuration;
+	protected float currentDuration;
 
 	public Ability(Runner runner, int maxEnergy, float duration) {
 		this.runner = runner;
@@ -69,9 +69,22 @@ public abstract class Ability {
 	 *            time since last frame
 	 */
 	public void update(float delta) {
-		coolDown(delta);
-		internalUpdate(delta);
+		if (running) {
+			coolDown(delta);
+			internalUpdate(delta);
+		}
 	}
+
+	/**
+	 * Cancel ability.
+	 */
+	protected void cancel() {
+		finish();
+		running = false;
+		currentDuration = 0.0f;
+		energy = 0;
+	}
+
 
 	/**
 	 * Specific ability update
@@ -82,7 +95,7 @@ public abstract class Ability {
 	protected abstract void internalUpdate(float delta);
 
 	private void coolDown(float delta) {
-		if (running) {
+		if (running && duration > -1) {
 			currentDuration += delta;
 			if (currentDuration > duration) {
 				finish();
@@ -105,15 +118,18 @@ public abstract class Ability {
 	 *            game world
 	 */
 	public void activate(WorldStage worldStage) {
+		Gdx.app.log(getClass().getSimpleName(), "activate");
 		if (!running) {
 			if (energy >= maxEnergy) {
-				execute(worldStage);
 				currentDuration = 0f;
 				energy = 0;
 				running = true;
+				execute(worldStage);
+			} else {
+				Gdx.app.log(getClass().getSimpleName(), "not enough energy");
 			}
 		} else {
-			Gdx.app.log(getClass().getSimpleName(), "not enough energy");
+			Gdx.app.log(getClass().getSimpleName(), "is already executing");
 		}
 	}
 

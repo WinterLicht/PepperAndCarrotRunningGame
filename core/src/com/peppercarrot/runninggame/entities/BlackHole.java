@@ -39,7 +39,7 @@ public class BlackHole extends Ability {
 	private final float RADIUS = Constants.VIRTUAL_WIDTH;
 
 	public BlackHole(Runner runner) {
-		super(runner, 1, 1.0f);
+		super(runner, 0, 1.0f);
 		effect = new Effect(getDuration());
 		effect.setVisible(false);
 	}
@@ -53,12 +53,11 @@ public class BlackHole extends Ability {
 		effect.setY(effectYPosition);
 		effect.setVisible(true);
 		effect.reset();
-		worldStage.addActor(effect);
 
 		final List<Enemy> enemies = worldStage.getLevelStream().getEnemiesNear(effectXPosition);
 		for (final Enemy enemy : enemies) {
 			if (isAffected(effectXPosition, enemy)) {
-				final ParallelAction pAction = new ParallelAction();
+				ParallelAction pAction = new ParallelAction();
 				pAction.addAction(Actions.moveTo(effectXPosition, effectYPosition, getDuration(), Interpolation.pow2));
 				pAction.addAction(Actions.forever(Actions.rotateBy(360f, 0.3f)));
 				enemy.addAction(pAction);
@@ -76,7 +75,7 @@ public class BlackHole extends Ability {
 				affectedPotions.add(potion);
 			}
 		}
-
+		worldStage.addActor(effect);
 	}
 
 	private boolean isAffected(float effectXPosition, Actor actor) {
