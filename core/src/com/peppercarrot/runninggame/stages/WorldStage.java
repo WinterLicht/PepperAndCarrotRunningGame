@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.peppercarrot.runninggame.entities.Enemy;
 import com.peppercarrot.runninggame.entities.Potion;
 import com.peppercarrot.runninggame.entities.Runner;
@@ -55,6 +56,7 @@ public class WorldStage extends AbstractStage {
 
 	public WorldStage(int virtualWidth, int virtualHeight, Runner runner) {
 		camera = new OrthographicCamera(virtualWidth, virtualHeight);
+		setViewport(new FitViewport(Constants.VIRTUAL_WIDTH, Constants.VIRTUAL_HEIGHT, camera));
 
 		background = new Background("testbg.png", virtualWidth, virtualHeight);
 		addActor(background);
@@ -85,7 +87,6 @@ public class WorldStage extends AbstractStage {
 
 	@Override
 	public void draw() {
-		getBatch().setProjectionMatrix(camera.combined);
 		super.draw();
 
 		// debugRenderCollisionBounds();
