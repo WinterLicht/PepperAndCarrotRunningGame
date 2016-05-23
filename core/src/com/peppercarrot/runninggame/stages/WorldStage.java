@@ -3,6 +3,7 @@ package com.peppercarrot.runninggame.stages;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
@@ -137,6 +138,7 @@ public class WorldStage extends AbstractStage {
 
 	@Override
 	public void act(float delta) {
+		getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		camera.position.set(camera.viewportWidth / 2,
 				runner.getY() + camera.viewportHeight / 2 - Constants.OFFSET_TO_GROUND, 0);
 		camera.update();
