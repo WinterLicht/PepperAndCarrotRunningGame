@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.List;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -27,10 +26,6 @@ import com.peppercarrot.runninggame.utils.ActorXPositionComparator;
  */
 public class LevelSegment extends Group {
 
-	private final OrthographicCamera camera;
-
-	private final BatchTiledMapRenderer renderer;
-
 	private final int segmentWidth;
 
 	private final List<Potion> potions = new ArrayList<Potion>();
@@ -42,9 +37,7 @@ public class LevelSegment extends Group {
 	private final String assetName;
 
 	public LevelSegment(OrthographicCamera camera, String assetName, TiledMap map, BatchTiledMapRenderer renderer) {
-		this.camera = camera;
 		this.assetName = assetName;
-		this.renderer = renderer;
 
 		final Integer tilewidth = map.getProperties().get("tilewidth", Integer.class);
 		final Integer tileheight = map.getProperties().get("tileheight", Integer.class);
@@ -58,7 +51,7 @@ public class LevelSegment extends Group {
 				final boolean renderLayer = getBooleanProperty(properties, "render", false);
 				if (renderLayer) {
 					final int zIndex = getIntProperty(properties, "z-index", 0);
-					final TmxLayerActor actor = new TmxLayerActor(tiledLayer, renderer);
+					final TmxLayerActor actor = new TmxLayerActor(tiledLayer, renderer, camera);
 					actor.setZIndex(zIndex);
 					addActor(actor);
 				}
@@ -169,20 +162,6 @@ public class LevelSegment extends Group {
 		return potion;
 	}
 
-	@Override
-	public void draw(Batch batch, float parentAlpha) {
-		if (isTransform()) {
-			applyTransform(batch, computeTransform());
-		}
-
-		renderer.getViewBounds().set(-getX(), -getY(), camera.viewportWidth, camera.viewportHeight);
-		drawChildren(batch, parentAlpha);
-
-		if (isTransform()) {
-			resetTransform(batch);
-		}
-	}
-
 	/**
 	 * Moves this segment to the left by a specific offset
 	 * 
@@ -198,7 +177,7 @@ public class LevelSegment extends Group {
 	 * @return right outer x position
 	 */
 	public float getRightX() {
-		return getX() + segmentWidth;
+		return getX() + segmentWidth * getScaleX();
 	}
 
 	/**
