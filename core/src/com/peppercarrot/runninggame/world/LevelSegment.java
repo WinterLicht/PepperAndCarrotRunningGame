@@ -10,9 +10,9 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
+import com.badlogic.gdx.maps.tiled.renderers.BatchTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.utils.Align;
 import com.peppercarrot.runninggame.entities.Enemy;
@@ -29,7 +29,7 @@ public class LevelSegment extends Group {
 
 	private final OrthographicCamera camera;
 
-	private final TiledMapRenderer renderer;
+	private final BatchTiledMapRenderer renderer;
 
 	private final int segmentWidth;
 
@@ -41,7 +41,7 @@ public class LevelSegment extends Group {
 
 	private final String assetName;
 
-	public LevelSegment(OrthographicCamera camera, String assetName, TiledMap map, TiledMapRenderer renderer) {
+	public LevelSegment(OrthographicCamera camera, String assetName, TiledMap map, BatchTiledMapRenderer renderer) {
 		this.camera = camera;
 		this.assetName = assetName;
 		this.renderer = renderer;
@@ -175,7 +175,7 @@ public class LevelSegment extends Group {
 			applyTransform(batch, computeTransform());
 		}
 
-		renderer.setView(camera.combined, -getX(), -getY(), camera.viewportWidth, camera.viewportHeight);
+		renderer.getViewBounds().set(-getX(), -getY(), camera.viewportWidth, camera.viewportHeight);
 		drawChildren(batch, parentAlpha);
 
 		if (isTransform()) {

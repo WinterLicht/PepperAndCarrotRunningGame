@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.renderers.BatchTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.utils.Queue;
@@ -60,7 +61,7 @@ public class LevelStream extends Group {
 	 * Never call {@link TiledMapRenderer#render()} on this instance, since the
 	 * map object will always be <code>null</code>
 	 */
-	private final TiledMapRenderer renderer;
+	private final BatchTiledMapRenderer renderer;
 
 	/**
 	 * Offset at which new segments should start (after the last segment)

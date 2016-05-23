@@ -57,6 +57,7 @@ public class WorldStage extends AbstractStage {
 
 	public WorldStage(int virtualWidth, int virtualHeight, Runner runner) {
 		camera = new OrthographicCamera(virtualWidth, virtualHeight);
+		camera.setToOrtho(false, Constants.VIRTUAL_WIDTH, Constants.VIRTUAL_HEIGHT);
 		setViewport(new FitViewport(Constants.VIRTUAL_WIDTH, Constants.VIRTUAL_HEIGHT, camera));
 
 		background = new Background("testbg.png", virtualWidth, virtualHeight);
@@ -88,6 +89,10 @@ public class WorldStage extends AbstractStage {
 
 	@Override
 	public void draw() {
+		getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		camera.position.set(camera.viewportWidth / 2,
+				runner.getY() + camera.viewportHeight / 2 - Constants.OFFSET_TO_GROUND, 0);
+
 		super.draw();
 
 		// debugRenderCollisionBounds();
@@ -138,11 +143,6 @@ public class WorldStage extends AbstractStage {
 
 	@Override
 	public void act(float delta) {
-		getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		camera.position.set(camera.viewportWidth / 2,
-				runner.getY() + camera.viewportHeight / 2 - Constants.OFFSET_TO_GROUND, 0);
-		camera.update();
-
 		super.act(delta);
 
 		processCollisions();

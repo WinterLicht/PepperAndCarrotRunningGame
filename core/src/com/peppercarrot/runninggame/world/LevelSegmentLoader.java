@@ -8,7 +8,7 @@ import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.renderers.BatchTiledMapRenderer;
 import com.badlogic.gdx.utils.Array;
 import com.peppercarrot.runninggame.world.LevelSegmentLoader.Parameter;
 
@@ -16,7 +16,7 @@ public class LevelSegmentLoader extends AsynchronousAssetLoader<LevelSegment, Pa
 
 	private final OrthographicCamera camera;
 
-	private final TiledMapRenderer renderer;
+	private final BatchTiledMapRenderer renderer;
 
 	public static class Parameter extends AssetLoaderParameters<LevelSegment> {
 
@@ -32,7 +32,7 @@ public class LevelSegmentLoader extends AsynchronousAssetLoader<LevelSegment, Pa
 		}
 	}
 
-	public LevelSegmentLoader(OrthographicCamera camera, TiledMapRenderer renderer) {
+	public LevelSegmentLoader(OrthographicCamera camera, BatchTiledMapRenderer renderer) {
 		super(new InternalFileHandleResolver());
 		this.camera = camera;
 		this.renderer = renderer;

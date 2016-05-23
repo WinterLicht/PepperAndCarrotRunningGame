@@ -68,6 +68,7 @@ public class Background extends Actor {
 		final float clipY = (viewportY % textureHeight);
 
 		final int columns = columnsIfCentered + (clipX != 0 ? 1 : 0);
+		final int rowOffset = (int) (viewportY / textureHeight);
 		final int rows = rowsIfCentered + (clipY != 0 ? 1 : 0);
 
 		for (int row = 0; row < rows; row++) {
@@ -75,7 +76,7 @@ public class Background extends Actor {
 				// Base camera does not alter the x and y position, the clip
 				// will be scrolled
 				final float tileX = clipX + col * textureWidth;
-				final float tileY = row * textureHeight - clipY;
+				final float tileY = (rowOffset + row) * textureHeight;
 				batch.draw(texture, tileX, tileY, textureWidth, textureHeight);
 			}
 		}
