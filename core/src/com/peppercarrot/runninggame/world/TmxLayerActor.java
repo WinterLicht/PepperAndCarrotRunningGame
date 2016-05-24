@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.BatchTiledMapRenderer;
 import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 
@@ -18,11 +19,13 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 public class TmxLayerActor extends Group {
 
 	private final class DrawableActor extends Actor {
+		final Vector3 tempPosition = new Vector3();
+
 		@Override
 		public void draw(Batch batch, float parentAlpha) {
 			final Matrix4 computeTransform = computeTransform();
-
-			TmxLayerActor.this.renderer.getViewBounds().set(-getX(), -getY(),
+			computeTransform.getTranslation(tempPosition);
+			TmxLayerActor.this.renderer.getViewBounds().set(-tempPosition.x, -tempPosition.y,
 					TmxLayerActor.this.camera.viewportWidth * computeTransform.getScaleX(),
 					TmxLayerActor.this.camera.viewportHeight * computeTransform.getScaleY());
 			TmxLayerActor.this.renderer.renderTileLayer(TmxLayerActor.this.layer);
