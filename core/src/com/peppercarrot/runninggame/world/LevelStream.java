@@ -14,6 +14,8 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.BatchTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.utils.Queue;
 import com.peppercarrot.runninggame.entities.Enemy;
@@ -209,6 +211,31 @@ public class LevelStream extends Group {
 		return Collections.emptyList();
 	}
 
+	/**
+	 * Get enemies in radius of (pointX, pointY).
+	 * 
+	 * @param pointX screen coordinates
+	 * @param pointY
+	 * @param radius
+	 * @return
+	 */
+	public List<Enemy> getEnemiesNear(float pointX, float pointY, float radius) {
+		List<Enemy> nearEnemies = new ArrayList<Enemy>();
+		for (final LevelSegment segment : segments) {
+			if (segment.getX() <= pointX+radius || pointX-radius <= segment.getRightX()) {
+				for (Enemy e : segment.getEnemies()) {
+					Rectangle enemyRect = new Rectangle();
+					e.retrieveHitbox(enemyRect);
+					Circle c = new Circle(pointX, pointY, radius);
+					if (c.contains(enemyRect.x, enemyRect.y)) {
+						nearEnemies.add(e);
+					}
+				}
+			}
+		}
+		return nearEnemies;
+	}
+	
 	public List<Enemy> getEnemiesNear(float x) {
 		for (final LevelSegment segment : segments) {
 			if (segment.getX() <= x && x <= segment.getRightX()) {
@@ -219,6 +246,31 @@ public class LevelStream extends Group {
 		return Collections.emptyList();
 	}
 
+	/**
+	 * Get potions in radius of (pointX, pointY).
+	 * 
+	 * @param pointX screen coordinates
+	 * @param pointY
+	 * @param radius
+	 * @return
+	 */
+	public List<Potion> getPotionsNear(float pointX, float pointY, float radius) {
+		List<Potion> nearPotions = new ArrayList<Potion>();
+		for (final LevelSegment segment : segments) {
+			if (segment.getX() <= pointX+radius || pointX-radius <= segment.getRightX()) {
+				for (Potion e : segment.getPotions()) {
+					Rectangle potionRect = new Rectangle();
+					e.retrieveHitbox(potionRect);
+					Circle c = new Circle(pointX, pointY, radius);
+					if (c.contains(potionRect.x, potionRect.y)) {
+						nearPotions.add(e);
+					}
+				}
+			}
+		}
+		return nearPotions;
+	}
+	
 	public List<Potion> getPotionsNear(float x) {
 		for (final LevelSegment segment : segments) {
 			if (segment.getX() <= x && x <= segment.getRightX()) {

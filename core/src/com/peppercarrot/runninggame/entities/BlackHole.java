@@ -1,11 +1,11 @@
 package com.peppercarrot.runninggame.entities;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Interpolation;
-import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
 import com.nGame.utils.scene2d.AnimatedDrawable;
@@ -15,7 +15,8 @@ import com.peppercarrot.runninggame.utils.Assets;
 import com.peppercarrot.runninggame.utils.Constants;
 
 /**
- * Moves all game entities to the top left corner of the screen.
+ * Moves all game entities to the given point on the screen.
+ * Enemies are instantly destroyed when in area of effect.
  * 
  * @author WinterLicht
  *
@@ -26,60 +27,76 @@ public class BlackHole extends Ability {
 
 		public Effect(float duration) {
 			super(new AnimatedDrawable(
-					new Animation(duration / 8, Assets.I.getRegions("black-hole"), Animation.PlayMode.LOOP_PINGPONG)));
+					new Animation(duration, Assets.I.getRegions("black-hole"), Animation.PlayMode.LOOP_PINGPONG)));
 		}
 	}
 
 	private final Effect effect;
 
-	private final List<Enemy> affectedEnemies = new ArrayList<Enemy>();
+	private Group affectedEnemies = new Group();
+	private Group affectedPotions = new Group();
 
-	private final List<Potion> affectedPotions = new ArrayList<Potion>();
+	private final float RADIUS = 700; //Effect radius
+	private float OFFSET_X = (Constants.VIRTUAL_WIDTH * 3) / 4; //where on the screen effect appears
+	private float OFFSET_Y = (Constants.VIRTUAL_HEIGHT * 4) / 5 - Constants.OFFSET_TO_GROUND;
 
-	private final float RADIUS = Constants.VIRTUAL_WIDTH;
-
-	public BlackHole(Runner runner) {
-		super(runner, 0, 1.0f);
+	public BlackHole(Runner runner, int maxEnergy, float duration) {
+		super(runner, maxEnergy, duration);
 		effect = new Effect(getDuration());
 		effect.setVisible(false);
 	}
 
 	@Override
 	protected void execute(WorldStage worldStage) {
-		final float effectXPosition = getRunner().getX() + (Constants.VIRTUAL_WIDTH * 3) / 4;
-		final float effectYPosition = getRunner().getY() + Constants.VIRTUAL_HEIGHT;
-
-		effect.setX(effectXPosition);
-		effect.setY(effectYPosition);
-		effect.setVisible(true);
+		float effectXPosition = OFFSET_X;
+		float effectYPosition = OFFSET_Y + worldStage.runner.getY();
 		effect.reset();
+		//Position centered
+		effect.setX(effectXPosition - effect.getWidth()/2);
+		effect.setY(effectYPosition - effect.getHeight()/2);
+		effect.setVisible(true);
 
-		final List<Enemy> enemies = worldStage.getLevelStream().getEnemiesNear(effectXPosition);
+		final List<Enemy> enemies = worldStage.getLevelStream().getEnemiesNear(effectXPosition, effectYPosition, RADIUS);
 		for (final Enemy enemy : enemies) {
-			if (isAffected(effectXPosition, enemy)) {
+			if (enemy.isAlive()) {
+				enemy.die();
+				enemy.setVisible(false);
+				//
+				AnimatedImage animation = enemy.dyingAnim;
+				animation.setVisible(true);
+				Rectangle enemyRect = new Rectangle();
+				enemy.retrieveHitbox(enemyRect);
+				//Set image on initial enemy position
+				animation.setX(enemyRect.x);
+				animation.setY(enemyRect.y);
 				ParallelAction pAction = new ParallelAction();
 				pAction.addAction(Actions.moveTo(effectXPosition, effectYPosition, getDuration(), Interpolation.pow2));
-				pAction.addAction(Actions.forever(Actions.rotateBy(360f, 0.3f)));
-				enemy.addAction(pAction);
-				affectedEnemies.add(enemy);
+				pAction.addAction(Actions.forever(Actions.rotateBy(360f, 0.8f)));
+				animation.addAction(pAction);
+				affectedEnemies.addActor(animation);
 			}
 		}
-
-		final List<Potion> potions = worldStage.getLevelStream().getPotionsNear(effectXPosition);
+		final List<Potion> potions = worldStage.getLevelStream().getPotionsNear(effectXPosition, effectYPosition, RADIUS);
 		for (final Potion potion : potions) {
-			if (isAffected(effectXPosition, potion)) {
-				final ParallelAction pAction = new ParallelAction();
+			if (potion.isVisible()) {
+				potion.collected();
+				AnimatedImage animation = new AnimatedImage(new AnimatedDrawable(potion.getCopyOfAnimation()));
+				animation.setVisible(true);
+				Rectangle potionRect = new Rectangle();
+				potion.retrieveHitbox(potionRect);
+				//Set image on initial potion position
+				animation.setX(potionRect.x);
+				animation.setY(potionRect.y);
+				ParallelAction pAction = new ParallelAction();
 				pAction.addAction(Actions.moveTo(effectXPosition, effectYPosition, getDuration(), Interpolation.pow2));
-				pAction.addAction(Actions.forever(Actions.rotateBy(360f, 0.3f)));
-				potion.addAction(pAction);
-				affectedPotions.add(potion);
+				pAction.addAction(Actions.forever(Actions.rotateBy(360f, 0.8f)));
+				animation.addAction(pAction);
+				affectedPotions.addActor(animation);
 			}
 		}
+		worldStage.addActor(affectedPotions);
+		worldStage.addActor(affectedEnemies);
 		worldStage.addActor(effect);
-	}
-
-	private boolean isAffected(float effectXPosition, Actor actor) {
-		return Math.abs(effectXPosition - actor.getX()) < RADIUS;
 	}
 
 	@Override
@@ -88,17 +105,10 @@ public class BlackHole extends Ability {
 
 	@Override
 	protected void finish() {
-		for (final Enemy enemy : affectedEnemies) {
-			enemy.die();
-			enemy.setVisible(false);
-		}
-		for (final Potion potion : affectedPotions) {
-			potion.collected();
-		}
-
+		affectedEnemies.remove();
+		affectedPotions.remove();
 		affectedPotions.clear();
 		affectedEnemies.clear();
-
 		effect.getParent().removeActor(effect);
 		effect.setVisible(false);
 	}

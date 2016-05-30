@@ -25,7 +25,7 @@ public class SweepAttack extends Ability {
 
 		public Effect(float duration) {
 			super(new AnimatedDrawable(
-					new Animation(duration / 7, Assets.I.getRegions("sweep-effect"), Animation.PlayMode.NORMAL)));
+					new Animation(duration / 8, Assets.I.getRegions("sweep-effect"), Animation.PlayMode.NORMAL)));
 		}
 
 		@Override

@@ -7,6 +7,8 @@ import com.nGame.utils.scene2d.AnimatedImage;
 import com.peppercarrot.runninggame.utils.Assets;
 
 public class Pepper extends Runner {
+	//TODO: duration of skills here?
+	private static float SWEEP_DURATION = 0.6f;
 
 	public Pepper(String name) {
 		super(name);
@@ -26,7 +28,7 @@ public class Pepper extends Runner {
 		fallingAnim = new AnimatedImage(new AnimatedDrawable(
 				new Animation(0.14f, Assets.I.getRegions(name + "_fall"), Animation.PlayMode.LOOP_PINGPONG)));
 		fallingAnim.setOrigin(Align.center);
-		attackingAnim = new AnimatedImage(new AnimatedDrawable(new Animation(ability1.getDuration() / 8,
+		attackingAnim = new AnimatedImage(new AnimatedDrawable(new Animation(SWEEP_DURATION/8,
 				Assets.I.getRegions(name + "_attack"), Animation.PlayMode.NORMAL)));
 		attackingAnim.setOrigin(Align.center);
 	}
@@ -37,11 +39,10 @@ public class Pepper extends Runner {
 	}
 
 	@Override
-	protected void initAbilities() {
-		ability1 = new SweepAttack(this);
-		//TODO: better always here maxEnery+duration as parameter
-		ability2 = new ProjectileAttack(this, 0, 1);
-		ability3 = new CarrotCharge(this);
+	protected void initAbilities() {		
+		ability1 = new CarrotCharge(this, 0);
+		ability2 = new ProjectileAttack(this, 0, SWEEP_DURATION	);
+		ability3 = new BlackHole(this, 0, 1);
 	}
 
 }

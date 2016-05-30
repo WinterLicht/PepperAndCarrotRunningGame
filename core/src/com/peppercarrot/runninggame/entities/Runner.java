@@ -271,7 +271,8 @@ public abstract class Runner extends Group
 	@Override
 	public boolean onHitEnemy(Enemy enemy) {
 		if (enemy.isAlive()) {
-			setDying();
+			//TODO auskommentieren
+			//setDying();
 			return true;
 		}
 		return false;

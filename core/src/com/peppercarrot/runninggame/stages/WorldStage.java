@@ -35,7 +35,7 @@ public class WorldStage extends AbstractStage {
 
 	private final Background background;
 
-	private final Runner runner;
+	public final Runner runner;
 
 	private final ShapeRenderer debugCollisionShapeRenderer = new ShapeRenderer();
 

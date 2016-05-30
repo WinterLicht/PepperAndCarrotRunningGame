@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import com.badlogic.gdx.utils.Align;
 import com.nGame.utils.scene2d.AnimatedDrawable;
 import com.nGame.utils.scene2d.AnimatedImage;
 import com.peppercarrot.runninggame.stages.WorldStage;
@@ -27,10 +29,12 @@ public class CarrotCharge extends Ability {
 		public int counter = 0;
 		public int times = 3; //Jumps to an enemy ... times.
 		public List<Enemy> nearEnemies = new ArrayList<Enemy>(); //Stores here near enemies.
+		public boolean jumpToNext = false;
 
 		public Effect() {
 			super(new AnimatedDrawable(
 					new Animation(0.06f, Assets.I.getRegions("carrot_run"), Animation.PlayMode.LOOP)));
+			setOrigin(Align.center);
 		}
 
 		@Override
@@ -38,28 +42,54 @@ public class CarrotCharge extends Ability {
 			CollisionUtil.retrieveHitbox(this, rectangle);
 		}
 
+		public void jumpToEnemy() {
+			jumpToNext = false;
+			if (counter < times && nearEnemies.size() > counter){
+	        	clearActions();
+				//Jump to next enemy
+				Rectangle tempRect = new Rectangle();
+				nearEnemies.get(counter).retrieveHitbox(tempRect);
+				SequenceAction seq = new SequenceAction();
+				seq.addAction( Actions.moveTo(tempRect.x, tempRect.y, 0.5f, Interpolation.pow2));
+				seq.addAction(Actions.run(new Runnable() {
+			        @Override
+			        public void run() {
+			        	/*if (nearEnemies.get(counter-1).isAlive()) {
+			        		nearEnemies.get(counter-1).die();
+			        	}*/
+			        	jumpToNext = true;
+			        }
+			    }));
+				this.addAction(seq);
+				mirrorIfNeeded(tempRect.x);
+				counter ++;
+			} else {
+				//Return back to Pepper
+				clearActions();
+				//FIXME: when after this assignment Pepper jumps,
+				//his destination should be updated...?
+				SequenceAction seq = new SequenceAction();
+				seq.addAction(Actions.moveTo(Constants.OFFSET_TO_EDGE, Constants.OFFSET_TO_GROUND, 0.8f, Interpolation.pow2));
+				seq.addAction(Actions.run(new Runnable() {
+					@Override
+					public void run() {
+						setVisible(false);
+					}
+				}));
+				this.addAction(seq);
+				mirrorIfNeeded(Constants.OFFSET_TO_EDGE);
+			}
+		}
+
+		public void update_() {
+			if (jumpToNext) {
+				jumpToEnemy();
+			}
+		}
+
 		@Override
 		public boolean onHitEnemy(Enemy enemy) {
-			if (enemy.isAlive()) {
-				//Destroy hit enemy
-				enemy.die();
-				counter ++;
-				if (counter < times){
-					//Jump to next enemy
-					Rectangle tempRect = new Rectangle();
-					nearEnemies.get(counter).retrieveHitbox(tempRect);
-					this.clearActions();
-					this.addAction(Actions.moveTo(tempRect.x, tempRect.y, 0.5f, Interpolation.pow2));
-					mirrorIfNeeded(tempRect.x);
-				} else {
-					//Return back to Pepper
-					this.clearActions();
-					//FIXME: when after this assignment Pepper jumps,
-					//his destination should be updated...
-					this.addAction(Actions.moveTo(Constants.OFFSET_TO_EDGE, Constants.OFFSET_TO_GROUND, 0.8f, Interpolation.pow2));
-					mirrorIfNeeded(Constants.OFFSET_TO_EDGE);
-				}
-			}
+			if (enemy.isAlive()) enemy.die();
 			return false;
 		}
 
@@ -70,9 +100,7 @@ public class CarrotCharge extends Ability {
 		 */
 		private void mirrorIfNeeded(float destinationX) {
 			if (getX() > destinationX) {
-				flipHorizontally(true);
-			}else{
-				flipHorizontally(false);
+				flipHorizontally();
 			}
 		}
 	}
@@ -80,9 +108,10 @@ public class CarrotCharge extends Ability {
 	private final Effect effect;
 	WorldStage worldStage;
 	
-	public CarrotCharge(Runner runner) {
-		//runner, maxEnergy, duration
-		super(runner, 0, -1f);
+	public CarrotCharge(Runner runner, int maxEnergy) {
+		//no duration
+		//skill-duration ends when Carrot returns
+		super(runner, maxEnergy, -2f);
 		effect = new Effect();
 		effect.setVisible(false);
 	}
@@ -90,12 +119,11 @@ public class CarrotCharge extends Ability {
 	@Override
 	protected void internalUpdate(float delta) {
 		if (isRunning()) {
-			int offset = 10;
-			if (effect.getX() <= Constants.OFFSET_TO_EDGE+offset &&
-				effect.getY() <= Constants.OFFSET_TO_GROUND+offset &&
-				effect.counter > 0) {
+			if (!effect.isVisible()) {
 				//cancel when he reaches the destination
 				cancel();
+			} else {
+				effect.update_();
 			}
 		}
 	}
@@ -107,19 +135,25 @@ public class CarrotCharge extends Ability {
 			worldStage.removeEnemyAwareActor(effect);
 		}
 		effect.setVisible(false);
+		effect.counter = 0;
+		effect.jumpToNext = false;
 		getRunner().pet.setVisible(true);
 	}
 
 	@Override
 	protected void execute(WorldStage worldStage) {
 		this.worldStage = worldStage;
+		Runner r = getRunner();
 		//Get near enemies
 		effect.nearEnemies.clear();
-		for (int i=0; i<effect.times; i++ ){
-			if (worldStage.getLevelStream().getEnemiesNear(Constants.VIRTUAL_WIDTH).size() > i) {
-				//FIXME: "getEnemiesNear" seems to be a wrong methog here
-				effect.nearEnemies.add(worldStage.getLevelStream().getEnemiesNear(Constants.VIRTUAL_WIDTH).get(i));
-				//System.out.println(worldStage.getLevelStream().getEnemiesNear(Constants.VIRTUAL_WIDTH).get(i).getX());
+		Rectangle temp = new Rectangle();
+		((IEnemyCollisionAwareActor) r).retrieveHitbox(temp);
+		List<Enemy> nearEnemies = worldStage.getLevelStream().getEnemiesNear(temp.x, temp.y, Constants.VIRTUAL_WIDTH);
+		for (int i=0; i<effect.times; i++ ){ 
+			if (nearEnemies.size() > i) {
+				if (nearEnemies.get(i).isAlive()) {
+				effect.nearEnemies.add(nearEnemies.get(i));
+				}
 			}
 		}
 		if (effect.nearEnemies.isEmpty()) {
@@ -130,20 +164,17 @@ public class CarrotCharge extends Ability {
 		}
 		effect.setVisible(true);
 		effect.reset();
-		Runner r = getRunner();
 		effect.setX(r.pet.getX());
-		effect.setY(r.pet.getY());
+		effect.setY(r.getY());
 		worldStage.addActor(effect);
 		r.pet.setVisible(false);
 		worldStage.addEnemyAwareActor(effect);
 		//Move to the first enemy
+		effect.jumpToNext = true;
+		/*
 		Rectangle tempRect = new Rectangle();
 		effect.nearEnemies.get(0).retrieveHitbox(tempRect);
 		effect.addAction(Actions.moveTo(tempRect.x, tempRect.y, 0.5f, Interpolation.pow2));
+		*/
 	}
-
-	/*
-	private boolean isAffected(float effectXPosition, Actor actor) {
-		return Math.abs(effectXPosition - actor.getX()) < Constants.VIRTUAL_WIDTH;
-	}*/
 }

@@ -20,7 +20,7 @@ public abstract class Ability {
 	/**
 	 * How much energy does this ability currently have
 	 */
-	private int energy;
+	private int energy = 0;
 
 	/**
 	 * Hoch much energy does this ability need
@@ -40,7 +40,7 @@ public abstract class Ability {
 	/**
 	 * How long is this ability running.
 	 */
-	protected float currentDuration;
+	protected float currentDuration = 0;
 
 	public Ability(Runner runner, int maxEnergy, float duration) {
 		this.runner = runner;

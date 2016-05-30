@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.utils.Align;
 import com.nGame.utils.scene2d.AnimatedDrawable;
 import com.nGame.utils.scene2d.AnimatedImage;
 import com.peppercarrot.runninggame.entities.Runner.State;
@@ -37,7 +38,7 @@ public class ProjectileAttack extends Ability {
 			super(new AnimatedDrawable(
 					new Animation(0.03f, Assets.I.getRegions("potion"), Animation.PlayMode.LOOP)));
 			this.angle = angle;
-			//TODO: why it's not working ?
+			setOrigin(Align.center);
 			addAction(Actions.forever(Actions.rotateBy(360f, 0.3f)));
 		}
 
@@ -114,7 +115,7 @@ public class ProjectileAttack extends Ability {
 
 
 	public ProjectileAttack(Runner runner, int maxEnergy, float duration) {
-		super(runner,  maxEnergy, duration);
+		super(runner, maxEnergy, duration);
 
 		for (int i = 0; i < amount; i++) {
 			// Distribute amount of projectiles inside the spread
