@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="7" tilewidth="95" tileheight="95" nextobjectid="1">
- <tileset firstgid="1" name="tileset_neutral_01" tilewidth="95" tileheight="95" tilecount="100" columns="10">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="7" tilewidth="95" tileheight="95">
+ <tileset firstgid="1" name="tileset_neutral_01" tilewidth="95" tileheight="95">
   <image source="tileset_neutral_01.png" width="950" height="950"/>
   <tile id="4">
    <properties>
@@ -15,7 +15,7 @@
  </tileset>
  <layer name="background" width="30" height="7">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUUAoAA0gAAQ==
+   eJxjYBgFo4B2wIMMeWLFBhMAANxoASE=
   </data>
  </layer>
  <layer name="platforms" width="30" height="7">
@@ -24,28 +24,28 @@
    <property name="render" value="true"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYBgFMMAExMwD7QgSAMi9Ymh4KLkfGSD7hVI/DES4AADkpADx
+   eJxjYBgFowACxHDgwWAvsW5hwmMerTAzEAMAslsDog==
   </data>
  </layer>
  <layer name="foreground" width="30" height="7">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUUAoAA0gAAQ==
+   eJxjYBgFo4C+IJrK6ogFMVRWhwwAv4gBbw==
   </data>
  </layer>
- <layer name="enemies" width="30" height="7">
+ <layer name="enemies" width="30" height="7" visible="0">
   <properties>
    <property name="events" value="true"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYBicgHWgHUABGMpuhwFa+GE4hAsuAAAkuAAV
+   eJxjZaA/YKWSmsEKBpPbWQcI43LLcAUA7kgAsA==
   </data>
  </layer>
- <layer name="potions" width="30" height="7">
+ <layer name="potions" width="30" height="7" visible="0">
   <properties>
    <property name="events" value="true"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYBgFuADHQDtgGIChGob43I0uB+IDAB4oACk=
+   eJxjYBiZIAQPpkQ/LrWjgD5gIMIaZCcA+08FQQ==
   </data>
  </layer>
 </map>

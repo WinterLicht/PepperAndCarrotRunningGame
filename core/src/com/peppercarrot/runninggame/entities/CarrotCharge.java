@@ -148,11 +148,16 @@ public class CarrotCharge extends Ability {
 		effect.nearEnemies.clear();
 		Rectangle temp = new Rectangle();
 		((IEnemyCollisionAwareActor) r).retrieveHitbox(temp);
-		List<Enemy> nearEnemies = worldStage.getLevelStream().getEnemiesNear(temp.x, temp.y, Constants.VIRTUAL_WIDTH);
-		for (int i=0; i<effect.times; i++ ){ 
+		List<Enemy> nearEnemies = worldStage.getLevelStream().getEnemiesNear(Constants.OFFSET_TO_EDGE, Constants.OFFSET_TO_GROUND+temp.y, Constants.VIRTUAL_WIDTH-Constants.OFFSET_TO_EDGE);
+		for (int i=0; i<effect.times; i++ ){
 			if (nearEnemies.size() > i) {
 				if (nearEnemies.get(i).isAlive()) {
-				effect.nearEnemies.add(nearEnemies.get(i));
+					Enemy e = nearEnemies.get(i);
+					Rectangle eR = new Rectangle();
+					e.retrieveHitbox(eR);
+					if (eR.x > 0) {
+						effect.nearEnemies.add(nearEnemies.get(i));
+					}
 				}
 			}
 		}

@@ -7,10 +7,16 @@ import com.badlogic.gdx.utils.Align;
 import com.nGame.utils.scene2d.AnimatedImage;
 import com.peppercarrot.runninggame.utils.Assets;
 
+/**
+ * Abstract class for a pet of the witch. Consider updating graphics
+ * and position relative to witch and her states.
+ * 
+ * @author WinterLicht
+ *
+ */
 public abstract class Pet extends Group {
 
-	//maybe needs state...later
-	//public State currState = State.RUNNING;
+	public State currState = State.RUNNING;
 	String name;
 	Runner owner;
 	Image petImage;
@@ -18,6 +24,13 @@ public abstract class Pet extends Group {
 	AnimatedImage jumpingAnim;
 	AnimatedImage doubleJumpingAnim;
 	AnimatedImage fallingAnim;
+	
+	/**
+	 * Possible states.
+	 */
+	enum State {
+		RUNNING, FALLING, JUMPING, DOUBLEJUMPING, DYING;
+	}
 	
 	public Pet(String name, Runner runner) {
 		this.name = name;
@@ -28,5 +41,12 @@ public abstract class Pet extends Group {
 	}
 
 	public abstract void initAnimations();
+	public abstract void updatePosition(float delta);
+	public abstract void land();
+	public abstract void setRunnig();
+	public abstract void setFalling();
+	public abstract void setJumping();
+	public abstract void setDoubleJumping();
+	public abstract void setDying();
 
 }

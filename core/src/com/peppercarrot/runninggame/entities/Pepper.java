@@ -6,6 +6,13 @@ import com.nGame.utils.scene2d.AnimatedDrawable;
 import com.nGame.utils.scene2d.AnimatedImage;
 import com.peppercarrot.runninggame.utils.Assets;
 
+/**
+ * Witch Pepper. Modify her abilities in initAbilities()
+ * function.
+ * 
+ * @author WinterLicht
+ *
+ */
 public class Pepper extends Runner {
 	//TODO: duration of skills here?
 	private static float SWEEP_DURATION = 0.6f;

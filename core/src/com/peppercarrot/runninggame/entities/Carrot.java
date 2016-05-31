@@ -6,44 +6,51 @@ import com.nGame.utils.scene2d.AnimatedDrawable;
 import com.nGame.utils.scene2d.AnimatedImage;
 import com.peppercarrot.runninggame.utils.Assets;
 
+/**
+ * Peppers pet. Has no functions except of graphical
+ * representation. By casting Carrot's abilities, set this
+ * invisible and use instead the Ability-class. 
+ * 
+ * @author WinterLicht
+ *
+ */
 public class Carrot extends Pet {
 
 	public Carrot(String name, Runner runner) {
 		super(name, runner);
 		initAnimations();
 	}
-
+	
 	@Override
-	public void act(float delta) {
-		super.act(delta);
-		// Decide which animation to display and
-		// change his position (offset), so he
+	public void updatePosition(float delta) {
+		// Change his position (offset), so he
 		// sits f.e on Pepper's broom.
-		if (owner.isDoubleJumping()) {
+		switch (currState) {
+		case DOUBLEJUMPING:
 			setX(owner.getX()-16);
 			setY(owner.getY()+67);
 			doubleJumpingAnim.act(delta);
-			petImage.setDrawable(doubleJumpingAnim.getDrawable());
-		}
-		if (owner.isJumping()) {
+			break;
+		case DYING:
+			break;
+		case JUMPING:
 			setX(owner.getX()+6);
 			setY(owner.getY()+28);
 			jumpingAnim.act(delta);
-			petImage.setDrawable(jumpingAnim.getDrawable());
-		}
-		if (owner.isRunnig()) {
+			break;
+		case RUNNING:
 			setX(owner.getX()-35);
 			setY(owner.getY()+0);
 			runningAnim.act(delta);
-			petImage.setDrawable(runningAnim.getDrawable());
-		}
-		if (owner.isFalling()) {
+			break;
+		case FALLING:
 			setX(owner.getX()+7);
 			setY(owner.getY()+65);
 			fallingAnim.act(delta);
-			petImage.setDrawable(fallingAnim.getDrawable());
+			break;
+		default: // Should not be reached
+			break;
 		}
-		
 	}
 
 	@Override
@@ -61,6 +68,41 @@ public class Carrot extends Pet {
 				new Animation(0.18f, Assets.I.getRegions(name + "_fall"), Animation.PlayMode.LOOP_PINGPONG)));
 		fallingAnim.setOrigin(Align.center);
 		//TODO: Carrot needs animation when Pepper attacks
+	}
+
+	@Override
+	public void land() {
+		currState = State.RUNNING;
+		petImage.setDrawable(runningAnim.getDrawable());
+	}
+
+	@Override
+	public void setRunnig() {
+		currState = State.RUNNING;
+		petImage.setDrawable(runningAnim.getDrawable());	
+	}
+
+	@Override
+	public void setFalling() {
+		currState = State.FALLING;
+		petImage.setDrawable(fallingAnim.getDrawable());
+	}
+
+	@Override
+	public void setJumping() {
+		currState = State.JUMPING;
+		petImage.setDrawable(jumpingAnim.getDrawable());
+	}
+
+	@Override
+	public void setDoubleJumping() {
+		currState = State.DOUBLEJUMPING;
+		petImage.setDrawable(doubleJumpingAnim.getDrawable());
+	}
+
+	@Override
+	public void setDying() {
+		currState = State.DYING;
 	}
 
 }

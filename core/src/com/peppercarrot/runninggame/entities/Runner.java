@@ -89,6 +89,7 @@ public abstract class Runner extends Group
 			setY(y);
 			speedY = 0;
 			setRunnig();
+			pet.land();
 		}
 	}
 
@@ -143,7 +144,8 @@ public abstract class Runner extends Group
 		// Move
 		final float oldYPos = getY();
 		setY(getY() + speedY);
-		if (getY() < oldYPos && !isAttacking()) {
+		pet.updatePosition(delta);
+		if (getY() < oldYPos) {
 			// Player is falling, if his y-position is lowered
 			// and he was previously running.
 			setFalling();
@@ -151,8 +153,6 @@ public abstract class Runner extends Group
 		// Player can't fall under/below the ground
 		if (getY() < Constants.OFFSET_TO_GROUND) {
 			land(Constants.OFFSET_TO_GROUND);
-			setRunnig();
-			setY(Constants.OFFSET_TO_GROUND);
 		}
 	}
 
@@ -162,6 +162,7 @@ public abstract class Runner extends Group
 			currState = State.ATTACK_RUNNING;
 		else
 			currState = State.RUNNING;
+		pet.setRunnig();
 	}
 
 	public void setFalling() {
@@ -169,6 +170,7 @@ public abstract class Runner extends Group
 			currState = State.ATTACK_FALLING;
 		else
 			currState = State.FALLING;
+		pet.setFalling();
 	}
 
 	public void setJumping() {
@@ -176,6 +178,7 @@ public abstract class Runner extends Group
 			currState = State.ATTACK_JUMPING;
 		else
 			currState = State.JUMPING;
+		pet.setJumping();
 	}
 
 	public void setDoubleJumping() {
@@ -183,10 +186,12 @@ public abstract class Runner extends Group
 			currState = State.ATTACK_DOUBLEJUMPING;
 		else
 			currState = State.DOUBLEJUMPING;
+		pet.setDoubleJumping();
 	}
 
 	public void setDying() {
 		currState = State.DYING;
+		pet.setDying();
 	}
 
 	/**
