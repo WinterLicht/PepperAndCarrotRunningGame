@@ -47,8 +47,8 @@ public class SweepAttack extends Ability {
 
 	private WorldStage worldStage;
 
-	public SweepAttack(Runner runner) {
-		super(runner, 0, 0.6f);
+	public SweepAttack(Runner runner, int maxEnergy, float duration) {
+		super(runner, maxEnergy, duration);
 
 		effect = new Effect(getDuration());
 		effect.setVisible(false);

@@ -63,7 +63,7 @@ public class WorldStage extends AbstractStage {
 		background = new Background("testbg.png", virtualWidth, virtualHeight);
 		addActor(background);
 
-		levelStream = new LevelStream(camera, getBatch(), virtualWidth * 1.5f, virtualWidth);
+		levelStream = new LevelStream(camera, getBatch(), 0, virtualWidth);//virtualWidth * 1.5f, virtualWidth);
 		levelStream.setY(Constants.OFFSET_TO_GROUND);
 		addActor(levelStream);
 
@@ -158,26 +158,23 @@ public class WorldStage extends AbstractStage {
 
 	private void processPlatforms() {
 		if (!platformAwareActors.isEmpty()) {
-			//Offset to the platforms top
-			//consider also offset in Runner's onHitPlatform()
-			final int offsetTop = -8;
-			final int offsetBottom = 24;
-
-			Rectangle temp = new Rectangle();
-			runner.retrieveHitbox(temp);
-			final List<Platform> platforms = levelStream.getPlatformssNear(temp.x, temp.y, temp.width*2);
 
 			for (final IPlatformCollisionAwareActor actor : platformAwareActors) {
 				final float x = actor.getPlatformCollisionX();
 				final float y = actor.getPlatformCollisionY();
 				float actorsW = actor.getPlatformCollisionWidth();
+				List<Platform> platforms = levelStream.getPlatformssNear(x, y, actorsW);
 
 				for (final Platform platform : platforms) {
 					platform.retrieveAbsolutePosition(tempPlatformPosition);
 					//Check for collision
 					if (x < tempPlatformPosition.x + platform.getW() || x + actorsW > tempPlatformPosition.x) {
-						//First if platform intersects player in x direction... 
+						//First if platform intersects actors in x direction... 
 						final float platformTop = tempPlatformPosition.y + platform.getH();
+						
+						//Offset to the platforms top
+						float offsetTop = 8;
+						float offsetBottom = 20;
 						if (platformTop - offsetBottom < y && y < platformTop + offsetTop) {
 							//...then if players bottom (y) is inside given offset-area
 							if (actor.onHitPlatform(platform, platformTop)) {
@@ -195,7 +192,8 @@ public class WorldStage extends AbstractStage {
 			for (final IEnemyCollisionAwareActor actor : enemyCollisionAwareActors) {
 				actor.retrieveHitbox(tempActorRectangle);
 
-				final List<Enemy> enemies = levelStream.getEnemiesNear(tempActorRectangle.x);
+				final List<Enemy> enemies = levelStream.getEnemiesNear(tempActorRectangle.x,
+						tempActorRectangle.y, tempActorRectangle.width*2);
 				for (final Enemy enemy : enemies) {
 					enemy.retrieveHitbox(tempTargetRectangle);
 
@@ -214,7 +212,8 @@ public class WorldStage extends AbstractStage {
 			for (final IPotionCollisionAwareActor actor : potionAwareActors) {
 				actor.retrieveHitbox(tempActorRectangle);
 
-				final List<Potion> potions = levelStream.getPotionsNear(tempActorRectangle.x);
+				final List<Potion> potions = levelStream.getPotionsNear(tempActorRectangle.x,
+						tempActorRectangle.y, tempActorRectangle.width*2);
 				for (final Potion potion : potions) {
 					if (potion.isVisible()) {
 						potion.retrieveHitbox(tempTargetRectangle);

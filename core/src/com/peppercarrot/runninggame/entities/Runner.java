@@ -27,7 +27,7 @@ public abstract class Runner extends Group
 	public Pet pet;
 	int speedY = 0;
 	/** Vertical speed in pixel. */
-	int maxJumpSpeed = 24;
+	int maxJumpSpeed = 26;
 	/** Maximum speed when jumping in pixel */
 
 	public Image runnerImage;
@@ -61,7 +61,6 @@ public abstract class Runner extends Group
 		setOrigin(Align.center);
 		setX(Constants.OFFSET_TO_EDGE);
 		setY(Constants.OFFSET_TO_GROUND);
-		runnerImage.debug();
 	}
 
 	protected abstract void initAbilities();
@@ -142,9 +141,16 @@ public abstract class Runner extends Group
 		}
 		// Gravity is 1 pixel
 		speedY -= 1;
-		// Move
+		// Move down
 		final float oldYPos = getY();
-		setY(getY() + speedY);
+		//FIXME:Tunneling, see also processPlatforms in WorldStage
+		//Currently: simply cap falling speed
+		if (speedY > -maxJumpSpeed) {
+			setY(getY() + speedY);
+		} else {
+			//No infinite acceleration
+			setY(getY()-maxJumpSpeed);
+		}
 		pet.updatePosition(delta);
 		if (getY() < oldYPos) {
 			// Player is falling, if his y-position is lowered
@@ -252,14 +258,16 @@ public abstract class Runner extends Group
 	}
 
 	@Override
+	/**
+	 * Slightly smaller hitbox of the player as his sprite.
+	 */
 	public void retrieveHitbox(Rectangle rectangle) {
-		final int offset = 30;
-
-		// slightly smaller hitbox of the player as his sprite.
-		rectangle.x = getX() + offset;
-		rectangle.y = getY() + offset;
-		rectangle.width = runnerImage.getWidth() - offset * 2;
-		rectangle.height = runnerImage.getHeight() - offset * 2;
+		int offsetX = 60;
+		int offsetY = 20;
+		rectangle.x = getX() + offsetX;
+		rectangle.y = getY() + offsetY;
+		rectangle.width = runnerImage.getWidth() - offsetX * 2;
+		rectangle.height = runnerImage.getHeight() - offsetY * 2;
 	}
 
 	@Override
@@ -279,6 +287,7 @@ public abstract class Runner extends Group
 		if (enemy.isAlive()) {
 			//TODO auskommentieren
 			//setDying();
+			enemy.die();
 			return true;
 		}
 		return false;
@@ -296,13 +305,13 @@ public abstract class Runner extends Group
 	
 	@Override
 	public float getPlatformCollisionWidth() {
-		return getWidth();
+		return runnerImage.getWidth();
 	}
 
 	@Override
 	public boolean onHitPlatform(Platform platform, float platformHitTop) {
 		//Offset so player lands with feet on the platform ground
-		float offset = 20;
+		float offset = 16;
 		land(platformHitTop-offset);
 		return true;
 	}

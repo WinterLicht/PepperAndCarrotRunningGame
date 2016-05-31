@@ -15,7 +15,7 @@
  </tileset>
  <layer name="background" width="30" height="7">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo4B2wIMMeWLFBhMAANxoASE=
+   eJxjYKAOSGZgOBAJxDA+MhubWipZO2js9aeTvUlo9uIDIHv9sJtBFsDnR3R7I6BsD1RxDOBBgRg6SEKyF809NAcAlv0XVw==
   </data>
  </layer>
  <layer name="platforms" width="30" height="7">
@@ -24,28 +24,28 @@
    <property name="render" value="true"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYBgFowACxHDgwWAvsW5hwmMerTAzEAMAslsDog==
+   eJxjYCAdMAExMxn6RgEmwBaWo+FLPgCFnRidMSiuALogAn0=
   </data>
  </layer>
  <layer name="foreground" width="30" height="7">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo4C+IJrK6ogFMVRWhwwAv4gBbw==
+   eJxjYCAMghgYDhChDAPE4NAXSKR5I81eDzLtjabQXmoDd6C90WhiHkhsdDlcgFh1yCAGjR+ER45YM4gBAMUpELg=
   </data>
  </layer>
- <layer name="enemies" width="30" height="7" visible="0">
+ <layer name="enemies" width="30" height="7">
   <properties>
    <property name="events" value="true"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjZaA/YKWSmsEKBpPbWQcI43LLcAUA7kgAsA==
+   eJxjYBgFo2AUUAoAA0gAAQ==
   </data>
  </layer>
- <layer name="potions" width="30" height="7" visible="0">
+ <layer name="potions" width="30" height="7">
   <properties>
    <property name="events" value="true"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYBiZIAQPpkQ/LrWjgD5gIMIaZCcA+08FQQ==
+   eJzjYKA/4IDigQBDzV4OBsrCC10fpeaRay+9wEDYC7ITAMpIAHk=
   </data>
  </layer>
 </map>
