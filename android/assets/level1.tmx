@@ -13,7 +13,7 @@
    </properties>
   </tile>
  </tileset>
- <layer name="background" width="30" height="7">
+ <layer name="background" width="30" height="7" visible="0">
   <data encoding="base64" compression="zlib">
    eJxjYKAOSGZgOBAJxDA+MhubWipZO2js9aeTvUlo9uIDIHv9sJtBFsDnR3R7I6BsD1RxDOBBgRg6SEKyF809NAcAlv0XVw==
   </data>
@@ -27,7 +27,7 @@
    eJxjYCAdMAExMxn6RgEmwBaWo+FLPgCFnRidMSiuALogAn0=
   </data>
  </layer>
- <layer name="foreground" width="30" height="7">
+ <layer name="foreground" width="30" height="7" visible="0">
   <data encoding="base64" compression="zlib">
    eJxjYCAMghgYDhChDAPE4NAXSKR5I81eDzLtjabQXmoDd6C90WhiHkhsdDlcgFh1yCAGjR+ER45YM4gBAMUpELg=
   </data>
@@ -45,7 +45,7 @@
    <property name="events" value="true"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJzjYKA/4IDigQBDzV4OBsrCC10fpeaRay+9wEDYC7ITAMpIAHk=
+   eJzjYKA/4BgAOweD3eQADiRMrn5qmjfYwUD4C2QnAJ1IAGE=
   </data>
  </layer>
 </map>

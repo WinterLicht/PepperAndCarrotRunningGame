@@ -139,7 +139,7 @@ public class LevelSegment extends Group {
 	private Enemy createEnemy(int column, int row, int tilewidth, int tileheight, float centerOffsetX,
 			float centerOffsetY) {
 		final float posX = (column + 0.5f) * tilewidth;
-		final float posY = (row + 1f) * tileheight;
+		final float posY = (row + 0.5f) * tileheight;
 		final Enemy enemy = new Enemy("fly");
 		enemy.setOrigin(Align.center);
 		enemy.setX(posX - enemy.getWidth() / 2);
@@ -152,7 +152,7 @@ public class LevelSegment extends Group {
 	private Potion createPotion(int column, int row, int tilewidth, int tileheight, float centerOffsetX,
 			float centerOffsetY) {
 		final float posX = (column + 0.5f) * tilewidth;
-		final float posY = (row + 1f) * tileheight;
+		final float posY = (row + 0.5f) * tileheight;
 		final Potion potion = new Potion(1);
 		potion.setOrigin(Align.center);
 		potion.setX(posX - potion.getWidth() / 2);
