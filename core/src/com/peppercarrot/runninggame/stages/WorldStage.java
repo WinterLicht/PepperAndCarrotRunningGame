@@ -158,24 +158,28 @@ public class WorldStage extends AbstractStage {
 
 	private void processPlatforms() {
 		if (!platformAwareActors.isEmpty()) {
-			final int offsetTop = 12;
-			final int offsetBottom = 10;
+			//Offset to the platforms top
+			//consider also offset in Runner's onHitPlatform()
+			final int offsetTop = -8;
+			final int offsetBottom = 24;
 
-			final List<Platform> platforms = levelStream.getPlatformsNear(runner.getX());
+			Rectangle temp = new Rectangle();
+			runner.retrieveHitbox(temp);
+			final List<Platform> platforms = levelStream.getPlatformssNear(temp.x, temp.y, temp.width*2);
 
 			for (final IPlatformCollisionAwareActor actor : platformAwareActors) {
 				final float x = actor.getPlatformCollisionX();
 				final float y = actor.getPlatformCollisionY();
+				float actorsW = actor.getPlatformCollisionWidth();
 
 				for (final Platform platform : platforms) {
 					platform.retrieveAbsolutePosition(tempPlatformPosition);
-					if (tempPlatformPosition.x >= x) {
-						break;
-					}
-
-					if (tempPlatformPosition.x <= x && x <= tempPlatformPosition.x + platform.getW()) {
+					//Check for collision
+					if (x < tempPlatformPosition.x + platform.getW() || x + actorsW > tempPlatformPosition.x) {
+						//First if platform intersects player in x direction... 
 						final float platformTop = tempPlatformPosition.y + platform.getH();
-						if (platformTop - offsetBottom <= y && y <= platformTop + offsetTop) {
+						if (platformTop - offsetBottom < y && y < platformTop + offsetTop) {
+							//...then if players bottom (y) is inside given offset-area
 							if (actor.onHitPlatform(platform, platformTop)) {
 								break;
 							}

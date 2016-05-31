@@ -61,6 +61,7 @@ public abstract class Runner extends Group
 		setOrigin(Align.center);
 		setX(Constants.OFFSET_TO_EDGE);
 		setY(Constants.OFFSET_TO_GROUND);
+		runnerImage.debug();
 	}
 
 	protected abstract void initAbilities();
@@ -292,10 +293,17 @@ public abstract class Runner extends Group
 	public float getPlatformCollisionY() {
 		return getY();
 	}
+	
+	@Override
+	public float getPlatformCollisionWidth() {
+		return getWidth();
+	}
 
 	@Override
 	public boolean onHitPlatform(Platform platform, float platformHitTop) {
-		land(platformHitTop);
+		//Offset so player lands with feet on the platform ground
+		float offset = 20;
+		land(platformHitTop-offset);
 		return true;
 	}
 }

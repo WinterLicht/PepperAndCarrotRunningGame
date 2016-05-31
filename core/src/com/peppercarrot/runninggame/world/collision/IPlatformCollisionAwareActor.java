@@ -6,6 +6,8 @@ public interface IPlatformCollisionAwareActor {
 	float getPlatformCollisionX();
 
 	float getPlatformCollisionY();
+	
+	float getPlatformCollisionWidth();
 
 	boolean onHitPlatform(Platform platform, float platformHitTop);
 }

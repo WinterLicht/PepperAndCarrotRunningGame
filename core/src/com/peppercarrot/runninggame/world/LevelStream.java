@@ -16,6 +16,7 @@ import com.badlogic.gdx.maps.tiled.renderers.BatchTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.utils.Queue;
 import com.peppercarrot.runninggame.entities.Enemy;
@@ -201,6 +202,31 @@ public class LevelStream extends Group {
 		}
 	}
 
+	/**
+	 * Get platforms in radius of (pointX, pointY).
+	 * 
+	 * @param pointX screen coordinates
+	 * @param pointY
+	 * @param radius
+	 * @return
+	 */
+	public List<Platform> getPlatformssNear(float pointX, float pointY, float radius) {
+		List<Platform> nearPlatforms = new ArrayList<Platform>();
+		for (final LevelSegment segment : segments) {
+			if (segment.getX() <= pointX+radius || pointX-radius <= segment.getRightX()) {
+				for (Platform p : segment.getPlatforms()) {
+					Vector2 platformPos = new Vector2();
+					p.retrieveAbsolutePosition(platformPos);
+					Circle c = new Circle(pointX, pointY, radius);
+					if (c.contains(platformPos.x, platformPos.y)) {
+						nearPlatforms.add(p);
+					}
+				}
+			}
+		}
+		return nearPlatforms;
+	}
+	
 	public List<Platform> getPlatformsNear(float x) {
 		for (final LevelSegment segment : segments) {
 			if (segment.getX() <= x && x <= segment.getRightX()) {
