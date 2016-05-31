@@ -73,6 +73,7 @@ public class CarrotCharge extends Ability {
 				seq.addAction(Actions.run(new Runnable() {
 					@Override
 					public void run() {
+						//finished effect, so set this false
 						setVisible(false);
 					}
 				}));
@@ -81,7 +82,7 @@ public class CarrotCharge extends Ability {
 			}
 		}
 
-		public void update_() {
+		public void update() {
 			if (jumpToNext) {
 				jumpToEnemy();
 			}
@@ -105,6 +106,7 @@ public class CarrotCharge extends Ability {
 		}
 	}
 
+	private final float RADIUS = Constants.VIRTUAL_WIDTH; //Effect radius
 	private final Effect effect;
 	WorldStage worldStage;
 	
@@ -123,7 +125,7 @@ public class CarrotCharge extends Ability {
 				//cancel when he reaches the destination
 				cancel();
 			} else {
-				effect.update_();
+				effect.update();
 			}
 		}
 	}
@@ -143,20 +145,21 @@ public class CarrotCharge extends Ability {
 	@Override
 	protected void execute(WorldStage worldStage) {
 		this.worldStage = worldStage;
-		Runner r = getRunner();
-		//Get near enemies
+		Runner runner = getRunner();
 		effect.nearEnemies.clear();
-		Rectangle temp = new Rectangle();
-		((IEnemyCollisionAwareActor) r).retrieveHitbox(temp);
-		List<Enemy> nearEnemies = worldStage.getLevelStream().getEnemiesNear(Constants.OFFSET_TO_EDGE, Constants.OFFSET_TO_GROUND+temp.y, Constants.VIRTUAL_WIDTH-Constants.OFFSET_TO_EDGE);
-		for (int i=0; i<effect.times; i++ ){
-			if (nearEnemies.size() > i) {
-				if (nearEnemies.get(i).isAlive()) {
-					Enemy e = nearEnemies.get(i);
-					Rectangle eR = new Rectangle();
-					e.retrieveHitbox(eR);
-					if (eR.x > 0) {
-						effect.nearEnemies.add(nearEnemies.get(i));
+		Rectangle runnersRect = new Rectangle();
+		((IEnemyCollisionAwareActor) runner).retrieveHitbox(runnersRect);
+		//Get near enemies
+		List<Enemy> nearEnemies = worldStage.getLevelStream().getEnemiesNear(Constants.OFFSET_TO_EDGE, Constants.VIRTUAL_HEIGHT/2+runnersRect.y, RADIUS);
+		int counter = 0;
+		for (Enemy enemy : nearEnemies) {
+			if (enemy.isAlive()) {
+				Rectangle enemyRect = new Rectangle();
+				enemy.retrieveHitbox(enemyRect);
+				if (enemyRect.x > Constants.OFFSET_TO_EDGE) { //if still on screen and in front of player
+					while(counter < effect.times) {
+						effect.nearEnemies.add(enemy);
+						counter++;
 					}
 				}
 			}
@@ -169,17 +172,12 @@ public class CarrotCharge extends Ability {
 		}
 		effect.setVisible(true);
 		effect.reset();
-		effect.setX(r.pet.getX());
-		effect.setY(r.getY());
+		effect.setX(runner.pet.getX());
+		effect.setY(runner.getY());
 		worldStage.addActor(effect);
-		r.pet.setVisible(false);
+		runner.pet.setVisible(false);
 		worldStage.addEnemyAwareActor(effect);
 		//Move to the first enemy
 		effect.jumpToNext = true;
-		/*
-		Rectangle tempRect = new Rectangle();
-		effect.nearEnemies.get(0).retrieveHitbox(tempRect);
-		effect.addAction(Actions.moveTo(tempRect.x, tempRect.y, 0.5f, Interpolation.pow2));
-		*/
 	}
 }
