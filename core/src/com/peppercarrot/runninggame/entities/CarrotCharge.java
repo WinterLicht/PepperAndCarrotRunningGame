@@ -3,6 +3,7 @@ package com.peppercarrot.runninggame.entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Rectangle;
@@ -27,11 +28,17 @@ public class CarrotCharge extends Ability {
 
 	public static class Effect extends AnimatedImage implements IEnemyCollisionAwareActor {
 		public int counter = 0;
-		public final int times = 3; // Jumps to an enemy ... times.
-		public final List<Enemy> nearEnemies = new ArrayList<Enemy>(); // Stores
-																		// here
-																		// near
-																		// enemies.
+
+		/**
+		 * Jumps to an enemy ... times.
+		 */
+		public final int times = 3;
+
+		/**
+		 * Stores here near enemies.
+		 */
+		public final List<Enemy> nearEnemies = new ArrayList<Enemy>();
+
 		public boolean jumpToNext = false;
 
 		public Effect() {
@@ -49,9 +56,11 @@ public class CarrotCharge extends Ability {
 			jumpToNext = false;
 			if (counter < times && nearEnemies.size() > counter) {
 				clearActions();
+
 				// Jump to next enemy
 				final Rectangle tempRect = new Rectangle();
 				nearEnemies.get(counter).retrieveHitbox(tempRect);
+
 				final SequenceAction seq = new SequenceAction();
 				seq.addAction(Actions.moveTo(tempRect.x, tempRect.y, 0.5f, Interpolation.pow2));
 				seq.addAction(Actions.run(new Runnable() {
@@ -65,11 +74,14 @@ public class CarrotCharge extends Ability {
 					}
 				}));
 				this.addAction(seq);
+
 				mirrorIfNeeded(tempRect.x);
+
 				counter++;
 			} else {
 				// Return back to Pepper
 				clearActions();
+
 				// FIXME: when after this assignment Pepper jumps,
 				// his destination should be updated...?
 				final SequenceAction seq = new SequenceAction();
@@ -83,6 +95,7 @@ public class CarrotCharge extends Ability {
 					}
 				}));
 				this.addAction(seq);
+
 				mirrorIfNeeded(Constants.OFFSET_TO_EDGE);
 			}
 		}
@@ -112,9 +125,15 @@ public class CarrotCharge extends Ability {
 		}
 	}
 
-	private final float RADIUS = Constants.VIRTUAL_WIDTH; // Effect radius
+	/**
+	 * Effect radius.
+	 */
+	private final float RADIUS = Constants.VIRTUAL_WIDTH;
+
 	private final Effect effect;
-	WorldStage worldStage;
+
+	private WorldStage worldStage;
+
 	private final List<Enemy> tempNearEnemies = new ArrayList<Enemy>();
 
 	public CarrotCharge(Runner runner, int maxEnergy) {
@@ -143,6 +162,7 @@ public class CarrotCharge extends Ability {
 			effect.getParent().removeActor(effect);
 			worldStage.removeEnemyAwareActor(effect);
 		}
+
 		effect.setVisible(false);
 		effect.counter = 0;
 		effect.jumpToNext = false;
@@ -156,6 +176,7 @@ public class CarrotCharge extends Ability {
 		effect.nearEnemies.clear();
 		final Rectangle tempRect = new Rectangle();
 		runner.retrieveHitbox(tempRect);
+
 		// Get near enemies
 		worldStage.getLevelStream().getEnemiesNear(Constants.OFFSET_TO_EDGE, Constants.VIRTUAL_HEIGHT / 2 + tempRect.y,
 				RADIUS, tempNearEnemies);
@@ -163,10 +184,9 @@ public class CarrotCharge extends Ability {
 		for (final Enemy enemy : tempNearEnemies) {
 			if (enemy.isAlive()) {
 				enemy.retrieveHitbox(tempRect);
-				if (tempRect.x > Constants.OFFSET_TO_EDGE) { // if still on
-																// screen and in
-																// front of
-																// player
+
+				// if still on screen and in front of player
+				if (tempRect.x > Constants.OFFSET_TO_EDGE) {
 					while (counter < effect.times) {
 						effect.nearEnemies.add(enemy);
 						counter++;
@@ -176,7 +196,7 @@ public class CarrotCharge extends Ability {
 		}
 		if (effect.nearEnemies.isEmpty()) {
 			// No enemies near, cancel ability
-			System.out.println("no enemies - cancel");
+			Gdx.app.log(getClass().getSimpleName(), "no enemies - cancel");
 			this.cancel();
 			return;
 		}
@@ -184,9 +204,11 @@ public class CarrotCharge extends Ability {
 		effect.reset();
 		effect.setX(runner.pet.getX());
 		effect.setY(runner.getY());
+
 		worldStage.addActor(effect);
 		runner.pet.setVisible(false);
 		worldStage.addEnemyAwareActor(effect);
+
 		// Move to the first enemy
 		effect.jumpToNext = true;
 	}

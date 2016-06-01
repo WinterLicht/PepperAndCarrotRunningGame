@@ -37,13 +37,15 @@ public class BlackHole extends Ability {
 	private final Group affectedEnemies = new Group();
 	private final Group affectedPotions = new Group();
 
-	private final float RADIUS = 700; // Effect radius
-	private final float OFFSET_X = (Constants.VIRTUAL_WIDTH * 3) / 4; // where
-																		// on
-																		// the
-																		// screen
-																		// effect
-																		// appears
+	/**
+	 * Effect radius
+	 */
+	private final float RADIUS = 700;
+
+	/**
+	 * where on the screen effect appears
+	 */
+	private final float OFFSET_X = (Constants.VIRTUAL_WIDTH * 3) / 4;
 	private final float OFFSET_Y = (Constants.VIRTUAL_HEIGHT * 4) / 5 - Constants.OFFSET_TO_GROUND;
 
 	private final List<Enemy> tempAffectedEnemies = new ArrayList<Enemy>();
@@ -61,6 +63,7 @@ public class BlackHole extends Ability {
 		final float effectXPosition = OFFSET_X;
 		final float effectYPosition = OFFSET_Y + worldStage.runner.getY();
 		effect.reset();
+
 		// Position centered
 		effect.setX(effectXPosition - effect.getWidth() / 2);
 		effect.setY(effectYPosition - effect.getHeight() / 2);
@@ -69,19 +72,23 @@ public class BlackHole extends Ability {
 		worldStage.getLevelStream().getEnemiesNear(effectXPosition, effectYPosition, RADIUS, tempAffectedEnemies);
 		for (final Enemy enemy : tempAffectedEnemies) {
 			if (enemy.isAlive()) {
+
 				enemy.die();
 				enemy.setVisible(false);
-				//
+
 				final AnimatedImage animation = enemy.dyingAnim;
 				animation.setVisible(true);
+
 				// Set image on initial enemy position
 				enemy.retrieveHitbox(tempRect);
 				animation.setX(tempRect.x);
 				animation.setY(tempRect.y);
+
 				final ParallelAction pAction = new ParallelAction();
 				pAction.addAction(Actions.moveTo(effectXPosition, effectYPosition, getDuration(), Interpolation.pow2));
 				pAction.addAction(Actions.forever(Actions.rotateBy(360f, 0.8f)));
 				animation.addAction(pAction);
+
 				affectedEnemies.addActor(animation);
 			}
 		}
@@ -89,16 +96,20 @@ public class BlackHole extends Ability {
 		for (final Potion potion : tempAffectedPotions) {
 			if (potion.isVisible()) {
 				potion.collected();
+
 				final AnimatedImage animation = new AnimatedImage(new AnimatedDrawable(potion.getCopyOfAnimation()));
 				animation.setVisible(true);
+
 				// Set image on initial potion position
 				potion.retrieveHitbox(tempRect);
 				animation.setX(tempRect.x);
 				animation.setY(tempRect.y);
+
 				final ParallelAction pAction = new ParallelAction();
 				pAction.addAction(Actions.moveTo(effectXPosition, effectYPosition, getDuration(), Interpolation.pow2));
 				pAction.addAction(Actions.forever(Actions.rotateBy(360f, 0.8f)));
 				animation.addAction(pAction);
+
 				affectedPotions.addActor(animation);
 			}
 		}
