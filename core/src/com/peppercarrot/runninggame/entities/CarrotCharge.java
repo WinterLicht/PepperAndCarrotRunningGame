@@ -6,7 +6,9 @@ import java.util.List;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.utils.Align;
 import com.nGame.utils.scene2d.AnimatedDrawable;
@@ -30,11 +32,20 @@ public class CarrotCharge extends Ability {
 		public int times = 3; //Jumps to an enemy ... times.
 		public List<Enemy> nearEnemies = new ArrayList<Enemy>(); //Stores here near enemies.
 		public boolean jumpToNext = false;
+		Vector2 origin = new Vector2();
+		Vector2 destination = new Vector2();
+		MoveToAction moveTo;
+		Runner runner;
 
-		public Effect() {
+		public Effect(Runner runner) {
 			super(new AnimatedDrawable(
 					new Animation(0.06f, Assets.I.getRegions("carrot_run"), Animation.PlayMode.LOOP)));
 			setOrigin(Align.center);
+			this.runner = runner;
+			moveTo = Actions.action(MoveToAction.class);
+			moveTo.setPosition(0, 0);
+			moveTo.setDuration(0.4f);
+			moveTo.setInterpolation(Interpolation.pow2);
 		}
 
 		@Override
@@ -44,32 +55,35 @@ public class CarrotCharge extends Ability {
 
 		public void jumpToEnemy() {
 			jumpToNext = false;
-			if (counter < times && nearEnemies.size() > counter){
+			if (nearEnemies.size() > counter){
 	        	clearActions();
 				//Jump to next enemy
+				SequenceAction seq = new SequenceAction();
+				moveTo.reset();
 				Rectangle tempRect = new Rectangle();
 				nearEnemies.get(counter).retrieveHitbox(tempRect);
-				SequenceAction seq = new SequenceAction();
-				seq.addAction( Actions.moveTo(tempRect.x, tempRect.y, 0.5f, Interpolation.pow2));
+				destination.set(tempRect.x, tempRect.y);
+				moveTo.setPosition(destination.x, destination.y);
+				seq.addAction(moveTo);
 				seq.addAction(Actions.run(new Runnable() {
 			        @Override
 			        public void run() {
-			        	/*if (nearEnemies.get(counter-1).isAlive()) {
-			        		nearEnemies.get(counter-1).die();
-			        	}*/
 			        	jumpToNext = true;
+			        	clearActions();
 			        }
 			    }));
 				this.addAction(seq);
-				mirrorIfNeeded(tempRect.x);
+				mirrorIfNeeded(destination.x);
 				counter ++;
 			} else {
+				System.out.println("Counter: "+counter);
 				//Return back to Pepper
 				clearActions();
-				//FIXME: when after this assignment Pepper jumps,
-				//his destination should be updated...?
 				SequenceAction seq = new SequenceAction();
-				seq.addAction(Actions.moveTo(Constants.OFFSET_TO_EDGE, Constants.OFFSET_TO_GROUND, 0.8f, Interpolation.pow2));
+				moveTo.reset();
+				origin.set(Constants.OFFSET_TO_EDGE, runner.getY());
+				moveTo.setPosition(origin.x, origin.y);
+				seq.addAction(moveTo);
 				seq.addAction(Actions.run(new Runnable() {
 					@Override
 					public void run() {
@@ -85,6 +99,20 @@ public class CarrotCharge extends Ability {
 		public void update() {
 			if (jumpToNext) {
 				jumpToEnemy();
+			} else {
+				if(isVisible()) {
+					//Update moveTo destinations
+					if (nearEnemies.size() > counter && counter > 0) {
+						Rectangle tempRect = new Rectangle();
+						nearEnemies.get(counter-1).retrieveHitbox(tempRect);
+						destination.set(tempRect.x, tempRect.y);
+						moveTo.setPosition(destination.x, destination.y);
+					}
+					if (counter >= times){
+						origin.set(Constants.OFFSET_TO_EDGE, runner.getY());
+						moveTo.setPosition(origin.x, origin.y);
+					}
+				}
 			}
 		}
 
@@ -114,7 +142,7 @@ public class CarrotCharge extends Ability {
 		//no duration
 		//skill-duration ends when Carrot returns
 		super(runner, maxEnergy, -2f);
-		effect = new Effect();
+		effect = new Effect(runner);
 		effect.setVisible(false);
 	}
 
@@ -157,9 +185,11 @@ public class CarrotCharge extends Ability {
 				Rectangle enemyRect = new Rectangle();
 				enemy.retrieveHitbox(enemyRect);
 				if (enemyRect.x > Constants.OFFSET_TO_EDGE) { //if still on screen and in front of player
-					while(counter < effect.times) {
+					counter++;
+					if (counter <= effect.times) {
 						effect.nearEnemies.add(enemy);
-						counter++;
+					} else {
+						break;
 					}
 				}
 			}
@@ -174,6 +204,7 @@ public class CarrotCharge extends Ability {
 		effect.reset();
 		effect.setX(runner.pet.getX());
 		effect.setY(runner.getY());
+		effect.origin.set(runner.pet.getX(), runner.getY());
 		worldStage.addActor(effect);
 		runner.pet.setVisible(false);
 		worldStage.addEnemyAwareActor(effect);
