@@ -27,8 +27,11 @@ public class CarrotCharge extends Ability {
 
 	public static class Effect extends AnimatedImage implements IEnemyCollisionAwareActor {
 		public int counter = 0;
-		public int times = 3; //Jumps to an enemy ... times.
-		public List<Enemy> nearEnemies = new ArrayList<Enemy>(); //Stores here near enemies.
+		public final int times = 3; // Jumps to an enemy ... times.
+		public final List<Enemy> nearEnemies = new ArrayList<Enemy>(); // Stores
+																		// here
+																		// near
+																		// enemies.
 		public boolean jumpToNext = false;
 
 		public Effect() {
@@ -42,38 +45,40 @@ public class CarrotCharge extends Ability {
 			CollisionUtil.retrieveHitbox(this, rectangle);
 		}
 
-		public void jumpToEnemy() {
+		private void jumpToEnemy() {
 			jumpToNext = false;
-			if (counter < times && nearEnemies.size() > counter){
-	        	clearActions();
-				//Jump to next enemy
-				Rectangle tempRect = new Rectangle();
-				nearEnemies.get(counter).retrieveHitbox(tempRect);
-				SequenceAction seq = new SequenceAction();
-				seq.addAction( Actions.moveTo(tempRect.x, tempRect.y, 0.5f, Interpolation.pow2));
-				seq.addAction(Actions.run(new Runnable() {
-			        @Override
-			        public void run() {
-			        	/*if (nearEnemies.get(counter-1).isAlive()) {
-			        		nearEnemies.get(counter-1).die();
-			        	}*/
-			        	jumpToNext = true;
-			        }
-			    }));
-				this.addAction(seq);
-				mirrorIfNeeded(tempRect.x);
-				counter ++;
-			} else {
-				//Return back to Pepper
+			if (counter < times && nearEnemies.size() > counter) {
 				clearActions();
-				//FIXME: when after this assignment Pepper jumps,
-				//his destination should be updated...?
-				SequenceAction seq = new SequenceAction();
-				seq.addAction(Actions.moveTo(Constants.OFFSET_TO_EDGE, Constants.OFFSET_TO_GROUND, 0.8f, Interpolation.pow2));
+				// Jump to next enemy
+				final Rectangle tempRect = new Rectangle();
+				nearEnemies.get(counter).retrieveHitbox(tempRect);
+				final SequenceAction seq = new SequenceAction();
+				seq.addAction(Actions.moveTo(tempRect.x, tempRect.y, 0.5f, Interpolation.pow2));
 				seq.addAction(Actions.run(new Runnable() {
 					@Override
 					public void run() {
-						//finished effect, so set this false
+						/*
+						 * if (nearEnemies.get(counter-1).isAlive()) {
+						 * nearEnemies.get(counter-1).die(); }
+						 */
+						jumpToNext = true;
+					}
+				}));
+				this.addAction(seq);
+				mirrorIfNeeded(tempRect.x);
+				counter++;
+			} else {
+				// Return back to Pepper
+				clearActions();
+				// FIXME: when after this assignment Pepper jumps,
+				// his destination should be updated...?
+				final SequenceAction seq = new SequenceAction();
+				seq.addAction(
+						Actions.moveTo(Constants.OFFSET_TO_EDGE, Constants.OFFSET_TO_GROUND, 0.8f, Interpolation.pow2));
+				seq.addAction(Actions.run(new Runnable() {
+					@Override
+					public void run() {
+						// finished effect, so set this false
 						setVisible(false);
 					}
 				}));
@@ -90,7 +95,8 @@ public class CarrotCharge extends Ability {
 
 		@Override
 		public boolean onHitEnemy(Enemy enemy) {
-			if (enemy.isAlive()) enemy.die();
+			if (enemy.isAlive())
+				enemy.die();
 			return false;
 		}
 
@@ -106,13 +112,14 @@ public class CarrotCharge extends Ability {
 		}
 	}
 
-	private final float RADIUS = Constants.VIRTUAL_WIDTH; //Effect radius
+	private final float RADIUS = Constants.VIRTUAL_WIDTH; // Effect radius
 	private final Effect effect;
 	WorldStage worldStage;
-	
+	private final List<Enemy> tempNearEnemies = new ArrayList<Enemy>();
+
 	public CarrotCharge(Runner runner, int maxEnergy) {
-		//no duration
-		//skill-duration ends when Carrot returns
+		// no duration
+		// skill-duration ends when Carrot returns
 		super(runner, maxEnergy, -2f);
 		effect = new Effect();
 		effect.setVisible(false);
@@ -122,14 +129,14 @@ public class CarrotCharge extends Ability {
 	protected void internalUpdate(float delta) {
 		if (isRunning()) {
 			if (!effect.isVisible()) {
-				//cancel when he reaches the destination
+				// cancel when he reaches the destination
 				cancel();
 			} else {
 				effect.update();
 			}
 		}
 	}
-	
+
 	@Override
 	protected void finish() {
 		if (effect.getParent() != null) {
@@ -145,19 +152,22 @@ public class CarrotCharge extends Ability {
 	@Override
 	protected void execute(WorldStage worldStage) {
 		this.worldStage = worldStage;
-		Runner runner = getRunner();
+		final Runner runner = getRunner();
 		effect.nearEnemies.clear();
-		Rectangle runnersRect = new Rectangle();
-		((IEnemyCollisionAwareActor) runner).retrieveHitbox(runnersRect);
-		//Get near enemies
-		List<Enemy> nearEnemies = worldStage.getLevelStream().getEnemiesNear(Constants.OFFSET_TO_EDGE, Constants.VIRTUAL_HEIGHT/2+runnersRect.y, RADIUS);
+		final Rectangle tempRect = new Rectangle();
+		runner.retrieveHitbox(tempRect);
+		// Get near enemies
+		worldStage.getLevelStream().getEnemiesNear(Constants.OFFSET_TO_EDGE, Constants.VIRTUAL_HEIGHT / 2 + tempRect.y,
+				RADIUS, tempNearEnemies);
 		int counter = 0;
-		for (Enemy enemy : nearEnemies) {
+		for (final Enemy enemy : tempNearEnemies) {
 			if (enemy.isAlive()) {
-				Rectangle enemyRect = new Rectangle();
-				enemy.retrieveHitbox(enemyRect);
-				if (enemyRect.x > Constants.OFFSET_TO_EDGE) { //if still on screen and in front of player
-					while(counter < effect.times) {
+				enemy.retrieveHitbox(tempRect);
+				if (tempRect.x > Constants.OFFSET_TO_EDGE) { // if still on
+																// screen and in
+																// front of
+																// player
+					while (counter < effect.times) {
 						effect.nearEnemies.add(enemy);
 						counter++;
 					}
@@ -165,7 +175,7 @@ public class CarrotCharge extends Ability {
 			}
 		}
 		if (effect.nearEnemies.isEmpty()) {
-			//No enemies near, cancel ability
+			// No enemies near, cancel ability
 			System.out.println("no enemies - cancel");
 			this.cancel();
 			return;
@@ -177,7 +187,7 @@ public class CarrotCharge extends Ability {
 		worldStage.addActor(effect);
 		runner.pet.setVisible(false);
 		worldStage.addEnemyAwareActor(effect);
-		//Move to the first enemy
+		// Move to the first enemy
 		effect.jumpToNext = true;
 	}
 }
