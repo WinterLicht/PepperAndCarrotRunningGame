@@ -2,7 +2,6 @@ package com.peppercarrot.runninggame.world;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -81,6 +80,21 @@ public class LevelStream extends Group {
 	 * World camera to render the segments.
 	 */
 	private final OrthographicCamera camera;
+
+	/**
+	 * Temp vector used for calculating near platforms.
+	 */
+	private final Vector2 tempVector = new Vector2();
+
+	/**
+	 * Temp rectangle used for calculating near enemies and potions.
+	 */
+	private final Rectangle tempRect = new Rectangle();
+
+	/**
+	 * Temp circle used for calculating near enemies and potions.
+	 */
+	private final Circle tempCircle = new Circle();
 
 	public LevelStream(OrthographicCamera camera, Batch batch, float segmentStartOffset,
 			float firstSegmentAdditionalStartOffset) {
@@ -205,105 +219,81 @@ public class LevelStream extends Group {
 	/**
 	 * Get platforms in radius of (pointX, pointY).
 	 * 
-	 * @param pointX screen coordinates
-	 * @param pointY
+	 * @param centerX
+	 * @param centerY
 	 * @param radius
+	 * @param nearPlatforms
 	 * @return
 	 */
-	public List<Platform> getPlatformssNear(float pointX, float pointY, float radius) {
-		List<Platform> nearPlatforms = new ArrayList<Platform>();
+	public void getPlatformsNear(float centerX, float centerY, float radius, List<Platform> nearPlatforms) {
+		tempCircle.radius = radius;
+		tempCircle.x = centerX;
+		tempCircle.y = centerY;
+
+		nearPlatforms.clear();
 		for (final LevelSegment segment : segments) {
-			if (segment.getX() <= pointX+radius || pointX-radius <= segment.getRightX()) {
-				for (Platform p : segment.getPlatforms()) {
-					Vector2 platformPos = new Vector2();
-					p.retrieveAbsolutePosition(platformPos);
-					Circle c = new Circle(pointX, pointY, radius);
-					if (c.contains(platformPos.x, platformPos.y)) {
+			if (segment.getX() <= centerX + radius || centerX - radius <= segment.getRightX()) {
+				for (final Platform p : segment.getPlatforms()) {
+					p.retrieveAbsolutePosition(tempVector);
+					if (tempCircle.contains(tempVector.x, tempVector.y)) {
 						nearPlatforms.add(p);
 					}
 				}
 			}
 		}
-		return nearPlatforms;
-	}
-	
-	public List<Platform> getPlatformsNear(float x) {
-		for (final LevelSegment segment : segments) {
-			if (segment.getX() <= x && x <= segment.getRightX()) {
-				return segment.getPlatforms();
-			}
-		}
-
-		return Collections.emptyList();
 	}
 
 	/**
-	 * Get enemies in radius of (pointX, pointY).
+	 * Get enemies in radius of (centerX, centerY).
 	 * 
-	 * @param pointX screen coordinates
-	 * @param pointY
+	 * @param centerX
+	 * @param centerY
 	 * @param radius
+	 * @param nearEnemies
 	 * @return
 	 */
-	public List<Enemy> getEnemiesNear(float pointX, float pointY, float radius) {
-		List<Enemy> nearEnemies = new ArrayList<Enemy>();
+	public void getEnemiesNear(float centerX, float centerY, float radius, List<Enemy> nearEnemies) {
+		tempCircle.radius = radius;
+		tempCircle.x = centerX;
+		tempCircle.y = centerY;
+
+		nearEnemies.clear();
 		for (final LevelSegment segment : segments) {
-			if (segment.getX() <= pointX+radius || pointX-radius <= segment.getRightX()) {
-				for (Enemy e : segment.getEnemies()) {
-					Rectangle enemyRect = new Rectangle();
-					e.retrieveHitbox(enemyRect);
-					Circle c = new Circle(pointX, pointY, radius);
-					if (c.contains(enemyRect.x, enemyRect.y)) {
+			if (segment.getX() <= centerX + radius || centerX - radius <= segment.getRightX()) {
+				for (final Enemy e : segment.getEnemies()) {
+					e.retrieveHitbox(tempRect);
+					if (tempCircle.contains(tempRect.x, tempRect.y)) {
 						nearEnemies.add(e);
 					}
 				}
 			}
 		}
-		return nearEnemies;
-	}
-	
-	public List<Enemy> getEnemiesNear(float x) {
-		for (final LevelSegment segment : segments) {
-			if (segment.getX() <= x && x <= segment.getRightX()) {
-				return segment.getEnemies();
-			}
-		}
-
-		return Collections.emptyList();
 	}
 
 	/**
-	 * Get potions in radius of (pointX, pointY).
+	 * Get potions in radius of (centerX, centerY).
 	 * 
-	 * @param pointX screen coordinates
-	 * @param pointY
+	 * @param centerX
+	 * @param centerY
 	 * @param radius
+	 * @param nearPotions
 	 * @return
 	 */
-	public List<Potion> getPotionsNear(float pointX, float pointY, float radius) {
-		List<Potion> nearPotions = new ArrayList<Potion>();
+	public void getPotionsNear(float centerX, float centerY, float radius, List<Potion> nearPotions) {
+		tempCircle.radius = radius;
+		tempCircle.x = centerX;
+		tempCircle.y = centerY;
+
+		nearPotions.clear();
 		for (final LevelSegment segment : segments) {
-			if (segment.getX() <= pointX+radius || pointX-radius <= segment.getRightX()) {
-				for (Potion e : segment.getPotions()) {
-					Rectangle potionRect = new Rectangle();
-					e.retrieveHitbox(potionRect);
-					Circle c = new Circle(pointX, pointY, radius);
-					if (c.contains(potionRect.x, potionRect.y)) {
-						nearPotions.add(e);
+			if (segment.getX() <= centerX + radius || centerX - radius <= segment.getRightX()) {
+				for (final Potion p : segment.getPotions()) {
+					p.retrieveHitbox(tempRect);
+					if (tempCircle.contains(tempRect.x, tempRect.y)) {
+						nearPotions.add(p);
 					}
 				}
 			}
 		}
-		return nearPotions;
-	}
-	
-	public List<Potion> getPotionsNear(float x) {
-		for (final LevelSegment segment : segments) {
-			if (segment.getX() <= x && x <= segment.getRightX()) {
-				return segment.getPotions();
-			}
-		}
-
-		return Collections.emptyList();
 	}
 }

@@ -3,6 +3,7 @@ package com.peppercarrot.runninggame.entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Rectangle;
@@ -27,10 +28,19 @@ import com.peppercarrot.runninggame.world.collision.IEnemyCollisionAwareActor;
  */
 public class CarrotCharge extends Ability {
 
-	public static class Effect extends AnimatedImage implements IEnemyCollisionAwareActor {
-		public int counter = 0; //Number of jumps executed.
-		public int times = 3; //Jumps to an enemy ... times.
-		public List<Enemy> nearEnemies = new ArrayList<Enemy>(); //Stores here near enemies.
+	public class Effect extends AnimatedImage implements IEnemyCollisionAwareActor {
+		private int counter = 0; //Stores number of current jumps
+
+		/**
+		 * Jumps to an enemy ... times.
+		 */
+		public final int times = 3;
+
+		/**
+		 * Stores here near enemies.
+		 */
+		public final List<Enemy> nearEnemies = new ArrayList<Enemy>();
+
 		public boolean jumpToNext = false;
 		private Vector2 destination = new Vector2(); //Movement destination
 		MoveToAction moveTo;
@@ -52,7 +62,7 @@ public class CarrotCharge extends Ability {
 			CollisionUtil.retrieveHitbox(this, rectangle);
 		}
 
-		public void jumpToEnemy() {
+		private void jumpToEnemy() {
 			jumpToNext = false;
 			if (nearEnemies.size() > counter){
 				counter ++; //jumping, so increase this
@@ -72,7 +82,7 @@ public class CarrotCharge extends Ability {
 				this.addAction(seq);
 				mirrorIfNeeded(destination.x);
 			} else {
-				//Return back to Pepper
+				// Return back to Pepper
 				clearActions();
 				SequenceAction seq = new SequenceAction();
 				moveTo.reset();
@@ -81,7 +91,7 @@ public class CarrotCharge extends Ability {
 				seq.addAction(Actions.run(new Runnable() {
 					@Override
 					public void run() {
-						//finished effect, so set this false
+						// finished effect, so set this false
 						setVisible(false);
 					}
 				}));
@@ -129,7 +139,8 @@ public class CarrotCharge extends Ability {
 
 		@Override
 		public boolean onHitEnemy(Enemy enemy) {
-			if (enemy.isAlive()) enemy.die();
+			if (enemy.isAlive())
+				enemy.die();
 			return false;
 		}
 
@@ -145,13 +156,20 @@ public class CarrotCharge extends Ability {
 		}
 	}
 
-	private final float RADIUS = Constants.VIRTUAL_WIDTH+70; //Effect radius
+	/**
+	 * Effect radius.
+	 */
+	private final float RADIUS = Constants.VIRTUAL_WIDTH+70;
+
 	private final Effect effect;
-	WorldStage worldStage;
-	
+
+	private WorldStage worldStage;
+
+	private final List<Enemy> tempNearEnemies = new ArrayList<Enemy>();
+
 	public CarrotCharge(Runner runner, int maxEnergy) {
-		//no duration
-		//skill-duration ends when Carrot returns
+		// no duration
+		// skill-duration ends when Carrot returns
 		super(runner, maxEnergy, -2f);
 		effect = new Effect(runner);
 		effect.setVisible(false);
@@ -161,20 +179,21 @@ public class CarrotCharge extends Ability {
 	protected void internalUpdate(float delta) {
 		if (isRunning()) {
 			if (!effect.isVisible()) {
-				//cancel when he reaches the destination
+				// cancel when he reaches the destination
 				cancel();
 			} else {
 				effect.update();
 			}
 		}
 	}
-	
+
 	@Override
 	protected void finish() {
 		if (effect.getParent() != null) {
 			effect.getParent().removeActor(effect);
 			worldStage.removeEnemyAwareActor(effect);
 		}
+
 		effect.setVisible(false);
 		effect.counter = 0;
 		effect.jumpToNext = false;
@@ -184,14 +203,16 @@ public class CarrotCharge extends Ability {
 	@Override
 	protected void execute(WorldStage worldStage) {
 		this.worldStage = worldStage;
-		Runner runner = getRunner();
+		final Runner runner = getRunner();
 		effect.nearEnemies.clear();
-		Rectangle runnersRect = new Rectangle();
-		((IEnemyCollisionAwareActor) runner).retrieveHitbox(runnersRect);
-		//Get near enemies
-		List<Enemy> nearEnemies = worldStage.getLevelStream().getEnemiesNear(Constants.OFFSET_TO_EDGE, Constants.VIRTUAL_HEIGHT/2+runnersRect.y, RADIUS);
+		final Rectangle tempRect = new Rectangle();
+		runner.retrieveHitbox(tempRect);
+
+		// Get near enemies
+		worldStage.getLevelStream().getEnemiesNear(Constants.OFFSET_TO_EDGE, Constants.VIRTUAL_HEIGHT / 2 + tempRect.y,
+				RADIUS, tempNearEnemies);
 		int counter = 0;
-		for (Enemy enemy : nearEnemies) {
+		for (final Enemy enemy : tempNearEnemies) {
 			if (enemy.isAlive()) {
 				Rectangle enemyRect = new Rectangle();
 				enemy.retrieveHitbox(enemyRect);
@@ -206,8 +227,8 @@ public class CarrotCharge extends Ability {
 			}
 		}
 		if (effect.nearEnemies.isEmpty()) {
-			//No enemies near, cancel ability
-			System.out.println("no enemies - cancel");
+			// No enemies near, cancel ability
+			Gdx.app.log(getClass().getSimpleName(), "no enemies - cancel");
 			this.cancel();
 			return;
 		}
@@ -215,10 +236,12 @@ public class CarrotCharge extends Ability {
 		effect.reset();
 		effect.setX(runner.pet.getX());
 		effect.setY(runner.getY());
+
 		worldStage.addActor(effect);
 		runner.pet.setVisible(false);
 		worldStage.addEnemyAwareActor(effect);
-		//Move to the first enemy
+
+		// Move to the first enemy
 		effect.jumpToNext = true;
 	}
 }
