@@ -20,7 +20,7 @@ import com.peppercarrot.runninggame.utils.Constants;
 import com.peppercarrot.runninggame.world.collision.IEnemyCollisionAwareActor;
 
 /**
- * Carrot dashes to given amount of near enemies.
+ * Carrot dashes to given amount of near enemies, enemies collided with him are destroyed.
  * 
  * @author WinterLicht
  *
@@ -28,12 +28,11 @@ import com.peppercarrot.runninggame.world.collision.IEnemyCollisionAwareActor;
 public class CarrotCharge extends Ability {
 
 	public static class Effect extends AnimatedImage implements IEnemyCollisionAwareActor {
-		public int counter = 0;
+		public int counter = 0; //Number of jumps executed.
 		public int times = 3; //Jumps to an enemy ... times.
 		public List<Enemy> nearEnemies = new ArrayList<Enemy>(); //Stores here near enemies.
 		public boolean jumpToNext = false;
-		Vector2 origin = new Vector2();
-		Vector2 destination = new Vector2();
+		private Vector2 destination = new Vector2(); //Movement destination
 		MoveToAction moveTo;
 		Runner runner;
 
@@ -56,14 +55,12 @@ public class CarrotCharge extends Ability {
 		public void jumpToEnemy() {
 			jumpToNext = false;
 			if (nearEnemies.size() > counter){
+				counter ++; //jumping, so increase this
 	        	clearActions();
 				//Jump to next enemy
 				SequenceAction seq = new SequenceAction();
 				moveTo.reset();
-				Rectangle tempRect = new Rectangle();
-				nearEnemies.get(counter).retrieveHitbox(tempRect);
-				destination.set(tempRect.x, tempRect.y);
-				moveTo.setPosition(destination.x, destination.y);
+				updateDestinationTowardsCurrentEnemy();
 				seq.addAction(moveTo);
 				seq.addAction(Actions.run(new Runnable() {
 			        @Override
@@ -74,15 +71,12 @@ public class CarrotCharge extends Ability {
 			    }));
 				this.addAction(seq);
 				mirrorIfNeeded(destination.x);
-				counter ++;
 			} else {
-				System.out.println("Counter: "+counter);
 				//Return back to Pepper
 				clearActions();
 				SequenceAction seq = new SequenceAction();
 				moveTo.reset();
-				origin.set(Constants.OFFSET_TO_EDGE, runner.getY());
-				moveTo.setPosition(origin.x, origin.y);
+				updateDestinationTowardsRunner();
 				seq.addAction(moveTo);
 				seq.addAction(Actions.run(new Runnable() {
 					@Override
@@ -101,19 +95,36 @@ public class CarrotCharge extends Ability {
 				jumpToEnemy();
 			} else {
 				if(isVisible()) {
-					//Update moveTo destinations
-					if (nearEnemies.size() > counter && counter > 0) {
-						Rectangle tempRect = new Rectangle();
-						nearEnemies.get(counter-1).retrieveHitbox(tempRect);
-						destination.set(tempRect.x, tempRect.y);
-						moveTo.setPosition(destination.x, destination.y);
-					}
-					if (counter >= times){
-						origin.set(Constants.OFFSET_TO_EDGE, runner.getY());
-						moveTo.setPosition(origin.x, origin.y);
-					}
+					//This function is needed, because destination
+					//point is dynamic.
+					updateDestinationForMovement();
 				}
 			}
+		}
+
+		private void updateDestinationForMovement() {
+			//Update moveTo destinations
+			if (nearEnemies.size() > counter && counter > 0) {
+				//Is currently moving towards an enemy
+				updateDestinationTowardsCurrentEnemy();
+			}
+			if (counter > nearEnemies.size()){
+				//Is currently moving back to Pepper
+				updateDestinationTowardsRunner();
+			}
+		}
+
+		private void updateDestinationTowardsCurrentEnemy() {
+			Rectangle tempRect = new Rectangle();
+			//counter-1 needed, because it stores number of jumps
+			nearEnemies.get(counter-1).retrieveHitbox(tempRect);
+			destination.set(tempRect.x, tempRect.y);
+			moveTo.setPosition(destination.x, destination.y);
+		}
+
+		private void updateDestinationTowardsRunner() {
+			destination.set(Constants.OFFSET_TO_EDGE, runner.getY());
+			moveTo.setPosition(destination.x, destination.y);
 		}
 
 		@Override
@@ -134,7 +145,7 @@ public class CarrotCharge extends Ability {
 		}
 	}
 
-	private final float RADIUS = Constants.VIRTUAL_WIDTH; //Effect radius
+	private final float RADIUS = Constants.VIRTUAL_WIDTH+70; //Effect radius
 	private final Effect effect;
 	WorldStage worldStage;
 	
@@ -204,7 +215,6 @@ public class CarrotCharge extends Ability {
 		effect.reset();
 		effect.setX(runner.pet.getX());
 		effect.setY(runner.getY());
-		effect.origin.set(runner.pet.getX(), runner.getY());
 		worldStage.addActor(effect);
 		runner.pet.setVisible(false);
 		worldStage.addEnemyAwareActor(effect);
