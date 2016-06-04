@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.nGame.utils.scene2d.AnimatedDrawable;
 import com.nGame.utils.scene2d.AnimatedImage;
 import com.peppercarrot.runninggame.stages.WorldStage;
@@ -97,20 +98,20 @@ public class BlackHole extends Ability {
 			if (potion.isVisible()) {
 				potion.collected();
 
-				final AnimatedImage animation = new AnimatedImage(new AnimatedDrawable(potion.getCopyOfAnimation()));
-				animation.setVisible(true);
+				final Image potionImage = new Image(potion.potionImage.getDrawable());
+				potionImage.setVisible(true);
 
 				// Set image on initial potion position
 				potion.retrieveHitbox(tempRect);
-				animation.setX(tempRect.x);
-				animation.setY(tempRect.y);
+				potionImage.setX(tempRect.x);
+				potionImage.setY(tempRect.y);
 
 				final ParallelAction pAction = new ParallelAction();
 				pAction.addAction(Actions.moveTo(effectXPosition, effectYPosition, getDuration(), Interpolation.pow2));
 				pAction.addAction(Actions.forever(Actions.rotateBy(360f, 0.8f)));
-				animation.addAction(pAction);
+				potionImage.addAction(pAction);
 
-				affectedPotions.addActor(animation);
+				affectedPotions.addActor(potionImage);
 			}
 		}
 		worldStage.addActor(affectedPotions);

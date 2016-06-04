@@ -1,12 +1,9 @@
 package com.peppercarrot.runninggame.entities;
 
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Rectangle;
-import com.nGame.utils.scene2d.AnimatedDrawable;
-import com.nGame.utils.scene2d.AnimatedImage;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.peppercarrot.runninggame.entities.Runner.State;
 import com.peppercarrot.runninggame.stages.WorldStage;
-import com.peppercarrot.runninggame.utils.Assets;
 import com.peppercarrot.runninggame.utils.CollisionUtil;
 import com.peppercarrot.runninggame.world.collision.IEnemyCollisionAwareActor;
 
@@ -21,11 +18,11 @@ import com.peppercarrot.runninggame.world.collision.IEnemyCollisionAwareActor;
  */
 public class SweepAttack extends Ability {
 
-	public static class Effect extends AnimatedImage implements IEnemyCollisionAwareActor {
+	public static class Effect extends Actor implements IEnemyCollisionAwareActor {
 
-		public Effect(float duration) {
-			super(new AnimatedDrawable(
-					new Animation(duration / 8, Assets.I.getRegions("sweep-effect"), Animation.PlayMode.NORMAL)));
+		public Effect() {
+			setHeight(250);
+			setWidth(250);
 		}
 
 		@Override
@@ -50,8 +47,7 @@ public class SweepAttack extends Ability {
 	public SweepAttack(Runner runner, int maxEnergy, float duration) {
 		super(runner, maxEnergy, duration);
 
-		effect = new Effect(getDuration());
-		effect.setVisible(false);
+		effect = new Effect();
 	}
 
 	@Override
@@ -64,16 +60,12 @@ public class SweepAttack extends Ability {
 		final Runner runner = getRunner();
 		runner.setAttacking();
 		runner.addActor(effect);
-		effect.setVisible(true);
-		effect.reset();
 		worldStage.addEnemyAwareActor(effect);
 	}
 
 	@Override
 	protected void finish() {
 		worldStage.removeEnemyAwareActor(effect);
-		effect.setVisible(false);
-
 		final Runner runner = getRunner();
 		runner.removeActor(effect);
 

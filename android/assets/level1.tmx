@@ -1,51 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="7" tilewidth="95" tileheight="95">
- <tileset firstgid="1" name="tileset_neutral_01" tilewidth="95" tileheight="95">
-  <image source="tileset_neutral_01.png" width="950" height="950"/>
-  <tile id="4">
+ <tileset firstgid="1" name="potions" tilewidth="95" tileheight="95">
+  <image source="potions.png" width="285" height="95"/>
+  <tile id="0">
    <properties>
-    <property name="type" value="enemy"/>
+    <property name="color" value="orange"/>
+    <property name="type" value="potion"/>
    </properties>
   </tile>
-  <tile id="7">
+  <tile id="1">
    <properties>
+    <property name="color" value="green"/>
+    <property name="type" value="potion"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="color" value="blue"/>
     <property name="type" value="potion"/>
    </properties>
   </tile>
  </tileset>
- <layer name="background" width="30" height="7" visible="0">
+ <tileset firstgid="4" name="tiles2" tilewidth="95" tileheight="95">
+  <image source="tiles2.png" width="475" height="475"/>
+ </tileset>
+ <tileset firstgid="29" name="enemies" tilewidth="95" tileheight="95">
+  <image source="enemies.png" width="95" height="95"/>
+  <tile id="0">
+   <properties>
+    <property name="type" value="enemy"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="background" width="30" height="7">
   <data encoding="base64" compression="zlib">
-   eJxjYKAOSGZgOBAJxDA+MhubWipZO2js9aeTvUlo9uIDIHv9sJtBFsDnR3R7I6BsD1RxDOBBgRg6SEKyF809NAcAlv0XVw==
+   eJxjYBgFAwk4gVgAirnQMDcN7eUDYn4sGOaWUYA7jJDDCgYASSMBXQ==
   </data>
  </layer>
  <layer name="platforms" width="30" height="7">
   <properties>
    <property name="platforms" value="true"/>
-   <property name="render" value="true"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYCAdMAExMxn6RgEmwBaWo+FLPgCFnRidMSiuALogAn0=
+   eJxjYKAcsAMxGxXMGUjAAsSsODAlfhsOYTPQAF/c4IofdjxytAAAvEgAgg==
   </data>
  </layer>
- <layer name="foreground" width="30" height="7" visible="0">
+ <layer name="Kachelebene 6" width="30" height="7">
   <data encoding="base64" compression="zlib">
-   eJxjYCAMghgYDhChDAPE4NAXSKR5I81eDzLtjabQXmoDd6C90WhiHkhsdDlcgFh1yCAGjR+ER45YM4gBAMUpELg=
+   eJxjYBgFgwWIALEwlC1BB/uEcYjTw+7hBgCkpABr
   </data>
  </layer>
- <layer name="enemies" width="30" height="7">
+ <layer name="foreground" width="30" height="7">
+  <data encoding="base64" compression="zlib">
+   eJxjYBi8QBiIRaBsCTraS0+7kIEgA8MCdExj+w7Q0vzBAIDpp4Ee9gAAANQFMg==
+  </data>
+ </layer>
+ <layer name="enemies" width="30" height="7" visible="0">
   <properties>
    <property name="events" value="true"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYBjagHWgHUABGKpup9TdA+1vQvaTIw8AJYAAJA==
+   eJxjYBjZQJZOemgNqOEmYswYjH6HAUJuwyVPDT8BABDzAOk=
   </data>
  </layer>
- <layer name="potions" width="30" height="7">
+ <layer name="potions" width="30" height="7" visible="0">
   <properties>
    <property name="events" value="true"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJzjYKA/4BgAOweD3eQADiRMrn5qmjfYwUD4C2QnAJ1IAGE=
+   eJxjYKAOYKSSOYQAEw3NZqah2dQAg919uAC90sZAAgAX5AAL
   </data>
  </layer>
 </map>

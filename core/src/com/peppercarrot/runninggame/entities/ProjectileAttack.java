@@ -1,14 +1,13 @@
 package com.peppercarrot.runninggame.entities;
 
-import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Align;
-import com.nGame.utils.scene2d.AnimatedDrawable;
-import com.nGame.utils.scene2d.AnimatedImage;
 import com.peppercarrot.runninggame.entities.Runner.State;
 import com.peppercarrot.runninggame.stages.WorldStage;
 import com.peppercarrot.runninggame.utils.Assets;
@@ -24,7 +23,7 @@ import com.peppercarrot.runninggame.world.collision.IEnemyCollisionAwareActor;
  */
 public class ProjectileAttack extends Ability {
 
-	public static class Projectile extends AnimatedImage implements IEnemyCollisionAwareActor {
+	public static class Projectile extends Group implements IEnemyCollisionAwareActor {
 		boolean active = false;
 		//testing sinusoids movement... TODO: all in constructor or all public!
 		int interval = 28; // Interval in pixel for up-down of sinusoids
@@ -35,8 +34,14 @@ public class ProjectileAttack extends Ability {
 		//TODO: maybe range of attack?
 
 		public Projectile(float angle) {
-			super(new AnimatedDrawable(
-					new Animation(0.03f, Assets.I.getRegions("potion"), Animation.PlayMode.LOOP)));
+			Image image1 = new Image(new TextureRegion(Assets.I.atlas.findRegion("projectile1")));
+			image1.setOrigin(Align.center);
+			Image image2 = new Image(new TextureRegion(Assets.I.atlas.findRegion("projectile2")));
+			image2.setOrigin(Align.center);
+			setHeight(image1.getHeight());
+			setWidth(image1.getWidth());
+			addActor(image2);
+			addActor(image1);
 			this.angle = angle;
 			setOrigin(Align.center);
 			addAction(Actions.forever(Actions.rotateBy(360f, 0.3f)));
@@ -164,7 +169,6 @@ public class ProjectileAttack extends Ability {
 		//runner.addActor(projectiles);
 		worldStage.addActor(projectiles);
 		setAllProjVisible(true);
-		resetAllProjAnimations();
 		for (Actor projectile : projectiles.getChildren()) {
 			// Reset position of projectiles
 			projectile.setX(runner.runnerImage.getWidth()/2+runner.getX());
@@ -182,15 +186,6 @@ public class ProjectileAttack extends Ability {
 	public void setAllProjVisible(boolean visibility) {
 		for (Actor projectile : projectiles.getChildren()) {
 			projectile.setVisible(visibility);
-		}
-	}
-
-	/**
-	 * Resets animation on every projectile.
-	 */
-	public void resetAllProjAnimations() {
-		for (Actor projectile : projectiles.getChildren()) {
-			((AnimatedImage) projectile).reset();
 		}
 	}
 }

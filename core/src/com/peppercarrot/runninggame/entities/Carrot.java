@@ -32,6 +32,7 @@ public class Carrot extends Pet {
 			doubleJumpingAnim.act(delta);
 			break;
 		case DYING:
+			//TODO
 			break;
 		case JUMPING:
 			setX(owner.getX()+6);
@@ -47,6 +48,11 @@ public class Carrot extends Pet {
 			setX(owner.getX()+7);
 			setY(owner.getY()+65);
 			fallingAnim.act(delta);
+			break;
+		case HIT:
+			setX(owner.getX()-35);
+			setY(owner.getY()+0);
+			hitAnim.act(delta);
 			break;
 		default: // Should not be reached
 			break;
@@ -67,6 +73,9 @@ public class Carrot extends Pet {
 		fallingAnim = new AnimatedImage(new AnimatedDrawable(
 				new Animation(0.18f, Assets.I.getRegions(name + "_fall"), Animation.PlayMode.LOOP_PINGPONG)));
 		fallingAnim.setOrigin(Align.center);
+		hitAnim = new AnimatedImage(new AnimatedDrawable(
+				new Animation(0.18f, Assets.I.getRegions(name + "_hit"), Animation.PlayMode.NORMAL)));
+		hitAnim.setOrigin(Align.center);
 		//TODO: Carrot needs animation when Pepper attacks
 	}
 
@@ -105,4 +114,8 @@ public class Carrot extends Pet {
 		currState = State.DYING;
 	}
 
+	public void setStunned() {
+		currState = State.HIT;
+		petImage.setDrawable(hitAnim.getDrawable());
+	}
 }

@@ -24,12 +24,13 @@ public abstract class Pet extends Group {
 	AnimatedImage jumpingAnim;
 	AnimatedImage doubleJumpingAnim;
 	AnimatedImage fallingAnim;
+	AnimatedImage hitAnim;
 	
 	/**
 	 * Possible states.
 	 */
 	enum State {
-		RUNNING, FALLING, JUMPING, DOUBLEJUMPING, DYING;
+		RUNNING, FALLING, JUMPING, DOUBLEJUMPING, DYING, HIT;
 	}
 	
 	public Pet(String name, Runner runner) {
@@ -48,5 +49,6 @@ public abstract class Pet extends Group {
 	public abstract void setJumping();
 	public abstract void setDoubleJumping();
 	public abstract void setDying();
+	public abstract void setStunned();
 
 }

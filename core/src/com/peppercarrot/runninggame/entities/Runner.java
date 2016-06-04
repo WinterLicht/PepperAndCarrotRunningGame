@@ -3,6 +3,8 @@ package com.peppercarrot.runninggame.entities;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Align;
 import com.nGame.utils.scene2d.AnimatedImage;
@@ -23,6 +25,7 @@ import com.peppercarrot.runninggame.world.collision.IPotionCollisionAwareActor;
 public abstract class Runner extends Group
 		implements IPlatformCollisionAwareActor, IEnemyCollisionAwareActor, IPotionCollisionAwareActor {
 	String name;
+	boolean stunned = false;
 	public State currState = State.RUNNING;
 	public Pet pet;
 	int speedY = 0;
@@ -36,6 +39,7 @@ public abstract class Runner extends Group
 	AnimatedImage doubleJumpingAnim;
 	AnimatedImage fallingAnim;
 	AnimatedImage attackingAnim;
+	AnimatedImage hitAnim;
 
 	public Ability ability1;
 	public Ability ability2;
@@ -107,6 +111,7 @@ public abstract class Runner extends Group
 			runnerImage.setDrawable(doubleJumpingAnim.getDrawable());
 			break;
 		case DYING:
+			runnerImage.setDrawable(hitAnim.getDrawable());
 			break;
 		case JUMPING:
 			jumpingAnim.act(delta);
@@ -138,6 +143,10 @@ public abstract class Runner extends Group
 			break;
 		default: // Should not be reached
 			break;
+		}
+		hitAnim.act(delta);
+		if (stunned) {
+			runnerImage.setDrawable(hitAnim.getDrawable());
 		}
 		// Gravity is 1 pixel
 		speedY -= 1;
@@ -257,6 +266,23 @@ public abstract class Runner extends Group
 		currState = state;
 	}
 
+	public void setStunned() {
+		SequenceAction stunAction = new SequenceAction();
+		//TODO: stun duration depending on enemy/collider object
+		stunAction.addAction(Actions.delay(0.08f));
+		stunAction.addAction(Actions.run(new Runnable() {
+	        @Override
+	        public void run() {
+	        	if (stunned) stunned = false;
+	        }
+	    }));
+		stunned = true;
+		hitAnim.reset();
+		hitAnim.clearActions();
+		hitAnim.addAction(stunAction);
+		pet.setStunned();
+	}
+	
 	@Override
 	/**
 	 * Slightly smaller hitbox of the player as his sprite.
@@ -274,9 +300,20 @@ public abstract class Runner extends Group
 	public boolean onHitPotion(Potion potion) {
 		if (potion.isVisible()) {
 			potion.collected();
-			ability1.increaseEnergy(1);
-			ability2.increaseEnergy(1);
-			ability3.increaseEnergy(1);
+			switch (potion.type) {
+			case ORANGE:
+				ability1.increaseEnergy(1);
+				break;
+			case GREEN:
+				ability2.increaseEnergy(1);
+				break;
+			case BLUE:
+				ability3.increaseEnergy(1);
+				break;	
+			default:
+				System.out.println("for this potion is nothing defined.");
+				break;
+			}
 			return true;
 		}
 		return false;
@@ -285,9 +322,7 @@ public abstract class Runner extends Group
 	@Override
 	public boolean onHitEnemy(Enemy enemy) {
 		if (enemy.isAlive()) {
-			//TODO auskommentieren
-			//setDying();
-			enemy.die();
+			setStunned();
 			return true;
 		}
 		return false;

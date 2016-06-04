@@ -48,8 +48,7 @@ public class LevelSegment extends Group {
 				final TiledMapTileLayer tiledLayer = (TiledMapTileLayer) layer;
 				final MapProperties properties = layer.getProperties();
 
-				final boolean renderLayer = getBooleanProperty(properties, "render", false);
-				if (renderLayer) {
+				if (layer.isVisible()) {
 					final int zIndex = getIntProperty(properties, "z-index", 0);
 					final TmxLayerActor actor = new TmxLayerActor(tiledLayer, renderer, camera);
 					actor.setZIndex(zIndex);
@@ -114,7 +113,8 @@ public class LevelSegment extends Group {
 						enemies.add(createEnemy(column, row, tilewidth, tileheight, centerOffsetX, centerOffsetY));
 					}
 					if ("potion".equals(type)) {
-						potions.add(createPotion(column, row, tilewidth, tileheight, centerOffsetX, centerOffsetY));
+						final String potionColor = cell.getTile().getProperties().get("color", String.class);
+						potions.add(createPotion(potionColor, column, row, tilewidth, tileheight, centerOffsetX, centerOffsetY));
 					}
 				}
 			}
@@ -140,6 +140,7 @@ public class LevelSegment extends Group {
 			float centerOffsetY) {
 		final float posX = (column + 0.5f) * tilewidth;
 		final float posY = (row + 0.5f) * tileheight;
+		//TODO: various types
 		final Enemy enemy = new Enemy("fly");
 		enemy.setOrigin(Align.center);
 		enemy.setX(posX - enemy.getWidth() / 2);
@@ -149,11 +150,11 @@ public class LevelSegment extends Group {
 		return enemy;
 	}
 
-	private Potion createPotion(int column, int row, int tilewidth, int tileheight, float centerOffsetX,
+	private Potion createPotion(String color, int column, int row, int tilewidth, int tileheight, float centerOffsetX,
 			float centerOffsetY) {
 		final float posX = (column + 0.5f) * tilewidth;
 		final float posY = (row + 0.5f) * tileheight;
-		final Potion potion = new Potion(1);
+		final Potion potion = new Potion(color);
 		potion.setOrigin(Align.center);
 		potion.setX(posX - potion.getWidth() / 2);
 		potion.setY(posY - potion.getHeight() / 2);

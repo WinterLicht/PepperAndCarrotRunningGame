@@ -14,7 +14,7 @@ import com.peppercarrot.runninggame.utils.Assets;
  *
  */
 public class Pepper extends Runner {
-	//TODO: duration of skills here?
+	//TODO: duration of all skills here?
 	private static float SWEEP_DURATION = 0.6f;
 
 	public Pepper(String name) {
@@ -38,6 +38,9 @@ public class Pepper extends Runner {
 		attackingAnim = new AnimatedImage(new AnimatedDrawable(new Animation(SWEEP_DURATION/8,
 				Assets.I.getRegions(name + "_attack"), Animation.PlayMode.NORMAL)));
 		attackingAnim.setOrigin(Align.center);
+		hitAnim = new AnimatedImage(new AnimatedDrawable(new Animation(0.5f,
+				Assets.I.getRegions(name + "_hit"), Animation.PlayMode.NORMAL)));
+		hitAnim.setOrigin(Align.center);
 	}
 
 	@Override
@@ -46,11 +49,10 @@ public class Pepper extends Runner {
 	}
 
 	@Override
-	protected void initAbilities() {		
-		//ability1 = new SweepAttack(this, 0, SWEEP_DURATION);
+	protected void initAbilities() {
 		ability1 = new CarrotCharge(this, 0);
-		ability2 = new ProjectileAttack(this, 3, SWEEP_DURATION	);
-		ability3 = new BlackHole(this, 5, 1);
+		ability2 = new ProjectileAttack(this, 0, SWEEP_DURATION	);
+		ability3 = new BlackHole(this, 0, 1);
 	}
 
 }
