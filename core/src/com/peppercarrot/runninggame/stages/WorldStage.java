@@ -69,8 +69,8 @@ public class WorldStage extends AbstractStage {
 		background = new Background("testbg.png", virtualWidth, virtualHeight);
 		addActor(background);
 
-		levelStream = new LevelStream(camera, getBatch(), 0, virtualWidth);
-
+		levelStream = new LevelStream(camera, getBatch(), 0, virtualWidth, getRoot(),
+				runner);
 		levelStream.setY(Constants.OFFSET_TO_GROUND);
 		addActor(levelStream);
 
