@@ -16,6 +16,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.utils.Queue;
 import com.peppercarrot.runninggame.entities.Enemy;
@@ -27,7 +28,7 @@ import com.peppercarrot.runninggame.entities.Potion;
  * @author momsen
  *
  */
-public class LevelStream extends Group {
+public class LevelStream extends Actor {
 	private static final String LOG_TAG = LevelStream.class.getSimpleName();
 
 	/**
@@ -96,9 +97,21 @@ public class LevelStream extends Group {
 	 */
 	private final Circle tempCircle = new Circle();
 
+	/**
+	 * World group to which the level segment elements should be added to.
+	 */
+	private final Group worldGroup;
+
+	/**
+	 * Runner to calculate level segment elements z indices.
+	 */
+	private final Actor runner;
+
 	public LevelStream(OrthographicCamera camera, Batch batch, float segmentStartOffset,
-			float firstSegmentAdditionalStartOffset) {
+			float firstSegmentAdditionalStartOffset, Group worldGroup, Actor runner) {
 		this.camera = camera;
+		this.worldGroup = worldGroup;
+		this.runner = runner;
 		this.renderer = new OrthogonalTiledMapRenderer(null, batch);
 		this.assetManager.setLoader(LevelSegment.class, new LevelSegmentLoader(camera, renderer));
 		this.assetManager.setLoader(TiledMap.class, new LevelSegmentTmxLoader());
@@ -156,8 +169,7 @@ public class LevelStream extends Group {
 
 	private void appendNextSegment(float additionalOffset) {
 		final LevelSegment segment = getNextLevelSegment();
-		segment.setX(additionalOffset + segmentStartOffset);
-		addActor(segment);
+		segment.addToWorld(worldGroup, runner, additionalOffset + segmentStartOffset, getY());
 		segments.addLast(segment);
 
 		Gdx.app.debug(LOG_TAG, "Completely loaded level " + segment.getAssetName() + ". Inserting into stage");
@@ -180,7 +192,7 @@ public class LevelStream extends Group {
 	}
 
 	private void removeSegment(LevelSegment segment) {
-		removeActor(segment);
+		segment.removeFromWorld(worldGroup);
 		if (!currentlyLoadedSegmentName.equals(segment.getAssetName())) {
 			assetManager.unload(segment.getAssetName());
 		}

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="7" tilewidth="95" tileheight="95">
- <tileset firstgid="1" name="potions" tilewidth="95" tileheight="95">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="7" tilewidth="95" tileheight="95" nextobjectid="1">
+ <tileset firstgid="1" name="potions" tilewidth="95" tileheight="95" tilecount="3" columns="3">
   <image source="potions.png" width="285" height="95"/>
   <tile id="0">
    <properties>
@@ -21,10 +21,10 @@
    </properties>
   </tile>
  </tileset>
- <tileset firstgid="4" name="tiles2" tilewidth="95" tileheight="95">
+ <tileset firstgid="4" name="tiles2" tilewidth="95" tileheight="95" tilecount="25" columns="5">
   <image source="tiles2.png" width="475" height="475"/>
  </tileset>
- <tileset firstgid="29" name="enemies" tilewidth="95" tileheight="95">
+ <tileset firstgid="29" name="enemies" tilewidth="95" tileheight="95" tilecount="1" columns="1">
   <image source="enemies.png" width="95" height="95"/>
   <tile id="0">
    <properties>
@@ -40,6 +40,7 @@
  <layer name="platforms" width="30" height="7">
   <properties>
    <property name="platforms" value="true"/>
+   <property name="z-index" value="0"/>
   </properties>
   <data encoding="base64" compression="zlib">
    eJxjYKAcsAMxGxXMGUjAAsSsODAlfhsOYTPQAF/c4IofdjxytAAAvEgAgg==
@@ -51,6 +52,9 @@
   </data>
  </layer>
  <layer name="foreground" width="30" height="7">
+  <properties>
+   <property name="z-index" value="60"/>
+  </properties>
   <data encoding="base64" compression="zlib">
    eJxjYBi8QBiIRaBsCTraS0+7kIEgA8MCdExj+w7Q0vzBAIDpp4Ee9gAAANQFMg==
   </data>
