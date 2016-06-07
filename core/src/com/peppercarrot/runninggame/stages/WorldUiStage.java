@@ -24,6 +24,7 @@ public class WorldUiStage extends AbstractStage {
 	private final AbilityWidget abilityWidget1;
 	private final AbilityWidget abilityWidget2;
 	private final AbilityWidget abilityWidget3;
+	private final AbilityWidget abilityWidget4;
 
 	private boolean hintFaded = false;
 	private Callback jumpBtnCallback;
@@ -36,6 +37,7 @@ public class WorldUiStage extends AbstractStage {
 		uiTable.setWidth(Constants.VIRTUAL_WIDTH - uiPadding * 2);
 		uiTable.setHeight(Constants.VIRTUAL_HEIGHT - uiPadding * 2);
 
+		//Jump Button
 		jumpBtnTransparent = new Button(Assets.I.skin, "transparent");
 		final int jumpBtnTransparentWidth = 470;
 		jumpBtnTransparent.setTouchable(Touchable.enabled);
@@ -64,16 +66,19 @@ public class WorldUiStage extends AbstractStage {
 		uiTable.add(jumpBtnTransparent).width(jumpBtnTransparentWidth).height(uiTable.getHeight()).expandX().left();
 		// Attack Buttons
 		attackButtons = new Table();
-		abilityWidget1 = new AbilityWidget();
-		attackButtons.add(abilityWidget1).expandY().right().top();
+		abilityWidget1 = new AbilityWidget("Black Hole");
+		attackButtons.add(abilityWidget1).expandY().right();
 		attackButtons.row();
-		abilityWidget2 = new AbilityWidget();
-		attackButtons.add(abilityWidget2).expandY().right().center();
+		abilityWidget2 = new AbilityWidget("CarrotCharge");
+		attackButtons.add(abilityWidget2).expandY().right();
 		attackButtons.row();
-		abilityWidget3 = new AbilityWidget();
-		attackButtons.add(abilityWidget3).expandY().right().bottom();
+		abilityWidget3 = new AbilityWidget("ProjectileAttack");
+		attackButtons.add(abilityWidget3).expandY().right();
 		attackButtons.row();
-
+		abilityWidget4 = new AbilityWidget("SweepAttack");
+		attackButtons.add(abilityWidget4).expandY().right();
+		attackButtons.row();
+		
 		uiTable.add(attackButtons).height(uiTable.getHeight()).expand().right();
 		this.addActor(uiTable);
 	}
@@ -97,6 +102,7 @@ public class WorldUiStage extends AbstractStage {
 		abilityWidget1.setAbilityActivationListener(listener);
 		abilityWidget2.setAbilityActivationListener(listener);
 		abilityWidget3.setAbilityActivationListener(listener);
+		abilityWidget4.setAbilityActivationListener(listener);
 	}
 
 	public void setAbilitySlot1(Ability ability) {
@@ -121,5 +127,13 @@ public class WorldUiStage extends AbstractStage {
 
 	public Ability getAbilitySlot3() {
 		return abilityWidget3.getAbility();
+	}
+
+	public void setAbilitySlot4(Ability ability) {
+		abilityWidget4.setAbility(ability);
+	}
+
+	public Ability getAbilitySlot4() {
+		return abilityWidget4.getAbility();
 	}
 }

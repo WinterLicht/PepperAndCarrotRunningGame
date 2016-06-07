@@ -20,8 +20,8 @@ public class TimeDistortion extends Ability {
 
 	private final float halfDuration;
 
-	public TimeDistortion(Runner runner) {
-		super(runner, 6, 8.0f);
+	public TimeDistortion(Runner runner, int maxEnergy, float duration) {
+		super(runner, maxEnergy, duration);
 		halfDuration = getDuration() / 2.0f;
 	}
 
