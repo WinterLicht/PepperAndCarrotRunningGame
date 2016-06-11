@@ -22,6 +22,13 @@
 		default: { up: button, down: button-down, checked: button-down, disabled: button-disabled, font: default, fontColor: pink, disabledFontColor: white, downFontColor: white },
 	},
 	
+	com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle: {  
+		skill-button0: { up: skill_button0, down: skill_button0 },
+		skill-button1: { up: skill_button1, down: skill_button1 },
+		skill-button2: { up: skill_button2, down: skill_button2 },
+		skill-button3: { up: skill_button3, down: skill_button3 }
+	},
+	
 	com.badlogic.gdx.scenes.scene2d.ui.ProgressBar$ProgressBarStyle: {
 		abilityEnergy: { background: energy, knobBefore: energy, knobAfter: energy-end }
 	}

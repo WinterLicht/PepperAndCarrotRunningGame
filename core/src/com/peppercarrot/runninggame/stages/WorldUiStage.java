@@ -1,5 +1,6 @@
 package com.peppercarrot.runninggame.stages;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -17,20 +18,22 @@ public class WorldUiStage extends AbstractStage {
 
 	private final Table uiTable;
 	private final Label hintLabel;
-	private final Table attackButtons;
+	//private final Table attackButtons;
 
 	private final Button jumpBtnTransparent;
 
-	private final AbilityWidget abilityWidget1;
-	private final AbilityWidget abilityWidget2;
-	private final AbilityWidget abilityWidget3;
-	private final AbilityWidget abilityWidget4;
+	public final AbilityWidget abilityWidget1;
+	public final AbilityWidget abilityWidget2;
+	public final AbilityWidget abilityWidget3;
+	public final AbilityWidget abilityWidget0;
 
 	private boolean hintFaded = false;
 	private Callback jumpBtnCallback;
 
+	Table skillsBtns;
+	
 	public WorldUiStage() {
-		final int uiPadding = 30; // padding of borders for ui in pixel
+		final int uiPadding = 0; // padding of borders for ui in pixel
 		uiTable = new Table();
 		uiTable.setFillParent(true);
 		uiTable.pad(uiPadding);
@@ -56,15 +59,9 @@ public class WorldUiStage extends AbstractStage {
 				return true;
 			}
 		});
-
-		// TextButton jumpButton = new TextButton ("JUMP", Assets.I.skin,
-		// "default");
-		// TODO: try something else to pass touch event to this button
-		// jumpButton.setTouchable(Touchable.disabled);
-		// jumpBtnTransparent.add(jumpButton);
-		// jumpBtnTransparent.bottom().left();
 		uiTable.add(jumpBtnTransparent).width(jumpBtnTransparentWidth).height(uiTable.getHeight()).expandX().left();
 		// Attack Buttons
+		/*
 		attackButtons = new Table();
 		abilityWidget1 = new AbilityWidget("Black Hole");
 		attackButtons.add(abilityWidget1).expandY().right();
@@ -78,9 +75,31 @@ public class WorldUiStage extends AbstractStage {
 		abilityWidget4 = new AbilityWidget("SweepAttack");
 		attackButtons.add(abilityWidget4).expandY().right();
 		attackButtons.row();
-		
-		uiTable.add(attackButtons).height(uiTable.getHeight()).expand().right();
+		*/
+		skillsBtns = new Table();
+		abilityWidget0 = new AbilityWidget(0);
+		abilityWidget1 = new AbilityWidget(1);
+		abilityWidget2 = new AbilityWidget(2);
+		abilityWidget3 = new AbilityWidget(3);
+		skillsBtns.addActor(abilityWidget0);
+		skillsBtns.addActor(abilityWidget1);
+		skillsBtns.addActor(abilityWidget2);
+		skillsBtns.addActor(abilityWidget3);
+		skillsBtns.addListener(new InputListener() {
+			@Override
+			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+				if (abilityWidget1.isInsideSector(x, y)) abilityWidget1.listener.activate(abilityWidget1.ability);
+				if (abilityWidget2.isInsideSector(x, y)) abilityWidget2.listener.activate(abilityWidget2.ability);
+				if (abilityWidget3.isInsideSector(x, y)) abilityWidget3.listener.activate(abilityWidget3.ability);
+				if (abilityWidget0.isInsideBoundaries(new Vector2(x-AbilityWidget.width, y), 0, 200)) abilityWidget0.listener.activate(abilityWidget0.ability);
+				return true;
+			}
+		});
+		//PadRight == width of whole skill UI
+		uiTable.add(skillsBtns).right().bottom().padRight(AbilityWidget.width);
+		//uiTable.add(attackButtons).height(uiTable.getHeight()).expand().right();
 		this.addActor(uiTable);
+		skillsBtns.debug();
 	}
 
 	public void disable() {
@@ -99,10 +118,10 @@ public class WorldUiStage extends AbstractStage {
 	}
 
 	public void onActivateAbility(AbilityActivationListener listener) {
+		abilityWidget0.setAbilityActivationListener(listener);
 		abilityWidget1.setAbilityActivationListener(listener);
 		abilityWidget2.setAbilityActivationListener(listener);
 		abilityWidget3.setAbilityActivationListener(listener);
-		abilityWidget4.setAbilityActivationListener(listener);
 	}
 
 	public void setAbilitySlot1(Ability ability) {
@@ -129,11 +148,11 @@ public class WorldUiStage extends AbstractStage {
 		return abilityWidget3.getAbility();
 	}
 
-	public void setAbilitySlot4(Ability ability) {
-		abilityWidget4.setAbility(ability);
+	public void setAbilitySlot0(Ability ability) {
+		abilityWidget0.setAbility(ability);
 	}
 
-	public Ability getAbilitySlot4() {
-		return abilityWidget4.getAbility();
+	public Ability getAbilitySlot0() {
+		return abilityWidget0.getAbility();
 	}
 }
