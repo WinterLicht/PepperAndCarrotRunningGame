@@ -2,6 +2,7 @@ package com.peppercarrot.runninggame.stages;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.peppercarrot.runninggame.entities.Ability;
 import com.peppercarrot.runninggame.utils.Assets;
@@ -12,41 +13,32 @@ public class AbilityWidget extends ImageButton {
 		void activate(Ability ability);
 	}
 
-	//private final ProgressBar energy;
+	public Image energy;
 
-	public static int width = 388;
+	public static int width = 373; //Width of the whole ability-UI-element
 	public Ability ability;
-	private int number;
+	private int number; //number of the skill-button  
 	
-	private Vector2 v1 = new Vector2(-width, 0);
-	private Vector2 v2 = new Vector2(-width, 0);
+	private Vector2 v1 = new Vector2(-width, 0); //Start of the segment
+	private Vector2 v2 = new Vector2(-width, 0); //End of the segment
 
 	public AbilityActivationListener listener;
 
 	public AbilityWidget(int n) {
 		super(Assets.I.skin, "skill-button"+n);
 		this.number = n;
-		if (n == 0) setTouchable(Touchable.disabled);
+		if (number > 0) { //No energy for "0" ability
+			energy = new Image(Assets.I.atlas.findRegion("skill_energy"+number));
+			energy.setHeight(energy.getHeight()/2);
+			energy.setWidth(energy.getWidth()/2);
+			energy.setOrigin(energy.getWidth(), 0);
+			this.addActor(energy);
+		}
 		this.setTouchable(Touchable.enabled);
-		/*
-		this.addListener(new InputListener() {
-			@Override
-			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-				if (listener != null && ability != null &&
-						isInsideSector(x,y)) {
-					listener.activate(ability);
-				}
-				System.out.println(number);
-				setChecked(false);
-				return true;
-			}
-		});
-		*/
-		//energy = new ProgressBar(0, 0, 1, true, Assets.I.skin, "abilityEnergy");
-		//energy.setValue(0);
+		//3 abilities in a quarter circle
+		//--> each is 30 degrees
 		v2 = v2.rotate(-((n - 1)*30));
 		v1 = v1.rotate(-(n*30));
-		debug();
 	}
 
 	public void setAbilityActivationListener(AbilityActivationListener listener) {
@@ -57,36 +49,44 @@ public class AbilityWidget extends ImageButton {
 		this.ability = ability;
 
 		if (ability != null) {
-			//energy.setRange(0, ability.getMaxEnergy());
-			//energy.setValue(ability.getEnergy());
-			//.width(180).height(130).left();
+			//placement of the elements
+			//numbers are measured from picture of whole UI-element
 			switch(number) {
 			case 0:
-				setX(178);
-				setY(1);
+				setX(width);
+				setY(0);
 				break;
 			case 1:
-				setX(1);
-				setY(1);
+				setX(0);
+				setY(0);
+				energy.setX(width-energy.getWidth());
+				energy.setY(0);
 				break;
 			case 2:
-				setX(54);
-				setY(102);
+				setX(50);
+				setY(100);
+				energy.setX(width-energy.getWidth()-getX());
+				energy.setY(-getY());
 				break;
 			case 3:
-				setX(194);
-				setY(176);
+				setX(186);
+				setY(173);
+				energy.setX(width-energy.getWidth()-getX());
+				energy.setY(-getY());
 				break;
 			default:
 				break;
 			}
-			//add(energy).height(130).right().expandY();
-		} else {
-			//removeActor(button);
-			//removeActor(energy);
 		}
 	}
 	
+	/**
+	 * Test if a point is inside a sector.
+	 * Coordinates are relative to the whole UI-element.
+	 * @param x
+	 * @param y
+	 * @return
+	 */
 	public boolean isInsideSector(float x, float y) {
 		Vector2 point = new Vector2(x,  y);
 	      //point = localToParentCoordinates(point);
@@ -97,16 +97,23 @@ public class AbilityWidget extends ImageButton {
 	}
 
 	/**
-	 * Point inside boundaries
-	 * @param v
-	 * @param r1
-	 * @param r2
+	 * Test if point lies inside a ring.
+	 * r1 should be smaller than r2.
+	 * @param v given point
+	 * @param r1 inner radius
+	 * @param r2 outer radius
 	 * @return
 	 */
 	public boolean isInsideBoundaries(Vector2 v, int r1, int r2) {
 		return ((v.x*v.x + v.y*v.y < r2*r2) && (v.x*v.x + v.y*v.y > r1*r1) );
 	}
-	
+
+	/**
+	 * Test if vector a lies clockwise to vector b.
+	 * @param a
+	 * @param b
+	 * @return
+	 */
 	public boolean vectorsAreClockwise(Vector2 a, Vector2 b) {
 		//a.set(-a.y, a.x); // perpendicular to a
 		//return b.dot(a) > 0; // test length of projection
@@ -118,8 +125,9 @@ public class AbilityWidget extends ImageButton {
 		super.act(delta);
 
 		if (ability != null) {
-			//energy.setValue(ability.getEnergy());
-			//button.setTouchable(ability.isRunning() ? Touchable.disabled : Touchable.enabled);
+			if(ability.getMaxEnergy() != 0 && number > 0) {
+			energy.setScale(1+((float)ability.getEnergy()/ability.getMaxEnergy()));
+			}
 		}
 	}
 

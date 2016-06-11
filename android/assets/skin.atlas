@@ -6,14 +6,14 @@ filter: MipMapLinearNearest,Nearest
 repeat: none
 black-hole
   rotate: false
-  xy: 1, 772
+  xy: 699, 771
   size: 250, 250
   orig: 250, 250
   offset: 0, 0
   index: 1
 button
   rotate: false
-  xy: 957, 544
+  xy: 1001, 84
   size: 22, 22
   split: 5, 5, 5, 5
   pad: 10, 10, 10, 10
@@ -22,7 +22,7 @@ button
   index: -1
 button-disabled
   rotate: false
-  xy: 225, 749
+  xy: 1001, 130
   size: 22, 22
   split: 5, 5, 5, 5
   pad: 10, 10, 10, 10
@@ -31,7 +31,7 @@ button-disabled
   index: -1
 button-down
   rotate: false
-  xy: 984, 1000
+  xy: 1001, 107
   size: 22, 22
   split: 5, 5, 5, 5
   pad: 10, 10, 10, 10
@@ -40,70 +40,56 @@ button-down
   index: -1
 carrot_doublejump
   rotate: false
-  xy: 870, 909
+  xy: 189, 378
   size: 113, 113
   orig: 113, 113
   offset: 0, 0
   index: 1
 carrot_doublejump
   rotate: false
-  xy: 459, 85
+  xy: 431, 179
   size: 113, 113
   orig: 113, 113
   offset: 0, 0
   index: 2
 carrot_fall
   rotate: false
-  xy: 870, 795
+  xy: 431, 65
   size: 113, 113
   orig: 113, 113
   offset: 0, 0
   index: 1
 carrot_fall
   rotate: false
-  xy: 573, 85
+  xy: 545, 39
   size: 113, 113
   orig: 113, 113
   offset: 0, 0
   index: 2
 carrot_fall
   rotate: false
-  xy: 870, 681
+  xy: 659, 39
   size: 113, 113
   orig: 113, 113
   offset: 0, 0
   index: 3
 carrot_hit
   rotate: false
-  xy: 687, 85
+  xy: 773, 39
   size: 113, 113
   orig: 113, 113
   offset: 0, 0
   index: 1
 carrot_jump
   rotate: false
-  xy: 870, 567
+  xy: 887, 39
   size: 113, 113
   orig: 113, 113
   offset: 0, 0
   index: 1
-carrot_jump
-  rotate: false
-  xy: 843, 453
-  size: 113, 113
-  orig: 113, 113
-  offset: 0, 0
-  index: 2
-carrot_jump
-  rotate: false
-  xy: 801, 85
-  size: 113, 113
-  orig: 113, 113
-  offset: 0, 0
-  index: 3
 energy
   rotate: false
-  xy: 843, 445
+  xy: 1, 1
   size: 46, 7
   split: 4, 4, 0, 4
   orig: 46, 7
@@ -111,7 +97,7 @@ energy
   index: -1
 energy-empty
   rotate: false
-  xy: 207, 191
+  xy: 582, 826
   size: 46, 7
   split: 4, 4, 4, 0
   orig: 46, 7
@@ -119,7 +105,7 @@ energy-empty
   index: -1
 energy-end
   rotate: false
-  xy: 1, 1
+  xy: 325, 699
   size: 46, 5
   split: 4, 4, 4, 0
   orig: 46, 5
@@ -127,455 +113,489 @@ energy-end
   index: -1
 pepper_attack
   rotate: false
-  xy: 252, 817
+  xy: 189, 492
   size: 205, 205
   orig: 205, 205
   offset: 0, 0
   index: 1
 pepper_attack
   rotate: false
-  xy: 1, 342
+  xy: 395, 499
   size: 205, 205
   orig: 205, 205
   offset: 0, 0
   index: 2
 pepper_attack
   rotate: false
-  xy: 458, 817
+  xy: 601, 565
   size: 205, 205
   orig: 205, 205
   offset: 0, 0
   index: 3
 pepper_attack
   rotate: false
-  xy: 1, 136
+  xy: 807, 565
   size: 205, 205
   orig: 205, 205
   offset: 0, 0
   index: 4
 pepper_attack
   rotate: false
-  xy: 664, 817
+  xy: 601, 359
   size: 205, 205
   orig: 205, 205
   offset: 0, 0
   index: 5
 pepper_attack
   rotate: false
-  xy: 252, 611
+  xy: 807, 359
   size: 205, 205
   orig: 205, 205
   offset: 0, 0
   index: 6
 pepper_attack
   rotate: false
-  xy: 458, 611
+  xy: 395, 293
   size: 205, 205
   orig: 205, 205
   offset: 0, 0
   index: 7
 pepper_doublejump
   rotate: false
-  xy: 664, 611
+  xy: 601, 153
   size: 205, 205
   orig: 205, 205
   offset: 0, 0
   index: 1
 pepper_doublejump
   rotate: false
-  xy: 225, 405
+  xy: 807, 153
   size: 205, 205
   orig: 205, 205
   offset: 0, 0
   index: 2
 pepper_fall
   rotate: false
-  xy: 431, 405
-  size: 205, 205
-  orig: 205, 205
-  offset: 0, 0
-  index: 1
-pepper_fall
-  rotate: false
-  xy: 637, 405
-  size: 205, 205
-  orig: 205, 205
-  offset: 0, 0
-  index: 2
-pepper_fall
-  rotate: false
-  xy: 207, 199
-  size: 205, 205
-  orig: 205, 205
-  offset: 0, 0
-  index: 3
-pepper_hit
-  rotate: false
-  xy: 413, 199
-  size: 205, 205
-  orig: 205, 205
-  offset: 0, 0
-  index: 1
-pepper_jump
-  rotate: false
-  xy: 619, 199
+  xy: 225, 87
   size: 205, 205
   orig: 205, 205
   offset: 0, 0
   index: 1
 potion_blue
   rotate: false
-  xy: 459, 14
+  xy: 950, 951
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
   index: -1
 potion_green
   rotate: false
-  xy: 530, 14
+  xy: 92, 29
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
   index: -1
 potion_orange
   rotate: false
-  xy: 601, 14
+  xy: 950, 880
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
   index: -1
 projectile1
   rotate: false
-  xy: 915, 113
+  xy: 1, 9
   size: 90, 90
   orig: 90, 90
   offset: 0, 0
   index: -1
 projectile2
   rotate: false
-  xy: 915, 22
+  xy: 303, 401
   size: 90, 90
   orig: 90, 90
   offset: 0, 0
   index: -1
 roboto25
   rotate: false
-  xy: 1, 7
+  xy: 325, 705
   size: 256, 128
   orig: 256, 128
   offset: 0, 0
   index: -1
-skill_alle
-  rotate: false
-  xy: 1, 548
-  size: 223, 223
-  orig: 223, 223
-  offset: 0, 0
-  index: -1
 skill_button2
   rotate: false
-  xy: 1, 548
+  xy: 1, 100
   size: 223, 223
   orig: 223, 223
   offset: 0, 0
   index: -1
-skill_button1
+skill_energy1
   rotate: false
-  xy: 258, 11
-  size: 200, 187
-  orig: 200, 187
+  xy: 325, 834
+  size: 373, 187
+  orig: 373, 187
   offset: 0, 0
   index: -1
-skill_button3
+skill_energy2
   rotate: false
-  xy: 825, 204
-  size: 187, 200
-  orig: 187, 200
+  xy: 1, 698
+  size: 323, 323
+  orig: 323, 323
+  offset: 0, 0
+  index: -1
+skill_energy3
+  rotate: false
+  xy: 1, 324
+  size: 187, 373
+  orig: 187, 373
   offset: 0, 0
   index: -1
 sparkling
   rotate: false
-  xy: 672, 14
+  xy: 950, 809
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
   index: 1
 sparkling
   rotate: false
-  xy: 743, 14
+  xy: 303, 330
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
   index: 2
 sparkling
   rotate: false
-  xy: 814, 14
+  xy: 225, 307
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
   index: 3
+sparkling
+  rotate: false
+  xy: 163, 16
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: 4
+sparkling
+  rotate: false
+  xy: 163, 16
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: 5
+sparkling
+  rotate: false
+  xy: 234, 16
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: 6
+sparkling
+  rotate: false
+  xy: 305, 16
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: 7
 
 skin2.png
 size: 1024,1024
 format: RGBA8888
 filter: MipMapLinearNearest,Nearest
 repeat: none
-carrot_run
+carrot_jump
   rotate: false
-  xy: 1, 72
-  size: 113, 113
-  orig: 113, 113
-  offset: 0, 0
-  index: 1
-carrot_run
-  rotate: false
-  xy: 825, 896
+  xy: 202, 75
   size: 113, 113
   orig: 113, 113
   offset: 0, 0
   index: 2
-carrot_run
+carrot_jump
   rotate: false
-  xy: 413, 278
+  xy: 825, 698
   size: 113, 113
   orig: 113, 113
   offset: 0, 0
   index: 3
 carrot_run
   rotate: false
-  xy: 619, 489
+  xy: 316, 75
+  size: 113, 113
+  orig: 113, 113
+  offset: 0, 0
+  index: 1
+carrot_run
+  rotate: false
+  xy: 825, 584
+  size: 113, 113
+  orig: 113, 113
+  offset: 0, 0
+  index: 2
+carrot_run
+  rotate: false
+  xy: 430, 75
+  size: 113, 113
+  orig: 113, 113
+  offset: 0, 0
+  index: 3
+carrot_run
+  rotate: false
+  xy: 825, 470
   size: 113, 113
   orig: 113, 113
   offset: 0, 0
   index: 4
 carrot_run
   rotate: false
-  xy: 115, 72
+  xy: 544, 75
   size: 113, 113
   orig: 113, 113
   offset: 0, 0
   index: 5
 carrot_run
   rotate: false
-  xy: 229, 72
+  xy: 825, 356
   size: 113, 113
   orig: 113, 113
   offset: 0, 0
   index: 6
 carrot_run
   rotate: false
-  xy: 619, 375
+  xy: 658, 75
   size: 113, 113
   orig: 113, 113
   offset: 0, 0
   index: 7
 carrot_run
   rotate: false
-  xy: 825, 782
+  xy: 825, 242
   size: 113, 113
   orig: 113, 113
   offset: 0, 0
   index: 8
 carrot_run
   rotate: false
-  xy: 820, 668
+  xy: 772, 75
   size: 113, 113
   orig: 113, 113
   offset: 0, 0
   index: 9
 carrot_run
   rotate: false
-  xy: 413, 164
+  xy: 886, 128
   size: 113, 113
   orig: 113, 113
   offset: 0, 0
   index: 10
 fly-death
   rotate: false
-  xy: 733, 492
+  xy: 886, 17
   size: 110, 110
   orig: 110, 110
   offset: 0, 0
   index: 1
-fly-death
+pepper_fall
   rotate: false
-  xy: 733, 381
-  size: 110, 110
-  orig: 110, 110
+  xy: 1, 807
+  size: 205, 205
+  orig: 205, 205
   offset: 0, 0
   index: 2
-fly-death
+pepper_fall
   rotate: false
-  xy: 527, 210
-  size: 110, 110
-  orig: 110, 110
+  xy: 1, 601
+  size: 205, 205
+  orig: 205, 205
   offset: 0, 0
   index: 3
-fly-death
+pepper_hit
   rotate: false
-  xy: 527, 99
-  size: 110, 110
-  orig: 110, 110
-  offset: 0, 0
-  index: 4
-fly-death
-  rotate: false
-  xy: 638, 264
-  size: 110, 110
-  orig: 110, 110
-  offset: 0, 0
-  index: 5
-fly-idle
-  rotate: false
-  xy: 638, 153
-  size: 110, 110
-  orig: 110, 110
+  xy: 207, 807
+  size: 205, 205
+  orig: 205, 205
   offset: 0, 0
   index: 1
-fly-idle
-  rotate: false
-  xy: 749, 270
-  size: 110, 110
-  orig: 110, 110
-  offset: 0, 0
-  index: 2
-fly-idle
-  rotate: false
-  xy: 749, 159
-  size: 110, 110
-  orig: 110, 110
-  offset: 0, 0
-  index: 3
 pepper_jump
   rotate: false
-  xy: 1, 804
+  xy: 1, 395
+  size: 205, 205
+  orig: 205, 205
+  offset: 0, 0
+  index: 1
+pepper_jump
+  rotate: false
+  xy: 207, 601
   size: 205, 205
   orig: 205, 205
   offset: 0, 0
   index: 2
 pepper_jump
   rotate: false
-  xy: 1, 598
+  xy: 413, 807
   size: 205, 205
   orig: 205, 205
   offset: 0, 0
   index: 3
 pepper_run
   rotate: false
-  xy: 207, 804
+  xy: 1, 189
   size: 205, 205
   orig: 205, 205
   offset: 0, 0
   index: 1
 pepper_run
   rotate: false
-  xy: 1, 392
+  xy: 207, 395
   size: 205, 205
   orig: 205, 205
   offset: 0, 0
   index: 2
 pepper_run
   rotate: false
-  xy: 207, 598
+  xy: 413, 601
   size: 205, 205
   orig: 205, 205
   offset: 0, 0
   index: 3
 pepper_run
   rotate: false
-  xy: 413, 804
+  xy: 619, 807
   size: 205, 205
   orig: 205, 205
   offset: 0, 0
   index: 4
 pepper_run
   rotate: false
-  xy: 1, 186
+  xy: 207, 189
   size: 205, 205
   orig: 205, 205
   offset: 0, 0
   index: 5
 pepper_run
   rotate: false
-  xy: 207, 392
+  xy: 413, 395
   size: 205, 205
   orig: 205, 205
   offset: 0, 0
   index: 6
 pepper_run
   rotate: false
-  xy: 413, 598
+  xy: 619, 601
   size: 205, 205
   orig: 205, 205
   offset: 0, 0
   index: 7
 pepper_run
   rotate: false
-  xy: 619, 804
+  xy: 413, 189
   size: 205, 205
   orig: 205, 205
   offset: 0, 0
   index: 8
 pepper_run
   rotate: false
-  xy: 207, 186
+  xy: 619, 395
   size: 205, 205
   orig: 205, 205
   offset: 0, 0
   index: 9
 pepper_run
   rotate: false
-  xy: 413, 392
+  xy: 619, 189
   size: 205, 205
   orig: 205, 205
   offset: 0, 0
   index: 10
-skill_button0
+skill_button1
   rotate: false
-  xy: 619, 603
-  size: 200, 200
-  orig: 200, 200
+  xy: 1, 1
+  size: 200, 187
+  orig: 200, 187
+  offset: 0, 0
+  index: -1
+skill_button3
+  rotate: false
+  xy: 825, 812
+  size: 187, 200
+  orig: 187, 200
   offset: 0, 0
   index: -1
 sparkling
   rotate: false
-  xy: 1, 1
-  size: 70, 70
-  orig: 70, 70
-  offset: 0, 0
-  index: 4
-sparkling
-  rotate: false
-  xy: 1, 1
-  size: 70, 70
-  orig: 70, 70
-  offset: 0, 0
-  index: 5
-sparkling
-  rotate: false
-  xy: 939, 939
-  size: 70, 70
-  orig: 70, 70
-  offset: 0, 0
-  index: 6
-sparkling
-  rotate: false
-  xy: 527, 321
-  size: 70, 70
-  orig: 70, 70
-  offset: 0, 0
-  index: 7
-sparkling
-  rotate: false
-  xy: 72, 1
+  xy: 202, 4
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
   index: 8
 sparkling
   rotate: false
-  xy: 939, 868
+  xy: 939, 741
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
   index: 9
+
+skin3.png
+size: 1024,256
+format: RGBA8888
+filter: MipMapLinearNearest,Nearest
+repeat: none
+fly-death
+  rotate: false
+  xy: 202, 91
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 2
+fly-death
+  rotate: false
+  xy: 313, 91
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 3
+fly-death
+  rotate: false
+  xy: 424, 91
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 4
+fly-death
+  rotate: false
+  xy: 535, 91
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 5
+fly-idle
+  rotate: false
+  xy: 646, 91
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 1
+fly-idle
+  rotate: false
+  xy: 757, 91
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 2
+fly-idle
+  rotate: false
+  xy: 868, 91
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: 3
+skill_button0
+  rotate: false
+  xy: 1, 1
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: -1
