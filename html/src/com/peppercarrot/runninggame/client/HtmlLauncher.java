@@ -7,13 +7,13 @@ import com.peppercarrot.runninggame.PaCGame;
 
 public class HtmlLauncher extends GwtApplication {
 
-        @Override
-        public GwtApplicationConfiguration getConfig () {
-                return new GwtApplicationConfiguration(480, 320);
-        }
+	@Override
+	public GwtApplicationConfiguration getConfig() {
+		return new GwtApplicationConfiguration(480, 320);
+	}
 
-        @Override
-        public ApplicationListener createApplicationListener () {
-                return PaCGame.getInstance();
-        }
+	@Override
+	public ApplicationListener createApplicationListener() {
+		return new PaCGame();
+	}
 }

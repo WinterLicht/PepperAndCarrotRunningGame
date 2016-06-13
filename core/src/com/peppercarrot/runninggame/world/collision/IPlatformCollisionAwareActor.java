@@ -1,13 +1,13 @@
 package com.peppercarrot.runninggame.world.collision;
 
-import com.peppercarrot.runninggame.world.Platform;
+import com.peppercarrot.runninggame.world.LevelSegment;
 
 public interface IPlatformCollisionAwareActor {
 	float getPlatformCollisionX();
 
 	float getPlatformCollisionY();
-	
+
 	float getPlatformCollisionWidth();
 
-	boolean onHitPlatform(Platform platform, float platformHitTop);
+	boolean onHitPlatform(LevelSegment.Platform platform, float platformHitTop);
 }

@@ -3,6 +3,7 @@ package com.peppercarrot.runninggame.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -10,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.peppercarrot.runninggame.PaCGame;
 import com.peppercarrot.runninggame.utils.Assets;
 import com.peppercarrot.runninggame.utils.Constants;
 
@@ -25,7 +25,7 @@ public class LoseScreen extends ScreenAdapter {
 	boolean goToStartScreen = false;
 
 	public LoseScreen() {
-		stage = new Stage(PaCGame.getInstance().viewport);
+		stage = new Stage(DefaultScreenConfiguration.getInstance().getViewport());
 		// set up stage
 		final Table table = new Table(Assets.I.skin);
 		table.setFillParent(true);
@@ -62,12 +62,12 @@ public class LoseScreen extends ScreenAdapter {
 
 	@Override
 	public void render(float delta) {
-		final PaCGame game = PaCGame.getInstance();
 
-		game.batch.begin();
-		game.batch.setColor(1, 1, 1, 1);
+		final Batch batch = DefaultScreenConfiguration.getInstance().getBatch();
+		batch.begin();
+		batch.setColor(1, 1, 1, 1);
 		// TODO: render some background image
-		game.batch.end();
+		batch.end();
 
 		stage.act(delta);
 		stage.draw();
@@ -99,10 +99,10 @@ public class LoseScreen extends ScreenAdapter {
 			@Override
 			public void run() {
 				if (goToWorldMap) {
-					PaCGame.getInstance().setScreen(new WorldScreen());
+					ScreenSwitch.getInstance().setWorldScreen();
 				}
 				if (goToStartScreen) {
-					PaCGame.getInstance().setScreen(new StartScreen());
+					ScreenSwitch.getInstance().setStartScreen();
 				}
 			}
 		}));

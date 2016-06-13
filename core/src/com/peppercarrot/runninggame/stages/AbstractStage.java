@@ -4,11 +4,11 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-import com.peppercarrot.runninggame.PaCGame;
+import com.peppercarrot.runninggame.screens.DefaultScreenConfiguration;
 
 public abstract class AbstractStage extends Stage {
 	public AbstractStage() {
-		super(PaCGame.getInstance().viewport);
+		super(DefaultScreenConfiguration.getInstance().getViewport());
 	}
 
 	public void fadeOut(boolean initiallyResetAlpha, float fadeOutTime, Runnable onFinish) {

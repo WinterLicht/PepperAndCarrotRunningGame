@@ -3,7 +3,6 @@ package com.peppercarrot.runninggame.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.ScreenAdapter;
-import com.peppercarrot.runninggame.PaCGame;
 import com.peppercarrot.runninggame.entities.Ability;
 import com.peppercarrot.runninggame.entities.Pepper;
 import com.peppercarrot.runninggame.entities.Runner;
@@ -145,7 +144,7 @@ public class WorldScreen extends ScreenAdapter {
 		stage.fadeOut(true, fadeOutTime, new Runnable() {
 			@Override
 			public void run() {
-				PaCGame.getInstance().setScreen(new LoseScreen());
+				ScreenSwitch.getInstance().setLoseScreen();
 			}
 		});
 

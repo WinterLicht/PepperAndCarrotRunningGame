@@ -4,11 +4,9 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.peppercarrot.runninggame.PaCGame;
-import com.peppercarrot.runninggame.screens.WorldScreen;
+import com.peppercarrot.runninggame.screens.ScreenSwitch;
 import com.peppercarrot.runninggame.utils.Assets;
 import com.peppercarrot.runninggame.utils.Constants;
 
@@ -56,21 +54,11 @@ public class StartStage extends AbstractStage {
 	 * @param fadeOutTime
 	 */
 	public void switchScreen(float fadeOutTime) {
-		getRoot().getColor().a = 1;
-		final SequenceAction sequenceAction = new SequenceAction();
-		sequenceAction.addAction(Actions.fadeOut(fadeOutTime));
-		sequenceAction.addAction(Actions.run(new Runnable() {
+		fadeOut(true, fadeOutTime, new Runnable() {
 			@Override
 			public void run() {
-				PaCGame.getInstance().setScreen(new WorldScreen());
+				ScreenSwitch.getInstance().setWorldScreen();
 			}
-		}));
-		getRoot().addAction(sequenceAction);
-		/*
-		 * backgroundImage.getColor().a = 1; SequenceAction sequenceAction2 =
-		 * new SequenceAction(); sequenceAction2.addAction(
-		 * Actions.fadeOut(fadeOutTime) );
-		 * backgroundImage.addAction(sequenceAction2);
-		 */
+		});
 	}
 }

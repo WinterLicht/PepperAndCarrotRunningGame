@@ -15,6 +15,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.renderers.BatchTiledMapRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.utils.Align;
@@ -22,6 +23,7 @@ import com.peppercarrot.runninggame.entities.Enemy;
 import com.peppercarrot.runninggame.entities.Potion;
 import com.peppercarrot.runninggame.utils.ActorXPositionComparator;
 import com.peppercarrot.runninggame.utils.Constants;
+import com.peppercarrot.runninggame.world.LevelSegment.Platform.PlatformXPositionComparator;
 
 /**
  * A single level segment loaded from a tile map
@@ -30,6 +32,43 @@ import com.peppercarrot.runninggame.utils.Constants;
  *
  */
 public class LevelSegment {
+
+	public static class Platform {
+
+		private final float w;
+		private final float h;
+		private final Vector2 relativePosition;
+		private final LevelSegment segment;
+
+		public Platform(LevelSegment segment, float x, float y, float w, float h) {
+			this.segment = segment;
+			this.relativePosition = new Vector2(x, y);
+			this.w = w;
+			this.h = h;
+		}
+
+		public void retrieveAbsolutePosition(Vector2 position) {
+			position.set(relativePosition);
+			position.x += segment.getX();
+			position.y += segment.getY();
+		}
+
+		public float getW() {
+			return w;
+		}
+
+		public float getH() {
+			return h;
+		}
+
+		public static class PlatformXPositionComparator implements Comparator<Platform> {
+
+			@Override
+			public int compare(Platform left, Platform right) {
+				return Float.compare(left.relativePosition.x, right.relativePosition.x);
+			}
+		}
+	}
 
 	private final int segmentWidth;
 
@@ -80,7 +119,7 @@ public class LevelSegment {
 			}
 		}
 
-		Collections.sort(platforms, new Platform.XPositionComparator());
+		Collections.sort(platforms, new PlatformXPositionComparator());
 		Collections.sort(enemies, new ActorXPositionComparator());
 		Collections.sort(potions, new ActorXPositionComparator());
 	}
