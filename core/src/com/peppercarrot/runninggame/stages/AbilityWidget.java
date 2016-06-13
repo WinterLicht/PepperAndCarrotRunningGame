@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.peppercarrot.runninggame.entities.Ability;
 import com.peppercarrot.runninggame.utils.Assets;
@@ -23,10 +24,9 @@ public class AbilityWidget extends Table {
 
 	private AbilityActivationListener listener;
 
-	public AbilityWidget() {
-		button = new Button(Assets.I.skin, "default");
+	public AbilityWidget(String name) {
+		button = new TextButton(name, Assets.I.skin, "default");
 		button.setTouchable(Touchable.enabled);
-		button.setName("" + 1);
 		button.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -52,8 +52,8 @@ public class AbilityWidget extends Table {
 		if (ability != null) {
 			energy.setRange(0, ability.getMaxEnergy());
 			energy.setValue(ability.getEnergy());
-			add(button).width(180).height(180).left();
-			add(energy).height(180).right().expandY();
+			add(button).width(180).height(130).left();
+			add(energy).height(130).right().expandY();
 		} else {
 			removeActor(button);
 			removeActor(energy);

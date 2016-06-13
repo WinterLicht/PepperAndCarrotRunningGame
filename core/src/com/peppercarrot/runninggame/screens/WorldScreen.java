@@ -67,9 +67,10 @@ public class WorldScreen extends ScreenAdapter {
 			}
 		});
 
-		ui.setAbilitySlot1(runner.ability3);
+		ui.setAbilitySlot1(runner.ability1);
 		ui.setAbilitySlot2(runner.ability2);
-		ui.setAbilitySlot3(runner.ability1);
+		ui.setAbilitySlot3(runner.ability3);
+		ui.setAbilitySlot4(runner.ability4);
 		return ui;
 	}
 
@@ -111,14 +112,17 @@ public class WorldScreen extends ScreenAdapter {
 		if (Gdx.input.isKeyJustPressed(Keys.BACK) || Gdx.input.isKeyPressed(Keys.ESCAPE)) {
 			Gdx.app.exit();
 		}
-		if (Gdx.input.isKeyJustPressed(Keys.C)) {
+		if (Gdx.input.isKeyJustPressed(Keys.Y)) {
 			ui.getAbilitySlot1().activate(stage);
 		}
 		if (Gdx.input.isKeyJustPressed(Keys.X)) {
 			ui.getAbilitySlot2().activate(stage);
 		}
-		if (Gdx.input.isKeyJustPressed(Keys.Y)) {
+		if (Gdx.input.isKeyJustPressed(Keys.C)) {
 			ui.getAbilitySlot3().activate(stage);
+		}
+		if (Gdx.input.isKeyJustPressed(Keys.V)) {
+			ui.getAbilitySlot4().activate(stage);
 		}
 		if (Gdx.input.isKeyJustPressed(Keys.TAB)) {
 			Gdx.app.log("<debug>", "break");

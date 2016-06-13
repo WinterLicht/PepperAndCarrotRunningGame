@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="15" height="7" tilewidth="95" tileheight="95">
- <tileset firstgid="1" name="tileset_neutral_01" tilewidth="95" tileheight="95">
-  <image source="tileset_neutral_01.png" width="950" height="950"/>
- </tileset>
- <layer name="background" width="15" height="7">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="7" height="7" tilewidth="95" tileheight="95">
+ <layer name="Kachelebene 1" width="7" height="7">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFgx0AAAGkAAE=
+   eJxjYBj6AAAAxAAB
   </data>
  </layer>
 </map>

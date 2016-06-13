@@ -34,25 +34,34 @@
  </tileset>
  <layer name="background" width="30" height="7">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFAwk4gVgAirnQMDcN7eUDYn4sGOaWUYA7jJDDCgYASSMBXQ==
+   eJxjYKAciAGxOIRuIFWfABHqhHCISwOxDAPDAmk89vLi0DdYACcDJAxAmAsNc5NhHig8ZIhQxwfE/FgwzC3UAkJQDHRTgggWeSkglmSAu1sBFl+wNCUFpZExKJ1BzTwgCqRheCABADlMCJU=
+  </data>
+ </layer>
+ <layer name="background 2" width="30" height="7">
+  <data encoding="base64" compression="zlib">
+   eJxjYBg4wDeAdg8mIAWlRYBYGMqWoNBMGQaGA0CcgE8NzC5JNHFK7AbauUCGDH3oboCJiVPgFnoCAARYAyU=
+  </data>
+ </layer>
+ <layer name="background 3" width="30" height="7">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFAw14GBgeQOkEZEwHexOQ7R8F5AMAM1ID9Q==
   </data>
  </layer>
  <layer name="platforms" width="30" height="7">
   <properties>
    <property name="platforms" value="true"/>
+   <property name="z-index" value="0"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYKAcsAMxGxXMGUjAAsSsODAlfhsOYTPQAF/c4IofdjxytAAAvEgAgg==
-  </data>
- </layer>
- <layer name="Kachelebene 6" width="30" height="7">
-  <data encoding="base64" compression="zlib">
-   eJxjYBgFgwWIALEwlC1BB/uEcYjTw+7hBgCkpABr
+   eJxjYGBgYAFiNgbyATuF+gcDAIUBKw5Mqt/YKdQ/CrADYtIZrjikNQYABLcA/w==
   </data>
  </layer>
  <layer name="foreground" width="30" height="7">
+  <properties>
+   <property name="z-index" value="60"/>
+  </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYBi8QBiIRaBsCTraS0+7kIEgA8MCdExj+w7Q0vzBAIDpp4Ee9gAAANQFMg==
+   eJxjYIAACYbBDWQYGB4AsQOt7eFlYGhAs3eBDJlmSUJpCYg5B4A4gQKnkQWAdjaQ6/7BCIQJyPOi8YWgGARAcSDEgAk4oLQkmjgoLaCbB1OPnl8ATmkHJA==
   </data>
  </layer>
  <layer name="enemies" width="30" height="7" visible="0">
@@ -60,7 +69,7 @@
    <property name="events" value="true"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYBjZQJZOemgNqOEmYswYjH6HAUJuwyVPDT8BABDzAOk=
+   eJxjYCAMZIlQM9jAUHQzPiCLg41PbLACWrl1IMMAAFOPAMw=
   </data>
  </layer>
  <layer name="potions" width="30" height="7" visible="0">
@@ -68,7 +77,7 @@
    <property name="events" value="true"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYKAOYKSSOYQAEw3NZqah2dQAg919uAC90sZAAgAX5AAL
+   eJxjYBhYwITGZ6aBHYw0MHMwA3LDED0uKFUHA8SGPy53D4X4AwAgHAAT
   </data>
  </layer>
 </map>
