@@ -22,9 +22,9 @@
   </tile>
  </tileset>
  <tileset firstgid="4" name="tiles2" tilewidth="95" tileheight="95">
-  <image source="tiles2.png" width="475" height="475"/>
+  <image source="tiles2.png" width="475" height="570"/>
  </tileset>
- <tileset firstgid="29" name="enemies" tilewidth="95" tileheight="95">
+ <tileset firstgid="34" name="enemies" tilewidth="95" tileheight="95">
   <image source="enemies.png" width="95" height="95"/>
   <tile id="0">
    <properties>
@@ -34,7 +34,7 @@
  </tileset>
  <layer name="background" width="30" height="7">
   <data encoding="base64" compression="zlib">
-   eJxjYKAciAGxOIRuIFWfABHqhHCISwOxDAPDAmk89vLi0DdYACcDJAxAmAsNc5NhHig8ZIhQxwfE/FgwzC3UAkJQDHRTgggWeSkglmSAu1sBFl+wNCUFpZExKJ1BzTwgCqRheCABADlMCJU=
+   eJxjYKAciAGxOIRuIFWfABHqhHCISwOxDAPDAmk89vLi0IfujoEACkDMyQAJAxDmQsPcZJgJCg8ZAmpA/ucDYn4sGOYWagEhKAa6KUEEi7wUEEsywN2tAIsvWJqSgtLIGJTOoGYeEAXSMDyQAADIgAjm
   </data>
  </layer>
  <layer name="background 2" width="30" height="7">
@@ -61,7 +61,7 @@
    <property name="z-index" value="60"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYIAACYbBDWQYGB4AsQOt7eFlYGhAs3eBDJlmSUJpCYg5B4A4gQKnkQWAdjaQ6/7BCIQJyPOi8YWgGARAcSDEgAk4oLQkmjgoLaCbB1OPnl8ATmkHJA==
+   eJxjYIAACYbBDWQYGB4AsQMhdWIQ3ECuPbxoeoF2LpAhQp80ECug6ZWE0hIQcw4AcQK57oIBbP5DtxcZAO1sIMb9hIACFnukKQhnUuxFtkeYgHpeNL4QFIMAKA6EGDABB5SWRBKThpjVgG4eTD16fgEAVYIMCA==
   </data>
  </layer>
  <layer name="enemies" width="30" height="7" visible="0">
@@ -69,7 +69,7 @@
    <property name="events" value="true"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYCAMZIlQM9jAUHQzPiCLg41PbLACWrl1IMMAAFOPAMw=
+   eJxjYCAMlIhQM9jAUHQzPqCEg41PbLACWrl1IMMAAI2HAO8=
   </data>
  </layer>
  <layer name="potions" width="30" height="7" visible="0">

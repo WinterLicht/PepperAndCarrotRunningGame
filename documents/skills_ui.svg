@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="83.199997"
+   height="83.200005"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.5 r10040"
+   sodipodi:docname="skills_ui.svg">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="4.7623219"
+     inkscape:cx="37.052122"
+     inkscape:cy="53.532572"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer6"
+     showgrid="false"
+     inkscape:snap-global="true"
+     inkscape:snap-bbox="true"
+     inkscape:snap-bbox-midpoints="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:snap-object-midpoints="true"
+     inkscape:snap-center="true"
+     inkscape:bbox-nodes="false"
+     inkscape:window-width="1221"
+     inkscape:window-height="950"
+     inkscape:window-x="502"
+     inkscape:window-y="37"
+     inkscape:window-maximized="0"
+     inkscape:snap-page="true"
+     inkscape:snap-bbox-edge-midpoints="true"
+     inkscape:object-nodes="true">
+    <inkscape:grid
+       type="xygrid"
+       id="grid2985"
+       empspacing="5"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true"
+       originx="-98.4px"
+       originy="-618.37948px" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     style="display:none"
+     transform="translate(-98.4,-350.7827)">
+    <path
+       sodipodi:type="arc"
+       style="opacity:0.5;fill:#4c4c4c;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="path3767"
+       sodipodi:cx="170"
+       sodipodi:cy="422.36218"
+       sodipodi:rx="20"
+       sodipodi:ry="20"
+       d="m 190,422.36218 a 20,20 0 1 1 -40,0 20,20 0 1 1 40,0 z"
+       transform="matrix(2.1428571,0,0,2.1428572,-184.28571,-472.69966)" />
+    <path
+       sodipodi:type="arc"
+       style="opacity:0.50000000000000000;fill:#4c4c4c;fill-opacity:1;stroke:#000000;stroke-width:1.99999994;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="path2989"
+       sodipodi:cx="150"
+       sodipodi:cy="422.36218"
+       sodipodi:rx="50"
+       sodipodi:ry="50"
+       d="m 100,422.36218 a 50,50 0 0 1 50,-50 l 0,50 z"
+       transform="matrix(1.6,0,0,1.6000001,-60,-243.41734)"
+       sodipodi:start="3.1415927"
+       sodipodi:end="4.712389"
+       inkscape:export-filename="/home/anya/workspace/PepperAndCarrotRunningGame/desktop/skin/skill_alle.png"
+       inkscape:export-xdpi="420"
+       inkscape:export-ydpi="420" />
+    <path
+       sodipodi:type="arc"
+       style="opacity:0.98000004;fill:#000000;fill-opacity:1;stroke:none"
+       id="path3891"
+       sodipodi:cx="67.5"
+       sodipodi:cy="64.628578"
+       sodipodi:rx="2.5"
+       sodipodi:ry="2.8571429"
+       d="m 70,64.628578 a 2.5,2.8571429 0 1 1 -5,0 2.5,2.8571429 0 1 1 5,0 z"
+       transform="matrix(0.3211988,0,0,0.28104978,115.46908,414.2126)"
+       inkscape:export-filename="/home/anya/workspace/PepperAndCarrotRunningGame/desktop/skin/skill_alle.png"
+       inkscape:export-xdpi="420"
+       inkscape:export-ydpi="420" />
+    <path
+       transform="matrix(0.3211988,0,0,0.28104978,118.31908,377.08615)"
+       d="m 70,64.628578 a 2.5,2.8571429 0 1 1 -5,0 2.5,2.8571429 0 1 1 5,0 z"
+       sodipodi:ry="2.8571429"
+       sodipodi:rx="2.5"
+       sodipodi:cy="64.628578"
+       sodipodi:cx="67.5"
+       id="path3893"
+       style="opacity:0.98000004;fill:#000000;fill-opacity:1;stroke:none"
+       sodipodi:type="arc"
+       inkscape:export-filename="/home/anya/workspace/PepperAndCarrotRunningGame/desktop/skin/skill_alle.png"
+       inkscape:export-xdpi="420"
+       inkscape:export-ydpi="420" />
+    <path
+       sodipodi:type="arc"
+       style="opacity:0.98000004;fill:#000000;fill-opacity:1;stroke:none"
+       id="path3897"
+       sodipodi:cx="67.5"
+       sodipodi:cy="64.628578"
+       sodipodi:rx="2.5"
+       sodipodi:ry="2.8571429"
+       d="m 70,64.628578 a 2.5,2.8571429 0 1 1 -5,0 2.5,2.8571429 0 1 1 5,0 z"
+       transform="matrix(0.3211988,0,0,0.28104978,78.319081,414.21115)"
+       inkscape:export-filename="/home/anya/workspace/PepperAndCarrotRunningGame/desktop/skin/skill_alle.png"
+       inkscape:export-xdpi="420"
+       inkscape:export-ydpi="420" />
+    <path
+       sodipodi:type="arc"
+       style="opacity:0.98000004;fill:#000000;fill-opacity:1;stroke:none"
+       id="path3899"
+       sodipodi:cx="67.5"
+       sodipodi:cy="64.628578"
+       sodipodi:rx="2.5"
+       sodipodi:ry="2.8571429"
+       d="m 70,64.628578 a 2.5,2.8571429 0 1 1 -5,0 2.5,2.8571429 0 1 1 5,0 z"
+       transform="matrix(0.3211988,0,0,0.28104978,89.037831,392.77365)"
+       inkscape:export-filename="/home/anya/workspace/PepperAndCarrotRunningGame/desktop/skin/skill_alle.png"
+       inkscape:export-xdpi="420"
+       inkscape:export-ydpi="420" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer7"
+     inkscape:label="punkte"
+     style="display:none">
+    <path
+       sodipodi:type="arc"
+       style="opacity:0.98000004;fill:#000000;fill-opacity:1;stroke:none;display:inline"
+       id="path3891-3"
+       sodipodi:cx="67.5"
+       sodipodi:cy="64.628578"
+       sodipodi:rx="2.5"
+       sodipodi:ry="2.8571429"
+       d="m 70,64.628578 a 2.5,2.8571429 0 1 1 -5,0 2.5,2.8571429 0 1 1 5,0 z"
+       transform="matrix(0.3211988,0,0,0.28104978,17.06908,63.4299)"
+       inkscape:export-filename="/home/anya/workspace/PepperAndCarrotRunningGame/desktop/skin/skill_alle.png"
+       inkscape:export-xdpi="420"
+       inkscape:export-ydpi="420" />
+    <path
+       transform="matrix(0.3211988,0,0,0.28104978,19.91908,26.30345)"
+       d="m 70,64.628578 a 2.5,2.8571429 0 1 1 -5,0 2.5,2.8571429 0 1 1 5,0 z"
+       sodipodi:ry="2.8571429"
+       sodipodi:rx="2.5"
+       sodipodi:cy="64.628578"
+       sodipodi:cx="67.5"
+       id="path3893-7"
+       style="opacity:0.98000004;fill:#000000;fill-opacity:1;stroke:none;display:inline"
+       sodipodi:type="arc"
+       inkscape:export-filename="/home/anya/workspace/PepperAndCarrotRunningGame/desktop/skin/skill_alle.png"
+       inkscape:export-xdpi="420"
+       inkscape:export-ydpi="420" />
+    <path
+       sodipodi:type="arc"
+       style="opacity:0.98000004;fill:#000000;fill-opacity:1;stroke:none;display:inline"
+       id="path3897-5"
+       sodipodi:cx="67.5"
+       sodipodi:cy="64.628578"
+       sodipodi:rx="2.5"
+       sodipodi:ry="2.8571429"
+       d="m 70,64.628578 a 2.5,2.8571429 0 1 1 -5,0 2.5,2.8571429 0 1 1 5,0 z"
+       transform="matrix(0.3211988,0,0,0.28104978,-20.080919,63.42845)"
+       inkscape:export-filename="/home/anya/workspace/PepperAndCarrotRunningGame/desktop/skin/skill_alle.png"
+       inkscape:export-xdpi="420"
+       inkscape:export-ydpi="420" />
+    <path
+       sodipodi:type="arc"
+       style="opacity:0.98000004;fill:#000000;fill-opacity:1;stroke:none;display:inline"
+       id="path3899-3"
+       sodipodi:cx="67.5"
+       sodipodi:cy="64.628578"
+       sodipodi:rx="2.5"
+       sodipodi:ry="2.8571429"
+       d="m 70,64.628578 a 2.5,2.8571429 0 1 1 -5,0 2.5,2.8571429 0 1 1 5,0 z"
+       transform="matrix(0.3211988,0,0,0.28104978,-9.362169,41.99095)"
+       inkscape:export-filename="/home/anya/workspace/PepperAndCarrotRunningGame/desktop/skin/skill_alle.png"
+       inkscape:export-xdpi="420"
+       inkscape:export-ydpi="420" />
+  </g>
+  <g
+     style="display:inline"
+     inkscape:label="1 e"
+     id="g3772"
+     inkscape:groupmode="layer">
+    <path
+       inkscape:export-ydpi="420"
+       inkscape:export-xdpi="420"
+       inkscape:export-filename="/media/anya/STOR.E/PepperAndCarrot/ui/skill_energy1.png"
+       sodipodi:end="3.6651914"
+       sodipodi:start="3.1415927"
+       transform="matrix(1.6,0,0,1.6000001,-158.4,-594.20004)"
+       d="m 100,422.36218 a 50,50 0 0 1 6.69873,-25 l 43.30127,25 z"
+       sodipodi:ry="50"
+       sodipodi:rx="50"
+       sodipodi:cy="422.36218"
+       sodipodi:cx="150"
+       id="path3774"
+       style="opacity:0.2;fill:#a3ff30;fill-opacity:1;stroke:none;display:inline"
+       sodipodi:type="arc" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="g3776"
+     inkscape:label="2 e"
+     style="display:inline">
+    <path
+       sodipodi:type="arc"
+       style="opacity:0.2;fill:#ffac0e;fill-opacity:1;stroke:none;display:inline"
+       id="path3778"
+       sodipodi:cx="150"
+       sodipodi:cy="422.36218"
+       sodipodi:rx="50"
+       sodipodi:ry="50"
+       d="M 106.69873,397.36218 A 50,50 0 0 1 125,379.06091 l 25,43.30127 z"
+       transform="matrix(1.6,0,0,1.6000001,-158.4,-594.20004)"
+       sodipodi:start="3.6651914"
+       sodipodi:end="4.1887902"
+       inkscape:export-filename="/media/anya/STOR.E/PepperAndCarrot/ui/skill_energy2.png"
+       inkscape:export-xdpi="420"
+       inkscape:export-ydpi="420" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer6"
+     inkscape:label="3 e"
+     style="display:inline">
+    <path
+       sodipodi:type="arc"
+       style="opacity:0.2;fill:#26cdff;fill-opacity:1;stroke:none;display:inline"
+       id="path2989-8"
+       sodipodi:cx="150"
+       sodipodi:cy="422.36218"
+       sodipodi:rx="50"
+       sodipodi:ry="50"
+       d="m 125,379.06091 a 50,50 0 0 1 25,-6.69873 l 0,50 z"
+       transform="matrix(1.6,0,0,1.6000001,-158.4,-594.20004)"
+       sodipodi:start="4.1887902"
+       sodipodi:end="4.712389"
+       inkscape:export-filename="/media/anya/STOR.E/PepperAndCarrot/ui/skill_energy3.png"
+       inkscape:export-xdpi="420"
+       inkscape:export-ydpi="420" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer5"
+     inkscape:label="0"
+     style="display:inline">
+    <path
+       inkscape:connector-curvature="0"
+       style="fill:#130511;fill-opacity:1;stroke:none;display:inline"
+       d="m 81.59375,38.71875 c -23.669346,0 -42.84375,19.205653 -42.84375,42.875 l 42.84375,0 0,-42.875 z"
+       id="path3867"
+       inkscape:export-filename="/media/anya/STOR.E/PepperAndCarrot/ui/skill_button0.png"
+       inkscape:export-xdpi="420"
+       inkscape:export-ydpi="420" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="1"
+     style="display:inline"
+     transform="translate(-98.4,-350.7827)">
+    <path
+       inkscape:connector-curvature="0"
+       style="opacity:0.5;fill:none;stroke:#a3ff30;stroke-width:1;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="M 110.71875,392.375 C 103.69728,404.53654 100,418.33207 100,432.375 l 37.15625,0 c 0,-7.80363 2.07444,-15.13517 5.71875,-21.4375 L 110.71875,392.375 z"
+       id="path3761"
+       inkscape:export-filename="/media/anya/STOR.E/PepperAndCarrot/ui/skill_button1.png"
+       inkscape:export-xdpi="408.51065"
+       inkscape:export-ydpi="408.51065" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="2"
+     style="display:inline">
+    <path
+       inkscape:connector-curvature="0"
+       style="opacity:0.5;fill:none;stroke:#ffac0e;stroke-width:1;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       d="M 41.6,12.31105 C 29.43846,19.33252 19.34022,29.43076 12.31875,41.5923 L 44.475,60.1548 C 48.23753,53.64804 53.65717,48.23203 60.1625,44.4673 L 41.6,12.31105 z"
+       id="path3763"
+       inkscape:export-filename="/media/anya/STOR.E/PepperAndCarrot/ui/skill_button2.png"
+       inkscape:export-xdpi="407.77142"
+       inkscape:export-ydpi="407.77142" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer4"
+     inkscape:label="3"
+     style="display:inline">
+    <path
+       inkscape:connector-curvature="0"
+       style="opacity:0.5;fill:none;stroke:#26cdff;stroke-opacity:1;display:inline"
+       d="m 81.6,1.5922996 c -14.04293,0 -27.83846,3.69728 -40,10.7187504 L 60.1625,44.4673 c 6.30525,-3.64894 13.62854,-5.75 21.4375,-5.75 l 0,-37.1250004 z"
+       id="path3765"
+       inkscape:export-filename="/media/anya/STOR.E/PepperAndCarrot/ui/skill_button3.png"
+       inkscape:export-xdpi="408.51065"
+       inkscape:export-ydpi="408.51065" />
+  </g>
+</svg>

@@ -304,10 +304,10 @@ public abstract class Runner extends Group
 			potion.collected();
 			switch (potion.type) {
 			case ORANGE:
-				ability1.increaseEnergy(1);
+				ability2.increaseEnergy(1);
 				break;
 			case GREEN:
-				ability2.increaseEnergy(1);
+				ability1.increaseEnergy(1);
 				break;
 			case BLUE:
 				ability3.increaseEnergy(1);

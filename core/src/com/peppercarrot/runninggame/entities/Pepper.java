@@ -50,9 +50,9 @@ public class Pepper extends Runner {
 
 	@Override
 	protected void initAbilities() {
-		ability1 = new BlackHole(this, 2, 1);
-		ability2 = new CarrotCharge(this, 5); 
-		ability3 = new ProjectileAttack(this, 3, SWEEP_DURATION	);
+		ability1 = new ProjectileAttack(this, 2, SWEEP_DURATION	);
+		ability2 = new CarrotCharge(this, 4); 
+		ability3 = new BlackHole(this, 5, 1);
 		ability4 = new SweepAttack(this, 0, SWEEP_DURATION);
 	}
 

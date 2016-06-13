@@ -31,7 +31,7 @@ public class Enemy extends Image {
 		setName("enemy");
 		// Load Animations
 		idleAnim = new AnimatedImage(new AnimatedDrawable(
-				new Animation(0.099f, Assets.I.getRegions(name + "-idle"), Animation.PlayMode.LOOP)));
+				new Animation(0.14f, Assets.I.getRegions(name + "-idle"), Animation.PlayMode.LOOP)));
 		idleAnim.setOrigin(Align.center);
 		dyingAnim = new AnimatedImage(new AnimatedDrawable(
 				new Animation(0.07f, Assets.I.getRegions(name + "-death"), Animation.PlayMode.NORMAL)));
