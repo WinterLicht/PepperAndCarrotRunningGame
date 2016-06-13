@@ -3,7 +3,7 @@ package com.peppercarrot.runninggame.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.ScreenAdapter;
-import com.peppercarrot.runninggame.PaCGame;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.peppercarrot.runninggame.stages.StartStage;
 
 /**
@@ -25,12 +25,11 @@ public class StartScreen extends ScreenAdapter {
 
 	@Override
 	public void render(float delta) {
-		final PaCGame game = PaCGame.getInstance();
-
-		game.batch.begin();
-		game.batch.setColor(1, 1, 1, 1);
+		final Batch batch = DefaultScreenConfiguration.getInstance().getBatch();
+		batch.begin();
+		batch.setColor(1, 1, 1, 1);
 		// TODO: render some background image
-		game.batch.end();
+		batch.end();
 
 		stage.render(delta);
 

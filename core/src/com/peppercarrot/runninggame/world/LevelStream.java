@@ -237,7 +237,8 @@ public class LevelStream extends Actor {
 	 * @param nearPlatforms
 	 * @return
 	 */
-	public void getPlatformsNear(float centerX, float centerY, float radius, List<Platform> nearPlatforms) {
+	public void getPlatformsNear(float centerX, float centerY, float radius,
+			List<LevelSegment.Platform> nearPlatforms) {
 		tempCircle.radius = radius;
 		tempCircle.x = centerX;
 		tempCircle.y = centerY;
@@ -245,7 +246,7 @@ public class LevelStream extends Actor {
 		nearPlatforms.clear();
 		for (final LevelSegment segment : segments) {
 			if (segment.getX() <= centerX + radius || centerX - radius <= segment.getRightX()) {
-				for (final Platform p : segment.getPlatforms()) {
+				for (final LevelSegment.Platform p : segment.getPlatforms()) {
 					p.retrieveAbsolutePosition(tempVector);
 					if (tempCircle.contains(tempVector.x, tempVector.y)) {
 						nearPlatforms.add(p);

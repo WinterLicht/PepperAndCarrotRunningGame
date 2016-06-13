@@ -15,8 +15,9 @@ import com.peppercarrot.runninggame.entities.Potion;
 import com.peppercarrot.runninggame.entities.Runner;
 import com.peppercarrot.runninggame.utils.Constants;
 import com.peppercarrot.runninggame.world.Background;
+import com.peppercarrot.runninggame.world.LevelSegment;
+import com.peppercarrot.runninggame.world.LevelSegment.Platform;
 import com.peppercarrot.runninggame.world.LevelStream;
-import com.peppercarrot.runninggame.world.Platform;
 import com.peppercarrot.runninggame.world.collision.IEnemyCollisionAwareActor;
 import com.peppercarrot.runninggame.world.collision.IPlatformCollisionAwareActor;
 import com.peppercarrot.runninggame.world.collision.IPotionCollisionAwareActor;
@@ -69,8 +70,7 @@ public class WorldStage extends AbstractStage {
 		background = new Background("testbg.png", virtualWidth, virtualHeight);
 		addActor(background);
 
-		levelStream = new LevelStream(camera, getBatch(), 0, virtualWidth, getRoot(),
-				runner);
+		levelStream = new LevelStream(camera, getBatch(), 0, virtualWidth, getRoot(), runner);
 		levelStream.setY(Constants.OFFSET_TO_GROUND);
 		addActor(levelStream);
 
@@ -110,7 +110,7 @@ public class WorldStage extends AbstractStage {
 		debugCollisionShapeRenderer.setProjectionMatrix(camera.combined);
 
 		levelStream.getPlatformsNear(runner.getX(), runner.getY(), runner.getPlatformCollisionWidth(), tempPlatforms);
-		for (final Platform platform : tempPlatforms) {
+		for (final LevelSegment.Platform platform : tempPlatforms) {
 			platform.retrieveAbsolutePosition(tempPlatformPosition);
 
 			debugCollisionShapeRenderer.begin(ShapeType.Filled);

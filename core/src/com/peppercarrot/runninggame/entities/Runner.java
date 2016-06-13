@@ -12,7 +12,7 @@ import com.badlogic.gdx.utils.Align;
 import com.nGame.utils.scene2d.AnimatedImage;
 import com.peppercarrot.runninggame.utils.Assets;
 import com.peppercarrot.runninggame.utils.Constants;
-import com.peppercarrot.runninggame.world.Platform;
+import com.peppercarrot.runninggame.world.LevelSegment;
 import com.peppercarrot.runninggame.world.collision.IEnemyCollisionAwareActor;
 import com.peppercarrot.runninggame.world.collision.IPlatformCollisionAwareActor;
 import com.peppercarrot.runninggame.world.collision.IPotionCollisionAwareActor;
@@ -26,7 +26,7 @@ import com.peppercarrot.runninggame.world.collision.IPotionCollisionAwareActor;
  */
 public abstract class Runner extends Group
 		implements IPlatformCollisionAwareActor, IEnemyCollisionAwareActor, IPotionCollisionAwareActor {
-	
+
 	/**
 	 * For UI.
 	 * 
@@ -41,7 +41,7 @@ public abstract class Runner extends Group
 			points = maxHp;
 			maxPoints = maxHp;
 			for (int i = 0; i < maxHp; i++) {
-				Image heart = new Image(new TextureRegion(Assets.I.atlas.findRegion("heart")));
+				final Image heart = new Image(new TextureRegion(Assets.I.atlas.findRegion("heart")));
 				this.add(heart).padTop(14);
 				this.row();
 			}
@@ -49,33 +49,36 @@ public abstract class Runner extends Group
 
 		/**
 		 * Negative when damage should be received.
+		 * 
 		 * @param difference
 		 */
 		public void updateHP(int difference) {
-			int prevDiff = maxPoints - points; //already lost points
+			final int prevDiff = maxPoints - points; // already lost points
 			points += difference;
-			if (points < 0) points = 0;
-			if (points > maxPoints) points = maxPoints;
-			//Damage
+			if (points < 0)
+				points = 0;
+			if (points > maxPoints)
+				points = maxPoints;
+			// Damage
 			if (difference < 0) {
-				for (int i = 0; i < -difference && prevDiff+i < maxPoints; i++) {
-					Image heart = (Image) this.getChildren().items[prevDiff+i];
-					Color c = Color.DARK_GRAY;
+				for (int i = 0; i < -difference && prevDiff + i < maxPoints; i++) {
+					final Image heart = (Image) this.getChildren().items[prevDiff + i];
+					final Color c = Color.DARK_GRAY;
 					c.a = 0.68f;
 					heart.setColor(c);
 				}
 			}
-			//Heal
+			// Heal
 			if (difference > 0) {
-				for (int i = 0; i < difference && prevDiff-i-1 >= 0; i++) {
-					Image heart = (Image) this.getChildren().items[prevDiff-i-1];
+				for (int i = 0; i < difference && prevDiff - i - 1 >= 0; i++) {
+					final Image heart = (Image) this.getChildren().items[prevDiff - i - 1];
 					heart.setColor(Color.WHITE);
 				}
 			}
 		}
 
 	}
-	
+
 	String name;
 	boolean stunned = false;
 	public State currState = State.RUNNING;
@@ -123,7 +126,9 @@ public abstract class Runner extends Group
 	}
 
 	protected abstract void initAbilities();
+
 	protected abstract void initAnimations();
+
 	protected abstract void initPet();
 
 	public void jump() {
@@ -208,13 +213,13 @@ public abstract class Runner extends Group
 		speedY -= 1;
 		// Move down
 		final float oldYPos = getY();
-		//FIXME:Tunneling, see also processPlatforms in WorldStage
-		//Currently: simply cap falling speed
+		// FIXME:Tunneling, see also processPlatforms in WorldStage
+		// Currently: simply cap falling speed
 		if (speedY > -maxJumpSpeed) {
 			setY(getY() + speedY);
 		} else {
-			//No infinite acceleration
-			setY(getY()-maxJumpSpeed);
+			// No infinite acceleration
+			setY(getY() - maxJumpSpeed);
 		}
 		pet.updatePosition(delta);
 		if (getY() < oldYPos) {
@@ -323,29 +328,30 @@ public abstract class Runner extends Group
 	}
 
 	public void setStunned() {
-		SequenceAction stunAction = new SequenceAction();
-		//TODO: stun duration depending on enemy/collider object
+		final SequenceAction stunAction = new SequenceAction();
+		// TODO: stun duration depending on enemy/collider object
 		stunAction.addAction(Actions.delay(0.2f));
 		stunAction.addAction(Actions.run(new Runnable() {
-	        @Override
-	        public void run() {
-	        	if (stunned) stunned = false;
-	        }
-	    }));
+			@Override
+			public void run() {
+				if (stunned)
+					stunned = false;
+			}
+		}));
 		stunned = true;
 		hitAnim.reset();
 		hitAnim.clearActions();
 		hitAnim.addAction(stunAction);
 		pet.setStunned();
 	}
-	
+
 	@Override
 	/**
 	 * Slightly smaller hitbox of the player as his sprite.
 	 */
 	public void retrieveHitbox(Rectangle rectangle) {
-		int offsetX = 60;
-		int offsetY = 20;
+		final int offsetX = 60;
+		final int offsetY = 20;
 		rectangle.x = getX() + offsetX;
 		rectangle.y = getY() + offsetY;
 		rectangle.width = runnerImage.getWidth() - offsetX * 2;
@@ -365,7 +371,7 @@ public abstract class Runner extends Group
 				break;
 			case BLUE:
 				ability3.increaseEnergy(1);
-				break;	
+				break;
 			default:
 				System.out.println("for this potion is nothing defined.");
 				break;
@@ -398,17 +404,17 @@ public abstract class Runner extends Group
 	public float getPlatformCollisionY() {
 		return getY();
 	}
-	
+
 	@Override
 	public float getPlatformCollisionWidth() {
 		return runnerImage.getWidth();
 	}
 
 	@Override
-	public boolean onHitPlatform(Platform platform, float platformHitTop) {
-		//Offset so player lands with feet on the platform ground
-		float offset = 16;
-		land(platformHitTop-offset);
+	public boolean onHitPlatform(LevelSegment.Platform platform, float platformHitTop) {
+		// Offset so player lands with feet on the platform ground
+		final float offset = 16;
+		land(platformHitTop - offset);
 		return true;
 	}
 }
