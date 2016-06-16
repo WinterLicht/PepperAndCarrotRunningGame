@@ -1,0 +1,25 @@
+------------------------------------------------------------------------
+    Ideas for achievements
+------------------------------------------------------------------------
+
+Play time xxxx
+Complete xxxx levels
+Hunt xxxx enemies
+Use skills xxxx times
+Jump xxxx times
+Collect xxxx potions
+Die xxxx times
+Complete xxxx levels without killing any enemy
+Complete xxxx levels without lost of any health/without dying
+
+
+------------------------------------------------------------------------
+    Ideas for player statistics
+------------------------------------------------------------------------
+
+Most dangerous level (where player died the most of time)
+Death-times/lost number of lives from an enemy (times and the most dangerous enemy)
+Death-times from collision with a deadly tile
+For each enemy type, times it was killed
+For each skill, times it was used
+For each potion type, times it was collected
