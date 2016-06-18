@@ -1,11 +1,13 @@
 package com.peppercarrot.runninggame.stages;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.peppercarrot.runninggame.entities.Ability;
@@ -42,13 +44,26 @@ public class WorldUiStage extends AbstractStage {
 
 		//Jump Button
 		jumpBtnTransparent = new Button(Assets.I.skin, "transparent");
+		ImageButton jumpBtn = new ImageButton(Assets.I.skin, "button_jump");
+		ImageButton exitBtn = new ImageButton(Assets.I.skin, "button_exit");
+		exitBtn.addListener(new InputListener() {
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				System.out.println("EXIT GAME");
+				Gdx.app.exit();
+				return true;
+			}
+		});
 		final int jumpBtnTransparentWidth = 470;
 		jumpBtnTransparent.setTouchable(Touchable.enabled);
 		hintLabel = new Label("press on the left side of the screen to 'jump'", Assets.I.skin, "default");
 		hintLabel.setWrap(true);
 		hintLabel.setTouchable(Touchable.disabled);
-		jumpBtnTransparent.add(hintLabel).width(jumpBtnTransparentWidth).top();
-		jumpBtnTransparent.top();
+		jumpBtnTransparent.add(exitBtn).top().left();
+		jumpBtnTransparent.add(hintLabel).top();
+		jumpBtnTransparent.row();
+		jumpBtnTransparent.add(jumpBtn).bottom().left().expandY();
+		jumpBtnTransparent.top().left();
 		jumpBtnTransparent.addListener(new InputListener() {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -61,30 +76,15 @@ public class WorldUiStage extends AbstractStage {
 		});
 		uiTable.add(jumpBtnTransparent).width(jumpBtnTransparentWidth).height(uiTable.getHeight()).expandX().left();
 		// Attack Buttons
-		/*
-		attackButtons = new Table();
-		abilityWidget1 = new AbilityWidget("Black Hole");
-		attackButtons.add(abilityWidget1).expandY().right();
-		attackButtons.row();
-		abilityWidget2 = new AbilityWidget("CarrotCharge");
-		attackButtons.add(abilityWidget2).expandY().right();
-		attackButtons.row();
-		abilityWidget3 = new AbilityWidget("ProjectileAttack");
-		attackButtons.add(abilityWidget3).expandY().right();
-		attackButtons.row();
-		abilityWidget4 = new AbilityWidget("SweepAttack");
-		attackButtons.add(abilityWidget4).expandY().right();
-		attackButtons.row();
-		*/
 		skillsBtns = new Table();
-		abilityWidget0 = new AbilityWidget(0);
 		abilityWidget1 = new AbilityWidget(1);
 		abilityWidget2 = new AbilityWidget(2);
 		abilityWidget3 = new AbilityWidget(3);
-		skillsBtns.addActor(abilityWidget0);
+		abilityWidget0 = new AbilityWidget(0);
 		skillsBtns.addActor(abilityWidget1);
 		skillsBtns.addActor(abilityWidget2);
 		skillsBtns.addActor(abilityWidget3);
+		skillsBtns.addActor(abilityWidget0);
 		skillsBtns.addListener(new InputListener() {
 			@Override
 			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
@@ -95,9 +95,7 @@ public class WorldUiStage extends AbstractStage {
 				return true;
 			}
 		});
-		//PadRight == width of whole skill UI
 		uiTable.add(skillsBtns).right().bottom().padRight(AbilityWidget.width);
-		//uiTable.add(attackButtons).height(uiTable.getHeight()).expand().right();
 		this.addActor(uiTable);
 		skillsBtns.debug();
 	}
@@ -118,10 +116,10 @@ public class WorldUiStage extends AbstractStage {
 	}
 
 	public void onActivateAbility(AbilityActivationListener listener) {
-		abilityWidget0.setAbilityActivationListener(listener);
 		abilityWidget1.setAbilityActivationListener(listener);
 		abilityWidget2.setAbilityActivationListener(listener);
 		abilityWidget3.setAbilityActivationListener(listener);
+		abilityWidget0.setAbilityActivationListener(listener);
 	}
 
 	public void setAbilitySlot1(Ability ability) {

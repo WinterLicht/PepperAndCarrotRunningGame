@@ -7,6 +7,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.peppercarrot.runninggame.entities.Ability;
 import com.peppercarrot.runninggame.utils.Assets;
 
+/**
+ * Skill buttons.
+ * 
+ * @author WinterLicht
+ *
+ */
 public class AbilityWidget extends ImageButton {
 
 	public interface AbilityActivationListener {
@@ -25,10 +31,10 @@ public class AbilityWidget extends ImageButton {
 	public AbilityActivationListener listener;
 
 	public AbilityWidget(int n) {
-		super(Assets.I.skin, "skill-button"+n);
+		super(Assets.I.skin, "button_skill"+n);
 		this.number = n;
 		if (number > 0) { //No energy for "0" ability
-			energy = new Image(Assets.I.atlas.findRegion("skill_energy"+number));
+			energy = new Image(Assets.I.atlas.findRegion("button_energy_skill"+number));
 			energy.setHeight(energy.getHeight()/2);
 			energy.setWidth(energy.getWidth()/2);
 			energy.setOrigin(energy.getWidth(), 0);
@@ -47,13 +53,12 @@ public class AbilityWidget extends ImageButton {
 
 	public void setAbility(Ability ability) {
 		this.ability = ability;
-
 		if (ability != null) {
 			//placement of the elements
 			//numbers are measured from picture of whole UI-element
 			switch(number) {
 			case 0:
-				setX(width);
+				setX(width/2-8);
 				setY(0);
 				break;
 			case 1:
@@ -123,10 +128,10 @@ public class AbilityWidget extends ImageButton {
 	@Override
 	public void act(float delta) {
 		super.act(delta);
-
 		if (ability != null) {
 			if(ability.getMaxEnergy() != 0 && number > 0) {
-			energy.setScale(1+((float)ability.getEnergy()/ability.getMaxEnergy()));
+				//Update energy bar
+				energy.setScale(1+((float)ability.getEnergy()/ability.getMaxEnergy()));
 			}
 		}
 	}

@@ -23,10 +23,12 @@
 	},
 	
 	com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle: {  
-		skill-button0: { up: skill_button0, down: skill_button0 },
-		skill-button1: { up: skill_button1, down: skill_button1 },
-		skill-button2: { up: skill_button2, down: skill_button2 },
-		skill-button3: { up: skill_button3, down: skill_button3 }
+		button_jump: { up: button_jump, down: button_jump },
+		button_exit: { up: button_exit, down: button_exit },
+		button_skill0: { up: button_skill0, down: button_skill0 },
+		button_skill1: { up: button_skill1, down: button_skill1 },
+		button_skill2: { up: button_skill2, down: button_skill2 },
+		button_skill3: { up: button_skill3, down: button_skill3 }
 	},
 	
 	com.badlogic.gdx.scenes.scene2d.ui.ProgressBar$ProgressBarStyle: {

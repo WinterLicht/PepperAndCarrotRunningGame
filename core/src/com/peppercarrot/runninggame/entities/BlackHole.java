@@ -3,14 +3,18 @@ package com.peppercarrot.runninggame.entities;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.nGame.utils.scene2d.AnimatedDrawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.nGame.utils.scene2d.AnimatedImage;
 import com.peppercarrot.runninggame.stages.WorldStage;
 import com.peppercarrot.runninggame.utils.Assets;
@@ -25,11 +29,56 @@ import com.peppercarrot.runninggame.utils.Constants;
  */
 public class BlackHole extends Ability {
 
-	public static class Effect extends AnimatedImage {
+	public static class Effect extends Image {
+		float duration;
+		TextureRegionDrawable blackhole1;
+		TextureRegionDrawable blackhole2;
 
 		public Effect(float duration) {
-			super(new AnimatedDrawable(
-					new Animation(duration, Assets.I.getRegions("black-hole"), Animation.PlayMode.LOOP_PINGPONG)));
+			super(new TextureRegion(Assets.I.atlas.findRegion("blackhole1")));
+			this.duration = duration;
+			blackhole1 = new TextureRegionDrawable( new TextureRegion(Assets.I.atlas.findRegion("blackhole1")));
+			blackhole2 = new TextureRegionDrawable( new TextureRegion(Assets.I.atlas.findRegion("blackhole2")));
+			setOrigin(Align.center);
+			
+		}
+
+		public void execute(){
+			setVisible(true);
+			Color color = getColor();
+			setColor(color.r,color.g,color.b,0);
+			setDrawable(blackhole1);
+			this.clearActions();
+			//Action
+			SequenceAction seqA = new SequenceAction();
+			seqA.addAction(Actions.fadeIn(0.1f));
+			seqA.addAction(Actions.fadeOut(0.2f));
+			seqA.addAction(Actions.run(new Runnable() {
+		        @Override
+		        public void run() {
+		        	setDrawable(blackhole2);
+		        	clearActions();
+		        	SequenceAction seqA = new SequenceAction();
+					seqA.addAction(Actions.fadeIn(0.5f));
+					seqA.addAction(Actions.fadeOut(duration-0.5f-0.2f-0.3f));
+		        	ParallelAction parA = new ParallelAction();
+					parA.addAction(Actions.forever(Actions.rotateBy(-360f, 2.6f)));
+		        	parA.addAction(seqA);
+		        	addAction(parA);
+		        }
+		    }));
+			ParallelAction parA = new ParallelAction();
+			parA.addAction(Actions.forever(Actions.rotateBy(360f, 2.4f)));
+			parA.addAction(seqA);
+			this.addAction(parA);
+		}
+		
+		@Override
+		public void draw(Batch batch, float parentAlpha) {
+			Color color = getColor();
+			super.draw(batch, parentAlpha);
+			//Reset Alpha after drawing
+			batch.setColor(color.r, color.g, color.b, 1f);
 		}
 	}
 
@@ -63,12 +112,11 @@ public class BlackHole extends Ability {
 	protected void execute(WorldStage worldStage) {
 		final float effectXPosition = OFFSET_X;
 		final float effectYPosition = OFFSET_Y + worldStage.runner.getY();
-		effect.reset();
 
 		// Position centered
 		effect.setX(effectXPosition - effect.getWidth() / 2);
 		effect.setY(effectYPosition - effect.getHeight() / 2);
-		effect.setVisible(true);
+		effect.execute();
 
 		worldStage.getLevelStream().getEnemiesNear(effectXPosition, effectYPosition, RADIUS, tempAffectedEnemies);
 		for (final Enemy enemy : tempAffectedEnemies) {

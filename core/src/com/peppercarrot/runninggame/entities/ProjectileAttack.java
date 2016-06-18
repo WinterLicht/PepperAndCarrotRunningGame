@@ -34,17 +34,14 @@ public class ProjectileAttack extends Ability {
 		//TODO: maybe range of attack?
 
 		public Projectile(float angle) {
-			Image image1 = new Image(new TextureRegion(Assets.I.atlas.findRegion("projectile1")));
+			Image image1 = new Image(new TextureRegion(Assets.I.atlas.findRegion("projectile")));
 			image1.setOrigin(Align.center);
-			Image image2 = new Image(new TextureRegion(Assets.I.atlas.findRegion("projectile2")));
-			image2.setOrigin(Align.center);
 			setHeight(image1.getHeight());
 			setWidth(image1.getWidth());
-			addActor(image2);
 			addActor(image1);
 			this.angle = angle;
 			setOrigin(Align.center);
-			addAction(Actions.forever(Actions.rotateBy(360f, 0.3f)));
+			addAction(Actions.forever(Actions.rotateBy(360f, 1.8f)));
 		}
 
 		@Override
