@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.utils.Align;
 import com.nGame.utils.scene2d.AnimatedImage;
 import com.peppercarrot.runninggame.utils.Assets;
@@ -28,6 +29,7 @@ public abstract class Runner extends Group
 	boolean stunned = false;
 	public State currState = State.RUNNING;
 	public Pet pet;
+	public ProgressBar hpBar;
 	int speedY = 0;
 	/** Vertical speed in pixel. */
 	int maxJumpSpeed = 26;
@@ -57,6 +59,8 @@ public abstract class Runner extends Group
 
 	public Runner(String name) {
 		this.name = name;
+		hpBar = new ProgressBar(0, 5, 1, true, Assets.I.skin, "hp");
+		hpBar.setValue(hpBar.getMaxValue());
 		runnerImage = new Image(new TextureRegion(Assets.I.atlas.findRegion(name + "_run")));
 		addActor(runnerImage);
 		initAbilities();
@@ -271,7 +275,7 @@ public abstract class Runner extends Group
 	public void setStunned() {
 		SequenceAction stunAction = new SequenceAction();
 		//TODO: stun duration depending on enemy/collider object
-		stunAction.addAction(Actions.delay(0.08f));
+		stunAction.addAction(Actions.delay(0.2f));
 		stunAction.addAction(Actions.run(new Runnable() {
 	        @Override
 	        public void run() {
@@ -325,6 +329,11 @@ public abstract class Runner extends Group
 	public boolean onHitEnemy(Enemy enemy) {
 		if (enemy.isAlive()) {
 			setStunned();
+			hpBar.setValue(hpBar.getValue()-enemy.damage);
+			enemy.die();
+			if (hpBar.getValue() <= 0) {
+				setDying();
+			}
 			return true;
 		}
 		return false;

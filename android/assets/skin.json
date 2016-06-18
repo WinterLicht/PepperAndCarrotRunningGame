@@ -30,8 +30,8 @@
 		button_skill2: { up: button_skill2, down: button_skill2 },
 		button_skill3: { up: button_skill3, down: button_skill3 }
 	},
-	
+
 	com.badlogic.gdx.scenes.scene2d.ui.ProgressBar$ProgressBarStyle: {
-		abilityEnergy: { background: energy, knobBefore: energy, knobAfter: energy-end }
-	}
+      hp: { background: hp_bg, knob: hp, knobBefore: hp, knobAfter: hp_empty },
+     }
 }

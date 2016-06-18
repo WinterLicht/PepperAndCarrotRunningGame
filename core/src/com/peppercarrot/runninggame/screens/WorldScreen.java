@@ -16,7 +16,7 @@ import com.peppercarrot.runninggame.utils.Constants;
 /**
  * Screen for actual game.
  * 
- * Contains the game logic and additionaly the different view layers of the
+ * Contains the game logic and additionally the different view layers of the
  * game:<br />
  * - Background<br />
  * - World<br />
@@ -48,7 +48,7 @@ public class WorldScreen extends ScreenAdapter {
 	}
 
 	private WorldUiStage initializeUi() {
-		final WorldUiStage ui = new WorldUiStage();
+		final WorldUiStage ui = new WorldUiStage(runner);
 
 		ui.onJumpTouched(new Callback() {
 			@Override

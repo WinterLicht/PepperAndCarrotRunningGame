@@ -13,7 +13,7 @@ blackhole1
   index: -1
 button
   rotate: false
-  xy: 600, 5
+  xy: 543, 119
   size: 22, 22
   split: 5, 5, 5, 5
   pad: 10, 10, 10, 10
@@ -190,15 +190,23 @@ fly-death
   index: 3
 hp
   rotate: false
-  xy: 888, 902
-  size: 23, 7
-  split: 4, 4, 0, 4
-  orig: 23, 7
+  xy: 520, 115
+  size: 23, 3
+  split: 4, 4, 0, 0
+  orig: 23, 3
+  offset: 0, 0
+  index: -1
+hp_bg
+  rotate: false
+  xy: 600, 13
+  size: 23, 14
+  split: 4, 4, 4, 4
+  orig: 23, 14
   offset: 0, 0
   index: -1
 hp_empty
   rotate: false
-  xy: 627, 383
+  xy: 888, 902
   size: 23, 7
   split: 4, 4, 4, 0
   orig: 23, 7

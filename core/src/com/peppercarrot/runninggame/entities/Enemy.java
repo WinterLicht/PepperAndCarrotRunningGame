@@ -12,12 +12,14 @@ import com.peppercarrot.runninggame.utils.CollisionUtil;
 
 /**
  * Enemy.
+ * TODO: this as abstract class.
  * 
  * @author WinterLicht
  *
  */
 public class Enemy extends Image {
 	public State currState = State.IDLE;
+	public int damage = 1;
 	// Animations
 	AnimatedImage idleAnim;
 	AnimatedImage dyingAnim;
@@ -28,7 +30,7 @@ public class Enemy extends Image {
 
 	public Enemy(String name) {
 		super(new TextureRegion(Assets.I.atlas.findRegion(name + "-idle")));
-		setName("enemy");
+		setName(name);
 		// Load Animations
 		idleAnim = new AnimatedImage(new AnimatedDrawable(
 				new Animation(0.14f, Assets.I.getRegions(name + "-idle"), Animation.PlayMode.LOOP)));

@@ -9,8 +9,10 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.peppercarrot.runninggame.entities.Ability;
+import com.peppercarrot.runninggame.entities.Runner;
 import com.peppercarrot.runninggame.stages.AbilityWidget.AbilityActivationListener;
 import com.peppercarrot.runninggame.utils.Assets;
 import com.peppercarrot.runninggame.utils.Callback;
@@ -20,7 +22,6 @@ public class WorldUiStage extends AbstractStage {
 
 	private final Table uiTable;
 	private final Label hintLabel;
-	//private final Table attackButtons;
 
 	private final Button jumpBtnTransparent;
 
@@ -34,7 +35,7 @@ public class WorldUiStage extends AbstractStage {
 
 	Table skillsBtns;
 	
-	public WorldUiStage() {
+	public WorldUiStage(Runner r) {
 		final int uiPadding = 0; // padding of borders for ui in pixel
 		uiTable = new Table();
 		uiTable.setFillParent(true);
@@ -49,7 +50,6 @@ public class WorldUiStage extends AbstractStage {
 		exitBtn.addListener(new InputListener() {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				System.out.println("EXIT GAME");
 				Gdx.app.exit();
 				return true;
 			}
@@ -62,7 +62,9 @@ public class WorldUiStage extends AbstractStage {
 		jumpBtnTransparent.add(exitBtn).top().left();
 		jumpBtnTransparent.add(hintLabel).top();
 		jumpBtnTransparent.row();
-		jumpBtnTransparent.add(jumpBtn).bottom().left().expandY();
+		jumpBtnTransparent.add(r.hpBar).height(uiTable.getHeight()-exitBtn.getHeight()-jumpBtn.getHeight()).left();
+		jumpBtnTransparent.row();
+		jumpBtnTransparent.add(jumpBtn).bottom().left();
 		jumpBtnTransparent.top().left();
 		jumpBtnTransparent.addListener(new InputListener() {
 			@Override
