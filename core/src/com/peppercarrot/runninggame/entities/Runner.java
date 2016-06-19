@@ -1,12 +1,13 @@
 package com.peppercarrot.runninggame.entities;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.nGame.utils.scene2d.AnimatedImage;
 import com.peppercarrot.runninggame.utils.Assets;
@@ -25,11 +26,61 @@ import com.peppercarrot.runninggame.world.collision.IPotionCollisionAwareActor;
  */
 public abstract class Runner extends Group
 		implements IPlatformCollisionAwareActor, IEnemyCollisionAwareActor, IPotionCollisionAwareActor {
+	
+	/**
+	 * For UI.
+	 * 
+	 */
+	public class HitPoints extends Table {
+		public int points;
+		public int maxPoints;
+
+		public HitPoints(int maxHp) {
+			super();
+			padLeft(10);
+			points = maxHp;
+			maxPoints = maxHp;
+			for (int i = 0; i < maxHp; i++) {
+				Image heart = new Image(new TextureRegion(Assets.I.atlas.findRegion("heart")));
+				this.add(heart).padTop(14);
+				this.row();
+			}
+		}
+
+		/**
+		 * Negative when damage should be received.
+		 * @param difference
+		 */
+		public void updateHP(int difference) {
+			int prevDiff = maxPoints - points; //already lost points
+			points += difference;
+			if (points < 0) points = 0;
+			if (points > maxPoints) points = maxPoints;
+			//Damage
+			if (difference < 0) {
+				for (int i = 0; i < -difference && prevDiff+i < maxPoints; i++) {
+					Image heart = (Image) this.getChildren().items[prevDiff+i];
+					Color c = Color.DARK_GRAY;
+					c.a = 0.68f;
+					heart.setColor(c);
+				}
+			}
+			//Heal
+			if (difference > 0) {
+				for (int i = 0; i < difference && prevDiff-i-1 >= 0; i++) {
+					Image heart = (Image) this.getChildren().items[prevDiff-i-1];
+					heart.setColor(Color.WHITE);
+				}
+			}
+		}
+
+	}
+	
 	String name;
 	boolean stunned = false;
 	public State currState = State.RUNNING;
 	public Pet pet;
-	public ProgressBar hpBar;
+	public HitPoints health;
 	int speedY = 0;
 	/** Vertical speed in pixel. */
 	int maxJumpSpeed = 26;
@@ -58,9 +109,8 @@ public abstract class Runner extends Group
 	}
 
 	public Runner(String name) {
+		health = new HitPoints(5);
 		this.name = name;
-		hpBar = new ProgressBar(0, 5, 1, true, Assets.I.skin, "hp");
-		hpBar.setValue(hpBar.getMaxValue());
 		runnerImage = new Image(new TextureRegion(Assets.I.atlas.findRegion(name + "_run")));
 		addActor(runnerImage);
 		initAbilities();
@@ -329,9 +379,9 @@ public abstract class Runner extends Group
 	public boolean onHitEnemy(Enemy enemy) {
 		if (enemy.isAlive()) {
 			setStunned();
-			hpBar.setValue(hpBar.getValue()-enemy.damage);
+			health.updateHP(-enemy.damage);
 			enemy.die();
-			if (hpBar.getValue() <= 0) {
+			if (health.points <= 0) {
 				setDying();
 			}
 			return true;

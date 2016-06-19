@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
@@ -15,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.nGame.utils.scene2d.AnimatedDrawable;
 import com.nGame.utils.scene2d.AnimatedImage;
 import com.peppercarrot.runninggame.stages.WorldStage;
 import com.peppercarrot.runninggame.utils.Assets;
@@ -35,12 +37,17 @@ public class BlackHole extends Ability {
 		TextureRegionDrawable blackhole2;
 
 		public Effect(float duration) {
-			super(new TextureRegion(Assets.I.atlas.findRegion("blackhole1")));
-			this.duration = duration;
-			blackhole1 = new TextureRegionDrawable( new TextureRegion(Assets.I.atlas.findRegion("blackhole1")));
-			blackhole2 = new TextureRegionDrawable( new TextureRegion(Assets.I.atlas.findRegion("blackhole2")));
+			/*
+			super(new AnimatedDrawable(
+					new Animation(duration/3, Assets.I.getRegions("blackhole"), Animation.PlayMode.LOOP)));
 			setOrigin(Align.center);
-			
+			addAction(Actions.forever(Actions.rotateBy(-360f, 2.6f)));
+			*/
+			super(new TextureRegion(Assets.I.getRegions("blackhole").get(0)));
+			this.duration = duration;
+			blackhole1 = new TextureRegionDrawable(new TextureRegion(Assets.I.getRegions("blackhole").get(0)));
+			blackhole2 = new TextureRegionDrawable(new TextureRegion(Assets.I.getRegions("blackhole").get(1)));
+			setOrigin(Align.center);
 		}
 
 		public void execute(){
@@ -72,7 +79,7 @@ public class BlackHole extends Ability {
 			parA.addAction(seqA);
 			this.addAction(parA);
 		}
-		
+
 		@Override
 		public void draw(Batch batch, float parentAlpha) {
 			Color color = getColor();

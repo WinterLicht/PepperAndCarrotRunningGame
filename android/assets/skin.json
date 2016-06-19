@@ -32,6 +32,6 @@
 	},
 
 	com.badlogic.gdx.scenes.scene2d.ui.ProgressBar$ProgressBarStyle: {
-      hp: { background: hp_bg, knob: hp, knobBefore: hp, knobAfter: hp_empty },
+      hp: { background: hp_empty, knobBefore: hp},
      }
 }

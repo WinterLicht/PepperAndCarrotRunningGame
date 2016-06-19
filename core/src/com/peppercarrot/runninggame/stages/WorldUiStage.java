@@ -9,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.peppercarrot.runninggame.entities.Ability;
 import com.peppercarrot.runninggame.entities.Runner;
@@ -36,12 +35,10 @@ public class WorldUiStage extends AbstractStage {
 	Table skillsBtns;
 	
 	public WorldUiStage(Runner r) {
-		final int uiPadding = 0; // padding of borders for ui in pixel
 		uiTable = new Table();
 		uiTable.setFillParent(true);
-		uiTable.pad(uiPadding);
-		uiTable.setWidth(Constants.VIRTUAL_WIDTH - uiPadding * 2);
-		uiTable.setHeight(Constants.VIRTUAL_HEIGHT - uiPadding * 2);
+		uiTable.setWidth(Constants.VIRTUAL_WIDTH );
+		uiTable.setHeight(Constants.VIRTUAL_HEIGHT);
 
 		//Jump Button
 		jumpBtnTransparent = new Button(Assets.I.skin, "transparent");
@@ -62,7 +59,7 @@ public class WorldUiStage extends AbstractStage {
 		jumpBtnTransparent.add(exitBtn).top().left();
 		jumpBtnTransparent.add(hintLabel).top();
 		jumpBtnTransparent.row();
-		jumpBtnTransparent.add(r.hpBar).height(uiTable.getHeight()-exitBtn.getHeight()-jumpBtn.getHeight()).left();
+		jumpBtnTransparent.add(r.health).height(uiTable.getHeight()-exitBtn.getHeight()-jumpBtn.getHeight()).left();
 		jumpBtnTransparent.row();
 		jumpBtnTransparent.add(jumpBtn).bottom().left();
 		jumpBtnTransparent.top().left();

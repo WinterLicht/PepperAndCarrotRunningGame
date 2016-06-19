@@ -17,6 +17,6 @@ Used Libraries
 License and credits
 -------------------
 
-- Code by ... see corresponding files is licensed under [GNU GPLv3](http://www.gnu.org/licenses/gpl-3.0.html)
+- The source code of this game is licensed under the [GNU GPLv3](http://www.gnu.org/licenses/gpl-3.0.html)
 - 2D game art assets by Anna Dorokhova are licensed under [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/)
 - This project use the universe of the webcomic [Pepper&Carrot](https://www.peppercarrot.com) created by David Revoy and licensed under [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/)
