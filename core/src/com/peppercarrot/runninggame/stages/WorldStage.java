@@ -76,7 +76,6 @@ public class WorldStage extends AbstractStage {
 
 		this.runner = runner;
 		addActor(runner);
-		addActor(runner.pet);
 
 		enemyCollisionAwareActors.add(runner);
 		potionAwareActors.add(runner);

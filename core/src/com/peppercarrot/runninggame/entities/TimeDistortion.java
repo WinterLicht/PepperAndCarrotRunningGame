@@ -1,20 +1,48 @@
 package com.peppercarrot.runninggame.entities;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.peppercarrot.runninggame.stages.WorldStage;
+import com.peppercarrot.runninggame.utils.Assets;
+import com.peppercarrot.runninggame.utils.CollisionUtil;
+import com.peppercarrot.runninggame.world.collision.IEnemyCollisionAwareActor;
 
 /**
  * This effect manipulates horizontal scroll speed of the level. First in a
  * given effect duration scroll speed of the level is increasing by pow3 and
  * then decreasing again, so level is at his old scroll speed as before, when
- * the effect ends.
+ * the effect ends. Enemies are destroyed on collision. 
  * 
  * @author WinterLicht
  * @author momsen
  *
  */
 public class TimeDistortion extends Ability {
+	public static class Effect extends Image implements IEnemyCollisionAwareActor {
 
+		public Effect(Runner runner) {
+			super(new TextureRegion(Assets.I.atlas.findRegion("timeDistortion_effect")));
+			setX((runner.getWidth()-this.getWidth())/2);
+			setY((runner.getHeight()-this.getHeight())/2);
+		}
+
+		@Override
+		public void retrieveHitbox(Rectangle rectangle) {
+			CollisionUtil.retrieveHitbox(this, rectangle);
+		}
+
+		@Override
+		public boolean onHitEnemy(Enemy enemy) {
+			if (enemy.isAlive()) {
+				enemy.die();
+			}
+			return false;
+		}
+	}
+	private final Effect effect;
+	
 	private float previousSpeedFactor;
 
 	private WorldStage worldStage;
@@ -25,6 +53,7 @@ public class TimeDistortion extends Ability {
 
 	public TimeDistortion(Runner runner, int maxEnergy, float duration, float maxSpeed) {
 		super(runner, maxEnergy, duration);
+		effect = new Effect(runner);
 		this.maxSpeed = maxSpeed;
 		this.halfDuration = getDuration() / 2.0f;
 	}
@@ -32,7 +61,9 @@ public class TimeDistortion extends Ability {
 	@Override
 	protected void execute(WorldStage worldStage) {
 		this.worldStage = worldStage;
-		previousSpeedFactor = worldStage.getSpeedFactor();
+		final Runner runner = getRunner();previousSpeedFactor = worldStage.getSpeedFactor();
+		runner.addActor(effect);
+		worldStage.addEnemyAwareActor(effect);
 	}
 
 	@Override
@@ -56,6 +87,9 @@ public class TimeDistortion extends Ability {
 
 	@Override
 	protected void finish() {
+		worldStage.removeEnemyAwareActor(effect);
+		final Runner runner = getRunner();
+		runner.removeActor(effect);
 		worldStage.setSpeedFactor(previousSpeedFactor);
 	}
 }

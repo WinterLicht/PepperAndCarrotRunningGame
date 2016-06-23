@@ -100,7 +100,7 @@ public abstract class Runner extends Group
 	public Ability ability1;
 	public Ability ability2;
 	public Ability ability3;
-	public Ability ability4;
+	public Ability ability0;
 
 	/**
 	 * Possible states.
@@ -116,6 +116,8 @@ public abstract class Runner extends Group
 		this.name = name;
 		runnerImage = new Image(new TextureRegion(Assets.I.atlas.findRegion(name + "_run")));
 		addActor(runnerImage);
+		setWidth(runnerImage.getWidth());
+		setHeight(runnerImage.getHeight());
 		initAbilities();
 		initAnimations();
 		initPet();
@@ -164,7 +166,7 @@ public abstract class Runner extends Group
 		ability1.update(delta);
 		ability2.update(delta);
 		ability3.update(delta);
-		ability4.update(delta);
+		ability0.update(delta);
 		// Decide which animation is displayed
 		switch (currState) {
 		case DOUBLEJUMPING:
@@ -221,7 +223,7 @@ public abstract class Runner extends Group
 			// No infinite acceleration
 			setY(getY() - maxJumpSpeed);
 		}
-		pet.updatePosition(delta);
+		//pet.updatePosition(delta);
 		if (getY() < oldYPos) {
 			// Player is falling, if his y-position is lowered
 			// and he was previously running.

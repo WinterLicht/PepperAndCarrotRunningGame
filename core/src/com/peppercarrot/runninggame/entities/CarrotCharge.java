@@ -234,7 +234,7 @@ public class CarrotCharge extends Ability {
 		}
 		effect.setVisible(true);
 		effect.reset();
-		effect.setX(runner.pet.getX());
+		effect.setX(runner.getX());
 		effect.setY(runner.getY());
 
 		worldStage.addActor(effect);

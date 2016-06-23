@@ -20,6 +20,12 @@ public class Carrot extends Pet {
 		super(name, runner);
 		initAnimations();
 	}
+
+	@Override
+	public void act(float delta) {
+		super.act(delta);
+		this.updatePosition(delta);
+	}
 	
 	@Override
 	public void updatePosition(float delta) {
@@ -27,31 +33,31 @@ public class Carrot extends Pet {
 		// sits f.e on Pepper's broom.
 		switch (currState) {
 		case DOUBLEJUMPING:
-			setX(owner.getX()-16);
-			setY(owner.getY()+67);
+			setX(-16);
+			setY(67);
 			doubleJumpingAnim.act(delta);
 			break;
 		case DYING:
 			//TODO
 			break;
 		case JUMPING:
-			setX(owner.getX()+6);
-			setY(owner.getY()+28);
+			setX(6);
+			setY(28);
 			jumpingAnim.act(delta);
 			break;
 		case RUNNING:
-			setX(owner.getX()-35);
-			setY(owner.getY()+0);
+			setX(-35);
+			setY(0);
 			runningAnim.act(delta);
 			break;
 		case FALLING:
-			setX(owner.getX()+7);
-			setY(owner.getY()+65);
+			setX(7);
+			setY(65);
 			fallingAnim.act(delta);
 			break;
 		case HIT:
-			setX(owner.getX()-35);
-			setY(owner.getY()+0);
+			setX(-35);
+			setY(0);
 			hitAnim.act(delta);
 			break;
 		default: // Should not be reached
@@ -82,31 +88,31 @@ public class Carrot extends Pet {
 	@Override
 	public void land() {
 		currState = State.RUNNING;
-		petImage.setDrawable(runningAnim.getDrawable());
+		this.setDrawable(runningAnim.getDrawable());
 	}
 
 	@Override
 	public void setRunnig() {
 		currState = State.RUNNING;
-		petImage.setDrawable(runningAnim.getDrawable());	
+		this.setDrawable(runningAnim.getDrawable());	
 	}
 
 	@Override
 	public void setFalling() {
 		currState = State.FALLING;
-		petImage.setDrawable(fallingAnim.getDrawable());
+		this.setDrawable(fallingAnim.getDrawable());
 	}
 
 	@Override
 	public void setJumping() {
 		currState = State.JUMPING;
-		petImage.setDrawable(jumpingAnim.getDrawable());
+		this.setDrawable(jumpingAnim.getDrawable());
 	}
 
 	@Override
 	public void setDoubleJumping() {
 		currState = State.DOUBLEJUMPING;
-		petImage.setDrawable(doubleJumpingAnim.getDrawable());
+		this.setDrawable(doubleJumpingAnim.getDrawable());
 	}
 
 	@Override
@@ -116,6 +122,6 @@ public class Carrot extends Pet {
 
 	public void setStunned() {
 		currState = State.HIT;
-		petImage.setDrawable(hitAnim.getDrawable());
+		this.setDrawable(hitAnim.getDrawable());
 	}
 }

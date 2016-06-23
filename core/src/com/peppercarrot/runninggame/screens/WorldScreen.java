@@ -66,7 +66,7 @@ public class WorldScreen extends ScreenAdapter {
 			}
 		});
 
-		ui.setAbilitySlot0(runner.ability4);
+		ui.setAbilitySlot0(runner.ability0);
 		ui.setAbilitySlot1(runner.ability1);
 		ui.setAbilitySlot2(runner.ability2);
 		ui.setAbilitySlot3(runner.ability3);
