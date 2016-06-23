@@ -1,12 +1,13 @@
 package com.peppercarrot.runninggame.entities;
 
+import com.badlogic.gdx.math.Interpolation;
 import com.peppercarrot.runninggame.stages.WorldStage;
 
 /**
  * This effect manipulates horizontal scroll speed of the level. First in a
- * given effect duration scroll speed of the level is decreasing and then
- * increasing again, so level is at his old scroll speed as before, when the
- * effect ends.
+ * given effect duration scroll speed of the level is increasing by pow3 and
+ * then decreasing again, so level is at his old scroll speed as before, when
+ * the effect ends.
  * 
  * @author WinterLicht
  * @author momsen
@@ -20,9 +21,12 @@ public class TimeDistortion extends Ability {
 
 	private final float halfDuration;
 
-	public TimeDistortion(Runner runner, int maxEnergy, float duration) {
+	private final float maxSpeed;
+
+	public TimeDistortion(Runner runner, int maxEnergy, float duration, float maxSpeed) {
 		super(runner, maxEnergy, duration);
-		halfDuration = getDuration() / 2.0f;
+		this.maxSpeed = maxSpeed;
+		this.halfDuration = getDuration() / 2.0f;
 	}
 
 	@Override
@@ -35,12 +39,19 @@ public class TimeDistortion extends Ability {
 	protected void internalUpdate(float delta) {
 		if (isRunning()) {
 			final float currentDuration = getCurrentDuration();
-			if (currentDuration >= halfDuration) {
-				worldStage.setSpeedFactor((currentDuration - halfDuration) / halfDuration);
-			} else {
-				worldStage.setSpeedFactor(1 - currentDuration / halfDuration);
-			}
+			final float factor = getFactor(currentDuration);
+			worldStage.setSpeedFactor(factor);
 		}
+	}
+
+	private float getFactor(final float currentDuration) {
+		if (currentDuration >= halfDuration) {
+			final float percentage = (currentDuration - halfDuration) / halfDuration;
+			return Interpolation.pow3Out.apply(maxSpeed, 1, percentage);
+		}
+
+		final float percentage = currentDuration / halfDuration;
+		return Interpolation.pow3In.apply(1, maxSpeed, percentage);
 	}
 
 	@Override
