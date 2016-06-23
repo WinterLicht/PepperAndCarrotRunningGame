@@ -47,11 +47,11 @@ public class TimeDistortion extends Ability {
 	private float getFactor(final float currentDuration) {
 		if (currentDuration >= halfDuration) {
 			final float percentage = (currentDuration - halfDuration) / halfDuration;
-			return Interpolation.pow3Out.apply(maxSpeed, 1, percentage);
+			return Interpolation.pow3In.apply(maxSpeed, 1, percentage);
 		}
 
 		final float percentage = currentDuration / halfDuration;
-		return Interpolation.pow3In.apply(1, maxSpeed, percentage);
+		return Interpolation.pow3Out.apply(1, maxSpeed, percentage);
 	}
 
 	@Override
