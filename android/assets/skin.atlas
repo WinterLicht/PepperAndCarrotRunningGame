@@ -6,28 +6,28 @@ filter: MipMapLinearNearest,Nearest
 repeat: none
 blackhole
   rotate: false
-  xy: 325, 575
+  xy: 325, 577
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: 1
 blackhole
   rotate: false
-  xy: 1, 439
+  xy: 1, 441
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: 2
 blackhole
   rotate: false
-  xy: 317, 318
+  xy: 317, 320
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: 3
 button
   rotate: false
-  xy: 1001, 951
+  xy: 1001, 864
   size: 22, 22
   split: 5, 5, 5, 5
   pad: 10, 10, 10, 10
@@ -36,7 +36,7 @@ button
   index: -1
 button-disabled
   rotate: false
-  xy: 1001, 997
+  xy: 1001, 910
   size: 22, 22
   split: 5, 5, 5, 5
   pad: 10, 10, 10, 10
@@ -45,7 +45,7 @@ button-disabled
   index: -1
 button-down
   rotate: false
-  xy: 1001, 974
+  xy: 1001, 887
   size: 22, 22
   split: 5, 5, 5, 5
   pad: 10, 10, 10, 10
@@ -54,182 +54,238 @@ button-down
   index: -1
 button_energy_skill1
   rotate: false
-  xy: 325, 832
+  xy: 325, 834
   size: 373, 187
   orig: 373, 187
   offset: 0, 0
   index: -1
 button_energy_skill2
   rotate: false
-  xy: 1, 696
+  xy: 1, 698
   size: 323, 323
   orig: 323, 323
   offset: 0, 0
   index: -1
 button_energy_skill3
   rotate: false
-  xy: 699, 646
+  xy: 699, 648
   size: 187, 373
   orig: 187, 373
   offset: 0, 0
   index: -1
 button_exit
   rotate: false
-  xy: 207, 88
+  xy: 207, 90
   size: 97, 97
   orig: 97, 97
   offset: 0, 0
   index: -1
 button_jump
   rotate: false
-  xy: 688, 250
+  xy: 688, 252
   size: 194, 194
   orig: 194, 194
   offset: 0, 0
   index: -1
 button_skill2
   rotate: false
-  xy: 1, 215
+  xy: 1, 217
   size: 223, 223
   orig: 223, 223
   offset: 0, 0
   index: -1
 button_skill3
   rotate: false
-  xy: 696, 445
+  xy: 696, 447
   size: 187, 200
   orig: 187, 200
   offset: 0, 0
   index: -1
 carrot_doublejump
   rotate: false
-  xy: 887, 906
+  xy: 887, 908
   size: 113, 113
   orig: 113, 113
   offset: 0, 0
   index: 1
 carrot_doublejump
   rotate: false
-  xy: 887, 792
+  xy: 887, 794
   size: 113, 113
   orig: 113, 113
   offset: 0, 0
   index: 2
 carrot_fall
   rotate: false
-  xy: 887, 678
+  xy: 887, 680
   size: 113, 113
   orig: 113, 113
   offset: 0, 0
   index: 1
 carrot_fall
   rotate: false
-  xy: 887, 564
+  xy: 887, 566
   size: 113, 113
   orig: 113, 113
   offset: 0, 0
   index: 2
 carrot_fall
   rotate: false
-  xy: 582, 718
+  xy: 582, 720
   size: 113, 113
   orig: 113, 113
   offset: 0, 0
   index: 3
 carrot_hit
   rotate: false
-  xy: 582, 604
+  xy: 582, 606
   size: 113, 113
   orig: 113, 113
   offset: 0, 0
   index: 1
 carrot_jump
   rotate: false
-  xy: 582, 490
+  xy: 582, 492
   size: 113, 113
   orig: 113, 113
   offset: 0, 0
   index: 1
 carrot_jump
   rotate: false
-  xy: 884, 450
+  xy: 884, 452
   size: 113, 113
   orig: 113, 113
   offset: 0, 0
   index: 2
 carrot_jump
   rotate: false
-  xy: 884, 336
+  xy: 884, 338
   size: 113, 113
   orig: 113, 113
   offset: 0, 0
   index: 3
 carrot_run
   rotate: false
-  xy: 574, 376
+  xy: 574, 378
   size: 113, 113
   orig: 113, 113
   offset: 0, 0
   index: 1
 carrot_run
   rotate: false
-  xy: 574, 262
+  xy: 574, 264
   size: 113, 113
   orig: 113, 113
   offset: 0, 0
   index: 2
 carrot_run
   rotate: false
-  xy: 883, 222
+  xy: 883, 224
   size: 113, 113
   orig: 113, 113
   offset: 0, 0
   index: 3
 carrot_run
   rotate: false
-  xy: 537, 148
+  xy: 537, 150
   size: 113, 113
   orig: 113, 113
   offset: 0, 0
   index: 4
 carrot_run
   rotate: false
-  xy: 537, 34
+  xy: 537, 36
   size: 113, 113
   orig: 113, 113
   offset: 0, 0
   index: 5
-carrot_run
+clock_face
   rotate: false
-  xy: 857, 108
-  size: 113, 113
-  orig: 113, 113
+  xy: 316, 99
+  size: 220, 220
+  orig: 220, 220
   offset: 0, 0
-  index: 6
+  index: -1
+clock_hand
+  rotate: false
+  xy: 1001, 933
+  size: 8, 88
+  orig: 8, 88
+  offset: 0, 0
+  index: -1
+effect_acceleration
+  rotate: false
+  xy: 651, 15
+  size: 90, 30
+  orig: 90, 30
+  offset: 0, 0
+  index: 1
+effect_acceleration
+  rotate: false
+  xy: 497, 5
+  size: 90, 30
+  orig: 90, 30
+  offset: 0, 0
+  index: 2
+effect_acceleration
+  rotate: false
+  xy: 742, 15
+  size: 90, 30
+  orig: 90, 30
+  offset: 0, 0
+  index: 3
+effect_acceleration
+  rotate: false
+  xy: 833, 15
+  size: 90, 30
+  orig: 90, 30
+  offset: 0, 0
+  index: 4
+effect_acceleration
+  rotate: false
+  xy: 924, 1
+  size: 90, 30
+  orig: 90, 30
+  offset: 0, 0
+  index: 5
 fly-death
   rotate: false
-  xy: 305, 1
+  xy: 305, 3
   size: 95, 95
   orig: 95, 95
   offset: 0, 0
   index: 1
 fly-death
   rotate: false
-  xy: 401, 1
+  xy: 401, 3
   size: 95, 95
   orig: 95, 95
   offset: 0, 0
   index: 2
 fly-death
   rotate: false
-  xy: 857, 12
+  xy: 924, 128
   size: 95, 95
   orig: 95, 95
   offset: 0, 0
   index: 3
+fly-death
+  rotate: false
+  xy: 924, 32
+  size: 95, 95
+  orig: 95, 95
+  offset: 0, 0
+  index: 4
+heart
+  rotate: false
+  xy: 857, 161
+  size: 62, 62
+  orig: 62, 62
+  offset: 0, 0
+  index: -1
 hp
   rotate: false
-  xy: 258, 570
+  xy: 258, 572
   size: 58, 125
   split: 4, 4, 5, 5
   pad: 5, 3, 5, 5
@@ -238,7 +294,7 @@ hp
   index: -1
 hp_empty
   rotate: false
-  xy: 258, 444
+  xy: 258, 446
   size: 58, 125
   split: 4, 4, 5, 5
   pad: 5, 3, 5, 5
@@ -247,58 +303,44 @@ hp_empty
   index: -1
 pepper_attack
   rotate: false
-  xy: 1, 9
+  xy: 1, 11
   size: 205, 205
   orig: 205, 205
   offset: 0, 0
   index: 1
 pepper_attack
   rotate: false
-  xy: 651, 44
+  xy: 651, 46
   size: 205, 205
   orig: 205, 205
   offset: 0, 0
   index: 2
 potion_blue
   rotate: false
-  xy: 225, 186
+  xy: 225, 188
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
   index: -1
 potion_green
   rotate: false
-  xy: 207, 17
-  size: 70, 70
-  orig: 70, 70
-  offset: 0, 0
-  index: -1
-potion_orange
-  rotate: false
-  xy: 953, 37
+  xy: 207, 19
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
   index: -1
 projectile1
   rotate: false
-  xy: 225, 348
+  xy: 225, 350
   size: 90, 90
   orig: 90, 90
   offset: 0, 0
   index: -1
 projectile2
   rotate: false
-  xy: 225, 257
+  xy: 225, 259
   size: 90, 90
   orig: 90, 90
-  offset: 0, 0
-  index: -1
-timeDistortion_effect
-  rotate: false
-  xy: 316, 97
-  size: 220, 220
-  orig: 220, 220
   offset: 0, 0
   index: -1
 
@@ -327,70 +369,63 @@ carrot_run
   size: 113, 113
   orig: 113, 113
   offset: 0, 0
-  index: 7
+  index: 6
 carrot_run
   rotate: false
   xy: 654, 82
   size: 113, 113
   orig: 113, 113
   offset: 0, 0
-  index: 8
+  index: 7
 carrot_run
   rotate: false
   xy: 825, 792
   size: 113, 113
   orig: 113, 113
   offset: 0, 0
-  index: 9
+  index: 8
 carrot_run
   rotate: false
   xy: 825, 678
   size: 113, 113
   orig: 113, 113
   offset: 0, 0
+  index: 9
+carrot_run
+  rotate: false
+  xy: 825, 564
+  size: 113, 113
+  orig: 113, 113
+  offset: 0, 0
   index: 10
 fly-death
   rotate: false
-  xy: 825, 582
-  size: 95, 95
-  orig: 95, 95
-  offset: 0, 0
-  index: 4
-fly-death
-  rotate: false
-  xy: 825, 486
+  xy: 825, 468
   size: 95, 95
   orig: 95, 95
   offset: 0, 0
   index: 5
 fly-idle
   rotate: false
-  xy: 825, 390
+  xy: 825, 372
   size: 95, 95
   orig: 95, 95
   offset: 0, 0
   index: 1
 fly-idle
   rotate: false
-  xy: 825, 294
+  xy: 825, 276
   size: 95, 95
   orig: 95, 95
   offset: 0, 0
   index: 2
 fly-idle
   rotate: false
-  xy: 825, 198
+  xy: 825, 180
   size: 95, 95
   orig: 95, 95
   offset: 0, 0
   index: 3
-heart
-  rotate: false
-  xy: 921, 460
-  size: 62, 62
-  orig: 62, 62
-  offset: 0, 0
-  index: -1
 pepper_attack
   rotate: false
   xy: 1, 814
@@ -503,9 +538,16 @@ pepper_run
   orig: 205, 205
   offset: 0, 0
   index: 2
+potion_orange
+  rotate: false
+  xy: 939, 949
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
 projectile
   rotate: false
-  xy: 768, 100
+  xy: 768, 84
   size: 95, 95
   orig: 95, 95
   offset: 0, 0
@@ -519,63 +561,63 @@ roboto25
   index: -1
 sparkling
   rotate: false
-  xy: 939, 949
+  xy: 939, 878
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
   index: 1
 sparkling
   rotate: false
-  xy: 939, 878
+  xy: 939, 807
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
   index: 2
 sparkling
   rotate: false
-  xy: 939, 807
+  xy: 939, 736
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
   index: 3
 sparkling
   rotate: false
-  xy: 939, 736
+  xy: 939, 665
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
   index: 4
 sparkling
   rotate: false
-  xy: 939, 736
+  xy: 939, 665
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
   index: 5
 sparkling
   rotate: false
-  xy: 939, 665
+  xy: 939, 594
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
   index: 6
 sparkling
   rotate: false
-  xy: 864, 127
+  xy: 864, 109
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
   index: 7
 sparkling
   rotate: false
-  xy: 921, 594
+  xy: 939, 523
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
   index: 8
 sparkling
   rotate: false
-  xy: 921, 523
+  xy: 921, 452
   size: 70, 70
   orig: 70, 70
   offset: 0, 0

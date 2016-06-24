@@ -1,9 +1,16 @@
 package com.peppercarrot.runninggame.entities;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.nGame.utils.scene2d.AnimatedDrawable;
+import com.nGame.utils.scene2d.AnimatedImage;
 import com.peppercarrot.runninggame.stages.WorldStage;
 import com.peppercarrot.runninggame.utils.Assets;
 import com.peppercarrot.runninggame.utils.CollisionUtil;
@@ -20,12 +27,44 @@ import com.peppercarrot.runninggame.world.collision.IEnemyCollisionAwareActor;
  *
  */
 public class TimeDistortion extends Ability {
-	public static class Effect extends Image implements IEnemyCollisionAwareActor {
-
-		public Effect(Runner runner) {
-			super(new TextureRegion(Assets.I.atlas.findRegion("timeDistortion_effect")));
-			setX((runner.getWidth()-this.getWidth())/2);
-			setY((runner.getHeight()-this.getHeight())/2);
+	public static class Effect extends Group implements IEnemyCollisionAwareActor {
+		
+		public Effect(Runner runner, float duration) {
+			//clock
+			Image clockFace = new Image(new TextureRegion(Assets.I.atlas.findRegion("clock_face")));
+			Image clockHand = new Image(new TextureRegion(Assets.I.atlas.findRegion("clock_hand")));
+			clockHand.setX(clockFace.getWidth()/2);
+			clockHand.setY(clockFace.getHeight()/2);
+			clockHand.setOrigin(4, 4);
+			clockHand.addAction(Actions.forever(Actions.rotateBy(360, duration)));
+			this.addActor(clockFace);
+			this.addActor(clockHand);
+			this.setWidth(clockFace.getWidth());
+			this.setHeight(clockFace.getHeight());
+			this.setX((runner.getWidth()-this.getWidth())/2);
+			this.setY((runner.getHeight()-this.getHeight())/2);
+			this.addAction(Actions.forever(Actions.sequence(Actions.fadeIn(duration/2), Actions.fadeOut(duration/2))));
+			//acceleration effect image
+			AnimatedImage effect1 = new AnimatedImage(new AnimatedDrawable(
+					new Animation(0.1f, Assets.I.getRegions("effect_acceleration"), Animation.PlayMode.LOOP)));
+			effect1.setX(-15);
+			effect1.setY(30);
+			AnimatedImage effect2 = new AnimatedImage(new AnimatedDrawable(
+					new Animation(0.1f, Assets.I.getRegions("effect_acceleration"), Animation.PlayMode.LOOP)));
+			effect2.setX(14);
+			effect2.setY(144);
+			AnimatedImage effect3 = new AnimatedImage(new AnimatedDrawable(
+					new Animation(0.1f, Assets.I.getRegions("effect_acceleration"), Animation.PlayMode.LOOP)));
+			effect3.setX(-59);
+			effect3.setY(120);
+			AnimatedImage effect4 = new AnimatedImage(new AnimatedDrawable(
+					new Animation(0.1f, Assets.I.getRegions("effect_acceleration"), Animation.PlayMode.LOOP)));
+			effect4.setX(-86);
+			effect4.setY(75);
+			this.addActor(effect1);
+			this.addActor(effect2);
+			this.addActor(effect3);
+			this.addActor(effect4);
 		}
 
 		@Override
@@ -40,7 +79,16 @@ public class TimeDistortion extends Ability {
 			}
 			return false;
 		}
+
+		@Override
+		public void draw(Batch batch, float parentAlpha) {
+			Color color = getColor();
+			super.draw(batch, parentAlpha);
+			//Reset Alpha after drawing
+			batch.setColor(color.r, color.g, color.b, 1f);
+		}
 	}
+
 	private final Effect effect;
 	
 	private float previousSpeedFactor;
@@ -53,7 +101,7 @@ public class TimeDistortion extends Ability {
 
 	public TimeDistortion(Runner runner, int maxEnergy, float duration, float maxSpeed) {
 		super(runner, maxEnergy, duration);
-		effect = new Effect(runner);
+		effect = new Effect(runner, duration);
 		this.maxSpeed = maxSpeed;
 		this.halfDuration = getDuration() / 2.0f;
 	}
