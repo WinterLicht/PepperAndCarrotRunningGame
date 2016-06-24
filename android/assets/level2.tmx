@@ -25,9 +25,16 @@
   <image source="tiles2.png" width="475" height="570"/>
  </tileset>
  <tileset firstgid="34" name="enemies" tilewidth="95" tileheight="95">
-  <image source="enemies.png" width="95" height="95"/>
+  <image source="enemies.png" width="190" height="95"/>
   <tile id="0">
    <properties>
+    <property name="name" value="fly"/>
+    <property name="type" value="enemy"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="name" value="spider"/>
     <property name="type" value="enemy"/>
    </properties>
   </tile>
@@ -69,7 +76,7 @@
    <property name="events" value="true"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYCAMlIhQM9jAUHQzPqCEg41PbLACWrl1IMMAAI2HAO8=
+   eJxjYCAMlIhQM9gAtdysTCVzKAVKONjYxJQZUN09WPwAA7jihlR3oqsfyHQKAJu+AcE=
   </data>
  </layer>
  <layer name="potions" width="30" height="7" visible="0">
@@ -77,7 +84,7 @@
    <property name="events" value="true"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYBhYwITGZ6aBHYw0MHMwA3LDED0uKFUHA8SGPy53D4X4AwAgHAAT
+   eJxjYBhYwITGZ6aBHYw0MJNUQE83IIchKfaixwUl6hhxsPEBXHE/GOKPEAAAJFQAFg==
   </data>
  </layer>
 </map>

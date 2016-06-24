@@ -20,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.utils.Align;
 import com.peppercarrot.runninggame.entities.Enemy;
+import com.peppercarrot.runninggame.entities.EnemySimple;
 import com.peppercarrot.runninggame.entities.Potion;
 import com.peppercarrot.runninggame.utils.ActorXPositionComparator;
 import com.peppercarrot.runninggame.utils.Constants;
@@ -162,10 +163,10 @@ public class LevelSegment {
 				if (cell != null) {
 					final String type = cell.getTile().getProperties().get("type", String.class);
 					final int zIndex = getIntProperty(cell.getTile().getProperties(), "z-index", layerZIndex);
-
 					if ("enemy".equals(type)) {
+						final String enemyName = cell.getTile().getProperties().get("name", String.class);
 						enemies.add(
-								createEnemy(column, row, tilewidth, tileheight, centerOffsetX, centerOffsetY, zIndex));
+								createEnemy(enemyName, column, row, tilewidth, tileheight, centerOffsetX, centerOffsetY, zIndex));
 					}
 
 					if ("potion".equals(type)) {
@@ -193,19 +194,28 @@ public class LevelSegment {
 		return platformsInLayer;
 	}
 
-	private Enemy createEnemy(int column, int row, int tilewidth, int tileheight, float centerOffsetX,
+	private Enemy createEnemy(String enemyName, int column, int row, int tilewidth, int tileheight, float centerOffsetX,
 			float centerOffsetY, int zIndex) {
 		final float posX = (column + 0.5f) * tilewidth;
 		final float posY = (row + 0.5f) * tileheight;
-		// TODO: various types
-		final Enemy enemy = new Enemy("fly");
-		enemy.setOrigin(Align.center);
-		enemy.setX(posX - enemy.getWidth() / 2);
-		enemy.setY(posY - enemy.getHeight() / 2);
-		zIndexMap.put(enemy, zIndex);
-		actors.add(enemy);
-
-		return enemy;
+		switch (enemyName) {
+		case "fly":
+			Enemy fly = new Enemy(enemyName, 1, posX, posY);
+			zIndexMap.put(fly, zIndex);
+			actors.add(fly);
+			return fly;
+		case "spider":
+			//TODO: image
+			EnemySimple spider = new EnemySimple("fly", 1, posX, posY);
+			zIndexMap.put(spider, zIndex);
+			actors.add(spider);
+			return spider;
+		default:
+			Enemy defaultEnemy = new Enemy(enemyName, 1, posX, posY);
+			zIndexMap.put(defaultEnemy, zIndex);
+			actors.add(defaultEnemy);
+			return defaultEnemy;
+		}
 	}
 
 	private Potion createPotion(String color, int column, int row, int tilewidth, int tileheight, float centerOffsetX,

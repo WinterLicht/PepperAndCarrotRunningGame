@@ -27,10 +27,10 @@ public class ProjectileAttack extends Ability {
 		boolean active = false;
 		//testing sinusoids movement... TODO: all in constructor or all public!
 		int interval = 28; // Interval in pixel for up-down of sinusoids
-		private boolean moveUp = true; // helper
+		private boolean moveUp = true; // if projectile is moving up initially
 		Vector2 origin = new Vector2(); // original position
 		private Vector2 positionNotRot = new Vector2(); // Position, if direction would not be rotated 
-		float angle; // rotation of movement direction
+		float angle; // Rotation of movement-direction vector
 		//TODO: maybe range of attack?
 
 		public Projectile(float angle) {
@@ -72,7 +72,7 @@ public class ProjectileAttack extends Ability {
 				}else{
 					positionNotRot.y = positionNotRot.y-speedY;
 				}
-				if (origin.y+interval <= positionNotRot.y&&moveUp) {
+				if (origin.y+interval <= positionNotRot.y && moveUp) {
 					positionNotRot.y = positionNotRot.y-speedY;
 					moveUp = false;
 				}

@@ -1,6 +1,5 @@
 package com.peppercarrot.runninggame.entities;
 
-import com.badlogic.gdx.Gdx;
 import com.peppercarrot.runninggame.stages.WorldStage;
 
 /**
@@ -118,7 +117,6 @@ public abstract class Ability {
 	 *            game world
 	 */
 	public void activate(WorldStage worldStage) {
-		Gdx.app.log(getClass().getSimpleName(), "activate");
 		if (!running) {
 			if (energy >= maxEnergy) {
 				currentDuration = 0f;
@@ -126,10 +124,10 @@ public abstract class Ability {
 				running = true;
 				execute(worldStage);
 			} else {
-				Gdx.app.log(getClass().getSimpleName(), "not enough energy");
+				//Not enough energy
 			}
 		} else {
-			Gdx.app.log(getClass().getSimpleName(), "is already executing");
+			//Is already executing
 		}
 	}
 

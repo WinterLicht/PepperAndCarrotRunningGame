@@ -11,15 +11,14 @@ import com.peppercarrot.runninggame.utils.Assets;
 import com.peppercarrot.runninggame.utils.CollisionUtil;
 
 /**
- * Enemy.
- * TODO: this as abstract class.
+ * Simple (rectangular) enemy. With no movement or attacks. Does damage on collision with player.
  * 
  * @author WinterLicht
  *
  */
 public class Enemy extends Image {
 	public State currState = State.IDLE;
-	public int damage = 1;
+	public int damage;
 	// Animations
 	AnimatedImage idleAnim;
 	AnimatedImage dyingAnim;
@@ -28,8 +27,9 @@ public class Enemy extends Image {
 		IDLE, DYING;
 	}
 
-	public Enemy(String name) {
+	public Enemy(String name, int damage, float x, float y) {
 		super(new TextureRegion(Assets.I.atlas.findRegion(name + "-idle")));
+		this.damage = damage;
 		setName(name);
 		// Load Animations
 		idleAnim = new AnimatedImage(new AnimatedDrawable(
@@ -39,6 +39,9 @@ public class Enemy extends Image {
 				new Animation(0.07f, Assets.I.getRegions(name + "-death"), Animation.PlayMode.NORMAL)));
 		dyingAnim.setVisible(false);
 		dyingAnim.setOrigin(Align.center);
+		this.setOrigin(Align.center);
+		this.setX(x - this.getWidth() / 2);
+		this.setY(y - this.getHeight() / 2);
 	}
 
 	/**
