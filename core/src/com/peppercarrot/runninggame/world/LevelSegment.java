@@ -225,8 +225,7 @@ public class LevelSegment {
 			actors.add(fly);
 			return fly;
 		case "spider":
-			//TODO: image
-			EnemySimple spider = new EnemySimple("fly", 1, posX, posY);
+			EnemySimple spider = new EnemySimple(enemyName, 1, posX, posY);
 			zIndexMap.put(spider, zIndex);
 			actors.add(spider);
 			return spider;

@@ -1,6 +1,5 @@
 package com.peppercarrot.runninggame.entities;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -34,6 +33,8 @@ public abstract class Runner extends Group
 	public class HitPoints extends Table {
 		public int points;
 		public int maxPoints;
+		Image heart;
+		Image heartDisabled;
 
 		public HitPoints(int maxHp) {
 			super();
@@ -41,8 +42,10 @@ public abstract class Runner extends Group
 			points = maxHp;
 			maxPoints = maxHp;
 			for (int i = 0; i < maxHp; i++) {
-				final Image heart = new Image(new TextureRegion(Assets.I.atlas.findRegion("heart")));
-				this.add(heart).padTop(14);
+				heart = new Image(new TextureRegion(Assets.I.atlas.findRegion("heart")));
+				heartDisabled = new Image(new TextureRegion(Assets.I.atlas.findRegion("heart-disabled")));
+				Image im = new Image(new TextureRegion(Assets.I.atlas.findRegion("heart")));
+				this.add(im).padTop(14);
 				this.row();
 			}
 		}
@@ -62,17 +65,27 @@ public abstract class Runner extends Group
 			// Damage
 			if (difference < 0) {
 				for (int i = 0; i < -difference && prevDiff + i < maxPoints; i++) {
+					Image im = (Image) this.getChildren().items[prevDiff + i];
+					im.setDrawable(heartDisabled.getDrawable());
+					im.setColor(1f, 1f, 1f, 0.6f);
+					/*
 					final Image heart = (Image) this.getChildren().items[prevDiff + i];
 					final Color c = Color.DARK_GRAY;
 					c.a = 0.68f;
 					heart.setColor(c);
+					*/
 				}
 			}
 			// Heal
 			if (difference > 0) {
 				for (int i = 0; i < difference && prevDiff - i - 1 >= 0; i++) {
+					Image im = (Image) this.getChildren().items[prevDiff - i - 1];
+					im.setDrawable(heart.getDrawable());
+					im.setColor(1f, 1f, 1f, 1f);
+					/*
 					final Image heart = (Image) this.getChildren().items[prevDiff - i - 1];
 					heart.setColor(Color.WHITE);
+					*/
 				}
 			}
 		}
@@ -373,6 +386,9 @@ public abstract class Runner extends Group
 				break;
 			case BLUE:
 				ability3.increaseEnergy(1);
+				break;
+			case PINK:
+				health.updateHP(+1);
 				break;
 			default:
 				System.out.println("for this potion is nothing defined.");

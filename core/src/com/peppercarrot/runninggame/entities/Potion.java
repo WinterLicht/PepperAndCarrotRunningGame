@@ -12,7 +12,7 @@ import com.peppercarrot.runninggame.utils.CollisionUtil;
 
 public class Potion extends Group {
 	public enum Color {
-		ORANGE, GREEN, BLUE;
+		ORANGE, GREEN, BLUE, PINK;
 	}
 
 	public Color type;
@@ -31,7 +31,10 @@ public class Potion extends Group {
 			break;
 		case "blue":
 			type = Potion.Color.BLUE;
-			break;	
+			break;
+		case "pink":
+			type = Potion.Color.PINK;
+			break;
 		default:
 			System.out.println("not valid color");
 			break;
