@@ -51,7 +51,7 @@ public class ProjectileAttack extends Ability {
 
 		@Override
 		public boolean onHitEnemy(Enemy enemy) {
-			if (enemy.isAlive() && active) {
+			if (enemy.isAlive() && active && !enemy.indestructible) {
 				enemy.die();
 				active = false;
 				setVisible(false);

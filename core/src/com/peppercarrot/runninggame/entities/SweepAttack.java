@@ -32,7 +32,7 @@ public class SweepAttack extends Ability {
 
 		@Override
 		public boolean onHitEnemy(Enemy enemy) {
-			if (enemy.isAlive()) {
+			if (enemy.isAlive() && !enemy.indestructible) {
 				enemy.die();
 			}
 

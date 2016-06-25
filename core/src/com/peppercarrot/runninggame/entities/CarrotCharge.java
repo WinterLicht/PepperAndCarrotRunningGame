@@ -139,7 +139,7 @@ public class CarrotCharge extends Ability {
 
 		@Override
 		public boolean onHitEnemy(Enemy enemy) {
-			if (enemy.isAlive())
+			if (enemy.isAlive() && !enemy.indestructible)
 				enemy.die();
 			return false;
 		}
@@ -213,7 +213,7 @@ public class CarrotCharge extends Ability {
 				RADIUS, tempNearEnemies);
 		int counter = 0;
 		for (final Enemy enemy : tempNearEnemies) {
-			if (enemy.isAlive()) {
+			if (enemy.isAlive() && !enemy.indestructible) {
 				Rectangle enemyRect = new Rectangle();
 				enemy.retrieveHitbox(enemyRect);
 				if (enemyRect.x > Constants.OFFSET_TO_EDGE) { //if still on screen and in front of player

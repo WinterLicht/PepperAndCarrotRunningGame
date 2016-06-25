@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
@@ -16,7 +15,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
-import com.nGame.utils.scene2d.AnimatedDrawable;
 import com.nGame.utils.scene2d.AnimatedImage;
 import com.peppercarrot.runninggame.stages.WorldStage;
 import com.peppercarrot.runninggame.utils.Assets;
@@ -127,7 +125,7 @@ public class BlackHole extends Ability {
 
 		worldStage.getLevelStream().getEnemiesNear(effectXPosition, effectYPosition, RADIUS, tempAffectedEnemies);
 		for (final Enemy enemy : tempAffectedEnemies) {
-			if (enemy.isAlive()) {
+			if (enemy.isAlive() && !enemy.indestructible) {
 
 				enemy.die();
 				enemy.setVisible(false);

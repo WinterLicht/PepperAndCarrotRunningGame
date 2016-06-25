@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -161,18 +162,27 @@ public class LevelSegment {
 
 				final Cell cell = layer.getCell(column, row);
 				if (cell != null) {
-					final String type = cell.getTile().getProperties().get("type", String.class);
 					final int zIndex = getIntProperty(cell.getTile().getProperties(), "z-index", layerZIndex);
-					if ("enemy".equals(type)) {
-						final String enemyName = cell.getTile().getProperties().get("name", String.class);
-						enemies.add(
-								createEnemy(enemyName, column, row, tilewidth, tileheight, centerOffsetX, centerOffsetY, zIndex));
+					if (cell.getTile().getProperties().get("type") != null) {
+						final String type = cell.getTile().getProperties().get("type", String.class);
+						if ("enemy".equals(type)) {
+							final String enemyName = cell.getTile().getProperties().get("name", String.class);
+							enemies.add(createEnemy(enemyName, column, row,
+									tilewidth, tileheight, centerOffsetX, centerOffsetY, zIndex));
+						}
+	
+						if ("potion".equals(type)) {
+							final String potionColor = cell.getTile().getProperties().get("color", String.class);
+							potions.add(createPotion(potionColor, column, row,
+									tilewidth, tileheight, centerOffsetX, centerOffsetY, zIndex));
+						}
 					}
-
-					if ("potion".equals(type)) {
-						final String potionColor = cell.getTile().getProperties().get("color", String.class);
-						potions.add(createPotion(potionColor, column, row, tilewidth, tileheight, centerOffsetX,
-								centerOffsetY, zIndex));
+					if (cell.getTile().getProperties().get("obstacle") != null) {
+						if (cell.getTile().getProperties().get("obstacle", String.class).equals("deadly")) {
+							enemies.add(createObstacle(cell.getTile().getTextureRegion(),
+									column, row, tilewidth, tileheight,
+									centerOffsetX, centerOffsetY, zIndex));
+						}
 					}
 				}
 			}
@@ -192,6 +202,16 @@ public class LevelSegment {
 		}
 
 		return platformsInLayer;
+	}
+
+	private Enemy createObstacle(TextureRegion tRegion, int column, int row, int tilewidth, int tileheight, float centerOffsetX,
+			float centerOffsetY, int zIndex) {
+		final float posX = (column + 0.5f) * tilewidth;
+		final float posY = (row + 0.5f) * tileheight;
+		Enemy obstacle = new Enemy("", 6, posX, posY, true, tRegion);
+		zIndexMap.put(obstacle, zIndex);
+		actors.add(obstacle);
+		return obstacle;
 	}
 
 	private Enemy createEnemy(String enemyName, int column, int row, int tilewidth, int tileheight, float centerOffsetX,

@@ -19,38 +19,58 @@ import com.peppercarrot.runninggame.utils.CollisionUtil;
 public class Enemy extends Image {
 	public State currState = State.IDLE;
 	public int damage;
-	// Animations
+	// Animations can be null !!
 	AnimatedImage idleAnim;
 	AnimatedImage dyingAnim;
+	public boolean indestructible;
+	public boolean alreadyCollidedWPlayer = false; //Used in Runner.onhitenemy
 
 	enum State {
 		IDLE, DYING;
 	}
 
-	public Enemy(String name, int damage, float x, float y) {
-		super(new TextureRegion(Assets.I.atlas.findRegion(name + "-idle")));
+	public Enemy(String name, int damage, float x, float y, boolean indestructible, TextureRegion tRegion) {
+		super(tRegion);
+		this.indestructible = indestructible;
 		this.damage = damage;
 		setName(name);
-		// Load Animations
-		idleAnim = new AnimatedImage(new AnimatedDrawable(
-				new Animation(0.14f, Assets.I.getRegions(name + "-idle"), Animation.PlayMode.LOOP)));
-		idleAnim.setOrigin(Align.center);
-		dyingAnim = new AnimatedImage(new AnimatedDrawable(
-				new Animation(0.07f, Assets.I.getRegions(name + "-death"), Animation.PlayMode.NORMAL)));
-		dyingAnim.setVisible(false);
-		dyingAnim.setOrigin(Align.center);
+		if (name.isEmpty()) {
+			//No Animation, only the texture Region!
+			idleAnim = null;
+			dyingAnim = null;
+		} else {
+			idleAnim = new AnimatedImage(new AnimatedDrawable(
+					new Animation(0.14f, Assets.I.getRegions(name + "-idle"), Animation.PlayMode.LOOP)));
+			idleAnim.setOrigin(Align.center);
+			dyingAnim = new AnimatedImage(new AnimatedDrawable(
+					new Animation(0.07f, Assets.I.getRegions(name + "-death"), Animation.PlayMode.NORMAL)));
+			dyingAnim.setVisible(false);
+			dyingAnim.setOrigin(Align.center);
+		}
 		this.setOrigin(Align.center);
 		this.setX(x - this.getWidth() / 2);
 		this.setY(y - this.getHeight() / 2);
 	}
 
+	public Enemy(String name, int damage, float x, float y, boolean indestructible) {
+		this(name, damage, x, y, indestructible, new TextureRegion(Assets.I.atlas.findRegion(name + "-idle")));
+	}
+
+	public Enemy(String name, int damage, float x, float y) {
+		this(name, damage, x, y, false); //destructible per default
+		}
+
 	/**
 	 * Sets also image invisible.
 	 */
 	public void die() {
-		dyingAnim.setVisible(true);
-		dyingAnim.reset();
-		currState = State.DYING;
+		if (dyingAnim == null) {
+			this.setVisible(false);
+		} else {
+			dyingAnim.setVisible(true);
+			dyingAnim.reset();
+			currState = State.DYING;
+		}
 	}
 
 	public boolean isAlive() {
@@ -62,18 +82,22 @@ public class Enemy extends Image {
 		super.act(delta);
 		switch (currState) {
 		case DYING:
-			dyingAnim.act(delta);
-			setDrawable(dyingAnim.getDrawable());
-			// FIXME: why isAnimationFinished always false??
-			/*
-			 * if (dyingAnim.getAnimatedDrawable().getAnimation().
-			 * isAnimationFinished(delta)){ System.out.println(
-			 * "enemy death animation finished"); }
-			 */
+			if (dyingAnim != null) {
+				dyingAnim.act(delta);
+				setDrawable(dyingAnim.getDrawable());
+				// FIXME: why isAnimationFinished always false??
+				/*
+				 * if (dyingAnim.getAnimatedDrawable().getAnimation().
+				 * isAnimationFinished(delta)){ System.out.println(
+				 * "enemy death animation finished"); }
+				 */
+			}
 			break;
 		case IDLE:
-			idleAnim.act(delta);
-			setDrawable(idleAnim.getDrawable());
+			if (idleAnim != null) {
+				idleAnim.act(delta);
+				setDrawable(idleAnim.getDrawable());
+			}
 			break;
 		default:
 			break;
