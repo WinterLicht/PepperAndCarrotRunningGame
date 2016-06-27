@@ -126,6 +126,9 @@ public class WorldScreen extends ScreenAdapter {
 		if (Gdx.input.isKeyJustPressed(Keys.TAB)) {
 			Gdx.app.log("<debug>", "break");
 		}
+		if (Gdx.input.isKeyJustPressed(Keys.P)) {
+			ScreenSwitch.getInstance().setPauseScreen(this, stage);
+		}
 		if (Gdx.input.isKeyJustPressed(Keys.SPACE)) {
 			if (!gameStarted) {
 				ui.hideHint();

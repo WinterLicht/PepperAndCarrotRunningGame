@@ -1,6 +1,8 @@
 package com.peppercarrot.runninggame.screens;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 
 /**
  * 
@@ -34,5 +36,13 @@ public class ScreenSwitch {
 
 	public void setWorldScreen() {
 		game.setScreen(new WorldScreen());
+	}
+
+	public void setPauseScreen(Screen worldScreen, Stage worldStage) {
+		game.setScreen(new PauseScreen(worldScreen, worldStage));
+	}
+
+	public void setScreen(Screen screen) {
+		game.setScreen(screen);
 	}
 }
