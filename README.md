@@ -1,13 +1,13 @@
 Pepper&Carrot endless runner game
 ==========================================
 
-![wip](documents/screenshot_WIP.png "WIP screenshot of current game version")
+![pacgame](documents/Pepper_And_Carrot_Running_Game.png "Pepper&Carrot endless runner game")
 
 Description
 ------------
-[Pepper&Carrot](http://www.peppercarrot.com/) endless runner game **under construction**. For sketched game idea see image below.
+[Pepper&Carrot](http://www.peppercarrot.com/) endless runner game **under construction**.
 
-![idea](documents/game_idea.png "game idea")
+![wip](documents/screenshot_WIP.png "Pepper&Carrot endless runner game - WIP screenshot of current game version")
 
 Used Libraries
 ------------
