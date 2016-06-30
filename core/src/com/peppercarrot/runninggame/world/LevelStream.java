@@ -21,6 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.utils.Queue;
 import com.peppercarrot.runninggame.entities.Enemy;
 import com.peppercarrot.runninggame.entities.Potion;
+import com.peppercarrot.runninggame.utils.Constants;
 
 /**
  * Level stream. Appends a new segment, when a currently one is to be finished.
@@ -107,6 +108,21 @@ public class LevelStream extends Actor {
 	 */
 	private final Actor runner;
 
+	/**
+	 * Number of passed segments;
+	 */
+	private int segmentsPassed;
+
+	/**
+	 * Segments that have already been counted
+	 */
+	private final List<LevelSegment> countedSegments = new ArrayList<>();
+
+	/**
+	 * Total tiles passed
+	 */
+	private int totalPassedTiles = 0;
+
 	public LevelStream(OrthographicCamera camera, Batch batch, float segmentStartOffset,
 			float firstSegmentAdditionalStartOffset, Group worldGroup, Actor runner) {
 		this.camera = camera;
@@ -191,6 +207,10 @@ public class LevelStream extends Actor {
 		return segment.getRightX() <= 0;
 	}
 
+	private boolean reachedPlayerBorder(LevelSegment segment) {
+		return segment.getRightX() <= Constants.OFFSET_TO_EDGE;
+	}
+
 	private void removeSegment(LevelSegment segment) {
 		segment.removeFromWorld(worldGroup);
 		if (!currentlyLoadedSegmentName.equals(segment.getAssetName())) {
@@ -213,6 +233,7 @@ public class LevelStream extends Actor {
 		for (final LevelSegment segment : segmentsToRemove) {
 			removeSegment(segment);
 			segments.removeValue(segment, true);
+			countedSegments.remove(segment);
 		}
 		segmentsToRemove.clear();
 	}
@@ -225,6 +246,13 @@ public class LevelStream extends Actor {
 	public void moveLeft(float offset) {
 		for (final LevelSegment segment : segments) {
 			segment.moveLeft(offset);
+			totalPassedTiles += segment.getTilesInRange(Constants.OFFSET_TO_EDGE - segment.getX() - offset,
+					Constants.OFFSET_TO_EDGE - segment.getX());
+
+			if (reachedPlayerBorder(segment) && !countedSegments.contains(segment)) {
+				segmentsPassed++;
+				countedSegments.add(segment);
+			}
 		}
 	}
 
@@ -308,5 +336,13 @@ public class LevelStream extends Actor {
 				}
 			}
 		}
+	}
+
+	public int getPassedSegments() {
+		return segmentsPassed;
+	}
+
+	public int getTotalPassedTiles() {
+		return totalPassedTiles;
 	}
 }

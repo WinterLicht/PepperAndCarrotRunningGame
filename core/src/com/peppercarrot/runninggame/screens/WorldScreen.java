@@ -106,6 +106,11 @@ public class WorldScreen extends ScreenAdapter {
 		}
 
 		ui.act(delta);
+
+		// Print progress
+		// Gdx.app.log("Passed stuff", "segments=" +
+		// stage.getLevelStream().getPassedSegments() + ", tiles="
+		// + stage.getLevelStream().getTotalPassedTiles());
 	}
 
 	private void draw() {

@@ -16,6 +16,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.renderers.BatchTiledMapRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -90,12 +91,14 @@ public class LevelSegment {
 
 	private final Map<Actor, Integer> zIndexMap = new HashMap<Actor, Integer>();
 
+	private final int tileWidth;
+
 	public LevelSegment(OrthographicCamera camera, String assetName, TiledMap map, BatchTiledMapRenderer renderer) {
 		this.assetName = assetName;
 
-		final Integer tilewidth = map.getProperties().get("tilewidth", Integer.class);
-		final Integer tileheight = map.getProperties().get("tileheight", Integer.class);
-		segmentWidth = map.getProperties().get("width", Integer.class) * tilewidth;
+		tileWidth = map.getProperties().get("tilewidth", Integer.class);
+		final Integer tileHeight = map.getProperties().get("tileheight", Integer.class);
+		segmentWidth = map.getProperties().get("width", Integer.class) * tileWidth;
 
 		for (final MapLayer layer : map.getLayers()) {
 			if (layer instanceof TiledMapTileLayer) {
@@ -111,12 +114,12 @@ public class LevelSegment {
 
 				final boolean eventLayer = getBooleanProperty(properties, "events", false);
 				if (eventLayer) {
-					extractEntities(tiledLayer, tilewidth, tileheight, zIndex);
+					extractEntities(tiledLayer, tileWidth, tileHeight, zIndex);
 				}
 
 				final boolean collisionLayer = getBooleanProperty(properties, "platforms", false);
 				if (collisionLayer) {
-					platforms.addAll(extractPlatforms(tiledLayer, tilewidth, tileheight));
+					platforms.addAll(extractPlatforms(tiledLayer, tileWidth, tileHeight));
 				}
 			}
 		}
@@ -167,21 +170,20 @@ public class LevelSegment {
 						final String type = cell.getTile().getProperties().get("type", String.class);
 						if ("enemy".equals(type)) {
 							final String enemyName = cell.getTile().getProperties().get("name", String.class);
-							enemies.add(createEnemy(enemyName, column, row,
-									tilewidth, tileheight, centerOffsetX, centerOffsetY, zIndex));
+							enemies.add(createEnemy(enemyName, column, row, tilewidth, tileheight, centerOffsetX,
+									centerOffsetY, zIndex));
 						}
-	
+
 						if ("potion".equals(type)) {
 							final String potionColor = cell.getTile().getProperties().get("color", String.class);
-							potions.add(createPotion(potionColor, column, row,
-									tilewidth, tileheight, centerOffsetX, centerOffsetY, zIndex));
+							potions.add(createPotion(potionColor, column, row, tilewidth, tileheight, centerOffsetX,
+									centerOffsetY, zIndex));
 						}
 					}
 					if (cell.getTile().getProperties().get("obstacle") != null) {
 						if (cell.getTile().getProperties().get("obstacle", String.class).equals("deadly")) {
-							enemies.add(createObstacle(cell.getTile().getTextureRegion(),
-									column, row, tilewidth, tileheight,
-									centerOffsetX, centerOffsetY, zIndex));
+							enemies.add(createObstacle(cell.getTile().getTextureRegion(), column, row, tilewidth,
+									tileheight, centerOffsetX, centerOffsetY, zIndex));
 						}
 					}
 				}
@@ -204,11 +206,11 @@ public class LevelSegment {
 		return platformsInLayer;
 	}
 
-	private Enemy createObstacle(TextureRegion tRegion, int column, int row, int tilewidth, int tileheight, float centerOffsetX,
-			float centerOffsetY, int zIndex) {
+	private Enemy createObstacle(TextureRegion tRegion, int column, int row, int tilewidth, int tileheight,
+			float centerOffsetX, float centerOffsetY, int zIndex) {
 		final float posX = (column + 0.5f) * tilewidth;
 		final float posY = (row + 0.5f) * tileheight;
-		Enemy obstacle = new Enemy("", 6, posX, posY, true, tRegion);
+		final Enemy obstacle = new Enemy("", 6, posX, posY, true, tRegion);
 		zIndexMap.put(obstacle, zIndex);
 		actors.add(obstacle);
 		return obstacle;
@@ -220,17 +222,17 @@ public class LevelSegment {
 		final float posY = (row + 0.5f) * tileheight;
 		switch (enemyName) {
 		case "fly":
-			Enemy fly = new Enemy(enemyName, 1, posX, posY);
+			final Enemy fly = new Enemy(enemyName, 1, posX, posY);
 			zIndexMap.put(fly, zIndex);
 			actors.add(fly);
 			return fly;
 		case "spider":
-			EnemySimple spider = new EnemySimple(enemyName, 1, posX, posY);
+			final EnemySimple spider = new EnemySimple(enemyName, 1, posX, posY);
 			zIndexMap.put(spider, zIndex);
 			actors.add(spider);
 			return spider;
 		default:
-			Enemy defaultEnemy = new Enemy(enemyName, 1, posX, posY);
+			final Enemy defaultEnemy = new Enemy(enemyName, 1, posX, posY);
 			zIndexMap.put(defaultEnemy, zIndex);
 			actors.add(defaultEnemy);
 			return defaultEnemy;
@@ -362,5 +364,16 @@ public class LevelSegment {
 
 	public float getY() {
 		return y;
+	}
+
+	public int getTilesInRange(float left, float right) {
+		left = MathUtils.clamp(left, 0, segmentWidth);
+		right = MathUtils.clamp(right, 0, segmentWidth);
+
+		return getTileIndexAt(right) - getTileIndexAt(left);
+	}
+
+	private int getTileIndexAt(float position) {
+		return (int) (position / tileWidth);
 	}
 }
