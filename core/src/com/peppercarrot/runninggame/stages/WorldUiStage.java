@@ -1,6 +1,5 @@
 package com.peppercarrot.runninggame.stages;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -31,26 +30,30 @@ public class WorldUiStage extends AbstractStage {
 
 	private boolean hintFaded = false;
 	private Callback jumpBtnCallback;
+	private Callback exitBtnCallback;
 
 	Table skillsBtns;
-	
+
 	public WorldUiStage(Runner r) {
 		uiTable = new Table();
 		uiTable.setFillParent(true);
-		uiTable.setWidth(Constants.VIRTUAL_WIDTH );
+		uiTable.setWidth(Constants.VIRTUAL_WIDTH);
 		uiTable.setHeight(Constants.VIRTUAL_HEIGHT);
 
-		//Jump Button
+		// Jump Button
 		jumpBtnTransparent = new Button(Assets.I.skin, "transparent");
-		ImageButton jumpBtn = new ImageButton(Assets.I.skin, "button_jump");
-		ImageButton exitBtn = new ImageButton(Assets.I.skin, "button_exit");
+		final ImageButton jumpBtn = new ImageButton(Assets.I.skin, "button_jump");
+		final ImageButton exitBtn = new ImageButton(Assets.I.skin, "button_exit");
 		exitBtn.addListener(new InputListener() {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				Gdx.app.exit();
+				if (exitBtnCallback != null) {
+					exitBtnCallback.invoke();
+				}
 				return true;
 			}
 		});
+
 		final int jumpBtnTransparentWidth = 470;
 		jumpBtnTransparent.setTouchable(Touchable.enabled);
 		hintLabel = new Label("press on the left side of the screen to 'jump'", Assets.I.skin, "default");
@@ -59,7 +62,7 @@ public class WorldUiStage extends AbstractStage {
 		jumpBtnTransparent.add(exitBtn).top().left();
 		jumpBtnTransparent.add(hintLabel).top();
 		jumpBtnTransparent.row();
-		jumpBtnTransparent.add(r.health).height(uiTable.getHeight()-exitBtn.getHeight()-jumpBtn.getHeight()).left();
+		jumpBtnTransparent.add(r.health).height(uiTable.getHeight() - exitBtn.getHeight() - jumpBtn.getHeight()).left();
 		jumpBtnTransparent.row();
 		jumpBtnTransparent.add(jumpBtn).bottom().left();
 		jumpBtnTransparent.top().left();
@@ -74,6 +77,7 @@ public class WorldUiStage extends AbstractStage {
 			}
 		});
 		uiTable.add(jumpBtnTransparent).width(jumpBtnTransparentWidth).height(uiTable.getHeight()).expandX().left();
+
 		// Attack Buttons
 		skillsBtns = new Table();
 		abilityWidget1 = new AbilityWidget(1);
@@ -86,16 +90,21 @@ public class WorldUiStage extends AbstractStage {
 		skillsBtns.addActor(abilityWidget0);
 		skillsBtns.addListener(new InputListener() {
 			@Override
-			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-				if (abilityWidget1.isInsideSector(x, y)) abilityWidget1.listener.activate(abilityWidget1.ability);
-				if (abilityWidget2.isInsideSector(x, y)) abilityWidget2.listener.activate(abilityWidget2.ability);
-				if (abilityWidget3.isInsideSector(x, y)) abilityWidget3.listener.activate(abilityWidget3.ability);
-				if (abilityWidget0.isInsideBoundaries(new Vector2(x-AbilityWidget.width, y), 0, 200)) abilityWidget0.listener.activate(abilityWidget0.ability);
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				if (abilityWidget1.isInsideSector(x, y))
+					abilityWidget1.listener.activate(abilityWidget1.ability);
+				if (abilityWidget2.isInsideSector(x, y))
+					abilityWidget2.listener.activate(abilityWidget2.ability);
+				if (abilityWidget3.isInsideSector(x, y))
+					abilityWidget3.listener.activate(abilityWidget3.ability);
+				if (abilityWidget0.isInsideBoundaries(new Vector2(x - AbilityWidget.width, y), 0, 200))
+					abilityWidget0.listener.activate(abilityWidget0.ability);
 				return true;
 			}
 		});
 		uiTable.add(skillsBtns).right().bottom().padRight(AbilityWidget.width);
 		this.addActor(uiTable);
+
 		skillsBtns.debug();
 	}
 
@@ -105,6 +114,10 @@ public class WorldUiStage extends AbstractStage {
 
 	public void onJumpTouched(Callback callback) {
 		jumpBtnCallback = callback;
+	}
+
+	public void onExitTouched(Callback callback) {
+		exitBtnCallback = callback;
 	}
 
 	public void hideHint() {

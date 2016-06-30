@@ -88,7 +88,8 @@ public class PauseScreen extends ScreenAdapter {
 	}
 
 	private void processInput() {
-		if (Gdx.input.isKeyJustPressed(Keys.P)) {
+		if (Gdx.input.isKeyJustPressed(Keys.BACK) || Gdx.input.isKeyPressed(Keys.ESCAPE)
+				|| Gdx.input.isKeyJustPressed(Keys.P)) {
 			resumeGame();
 		}
 	}

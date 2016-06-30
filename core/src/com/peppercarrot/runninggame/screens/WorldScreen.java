@@ -59,6 +59,13 @@ public class WorldScreen extends ScreenAdapter {
 			}
 		});
 
+		ui.onExitTouched(new Callback() {
+			@Override
+			public void invoke() {
+				ScreenSwitch.getInstance().setPauseScreen(WorldScreen.this, stage);
+			}
+		});
+
 		ui.onActivateAbility(new AbilityActivationListener() {
 			@Override
 			public void activate(Ability ability) {
