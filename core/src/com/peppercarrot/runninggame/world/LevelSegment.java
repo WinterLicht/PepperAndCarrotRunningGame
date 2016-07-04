@@ -376,4 +376,8 @@ public class LevelSegment {
 	private int getTileIndexAt(float position) {
 		return (int) (position / tileWidth);
 	}
+
+	public int getLengthInTiles() {
+		return segmentWidth / tileWidth;
+	}
 }

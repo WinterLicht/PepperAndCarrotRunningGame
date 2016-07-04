@@ -122,6 +122,11 @@ public class LevelStream extends Actor {
 	 * Total tiles passed
 	 */
 	private int totalPassedTiles = 0;
+	
+	/**
+	 * Total passed tiles of current segment
+	 */
+	private int passedSegmentTiles = 0;
 
 	public LevelStream(OrthographicCamera camera, Batch batch, float segmentStartOffset,
 			float firstSegmentAdditionalStartOffset, Group worldGroup, Actor runner) {
@@ -246,10 +251,13 @@ public class LevelStream extends Actor {
 	public void moveLeft(float offset) {
 		for (final LevelSegment segment : segments) {
 			segment.moveLeft(offset);
-			totalPassedTiles += segment.getTilesInRange(Constants.OFFSET_TO_EDGE - segment.getX() - offset,
+			int passedTiles = segment.getTilesInRange(Constants.OFFSET_TO_EDGE - segment.getX() - offset,
 					Constants.OFFSET_TO_EDGE - segment.getX());
+			totalPassedTiles += passedTiles;
+			passedSegmentTiles += passedTiles;
 
 			if (reachedPlayerBorder(segment) && !countedSegments.contains(segment)) {
+				passedSegmentTiles = 0; //New segment active, reset this counter
 				segmentsPassed++;
 				countedSegments.add(segment);
 			}
@@ -344,5 +352,27 @@ public class LevelStream extends Actor {
 
 	public int getTotalPassedTiles() {
 		return totalPassedTiles;
+	}
+
+	public int getPassedSegmentTiles() {
+		return passedSegmentTiles;
+	}
+
+	public Queue<LevelSegment> getLevelSegments() {
+		return segments;
+	}
+
+	/**
+	 * Get current segment length
+	 * @return length is in tiles
+	 */
+	public int getCurrSegmentLength() {
+		int size = 0;
+		for (final LevelSegment segment : segments) {
+			if (segment.getRightX() > Constants.OFFSET_TO_EDGE && segment.getX() < Constants.OFFSET_TO_EDGE) {
+				size = segment.getLengthInTiles();
+			}
+		}
+		return size;
 	}
 }

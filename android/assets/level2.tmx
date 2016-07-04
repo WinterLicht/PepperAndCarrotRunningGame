@@ -29,11 +29,6 @@
  </tileset>
  <tileset firstgid="5" name="tiles2" tilewidth="95" tileheight="95">
   <image source="tiles2.png" width="475" height="665"/>
-  <tile id="9">
-   <properties>
-    <property name="obstacle" value="deadly"/>
-   </properties>
-  </tile>
   <tile id="30">
    <properties>
     <property name="obstacle" value="deadly"/>

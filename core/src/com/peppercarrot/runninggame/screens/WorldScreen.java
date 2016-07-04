@@ -2,6 +2,7 @@ package com.peppercarrot.runninggame.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.utils.Queue;
 import com.badlogic.gdx.ScreenAdapter;
 import com.peppercarrot.runninggame.entities.Ability;
 import com.peppercarrot.runninggame.entities.Pepper;
@@ -11,6 +12,7 @@ import com.peppercarrot.runninggame.stages.WorldStage;
 import com.peppercarrot.runninggame.stages.WorldUiStage;
 import com.peppercarrot.runninggame.utils.Callback;
 import com.peppercarrot.runninggame.utils.Constants;
+import com.peppercarrot.runninggame.world.LevelSegment;
 
 /**
  * Screen for actual game.
@@ -47,7 +49,23 @@ public class WorldScreen extends ScreenAdapter {
 	}
 
 	private WorldUiStage initializeUi() {
-		final WorldUiStage ui = new WorldUiStage(runner);
+		final WorldUiStage ui = new WorldUiStage(runner) {
+			@Override
+			public void updateLevelProgress() {
+				Queue<LevelSegment> segments = stage.getLevelSegments();
+				points.setText(String.valueOf(stage.getLevelStream().getTotalPassedTiles()));
+				segmentsPassed.setText(String.valueOf(stage.getLevelStream().getPassedSegments()));
+				for (int i = 0; i < segments.size; i++) {
+					LevelSegment s = segments.get(i);
+					levelProgress.setValue(stage.getLevelStream().getPassedSegmentTiles());
+					int size = stage.getLevelStream().getCurrSegmentLength();
+					if (s.getRightX() > Constants.OFFSET_TO_EDGE && s.getX() < Constants.OFFSET_TO_EDGE &&
+							size != levelProgress.getMaxValue()) {
+						resetProgressBar(size);
+					}
+				}
+			}
+		};
 
 		ui.onJumpTouched(new Callback() {
 			@Override

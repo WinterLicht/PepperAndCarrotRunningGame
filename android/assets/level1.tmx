@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="7" tilewidth="95" tileheight="95">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="35" height="7" tilewidth="95" tileheight="95">
  <tileset firstgid="1" name="potions" tilewidth="95" tileheight="95">
   <image source="potions.png" width="380" height="95"/>
   <tile id="0">
@@ -65,60 +65,60 @@
    </properties>
   </tile>
  </tileset>
- <layer name="background" width="30" height="7">
+ <layer name="background" width="35" height="7">
   <data encoding="base64" compression="zlib">
-   eJxjYKAciAOxBIRuIFWfIBHqhHGIywCxLAPDAhk89vLh0IfujoEAikDMxQAJAxDmRsM8ZJgJCg9ZAmpA/ucHYgEsGOYWagFhKAa6KUEUi7w0EEsxwN2tAIsvWJqShtLIGJTOoGYeEAPSMDyQAAAVSwkc
+   eJxjYKAciAOxBIRuoIZZgkSoE8YhLgPEsgwMC2TwuIWPSLfIoPHFidRHD6AIxFwMkLACYW40zEOGmaBwkyVDHyic+IFYAAuGuY+WQBiKgW5PEMUiLw3EUgxw/ynA4h+WbqWhNDIGpWWomQfEgDQMDwUAAKn1CRw=
   </data>
  </layer>
- <layer name="background 2" width="30" height="7">
+ <layer name="background 2" width="35" height="7">
   <data encoding="base64" compression="zlib">
-   eJxjYBg4wD+Adg8mIA2lRYFYBMqWpNBMWQaGA0CcgE8NzC4pNHFK7AbauUCWDH3oboCJSVDgFnoCABisAzQ=
+   eJxjYBhcgH+gHTDEgDSUFgViEShbkkIzZRkYDgBxAqn6YPZLoYlT4h6gOxbIUqAfGaC7CyYmQSXzBwsAAPkMAzQ=
   </data>
  </layer>
- <layer name="background 3" width="30" height="7">
+ <layer name="background 3" width="35" height="7">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFAw14GRgeQOkEZEwHexOQ7acF4AJiISDmBmIeWllChL1qRGAhCuwDAO++Bco=
+   eJxjYBgFQxnwMjA8gNIJyHiA3JKA7CZ6AS4gFgJibiDmoafFRLhFjQgsRGU3AAA75AXK
   </data>
  </layer>
- <layer name="platforms" width="30" height="7">
+ <layer name="platforms" width="35" height="7">
   <properties>
    <property name="platforms" value="true"/>
    <property name="z-index" value="0"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYGBgYAVidgbyAQeF+gcDAIUBGw5Mqt84KNRPC4Dsv8HgHnwAlxuJSWeU+o+HBLXIcQwAO+MAzA==
+   eJxjYGBgYAVidgbyAQeF+ocSAIUVGw5MahhwUKh/IAFyOAwld8MALneTm5YpDQceEu3ChwF5mwDq
   </data>
  </layer>
- <layer name="foreground" width="30" height="7">
+ <layer name="foreground" width="35" height="7">
   <properties>
    <property name="z-index" value="60"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYIAASYbBDWQZGB4AsQMhdeIQ3ECuPXxoeoF2LpAlQp8MECui6ZWC0pIQcw4AcQK57oIBbP5DtxcZAO1sIMb9hIAiFntkKAhnUuxFtkeERP3CUAwCoDgQxqKGE0pLIYmB4hOUFvhwqEfPLwB+Lgwf
+   eJxjYIAASYahB2QZGB4AsQMhdeIQ3EBNu/nQzAO6Y4EsEfpkgFgRTa8UlMYVB0BzDwBxAolOxADYwgHdLYQA0B0NxPiTEFDEYrcMleOIFLcg2y1CBTOFoRgEQPEnjEUNJ5SWQhIDpQ9Q2uLDoZ6YfAoAB1YMHw==
   </data>
  </layer>
- <layer name="obstacles" width="30" height="7">
+ <layer name="obstacles" width="35" height="7">
   <properties>
    <property name="events" value="true"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo4B+QBWIVYBYGcpGxyoD5zQ4wOYuQu4EADVnArs=
+   eJxjYBgFo2B4AVUgVgFiZSgbHasMnNPwAmxuJcftAIYvArs=
   </data>
  </layer>
- <layer name="enemies" width="30" height="7" visible="0">
+ <layer name="enemies" width="35" height="7" visible="0">
   <properties>
    <property name="events" value="true"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYBgFwx1oovE18KjBJkcLQC976AUA9ewAyw==
+   eJxjYBgFo4A0oInG18CjBpscvcBA2j2QAAAivwDL
   </data>
  </layer>
- <layer name="potions" width="30" height="7" visible="0">
+ <layer name="potions" width="35" height="7" visible="0">
   <properties>
    <property name="events" value="true"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYBhYwITGZ8aihoVCOxgp1E8NgOwGSv1DCCCHISl+R48LXO5EV4cNMOJg4wPY4p5Y/bQOU0IAADzkACY=
+   eJxjYBh8gAmNz4xFDQuFdjBSqJ+eANmtlPqbEMAW1siAlHBDj0dcbkdXRyxgxMHGB3D5jxj9tA57agEASEwAJg==
   </data>
  </layer>
 </map>

@@ -7,9 +7,11 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.utils.Align;
 import com.peppercarrot.runninggame.utils.Assets;
 import com.peppercarrot.runninggame.utils.Constants;
 
@@ -36,27 +38,17 @@ public class PauseScreen extends ScreenAdapter {
 
 		final Table table = new Table(Assets.I.skin);
 		table.setFillParent(true);
+		table.setBackground("bg-dark");
 		table.setWidth(Constants.VIRTUAL_WIDTH);
 		table.setHeight(Constants.VIRTUAL_HEIGHT);
 		table.center();
 
-		final Label label = new Label("Pause", Assets.I.skin, "default");
+		final Label label = new Label("Paused", Assets.I.skin, "title");
+		label.setAlignment(Align.center, Align.center);
+		table.add(label).center().colspan(3).padBottom(24);
 		table.row();
-		table.add(label).center();
 
-		final TextButton resumeBtn = new TextButton("Resume", Assets.I.skin, "default");
-		resumeBtn.addListener(new InputListener() {
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				resumeGame();
-				event.cancel();
-				return true;
-			}
-		});
-		table.row();
-		table.add(resumeBtn).bottom();
-
-		final TextButton exitBtn = new TextButton("Exit", Assets.I.skin, "default");
+		final TextButton exitBtn = new TextButton("Exit", Assets.I.skin, "lavi");
 		exitBtn.addListener(new InputListener() {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -65,8 +57,21 @@ public class PauseScreen extends ScreenAdapter {
 				return true;
 			}
 		});
-		table.row();
-		table.add(exitBtn).bottom();
+		table.add(exitBtn).width(200).left().padRight(30);
+		
+		final Image image = new Image(Assets.I.atlas.findRegion("pause"));
+		table.add(image).center();
+
+		final TextButton resumeBtn = new TextButton("Resume", Assets.I.skin, "lavi");
+		resumeBtn.addListener(new InputListener() {
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				resumeGame();
+				event.cancel();
+				return true;
+			}
+		});
+		table.add(resumeBtn).width(200).right().padLeft(30);
 
 		uiStage.addActor(table);
 

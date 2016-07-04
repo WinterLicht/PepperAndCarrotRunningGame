@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Queue;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.peppercarrot.runninggame.entities.Enemy;
 import com.peppercarrot.runninggame.entities.Potion;
@@ -264,4 +265,9 @@ public class WorldStage extends AbstractStage {
 	public void removePotionAwareActor(IPotionCollisionAwareActor actor) {
 		potionAwareActors.remove(actor);
 	}
+	
+	public Queue<LevelSegment> getLevelSegments() {
+		return levelStream.getLevelSegments();
+	}
+
 }
