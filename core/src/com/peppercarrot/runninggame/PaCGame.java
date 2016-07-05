@@ -23,8 +23,8 @@ public class PaCGame extends Game {
 		DefaultScreenConfiguration.initializeInstance();
 
 		ScreenSwitch.initialize(this);
-		// ScreenSwitch.getInstance().setOverworldScreen();
-		ScreenSwitch.getInstance().setStartScreen();
+		ScreenSwitch.getInstance().setOverworldScreen();
+		// ScreenSwitch.getInstance().setStartScreen();
 	}
 
 	@Override

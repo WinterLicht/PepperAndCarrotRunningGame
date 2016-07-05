@@ -22,6 +22,7 @@ public class OverworldLayoutLoader extends AsynchronousAssetLoader<OverworldLayo
 
 		json.addClassTag("level", OverworldLevelNode.class);
 		json.addClassTag("story", OverworldStoryNode.class);
+		json.addClassTag("empty", OverworldEmptyNode.class);
 	}
 
 	@SuppressWarnings("rawtypes")
