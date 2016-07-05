@@ -38,7 +38,8 @@
 		{class: "story", id: 8, x: 5, y: 1, name: "Story 3", condition: {conditionalCompletedNodeIds: [7]}},
 		{class: "level", id: 9, x: 3, y: 0, name: "Bonus Level 1", condition: {conditionalCompletedNodeIds: [3], additionalConditions: ["all-potions-level-2"]}},
 		{class: "level", id: 10, x: 4, y: 0, name: "Bonus Level 2", condition: {conditionalCompletedNodeIds: [9]}},
-		{class: "story", id: 11, x: 4, y: 1, name: "Bonus Story 1", condition: {conditionalCompletedNodeIds: [10]}}
+		{class: "story", id: 11, x: 4, y: 1, name: "Bonus Story 1", condition: {conditionalCompletedNodeIds: [10]}},
+		{class: "empty", id: 12, x: 2, y: 0, name: "Empty", condition: {conditionalCompletedNodeIds: [3], additionalConditions: ["all-potions-level-2"]}}
 	],
 	
 	edges: [
@@ -49,7 +50,8 @@
 		{sourceId: 5, destinationId: 6, condition: {conditionalCompletedNodeIds: [5]}},
 		{sourceId: 6, destinationId: 7, condition: {conditionalCompletedNodeIds: [6]}},
 		{sourceId: 7, destinationId: 8, condition: {conditionalCompletedNodeIds: [7]}},
-		{sourceId: 3, destinationId: 9, condition: {conditionalCompletedNodeIds: [3], additionalConditions: ["all-potions-level-2"]}}
+		{sourceId: 3, destinationId: 12, condition: {conditionalCompletedNodeIds: [3], additionalConditions: ["all-potions-level-2"]}},
+		{sourceId: 12, destinationId: 9, condition: {conditionalCompletedNodeIds: [3], additionalConditions: ["all-potions-level-2"]}},
 		{sourceId: 9, destinationId: 10, condition: {conditionalCompletedNodeIds: [9]}},
 		{sourceId: 10, destinationId: 11, condition: {conditionalCompletedNodeIds: [10]}},
 		{sourceId: 11, destinationId: 8, condition: {conditionalCompletedNodeIds: [11]}},
