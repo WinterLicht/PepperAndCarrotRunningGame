@@ -82,6 +82,8 @@ public class LevelSegment {
 
 	private final List<Platform> platforms = new ArrayList<Platform>();
 
+	private final List<ParticleEffectActor> pEmitters = new ArrayList<ParticleEffectActor>();
+
 	private final String assetName;
 
 	private final List<Actor> actors = new ArrayList<Actor>();
@@ -122,12 +124,15 @@ public class LevelSegment {
 				if (collisionLayer) {
 					platforms.addAll(extractPlatforms(tiledLayer, tileWidth, tileHeight));
 				}
+				//Every Cell/Tile may have a particle emitter
+				extractParticleEmitters(tiledLayer, tileWidth, tileHeight, zIndex);
 			}
 		}
 
 		Collections.sort(platforms, new PlatformXPositionComparator());
 		Collections.sort(enemies, new ActorXPositionComparator());
 		Collections.sort(potions, new ActorXPositionComparator());
+		Collections.sort(pEmitters, new ActorXPositionComparator());
 	}
 
 	/**
@@ -155,6 +160,26 @@ public class LevelSegment {
 		}
 
 		return Integer.parseInt(value);
+	}
+
+	private void extractParticleEmitters(TiledMapTileLayer layer, int tilewidth, int tileheight, int layerZIndex) {
+		for (int column = 0; column < layer.getWidth(); column++) {
+			for (int row = 0; row < layer.getHeight(); row++) {
+
+				final Cell cell = layer.getCell(column, row);
+				if (cell != null) {
+					final int zIndex = getIntProperty(cell.getTile().getProperties(), "z-index", layerZIndex);
+					if (cell.getTile().getProperties().get("emitter") != null) {
+						final String emitterName = cell.getTile().getProperties().get("emitter", String.class);
+						ParticleEffectActor p = new ParticleEffectActor((column + 0.5f) * tilewidth,
+								(row + 0.5f) * tileheight, emitterName);
+						zIndexMap.put(p, zIndex+1);
+						actors.add(p);
+						pEmitters.add(p);
+					}
+				}
+			}
+		}
 	}
 
 	private void extractEntities(TiledMapTileLayer layer, int tilewidth, int tileheight, int layerZIndex) {
@@ -185,9 +210,6 @@ public class LevelSegment {
 						if (cell.getTile().getProperties().get("obstacle", String.class).equals("deadly")) {
 							enemies.add(createObstacle(cell.getTile().getTextureRegion(), column, row, tilewidth,
 									tileheight, centerOffsetX, centerOffsetY, zIndex));
-							ParticleEffectActor p = new ParticleEffectActor((column + 0.5f) * tilewidth,(row + 0.5f) * tileheight);
-							zIndexMap.put(p, zIndex);
-							actors.add(p);
 						}
 					}
 				}
@@ -266,6 +288,17 @@ public class LevelSegment {
 		x = x - offset;
 		for (final Actor actor : actors) {
 			actor.setX(actor.getX() - offset);
+		}
+	}
+
+	/**
+	 * Scrolls/Update particles position
+	 * 
+	 * @param offset without multiplying delta (?)
+	 */
+	public void updateParticles(float offset) {
+		for (final ParticleEffectActor p : pEmitters) {
+			p.updatePosition(offset);
 		}
 	}
 

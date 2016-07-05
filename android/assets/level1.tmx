@@ -31,21 +31,25 @@
   <image source="tiles2.png" width="475" height="665"/>
   <tile id="30">
    <properties>
+    <property name="emitter" value="poison-clouds.p"/>
     <property name="obstacle" value="deadly"/>
    </properties>
   </tile>
   <tile id="31">
    <properties>
+    <property name="emitter" value="poison-clouds.p"/>
     <property name="obstacle" value="deadly"/>
    </properties>
   </tile>
   <tile id="32">
    <properties>
+    <property name="emitter" value="poison-clouds.p"/>
     <property name="obstacle" value="deadly"/>
    </properties>
   </tile>
   <tile id="33">
    <properties>
+    <property name="emitter" value="poison-clouds.p"/>
     <property name="obstacle" value="deadly"/>
    </properties>
   </tile>

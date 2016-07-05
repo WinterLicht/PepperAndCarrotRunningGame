@@ -92,6 +92,7 @@ public class WorldStage extends AbstractStage {
 		background.moveViewportLeft(offset);
 		background.setViewportY(runner.getY() - Constants.OFFSET_TO_GROUND);
 		levelStream.moveLeft(offset);
+		levelStream.updateParticlesInLevel(speed*speedFactor);
 	}
 
 	@Override

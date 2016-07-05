@@ -265,6 +265,17 @@ public class LevelStream extends Actor {
 	}
 
 	/**
+	 * Scrolls/updates particles position
+	 * 
+	 * @param offset without multiplying delta (?)
+	 */
+	public void updateParticlesInLevel(float offset) {
+		for (final LevelSegment segment : segments) {
+			segment.updateParticles(offset);
+		}
+	}
+
+	/**
 	 * Get platforms in radius of (pointX, pointY).
 	 * 
 	 * @param centerX
