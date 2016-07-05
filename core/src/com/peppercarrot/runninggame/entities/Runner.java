@@ -403,7 +403,7 @@ public abstract class Runner extends Group
 	public boolean onHitEnemy(Enemy enemy) {
 		if (enemy.isAlive() && !enemy.alreadyCollidedWPlayer) {
 			setStunned();
-			health.updateHP(-enemy.damage);
+			//health.updateHP(-enemy.damage);
 			//Enemy can collide with player only once
 			enemy.alreadyCollidedWPlayer = true;
 			if (health.points <= 0) {

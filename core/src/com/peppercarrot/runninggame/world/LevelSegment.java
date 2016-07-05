@@ -26,6 +26,7 @@ import com.peppercarrot.runninggame.entities.EnemySimple;
 import com.peppercarrot.runninggame.entities.Potion;
 import com.peppercarrot.runninggame.utils.ActorXPositionComparator;
 import com.peppercarrot.runninggame.utils.Constants;
+import com.peppercarrot.runninggame.utils.ParticleEffectActor;
 import com.peppercarrot.runninggame.world.LevelSegment.Platform.PlatformXPositionComparator;
 
 /**
@@ -184,6 +185,9 @@ public class LevelSegment {
 						if (cell.getTile().getProperties().get("obstacle", String.class).equals("deadly")) {
 							enemies.add(createObstacle(cell.getTile().getTextureRegion(), column, row, tilewidth,
 									tileheight, centerOffsetX, centerOffsetY, zIndex));
+							ParticleEffectActor p = new ParticleEffectActor((column + 0.5f) * tilewidth,(row + 0.5f) * tileheight);
+							zIndexMap.put(p, zIndex);
+							actors.add(p);
 						}
 					}
 				}
