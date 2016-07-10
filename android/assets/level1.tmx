@@ -49,7 +49,6 @@
   </tile>
   <tile id="33">
    <properties>
-    <property name="emitter" value="poison-clouds.p"/>
     <property name="obstacle" value="deadly"/>
    </properties>
   </tile>

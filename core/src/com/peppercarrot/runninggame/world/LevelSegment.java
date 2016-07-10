@@ -292,17 +292,6 @@ public class LevelSegment {
 	}
 
 	/**
-	 * Scrolls/Update particles position
-	 * 
-	 * @param offset without multiplying delta (?)
-	 */
-	public void updateParticles(float offset) {
-		for (final ParticleEffectActor p : pEmitters) {
-			p.updatePosition(offset);
-		}
-	}
-
-	/**
 	 * Returns the right position of this segment.
 	 * 
 	 * @return right outer x position

@@ -6,14 +6,16 @@
     },
     
 	com.badlogic.gdx.graphics.g2d.BitmapFont: {  
-    	default: { file: roboto25.fnt },
+    	default: { file: Lavi25.fnt },
     	lavi: { file: Lavi35.fnt },
-    	fondamento: { file: fondamento60.fnt }
+    	lavi20: { file: Lavi20.fnt },
+    	fondamento: { file: Fondamento60.fnt }
     },
 
     com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
       default: { font: default, fontColor: white },
-      title: { font: fondamento, fontColor: white }
+      title: { font: fondamento, fontColor: white },
+      levelBar: { font: lavi20, fontColor: white, background: bar_empty }
     }
 
     com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {  
@@ -37,6 +39,6 @@
 
 	com.badlogic.gdx.scenes.scene2d.ui.ProgressBar$ProgressBarStyle: {
       hp: { background: hp_empty, knobBefore: hp },
-      level: { background: bar_empty, knobBefore: bar }
+      level: { background: none, knobBefore: bar, disabledKnobBefore: none }
      }
 }

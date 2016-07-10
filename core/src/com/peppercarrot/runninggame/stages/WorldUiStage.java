@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.peppercarrot.runninggame.entities.Ability;
 import com.peppercarrot.runninggame.entities.Runner;
@@ -21,9 +20,7 @@ public class WorldUiStage extends AbstractStage {
 
 	private final Table uiTable;
 	private final Label hintLabel;
-	public Label segmentsPassed;
-	public Label points;
-	public ProgressBar levelProgress;
+	public LevelProgressBar levelProgress;
 	private final Button jumpBtnTransparent;
 
 	public final AbilityWidget abilityWidget1;
@@ -56,19 +53,13 @@ public class WorldUiStage extends AbstractStage {
 				return true;
 			}
 		});
+		exitBtn.setX(0);
+		exitBtn.setY(Constants.VIRTUAL_HEIGHT-exitBtn.getWidth());
 
 		final int jumpBtnTransparentWidth = 470;
 		jumpBtnTransparent.setTouchable(Touchable.enabled);
-		levelProgress = new ProgressBar(0,  10, 1,false, Assets.I.skin, "level");
-		resetProgressBar(10);
-		segmentsPassed = new Label("0", Assets.I.skin);
-		segmentsPassed.setX(120);
-		segmentsPassed.setY(Constants.VIRTUAL_HEIGHT-35);
-		uiTable.addActor(segmentsPassed);
-		points = new Label("0", Assets.I.skin);
-		points.setX(Constants.VIRTUAL_WIDTH/2);
-		points.setY(Constants.VIRTUAL_HEIGHT-35);
-		uiTable.addActor(points);
+		levelProgress = new LevelProgressBar();
+		uiTable.addActor(levelProgress);
 
 		hintLabel = new Label("press on the left side of the screen to 'jump'", Assets.I.skin, "default");
 		hintLabel.setWrap(true);
@@ -76,9 +67,8 @@ public class WorldUiStage extends AbstractStage {
 		hintLabel.setY(Constants.VIRTUAL_HEIGHT-60);
 		hintLabel.setTouchable(Touchable.disabled);
 		uiTable.addActor(hintLabel);
-		jumpBtnTransparent.add(exitBtn).top().left();
-		jumpBtnTransparent.row();
-		jumpBtnTransparent.add(r.health).height(uiTable.getHeight() - exitBtn.getHeight() - jumpBtn.getHeight()).left();
+
+		jumpBtnTransparent.padTop(exitBtn.getHeight()).add(r.health).height(uiTable.getHeight() - exitBtn.getHeight() - jumpBtn.getHeight()).left();
 		jumpBtnTransparent.row();
 		jumpBtnTransparent.add(jumpBtn).bottom().left();
 		jumpBtnTransparent.top().left();
@@ -93,6 +83,8 @@ public class WorldUiStage extends AbstractStage {
 			}
 		});
 		uiTable.add(jumpBtnTransparent).width(jumpBtnTransparentWidth).height(uiTable.getHeight()).expandX().left();
+		uiTable.row();
+		uiTable.addActor(exitBtn);
 
 		// Attack Buttons
 		skillsBtns = new Table();
@@ -190,16 +182,4 @@ public class WorldUiStage extends AbstractStage {
 		return abilityWidget0.getAbility();
 	}
 
-	/**
-	 * Recreate level progress bar with new maximum value.
-	 * @param maximum
-	 */
-	public void resetProgressBar(int maximum) {
-		levelProgress.remove();
-		levelProgress = new ProgressBar(0, maximum, 1, false, Assets.I.skin, "level");
-		levelProgress.setWidth(300);
-		levelProgress.setX(Constants.OFFSET_TO_EDGE);
-		levelProgress.setY(Constants.VIRTUAL_HEIGHT-30);
-		uiTable.addActor(levelProgress);
-	}
 }

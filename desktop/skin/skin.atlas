@@ -6,23 +6,25 @@ filter: MipMapLinearNearest,Nearest
 repeat: none
 bar
   rotate: false
-  xy: 996, 703
-  size: 7, 23
-  split: 4, 0, 4, 4
-  orig: 7, 23
+  xy: 996, 768
+  size: 27, 27
+  split: 13, 12, 13, 12
+  pad: 12, 12, 12, 12
+  orig: 27, 27
   offset: 0, 0
   index: -1
 bar_empty
   rotate: false
-  xy: 1004, 703
-  size: 7, 23
-  split: 0, 4, 4, 4
-  orig: 7, 23
+  xy: 996, 740
+  size: 27, 27
+  split: 13, 12, 13, 12
+  pad: 12, 12, 12, 12
+  orig: 27, 27
   offset: 0, 0
   index: -1
 bg-dark
   rotate: false
-  xy: 987, 703
+  xy: 996, 708
   size: 3, 3
   split: 1, 1, 1, 1
   orig: 3, 3
@@ -51,7 +53,7 @@ blackhole
   index: 3
 button
   rotate: false
-  xy: 996, 727
+  xy: 987, 535
   size: 22, 22
   split: 5, 5, 5, 5
   pad: 10, 10, 10, 10
@@ -60,7 +62,7 @@ button
   index: -1
 button-disabled
   rotate: false
-  xy: 996, 773
+  xy: 941, 535
   size: 22, 22
   split: 5, 5, 5, 5
   pad: 10, 10, 10, 10
@@ -69,7 +71,7 @@ button-disabled
   index: -1
 button-down
   rotate: false
-  xy: 996, 750
+  xy: 964, 535
   size: 22, 22
   split: 5, 5, 5, 5
   pad: 10, 10, 10, 10
@@ -206,6 +208,15 @@ hp_empty
   orig: 58, 125
   offset: 0, 0
   index: -1
+none
+  rotate: false
+  xy: 996, 712
+  size: 27, 27
+  split: 13, 12, 13, 12
+  pad: 12, 12, 12, 12
+  orig: 27, 27
+  offset: 0, 0
+  index: -1
 pause
   rotate: false
   xy: 1, 510
@@ -247,6 +258,24 @@ size: 1024,1024
 format: RGBA8888
 filter: MipMapLinearNearest,Nearest
 repeat: none
+btn-blue
+  rotate: false
+  xy: 766, 133
+  size: 55, 55
+  split: 27, 27, 25, 29
+  pad: 18, 18, 18, 18
+  orig: 55, 55
+  offset: 0, 0
+  index: -1
+btn-red
+  rotate: false
+  xy: 766, 77
+  size: 55, 55
+  split: 27, 27, 25, 29
+  pad: 18, 18, 18, 18
+  orig: 55, 55
+  offset: 0, 0
+  index: -1
 button_jump
   rotate: false
   xy: 825, 200

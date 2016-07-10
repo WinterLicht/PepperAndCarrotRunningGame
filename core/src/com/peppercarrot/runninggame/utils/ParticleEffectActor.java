@@ -3,11 +3,10 @@ package com.peppercarrot.runninggame.utils;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
-import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 /**
- * Particles are not Actors! See updatePosition method.
+ * Needs particle emitter with attached option.
  * 
  * @author WinterLicht
  *
@@ -36,19 +35,6 @@ public class ParticleEffectActor extends Actor {
 	      effect.update(delta);
 	      effect.start(); //need to start the particle spawning
 	      }
-
-	   /**
-	    * Particles are not actors, so they are not scrolled with level segment.
-	    * So this function is needed to scroll particle.
-	    * 
-	    * @param offset without multiplying delta (?)
-	    */
-	   public void updatePosition(float offset) {
-		   for (ParticleEmitter e : effect.getEmitters()) {
-			   e.getWind().setHigh(-offset);
-			   e.getWind().setLow(-offset);
-		   }
-	   }
 
 	   public ParticleEffect getEffect() {
 	      return effect;

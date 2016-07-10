@@ -53,15 +53,15 @@ public class WorldScreen extends ScreenAdapter {
 			@Override
 			public void updateLevelProgress() {
 				Queue<LevelSegment> segments = stage.getLevelSegments();
-				points.setText(String.valueOf(stage.getLevelStream().getTotalPassedTiles()));
-				segmentsPassed.setText(String.valueOf(stage.getLevelStream().getPassedSegments()));
+				levelProgress.setTotalPoints(stage.getLevelStream().getTotalPassedTiles());
+				levelProgress.setSegmentsPassed(stage.getLevelStream().getPassedSegments());
 				for (int i = 0; i < segments.size; i++) {
 					LevelSegment s = segments.get(i);
 					levelProgress.setValue(stage.getLevelStream().getPassedSegmentTiles());
 					int size = stage.getLevelStream().getCurrSegmentLength();
 					if (s.getRightX() > Constants.OFFSET_TO_EDGE && s.getX() < Constants.OFFSET_TO_EDGE &&
 							size != levelProgress.getMaxValue()) {
-						resetProgressBar(size);
+						levelProgress.resetProgressBar(size);
 					}
 				}
 			}
