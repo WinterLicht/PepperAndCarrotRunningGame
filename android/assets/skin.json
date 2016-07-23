@@ -19,13 +19,13 @@
     }
 
     com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {  
-      default: { up: button, down: button-down, checked: button-down, disabled: button-down },  
+      default: { up: button, down: button, checked: button, disabled: button },  
       transparent: { }
      },
      
 	com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {  
-		default: { up: button, down: button-down, checked: button-down, disabled: button-disabled, font: default, fontColor: pink, disabledFontColor: white, downFontColor: white },
-		lavi: { font: lavi, fontColor: white }
+		default: { up: button, down: button, checked: button, disabled: button, font: default, fontColor: pink, disabledFontColor: white, downFontColor: white },
+		lavi: { up: button, down: button, checked: button, disabled: button, font: lavi, fontColor: white }
 	},
 	
 	com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle: {  

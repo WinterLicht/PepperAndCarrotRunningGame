@@ -1,11 +1,13 @@
 package com.peppercarrot.runninggame.stages;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -40,6 +42,14 @@ public class WorldUiStage extends AbstractStage {
 		uiTable.setWidth(Constants.VIRTUAL_WIDTH);
 		uiTable.setHeight(Constants.VIRTUAL_HEIGHT);
 
+		// Decorative background UI elements
+		final Image levelProgressBG = new Image(new TextureRegion(Assets.I.atlas.findRegion("bg_level_progress")));
+		levelProgressBG.setY(Constants.VIRTUAL_HEIGHT-levelProgressBG.getHeight());
+		final Image healthBG = new Image(new TextureRegion(Assets.I.atlas.findRegion("bg_health")));
+		healthBG.setY(Constants.VIRTUAL_HEIGHT-levelProgressBG.getHeight()-healthBG.getHeight());
+		uiTable.addActor(levelProgressBG);
+		uiTable.addActor(healthBG);
+
 		// Jump Button
 		jumpBtnTransparent = new Button(Assets.I.skin, "transparent");
 		final ImageButton jumpBtn = new ImageButton(Assets.I.skin, "button_jump");
@@ -63,8 +73,8 @@ public class WorldUiStage extends AbstractStage {
 
 		hintLabel = new Label("press on the left side of the screen to 'jump'", Assets.I.skin, "default");
 		hintLabel.setWrap(true);
-		hintLabel.setX(Constants.OFFSET_TO_EDGE);
-		hintLabel.setY(Constants.VIRTUAL_HEIGHT-60);
+		hintLabel.setX(healthBG.getWidth()+20);
+		hintLabel.setY(Constants.VIRTUAL_HEIGHT-exitBtn.getHeight()-30);
 		hintLabel.setTouchable(Touchable.disabled);
 		uiTable.addActor(hintLabel);
 

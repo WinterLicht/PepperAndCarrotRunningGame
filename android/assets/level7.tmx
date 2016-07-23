@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="35" height="7" tilewidth="95" tileheight="95">
+ <tileset firstgid="1" name="potions" tilewidth="95" tileheight="95">
+  <image source="potions.png" width="380" height="95"/>
+  <tile id="0">
+   <properties>
+    <property name="color" value="orange"/>
+    <property name="type" value="potion"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="color" value="green"/>
+    <property name="type" value="potion"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="color" value="blue"/>
+    <property name="type" value="potion"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="color" value="pink"/>
+    <property name="type" value="potion"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="5" name="tiles2" tilewidth="95" tileheight="95">
+  <image source="tiles2.png" width="475" height="665"/>
+  <tile id="30">
+   <properties>
+    <property name="emitter" value="poison-circles.p"/>
+    <property name="obstacle" value="deadly"/>
+   </properties>
+  </tile>
+  <tile id="31">
+   <properties>
+    <property name="emitter" value="poison-circles.p"/>
+    <property name="obstacle" value="deadly"/>
+   </properties>
+  </tile>
+  <tile id="32">
+   <properties>
+    <property name="emitter" value="poison-circles.p"/>
+    <property name="obstacle" value="deadly"/>
+   </properties>
+  </tile>
+  <tile id="33">
+   <properties>
+    <property name="obstacle" value="deadly"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="40" name="enemies" tilewidth="95" tileheight="95">
+  <image source="enemies.png" width="190" height="95"/>
+  <tile id="0">
+   <properties>
+    <property name="name" value="fly"/>
+    <property name="type" value="enemy"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="name" value="spider"/>
+    <property name="type" value="enemy"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="background" width="35" height="7" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUDCcAAAPUAAE=
+  </data>
+ </layer>
+ <layer name="platforms" width="35" height="7">
+  <properties>
+   <property name="platforms" value="true"/>
+   <property name="z-index" value="0"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJxjYMAEHECsjEUcHagAMTsR6kbB0AGguGeD4tG4JQ8ghyE5GFu4w8zEli9V0PQBAJ+PAT0=
+  </data>
+ </layer>
+ <layer name="foreground" width="35" height="7" visible="0">
+  <properties>
+   <property name="z-index" value="60"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUDCcAAAPUAAE=
+  </data>
+ </layer>
+ <layer name="obstacles" width="35" height="7">
+  <properties>
+   <property name="events" value="true"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJxjYMANVAngUTAKRgH9AaF8CABPqAG9
+  </data>
+ </layer>
+ <layer name="enemies" width="35" height="7" visible="0">
+  <properties>
+   <property name="events" value="true"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJxjYBgF6EBzoB1AARhIt+OzmxJ30dNPQznuYQAAkG8A9w==
+  </data>
+ </layer>
+ <layer name="potions" width="35" height="7" visible="0">
+  <properties>
+   <property name="events" value="true"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJxjYKAvYKKzfaOAeMBMhh5GMu1iIVPfKCAMABb4AAs=
+  </data>
+ </layer>
+</map>

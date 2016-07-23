@@ -366,7 +366,7 @@ public abstract class Runner extends Group
 	 */
 	public void retrieveHitbox(Rectangle rectangle) {
 		final int offsetX = 60;
-		final int offsetY = 20;
+		final int offsetY = 14;
 		rectangle.x = getX() + offsetX;
 		rectangle.y = getY() + offsetY;
 		rectangle.width = runnerImage.getWidth() - offsetX * 2;
@@ -403,7 +403,7 @@ public abstract class Runner extends Group
 	public boolean onHitEnemy(Enemy enemy) {
 		if (enemy.isAlive() && !enemy.alreadyCollidedWPlayer) {
 			setStunned();
-			//health.updateHP(-enemy.damage);
+			health.updateHP(-enemy.damage);
 			//Enemy can collide with player only once
 			enemy.alreadyCollidedWPlayer = true;
 			if (health.points <= 0) {

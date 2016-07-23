@@ -19,7 +19,6 @@ public class StartStage extends AbstractStage {
 		rootTable.setFillParent(true);
 		rootTable.setWidth(Constants.VIRTUAL_WIDTH);
 		rootTable.setHeight(Constants.VIRTUAL_HEIGHT);
-		rootTable.setBackground("button-down"); // invisible button
 		rootTable.setTouchable(Touchable.enabled);
 		rootTable.addListener(new InputListener() {
 			@Override

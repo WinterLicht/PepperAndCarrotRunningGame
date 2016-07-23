@@ -33,30 +33,29 @@ public class Carrot extends Pet {
 		// sits f.e on Pepper's broom.
 		switch (currState) {
 		case DOUBLEJUMPING:
-			setX(-16);
-			setY(67);
+			setX(-8);
+			setY(81);
 			doubleJumpingAnim.act(delta);
 			break;
 		case DYING:
-			//TODO
 			break;
 		case JUMPING:
-			setX(6);
-			setY(28);
+			setX(3);
+			setY(34);
 			jumpingAnim.act(delta);
 			break;
 		case RUNNING:
-			setX(-35);
+			setX(-52);
 			setY(0);
 			runningAnim.act(delta);
 			break;
 		case FALLING:
-			setX(7);
-			setY(65);
+			setX(32);
+			setY(76);
 			fallingAnim.act(delta);
 			break;
 		case HIT:
-			setX(-35);
+			setX(-15);
 			setY(0);
 			hitAnim.act(delta);
 			break;
@@ -88,30 +87,35 @@ public class Carrot extends Pet {
 	@Override
 	public void land() {
 		currState = State.RUNNING;
+		this.setSize(runningAnim.getWidth(), runningAnim.getHeight());
 		this.setDrawable(runningAnim.getDrawable());
 	}
 
 	@Override
 	public void setRunnig() {
 		currState = State.RUNNING;
+		this.setSize(runningAnim.getWidth(), runningAnim.getHeight());
 		this.setDrawable(runningAnim.getDrawable());	
 	}
 
 	@Override
 	public void setFalling() {
 		currState = State.FALLING;
+		this.setSize(fallingAnim.getWidth(), fallingAnim.getHeight());
 		this.setDrawable(fallingAnim.getDrawable());
 	}
 
 	@Override
 	public void setJumping() {
 		currState = State.JUMPING;
+		this.setSize(jumpingAnim.getWidth(), jumpingAnim.getHeight());
 		this.setDrawable(jumpingAnim.getDrawable());
 	}
 
 	@Override
 	public void setDoubleJumping() {
 		currState = State.DOUBLEJUMPING;
+		this.setSize(doubleJumpingAnim.getWidth(), doubleJumpingAnim.getHeight());
 		this.setDrawable(doubleJumpingAnim.getDrawable());
 	}
 
@@ -122,6 +126,7 @@ public class Carrot extends Pet {
 
 	public void setStunned() {
 		currState = State.HIT;
+		this.setSize(hitAnim.getWidth(), hitAnim.getHeight());
 		this.setDrawable(hitAnim.getDrawable());
 	}
 }

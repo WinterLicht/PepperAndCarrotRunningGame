@@ -14,7 +14,7 @@ import com.peppercarrot.runninggame.utils.Constants;
  *
  */
 public class LevelProgressBar extends Group {
-	Label segmentsPassed;
+	//Label segmentsPassed;
 	Label points;
 	ProgressBar progressBar;
 	Label foreground;
@@ -29,17 +29,19 @@ public class LevelProgressBar extends Group {
 		foreground.setWidth(progressBar.getWidth()-32);
 		foreground.setHeight(foreground.getStyle().background.getMinHeight());
 		foreground.setX(progressBar.getX()+12);
-		foreground.setY(Constants.VIRTUAL_HEIGHT-29);
+		foreground.setY(progressBar.getY());
 		foreground.setZIndex(60);
 		this.addActor(foreground);
-		//
+		/*
 		segmentsPassed = new Label("0", Assets.I.skin);
 		segmentsPassed.setX(120);
 		segmentsPassed.setY(Constants.VIRTUAL_HEIGHT-35);
 		this.addActor(segmentsPassed);
+		*/
 		points = new Label("0", Assets.I.skin);
-		points.setX(Constants.VIRTUAL_WIDTH/2);
-		points.setY(Constants.VIRTUAL_HEIGHT-35);
+		points.setAlignment(Align.center, Align.center);
+		points.setX(390);
+		points.setY(Constants.VIRTUAL_HEIGHT-75);
 		this.addActor(points);
 	}
 
@@ -51,9 +53,9 @@ public class LevelProgressBar extends Group {
 	public void resetProgressBar(int maximum) {
 		this.removeActor(progressBar);
 		progressBar = new ProgressBar(0, maximum, 1, false, Assets.I.skin, "level");
-		progressBar.setWidth(300);
-		progressBar.setX(Constants.OFFSET_TO_EDGE);
-		progressBar.setY(Constants.VIRTUAL_HEIGHT-29);
+		progressBar.setWidth(717);
+		progressBar.setX(100);
+		progressBar.setY(Constants.VIRTUAL_HEIGHT-32);
 		progressBar.setDisabled(true);
 		this.addActor(progressBar);
 		progressBar.toBack();
@@ -69,9 +71,11 @@ public class LevelProgressBar extends Group {
 		points.setText(String.valueOf(value));
 	}
 
+	/*
 	public void setSegmentsPassed(int value) {
 		segmentsPassed.setText(String.valueOf(value));
 	}
+	*/
 
 	public void setValue(float value) {
 		progressBar.setValue(value);

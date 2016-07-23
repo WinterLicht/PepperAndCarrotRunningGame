@@ -1,8 +1,10 @@
 package com.peppercarrot.runninggame.entities;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Rectangle;
@@ -14,6 +16,7 @@ import com.nGame.utils.scene2d.AnimatedImage;
 import com.peppercarrot.runninggame.stages.WorldStage;
 import com.peppercarrot.runninggame.utils.Assets;
 import com.peppercarrot.runninggame.utils.CollisionUtil;
+import com.peppercarrot.runninggame.utils.ParticleEffectActor;
 import com.peppercarrot.runninggame.world.collision.IEnemyCollisionAwareActor;
 
 /**
@@ -28,14 +31,14 @@ import com.peppercarrot.runninggame.world.collision.IEnemyCollisionAwareActor;
  */
 public class TimeDistortion extends Ability {
 	public static class Effect extends Group implements IEnemyCollisionAwareActor {
-		
+
 		public Effect(Runner runner, float duration) {
 			//clock
 			Image clockFace = new Image(new TextureRegion(Assets.I.atlas.findRegion("clock_face")));
 			Image clockHand = new Image(new TextureRegion(Assets.I.atlas.findRegion("clock_hand")));
 			clockHand.setX(clockFace.getWidth()/2);
 			clockHand.setY(clockFace.getHeight()/2);
-			clockHand.setOrigin(4, 4);
+			clockHand.setOrigin(clockHand.getWidth()/2, clockHand.getWidth()/2);
 			clockHand.addAction(Actions.forever(Actions.rotateBy(360, duration)));
 			this.addActor(clockFace);
 			this.addActor(clockHand);
@@ -44,7 +47,8 @@ public class TimeDistortion extends Ability {
 			this.setX((runner.getWidth()-this.getWidth())/2);
 			this.setY((runner.getHeight()-this.getHeight())/2);
 			this.addAction(Actions.forever(Actions.sequence(Actions.fadeIn(duration/2), Actions.fadeOut(duration/2))));
-			//acceleration effect image
+			
+			/*acceleration effect image
 			AnimatedImage effect1 = new AnimatedImage(new AnimatedDrawable(
 					new Animation(0.1f, Assets.I.getRegions("effect_acceleration"), Animation.PlayMode.LOOP)));
 			effect1.setX(-15);
@@ -65,6 +69,13 @@ public class TimeDistortion extends Ability {
 			this.addActor(effect2);
 			this.addActor(effect3);
 			this.addActor(effect4);
+			*/
+			ParticleEffectActor p = new ParticleEffectActor(50, 65, "sparks-acceleration.p");
+			ParticleEffectActor p2 = new ParticleEffectActor(13, 125, "sparks-acceleration.p");
+			ParticleEffectActor p3 = new ParticleEffectActor(40, 185, "sparks-acceleration.p");
+			this.addActor(p);
+			this.addActor(p2);
+			this.addActor(p3);
 		}
 
 		@Override

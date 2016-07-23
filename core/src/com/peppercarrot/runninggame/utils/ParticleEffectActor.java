@@ -12,31 +12,33 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
  *
  */
 public class ParticleEffectActor extends Actor {
-	   ParticleEffect effect;
+	ParticleEffect effect;
 
-	   public ParticleEffectActor(float x, float y, String name) {
-		  ParticleEffect p = new ParticleEffect();
-		  p.load(Gdx.files.internal(name), Assets.I.atlas);
-	      this.effect = p;
-	      this.setPosition(x, y);
-	      effect.setPosition(x, y);
-	   }
+	public ParticleEffectActor(float x, float y, String name) {
+		ParticleEffect p = new ParticleEffect();
+		p.load(Gdx.files.internal(name), Assets.I.atlas);
+		this.effect = p;
+		this.setPosition(x, y);
+		effect.setPosition(x, y);
+	}
 
-	   @Override
-	   public void draw(Batch batch, float parentAlpha) {
-		   super.draw(batch, parentAlpha);
-		   effect.draw(batch);
-	   }
+	@Override
+	public void draw(Batch batch, float parentAlpha) {
+		super.draw(batch, parentAlpha);
+		effect.draw(batch);
+	}
 
-	   @Override
-	   public void act(float delta) {
-	      super.act(delta);
-	      effect.setPosition(this.getX(), this.getY());
-	      effect.update(delta);
-	      effect.start(); //need to start the particle spawning
-	      }
+	@Override
+	public void act(float delta) {
+		super.act(delta);
+		effect.setPosition(this.getX(), this.getY());
+		effect.update(delta);
+		if (effect.isComplete()) {
+			effect.start();
+		}
+	}
 
-	   public ParticleEffect getEffect() {
-	      return effect;
-	   }
+	public ParticleEffect getEffect() {
+		return effect;
+	}
 }

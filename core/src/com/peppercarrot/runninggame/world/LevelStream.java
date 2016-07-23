@@ -35,7 +35,8 @@ public class LevelStream extends Actor {
 	/**
 	 * TODO: The segments have to be seperated by difficulty.
 	 */
-	private final List<String> allFiles = Arrays.asList("level1.tmx", "level2.tmx");
+	private final List<String> allFiles = Arrays.asList("level1.tmx","level2.tmx","level3.tmx",
+			"level4.tmx","level5.tmx","level6.tmx","level7.tmx");
 
 	private int lastLoadedIndex = 0;
 
