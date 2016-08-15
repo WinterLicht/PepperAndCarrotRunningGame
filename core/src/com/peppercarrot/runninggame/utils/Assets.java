@@ -2,7 +2,10 @@ package com.peppercarrot.runninggame.utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
 
@@ -19,6 +22,9 @@ public enum Assets {
 	public Skin skin;
 	public TextureAtlas atlas;
 
+	public Image bgTexture;
+	public Image bgTopTexture;
+
 	Assets() {
 		setUp();
 	}
@@ -29,6 +35,15 @@ public enum Assets {
 		manager.finishLoading();
 		atlas = manager.get("skin.atlas", TextureAtlas.class);
 		skin = new Skin(Gdx.files.internal("skin.json"));
+
+		Texture texture;
+		texture = new Texture(Gdx.files.internal("texture.png"), true);
+		texture.setFilter(TextureFilter.MipMapLinearNearest, TextureFilter.Nearest);
+		bgTexture = new Image(texture);
+		texture = new Texture(Gdx.files.internal("top_bg.png"), true);
+		texture.setFilter(TextureFilter.MipMapLinearNearest, TextureFilter.Nearest);
+		bgTopTexture = new Image(texture);
+		bgTopTexture.setY(Constants.VIRTUAL_HEIGHT-bgTopTexture.getHeight());
 	}
 
 	public Array<TextureAtlas.AtlasRegion> getRegions(String name) {

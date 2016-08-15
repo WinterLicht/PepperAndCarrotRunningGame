@@ -1,6 +1,7 @@
 package com.peppercarrot.runninggame.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
@@ -10,6 +11,7 @@ import com.peppercarrot.runninggame.overworld.OverworldLevelNode;
 import com.peppercarrot.runninggame.overworld.OverworldStage;
 import com.peppercarrot.runninggame.overworld.OverworldStage.OnLevelSelectListener;
 import com.peppercarrot.runninggame.overworld.OverworldStoryNode;
+import com.peppercarrot.runninggame.stages.MainMenu;
 
 public class OverworldScreen extends ScreenAdapter {
 	private static final AssetManager assetManager = new AssetManager();
@@ -35,22 +37,21 @@ public class OverworldScreen extends ScreenAdapter {
 
 	@Override
 	public void show() {
-		Gdx.input.setInputProcessor(stage);
+		InputMultiplexer multi = new InputMultiplexer();
+		multi.addProcessor(MainMenu.getInstance());
+		multi.addProcessor(stage);
+		
+		Gdx.input.setInputProcessor(multi);
 	}
 
 	@Override
 	public void render(float delta) {
-		stage.act(delta);
 		stage.render(delta);
+		MainMenu.getInstance().render(delta);
 
 		if (Gdx.input.isKeyJustPressed(Keys.BACK) || Gdx.input.isKeyPressed(Keys.ESCAPE)) {
 			Gdx.app.exit();
 		}
-	}
-
-	@Override
-	public void resize(int width, int height) {
-		stage.getViewport().update(width, height, true);
 	}
 
 	private OverworldLayout loadLayout(String layoutName) {

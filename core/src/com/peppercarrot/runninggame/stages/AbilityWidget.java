@@ -62,18 +62,21 @@ public class AbilityWidget extends ImageButton {
 				setY(0);
 				break;
 			case 1:
+				setColor(Assets.I.skin.getColor("skill-orange"));
 				setX(0);
 				setY(0);
 				energy.setX(width-energy.getWidth());
 				energy.setY(0);
 				break;
 			case 2:
+				setColor(Assets.I.skin.getColor("skill-green"));
 				setX(50);
 				setY(100);
 				energy.setX(width-energy.getWidth()-getX());
 				energy.setY(-getY());
 				break;
 			case 3:
+				setColor(Assets.I.skin.getColor("skill-blue"));
 				setX(186);
 				setY(173);
 				energy.setX(width-energy.getWidth()-getX());

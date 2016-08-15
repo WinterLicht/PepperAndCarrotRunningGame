@@ -74,6 +74,8 @@ public class WorldStage extends AbstractStage {
 		levelStream = new LevelStream(camera, getBatch(), 0, virtualWidth, getRoot(), runner);
 		levelStream.setY(Constants.OFFSET_TO_GROUND);
 		addActor(levelStream);
+		//Count segments
+		levelStream.countTilesOfSegments();
 
 		this.runner = runner;
 		addActor(runner);

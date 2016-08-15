@@ -19,11 +19,17 @@ public class LevelProgressBar extends Group {
 	ProgressBar progressBar;
 	Label foreground;
 
+	public LevelProgressBar(int maximum) {
+		this();
+		resetProgressBar(maximum);
+	}
+
 	public LevelProgressBar() {
 		//Bunch of magic numbers to arrange the ui-elements
 		resetProgressBar(10);
 		progressBar.setDisabled(true);
 		//Foreground for level progress bar 
+		/*
 		foreground = new Label("", Assets.I.skin, "levelBar");
 		foreground.setAlignment(Align.center, Align.right);
 		foreground.setWidth(progressBar.getWidth()-32);
@@ -32,13 +38,14 @@ public class LevelProgressBar extends Group {
 		foreground.setY(progressBar.getY());
 		foreground.setZIndex(60);
 		this.addActor(foreground);
+		*/
 		/*
 		segmentsPassed = new Label("0", Assets.I.skin);
 		segmentsPassed.setX(120);
 		segmentsPassed.setY(Constants.VIRTUAL_HEIGHT-35);
 		this.addActor(segmentsPassed);
 		*/
-		points = new Label("0", Assets.I.skin);
+		points = new Label("0", Assets.I.skin, "default-white");
 		points.setAlignment(Align.center, Align.center);
 		points.setX(390);
 		points.setY(Constants.VIRTUAL_HEIGHT-75);

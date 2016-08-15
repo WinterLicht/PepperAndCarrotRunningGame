@@ -2,7 +2,6 @@ package com.peppercarrot.runninggame.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.utils.Queue;
 import com.badlogic.gdx.ScreenAdapter;
 import com.peppercarrot.runninggame.entities.Ability;
 import com.peppercarrot.runninggame.entities.Pepper;
@@ -12,7 +11,6 @@ import com.peppercarrot.runninggame.stages.WorldStage;
 import com.peppercarrot.runninggame.stages.WorldUiStage;
 import com.peppercarrot.runninggame.utils.Callback;
 import com.peppercarrot.runninggame.utils.Constants;
-import com.peppercarrot.runninggame.world.LevelSegment;
 
 /**
  * Screen for actual game.
@@ -46,15 +44,19 @@ public class WorldScreen extends ScreenAdapter {
 		stage = new WorldStage(Constants.VIRTUAL_WIDTH, Constants.VIRTUAL_HEIGHT, runner);
 
 		ui = initializeUi();
+		//After stage with levelStream is loaded:
+		ui.levelProgress.resetProgressBar(stage.getLevelStream().getTotalNumberOfTiles());
 	}
 
 	private WorldUiStage initializeUi() {
 		final WorldUiStage ui = new WorldUiStage(runner) {
 			@Override
 			public void updateLevelProgress() {
-				Queue<LevelSegment> segments = stage.getLevelSegments();
+				//Queue<LevelSegment> segments = stage.getLevelSegments();
 				levelProgress.setTotalPoints(stage.getLevelStream().getTotalPassedTiles());
-				//levelProgress.setSegmentsPassed(stage.getLevelStream().getPassedSegments());
+				levelProgress.setValue(stage.getLevelStream().getTotalPassedTiles());
+				/*
+				//Update Progress Bar for each segment
 				for (int i = 0; i < segments.size; i++) {
 					LevelSegment s = segments.get(i);
 					levelProgress.setValue(stage.getLevelStream().getPassedSegmentTiles());
@@ -64,6 +66,7 @@ public class WorldScreen extends ScreenAdapter {
 						levelProgress.resetProgressBar(size);
 					}
 				}
+				*/
 			}
 		};
 
@@ -120,7 +123,13 @@ public class WorldScreen extends ScreenAdapter {
 		final boolean wasDying = runner.isDying();
 		stage.act(delta);
 		if (!gamePaused && !wasDying && runner.isDying()) {
+			//Lose Condition
 			switchToLoseScreen();
+		}
+		if (!gamePaused && !runner.isDying() && !wasDying && 
+				stage.getLevelStream().allSegmentsPassed()) {
+			//Win Condition
+			switchToWinScreen();
 		}
 
 		ui.act(delta);
@@ -138,8 +147,8 @@ public class WorldScreen extends ScreenAdapter {
 
 	private void processInput() {
 		// TODO: Current keyboard controls are as follow:
-		if (Gdx.input.isKeyJustPressed(Keys.BACK) || Gdx.input.isKeyPressed(Keys.ESCAPE)) {
-			Gdx.app.exit();
+		if (Gdx.input.isKeyJustPressed(Keys.BACK) || Gdx.input.isKeyJustPressed(Keys.ESCAPE)) {
+			ScreenSwitch.getInstance().setPauseScreen(this, stage);
 		}
 		if (Gdx.input.isKeyJustPressed(Keys.Y)) {
 			ui.getAbilitySlot1().activate(stage);
@@ -177,7 +186,22 @@ public class WorldScreen extends ScreenAdapter {
 		stage.fadeOut(true, fadeOutTime, new Runnable() {
 			@Override
 			public void run() {
-				ScreenSwitch.getInstance().setLoseScreen();
+				ScreenSwitch.getInstance().setLoseScreen(stage);
+			}
+		});
+
+		gamePaused = true;
+	}
+
+	public void switchToWinScreen() {
+		ui.disable();
+
+		final float fadeOutTime = 0.48f;
+		ui.fadeOut(true, fadeOutTime, null);
+		stage.fadeOut(true, fadeOutTime, new Runnable() {
+			@Override
+			public void run() {
+				ScreenSwitch.getInstance().setWinScreen(stage);
 			}
 		});
 

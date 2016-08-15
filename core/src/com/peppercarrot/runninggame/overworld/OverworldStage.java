@@ -3,14 +3,18 @@ package com.peppercarrot.runninggame.overworld;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.peppercarrot.runninggame.stages.AbstractStage;
 import com.peppercarrot.runninggame.utils.Assets;
 
 /**
@@ -19,7 +23,10 @@ import com.peppercarrot.runninggame.utils.Assets;
  * @author momsen
  *
  */
-public class OverworldStage extends Stage {
+public class OverworldStage extends AbstractStage {
+	Image backgroundImage;
+	Table table;
+
 	public interface OnLevelSelectListener {
 		void onLevelSelect(OverworldLevelNode level);
 
@@ -29,7 +36,15 @@ public class OverworldStage extends Stage {
 	private OnLevelSelectListener listener;
 
 	public OverworldStage(OverworldLayout layout) {
+		table = new Table(Assets.I.skin);
+		table.setFillParent(true);
+		Texture texture;
+		texture = new Texture(Gdx.files.internal("world.png"), true);
+		texture.setFilter(TextureFilter.MipMapLinearNearest, TextureFilter.Nearest);
+		backgroundImage = new Image(texture);
+		table.addActor(backgroundImage);
 		createUi(layout);
+		addActor(table);
 	}
 
 	private void createUi(OverworldLayout layout) {
@@ -92,8 +107,7 @@ public class OverworldStage extends Stage {
 		}
 
 		final ScrollPane scrollPane = new ScrollPane(levelSelectTable);
-		addActor(scrollPane);
-		scrollPane.setFillParent(true);
+		table.add(scrollPane).expand().center();
 
 		// setDebugAll(true);
 	}
@@ -142,6 +156,7 @@ public class OverworldStage extends Stage {
 	}
 
 	public void render(float delta) {
+		act(delta);
 		draw();
 	}
 

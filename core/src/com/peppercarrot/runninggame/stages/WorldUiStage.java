@@ -71,7 +71,7 @@ public class WorldUiStage extends AbstractStage {
 		levelProgress = new LevelProgressBar();
 		uiTable.addActor(levelProgress);
 
-		hintLabel = new Label("press on the left side of the screen to 'jump'", Assets.I.skin, "default");
+		hintLabel = new Label("press on the left side of the screen to 'jump'", Assets.I.skin, "default-white");
 		hintLabel.setWrap(true);
 		hintLabel.setX(healthBG.getWidth()+20);
 		hintLabel.setY(Constants.VIRTUAL_HEIGHT-exitBtn.getHeight()-30);
@@ -142,6 +142,9 @@ public class WorldUiStage extends AbstractStage {
 		exitBtnCallback = callback;
 	}
 
+	/**
+	 * Is overwritten in WorldScreen.
+	 */
 	public void updateLevelProgress() {
 		return;
 	}

@@ -1,38 +1,69 @@
 package com.peppercarrot.runninggame.stages;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.peppercarrot.runninggame.screens.ScreenSwitch;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.peppercarrot.runninggame.utils.Assets;
 import com.peppercarrot.runninggame.utils.Constants;
 
+/**
+ * Shelve with ingredients.
+ * 
+ * @author WinterLicht
+ *
+ */
 public class StartStage extends AbstractStage {
 	Table rootTable;
 	boolean goToWorldMap;
+	ScrollPane shelve;
 
 	public StartStage() {
-		this.rootTable = new Table(Assets.I.skin);
+		rootTable = new Table();
 		rootTable.setFillParent(true);
-		rootTable.setWidth(Constants.VIRTUAL_WIDTH);
+		rootTable.setWidth(Constants.VIRTUAL_WIDTH-2*MainMenu.getInstance().buttonWidth);
 		rootTable.setHeight(Constants.VIRTUAL_HEIGHT);
-		rootTable.setTouchable(Touchable.enabled);
-		rootTable.addListener(new InputListener() {
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				goToWorldMap = true;
+		rootTable.padRight(MainMenu.getInstance().buttonWidth+60);
+		rootTable.padLeft(MainMenu.getInstance().buttonWidth+60);
+		rootTable.top();
+
+		Table container = new Table();
+		container.pad(5);
+		shelve = new ScrollPane(container, Assets.I.skin);
+		shelve.setScrollingDisabled(false, true);
+		shelve.setVisible(false);
+		//Fill the shelve
+		for (int i = 0; i < 30; i++) {
+			String color = "";
+			double r = Math.random();
+			if (r < 0.5) {
+				color = "orange";
+			} else {
+				color = "green";
+			}
+			Image potionImage = new Image(new TextureRegion(Assets.I.atlas.findRegion("potion_"+color)));
+			container.add(potionImage).width(potionImage.getWidth());
+		}
+
+		TextButton shelvebtn = new TextButton("ingredients", Assets.I.skin, "default");
+		shelvebtn.addListener(new ClickListener() {
+			public void clicked (InputEvent event, float x, float y) {
+				toggleShelve();
 				event.cancel();
-				return true;
 			}
 		});
-		final Label label = new Label("Touch to start", Assets.I.skin, "default");
-		label.addAction(Actions.forever(Actions.sequence(Actions.fadeOut(1f), Actions.fadeIn(1.4f))));
-		rootTable.add(label).bottom().padBottom(60);
-		rootTable.bottom();
+		rootTable.add(shelvebtn);
+		rootTable.row();
+		rootTable.add(shelve).top();
+
 		this.addActor(rootTable);
+	}
+
+	private void toggleShelve() {
+		shelve.setVisible(!shelve.isVisible());
 	}
 
 	/**
@@ -42,16 +73,9 @@ public class StartStage extends AbstractStage {
 	public void render(float delta) {
 		this.act(delta);
 		this.draw();
-		if (goToWorldMap) {
-			switchScreen(0.25f);
-		}
 	}
 
-	/**
-	 * Fade out animation that takes fadeOutTime long.
-	 * 
-	 * @param fadeOutTime
-	 */
+	/*
 	public void switchScreen(float fadeOutTime) {
 		fadeOut(true, fadeOutTime, new Runnable() {
 			@Override
@@ -60,4 +84,5 @@ public class StartStage extends AbstractStage {
 			}
 		});
 	}
+	*/
 }

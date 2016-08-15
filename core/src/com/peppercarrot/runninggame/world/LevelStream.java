@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.BatchTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Circle;
@@ -123,11 +124,21 @@ public class LevelStream extends Actor {
 	 * Total tiles passed
 	 */
 	private int totalPassedTiles = 0;
-	
+
+	/**
+	 * Amount of tiles of all loaded segments
+	 */
+	private int totalTiles = 0;
+
 	/**
 	 * Total passed tiles of current segment
 	 */
 	private int passedSegmentTiles = 0;
+
+	/**
+	 * Used for win condition, all loaded tmx files (in allFiles) are passed
+	 */
+	private boolean allFilesPassed = false;
 
 	public LevelStream(OrthographicCamera camera, Batch batch, float segmentStartOffset,
 			float firstSegmentAdditionalStartOffset, Group worldGroup, Actor runner) {
@@ -148,6 +159,20 @@ public class LevelStream extends Actor {
 		if (currentlyLoadedSegmentName == null) {
 			startLoadingNextLevelSegment();
 		}
+		
+	}
+
+	/**
+	 * TODO: rewrite this, it is slow!
+	 */
+	public void countTilesOfSegments() {
+		for (String fileName : allFiles) {
+			TiledMap map;
+			TmxMapLoader mapLoader;
+			mapLoader = new TmxMapLoader();
+		    map = mapLoader.load(fileName);
+			totalTiles += map.getProperties().get("width", Integer.class);
+		}
 	}
 
 	private void startLoadingNextLevelSegment() {
@@ -155,6 +180,7 @@ public class LevelStream extends Actor {
 		lastLoadedIndex = (lastLoadedIndex + 1) % allFiles.size();
 
 		currentlyLoadedSegmentName = "segment" + (levelIndex++);
+		
 		assetManager.load(currentlyLoadedSegmentName, LevelSegment.class,
 				new LevelSegmentLoader.Parameter(currentFile));
 		Gdx.app.debug(LOG_TAG, "Started loading of level " + currentlyLoadedSegmentName);
@@ -173,11 +199,20 @@ public class LevelStream extends Actor {
 			}
 		} else {
 			final LevelSegment last = segments.last();
-			if (reachedRightBorder(last)) {
-				Gdx.app.debug(LOG_TAG, "Should append next says " + last.getAssetName());
-				if (nextLevelSegmentReady()) {
-					appendNextSegment(last.getRightX());
-					startLoadingNextLevelSegment();
+			if (segmentsPassed >= allFiles.size()) {
+				//Win Condition: all loaded Files passed
+				allFilesPassed = true;
+			} else {
+				if (segmentsPassed+1 < allFiles.size()) {
+					//Load new segments, when the player is
+					//currently not on the before last segment 
+					if (reachedRightBorder(last)) {
+						Gdx.app.debug(LOG_TAG, "Should append next says " + last.getAssetName());
+						if (nextLevelSegmentReady()) {
+							appendNextSegment(last.getRightX());
+							startLoadingNextLevelSegment();
+						}
+					}
 				}
 			}
 		}
@@ -204,6 +239,7 @@ public class LevelStream extends Actor {
 
 		return assetManager.get(currentlyLoadedSegmentName, LevelSegment.class);
 	}
+
 
 	private boolean reachedRightBorder(LevelSegment segment) {
 		return segment.getRightX() <= camera.viewportWidth;
@@ -361,6 +397,14 @@ public class LevelStream extends Actor {
 
 	public Queue<LevelSegment> getLevelSegments() {
 		return segments;
+	}
+
+	public int getTotalNumberOfTiles() {
+		return totalTiles;
+	}
+
+	public boolean allSegmentsPassed() {
+		return allFilesPassed;
 	}
 
 	/**

@@ -3,6 +3,7 @@ package com.peppercarrot.runninggame.screens;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.peppercarrot.runninggame.stages.MainMenu;
 import com.peppercarrot.runninggame.story.Storyboard;
 
 /**
@@ -29,10 +30,15 @@ public class ScreenSwitch {
 
 	public void setStartScreen() {
 		game.setScreen(new StartScreen());
+		MainMenu.getInstance().setChecked(1);
 	}
 
-	public void setLoseScreen() {
-		game.setScreen(new LoseScreen());
+	public void setLoseScreen(Stage worldStage) {
+		game.setScreen(new LoseScreen(worldStage));
+	}
+
+	public void setWinScreen(Stage worldStage) {
+		game.setScreen(new WinScreen(worldStage));
 	}
 
 	public void setWorldScreen() {
@@ -49,9 +55,25 @@ public class ScreenSwitch {
 
 	public void setOverworldScreen() {
 		game.setScreen(new OverworldScreen());
+		MainMenu.getInstance().setChecked(4);
 	}
 
 	public void setStoryScreen(Storyboard storyboard) {
 		game.setScreen(new StoryScreen(storyboard));
+	}
+
+	public void setInfoScreen() {
+		game.setScreen(new InfoScreen());
+		MainMenu.getInstance().setChecked(2);
+	}
+
+	public void setAchievementsScreen() {
+		game.setScreen(new AchievementsScreen());
+		MainMenu.getInstance().setChecked(5);
+	}
+
+	public void setSettingsScreen() {
+		game.setScreen(new SettingsScreen());
+		MainMenu.getInstance().setChecked(3);
 	}
 }

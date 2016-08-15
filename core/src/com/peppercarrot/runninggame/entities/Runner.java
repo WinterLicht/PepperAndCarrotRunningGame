@@ -93,7 +93,8 @@ public abstract class Runner extends Group
 	}
 
 	String name;
-	boolean stunned = false;
+	public boolean stunned = false;
+	public boolean noGravity = false;
 	public State currState = State.RUNNING;
 	public Pet pet;
 	public HitPoints health;
@@ -103,12 +104,13 @@ public abstract class Runner extends Group
 	/** Maximum speed when jumping in pixel */
 
 	public Image runnerImage;
-	AnimatedImage runningAnim;
-	AnimatedImage jumpingAnim;
-	AnimatedImage doubleJumpingAnim;
-	AnimatedImage fallingAnim;
-	AnimatedImage attackingAnim;
-	AnimatedImage hitAnim;
+	public AnimatedImage runningAnim;
+	public AnimatedImage jumpingAnim;
+	public AnimatedImage doubleJumpingAnim;
+	public AnimatedImage fallingAnim;
+	public AnimatedImage attackingAnim;
+	public AnimatedImage hitAnim;
+	public AnimatedImage idleAnim;
 
 	public Ability ability1;
 	public Ability ability2;
@@ -118,10 +120,11 @@ public abstract class Runner extends Group
 	/**
 	 * Possible states.
 	 */
-	enum State {
+	public enum State {
 		RUNNING, FALLING, JUMPING, DOUBLEJUMPING,
 		// TODO: for this states may be an other animation
-		ATTACK_RUNNING, ATTACK_FALLING, ATTACK_JUMPING, ATTACK_DOUBLEJUMPING, DYING;
+		ATTACK_RUNNING, ATTACK_FALLING, ATTACK_JUMPING, ATTACK_DOUBLEJUMPING, DYING,
+		IDLE;
 	}
 
 	public Runner(String name) {
@@ -187,6 +190,7 @@ public abstract class Runner extends Group
 			runnerImage.setDrawable(doubleJumpingAnim.getDrawable());
 			break;
 		case DYING:
+			hitAnim.act(delta);
 			runnerImage.setDrawable(hitAnim.getDrawable());
 			break;
 		case JUMPING:
@@ -217,26 +221,33 @@ public abstract class Runner extends Group
 			attackingAnim.act(delta);
 			runnerImage.setDrawable(attackingAnim.getDrawable());
 			break;
-		default: // Should not be reached
+		case IDLE:
+			prozessIdleAnimation(delta);
+			break;
+		default:
+			System.out.println("Runner state: should not be reached");
 			break;
 		}
-		hitAnim.act(delta);
+		pet.updateState(currState);
 		if (stunned) {
+			hitAnim.act(delta);
 			runnerImage.setDrawable(hitAnim.getDrawable());
+			pet.setStunned();
 		}
-		// Gravity is 1 pixel
-		speedY -= 1;
-		// Move down
 		final float oldYPos = getY();
-		// FIXME:Tunneling, see also processPlatforms in WorldStage
-		// Currently: simply cap falling speed
-		if (speedY > -maxJumpSpeed) {
-			setY(getY() + speedY);
-		} else {
-			// No infinite acceleration
-			setY(getY() - maxJumpSpeed);
+		if (!noGravity) {
+			// Gravity is 1 pixel
+			speedY -= 1;
+			// Move down
+			// FIXME:Tunneling, see also processPlatforms in WorldStage
+			// Currently: simply cap falling speed
+			if (speedY > -maxJumpSpeed) {
+				setY(getY() + speedY);
+			} else {
+				// No infinite acceleration
+				setY(getY() - maxJumpSpeed);
+			}
 		}
-		//pet.updatePosition(delta);
 		if (getY() < oldYPos) {
 			// Player is falling, if his y-position is lowered
 			// and he was previously running.
@@ -250,46 +261,46 @@ public abstract class Runner extends Group
 
 	// Helper methods for states
 	public void setRunnig() {
+		if (currState == State.DYING) return;
 		if (isAttacking())
 			currState = State.ATTACK_RUNNING;
 		else
 			currState = State.RUNNING;
-		pet.setRunnig();
 	}
 
 	public void setFalling() {
+		if (currState == State.DYING) return;
 		if (isAttacking())
 			currState = State.ATTACK_FALLING;
 		else
 			currState = State.FALLING;
-		pet.setFalling();
 	}
 
 	public void setJumping() {
+		if (currState == State.DYING) return;
 		if (isAttacking())
 			currState = State.ATTACK_JUMPING;
 		else
 			currState = State.JUMPING;
-		pet.setJumping();
 	}
 
 	public void setDoubleJumping() {
+		if (currState == State.DYING) return;
 		if (isAttacking())
 			currState = State.ATTACK_DOUBLEJUMPING;
 		else
 			currState = State.DOUBLEJUMPING;
-		pet.setDoubleJumping();
 	}
 
 	public void setDying() {
 		currState = State.DYING;
-		pet.setDying();
 	}
 
 	/**
 	 * resets also attacking animation.
 	 */
 	public void setAttacking() {
+		if (currState == State.DYING) return;
 		attackingAnim.reset();
 		switch (currState) {
 		case DOUBLEJUMPING:
@@ -357,7 +368,6 @@ public abstract class Runner extends Group
 		hitAnim.reset();
 		hitAnim.clearActions();
 		hitAnim.addAction(stunAction);
-		pet.setStunned();
 	}
 
 	@Override
@@ -435,5 +445,23 @@ public abstract class Runner extends Group
 		final float offset = 16;
 		land(platformHitTop - offset);
 		return true;
+	}
+
+	/**
+	 * Helper for idle-animation.
+	 * @param delta
+	 */
+	private void prozessIdleAnimation(float delta) {
+		idleAnim.act(delta);		
+		if (idleAnim.drawable.getCurrentKeyFrameIndex() == 0
+				|| idleAnim.drawable.getCurrentKeyFrameIndex() == idleAnim.drawable.animation.getKeyFrames().length-1) {
+			double r = Math.random();
+			if (r < 0.07 && idleAnim.drawable.isPaused()) {
+				idleAnim.drawable.continuePlay();
+			} else {
+				idleAnim.drawable.pause();
+			}
+		}
+		runnerImage.setDrawable(idleAnim.getDrawable());
 	}
 }

@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.peppercarrot.runninggame.stages.MainMenu;
 import com.peppercarrot.runninggame.utils.Constants;
 
 public class DefaultScreenConfiguration {
@@ -25,6 +26,8 @@ public class DefaultScreenConfiguration {
 		camera.update();
 
 		viewport = new FitViewport(Constants.VIRTUAL_WIDTH, Constants.VIRTUAL_HEIGHT, camera);
+		
+		MainMenu.initialize(viewport);
 	}
 
 	public Batch getBatch() {

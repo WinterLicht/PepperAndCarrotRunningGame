@@ -1,18 +1,13 @@
 package com.peppercarrot.runninggame.entities;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.nGame.utils.scene2d.AnimatedDrawable;
-import com.nGame.utils.scene2d.AnimatedImage;
 import com.peppercarrot.runninggame.stages.WorldStage;
 import com.peppercarrot.runninggame.utils.Assets;
 import com.peppercarrot.runninggame.utils.CollisionUtil;
@@ -120,7 +115,8 @@ public class TimeDistortion extends Ability {
 	@Override
 	protected void execute(WorldStage worldStage) {
 		this.worldStage = worldStage;
-		final Runner runner = getRunner();previousSpeedFactor = worldStage.getSpeedFactor();
+		final Runner runner = getRunner();
+		previousSpeedFactor = worldStage.getSpeedFactor();
 		runner.addActor(effect);
 		worldStage.addEnemyAwareActor(effect);
 	}

@@ -23,12 +23,13 @@ public abstract class Pet extends Image {
 	AnimatedImage doubleJumpingAnim;
 	AnimatedImage fallingAnim;
 	AnimatedImage hitAnim;
+	AnimatedImage idleAnim;
 	
 	/**
 	 * Possible states.
 	 */
 	enum State {
-		RUNNING, FALLING, JUMPING, DOUBLEJUMPING, DYING, HIT;
+		RUNNING, FALLING, JUMPING, DOUBLEJUMPING, DYING, HIT, IDLE;
 	}
 	
 	public Pet(String name, Runner runner) {
@@ -37,6 +38,43 @@ public abstract class Pet extends Image {
 		owner = runner;
 		runner.addActor(this);
 		setOrigin(Align.center);
+	}
+
+	public void updateState(Runner.State runnerState) {
+		switch (runnerState) {
+		case ATTACK_DOUBLEJUMPING:
+			currState = State.DOUBLEJUMPING;
+			break;
+		case ATTACK_FALLING:
+			currState = State.FALLING;
+			break;
+		case ATTACK_JUMPING:
+			currState = State.JUMPING;
+			break;
+		case ATTACK_RUNNING:
+			currState = State.RUNNING;
+			break;
+		case DOUBLEJUMPING:
+			currState = State.DOUBLEJUMPING;
+			break;
+		case DYING:
+			currState = State.DYING;
+			break;
+		case FALLING:
+			currState = State.FALLING;
+			break;
+		case JUMPING:
+			currState = State.JUMPING;
+			break;
+		case RUNNING:
+			currState = State.RUNNING;
+			break;
+		case IDLE:
+			currState = State.IDLE;
+			break;
+		default:
+			break;
+		}
 	}
 
 	public abstract void initAnimations();
@@ -48,5 +86,24 @@ public abstract class Pet extends Image {
 	public abstract void setDoubleJumping();
 	public abstract void setDying();
 	public abstract void setStunned();
+
+	/**
+	 * Helper for idle-animation.
+	 * @param delta
+	 */
+	protected void prozessIdleAnimation(float delta) {
+		idleAnim.act(delta);		
+		if (idleAnim.drawable.getCurrentKeyFrameIndex() == 0
+				|| idleAnim.drawable.getCurrentKeyFrameIndex() == idleAnim.drawable.animation.getKeyFrames().length-1) {
+			double r = Math.random();
+			if (r < 0.05 && idleAnim.drawable.isPaused()) {
+				idleAnim.drawable.continuePlay();
+			} else {
+				idleAnim.drawable.pause();
+			}
+		}
+		this.setSize(idleAnim.getWidth(), idleAnim.getHeight());
+		this.setDrawable(idleAnim.getDrawable());
+	}
 
 }

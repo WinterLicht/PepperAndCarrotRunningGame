@@ -40,6 +40,10 @@ public class Pepper extends Runner {
 		hitAnim = new AnimatedImage(new AnimatedDrawable(
 				new Animation(0.5f, Assets.I.getRegions(name + "_hit"), Animation.PlayMode.NORMAL)));
 		hitAnim.setOrigin(Align.center);
+		idleAnim = new AnimatedImage(new AnimatedDrawable(
+				new Animation(0.13f, Assets.I.getRegions(name + "_idle"), Animation.PlayMode.LOOP_PINGPONG)));
+		idleAnim.setOrigin(Align.center);
+		idleAnim.drawable.pause();
 	}
 
 	@Override
@@ -61,7 +65,6 @@ public class Pepper extends Runner {
 	@Override
 	protected void initAbilities() {
 		ability1 = new CarrotCharge(this, 2);
-		//ability2 =new ProjectileAttack(this, 2, SWEEP_DURATION); 
 		ability2 = new TimeDistortion(this, 0, 1.6f, 2.8f);
 		ability3 = new BlackHole(this, 2, 1.5f);
 		ability0 = new SweepAttack(this, 0, SWEEP_DURATION);

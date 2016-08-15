@@ -33,23 +33,36 @@ public class Carrot extends Pet {
 		// sits f.e on Pepper's broom.
 		switch (currState) {
 		case DOUBLEJUMPING:
+			this.setSize(doubleJumpingAnim.getWidth(), doubleJumpingAnim.getHeight());
+			this.setDrawable(doubleJumpingAnim.getDrawable());
 			setX(-8);
 			setY(81);
 			doubleJumpingAnim.act(delta);
 			break;
 		case DYING:
+			this.setSize(hitAnim.getWidth(), hitAnim.getHeight());
+			this.setDrawable(hitAnim.getDrawable());
+			setX(-15);
+			setY(0);
+			hitAnim.act(delta);
 			break;
 		case JUMPING:
+			this.setSize(jumpingAnim.getWidth(), jumpingAnim.getHeight());
+			this.setDrawable(jumpingAnim.getDrawable());
 			setX(3);
 			setY(34);
 			jumpingAnim.act(delta);
 			break;
 		case RUNNING:
+			this.setSize(runningAnim.getWidth(), runningAnim.getHeight());
+			this.setDrawable(runningAnim.getDrawable());
 			setX(-52);
 			setY(0);
 			runningAnim.act(delta);
 			break;
 		case FALLING:
+			this.setSize(fallingAnim.getWidth(), fallingAnim.getHeight());
+			this.setDrawable(fallingAnim.getDrawable());
 			setX(32);
 			setY(76);
 			fallingAnim.act(delta);
@@ -58,6 +71,11 @@ public class Carrot extends Pet {
 			setX(-15);
 			setY(0);
 			hitAnim.act(delta);
+			break;
+		case IDLE:
+			setX(0);
+			setY(0);
+			prozessIdleAnimation(delta);
 			break;
 		default: // Should not be reached
 			break;
@@ -81,42 +99,34 @@ public class Carrot extends Pet {
 		hitAnim = new AnimatedImage(new AnimatedDrawable(
 				new Animation(0.18f, Assets.I.getRegions(name + "_hit"), Animation.PlayMode.NORMAL)));
 		hitAnim.setOrigin(Align.center);
+		idleAnim = new AnimatedImage(new AnimatedDrawable(
+				new Animation(0.18f, Assets.I.getRegions(name + "_idle"), Animation.PlayMode.LOOP_PINGPONG)));
 		//TODO: Carrot needs animation when Pepper attacks
 	}
 
 	@Override
 	public void land() {
 		currState = State.RUNNING;
-		this.setSize(runningAnim.getWidth(), runningAnim.getHeight());
-		this.setDrawable(runningAnim.getDrawable());
 	}
 
 	@Override
 	public void setRunnig() {
-		currState = State.RUNNING;
-		this.setSize(runningAnim.getWidth(), runningAnim.getHeight());
-		this.setDrawable(runningAnim.getDrawable());	
+		currState = State.RUNNING;	
 	}
 
 	@Override
 	public void setFalling() {
 		currState = State.FALLING;
-		this.setSize(fallingAnim.getWidth(), fallingAnim.getHeight());
-		this.setDrawable(fallingAnim.getDrawable());
 	}
 
 	@Override
 	public void setJumping() {
 		currState = State.JUMPING;
-		this.setSize(jumpingAnim.getWidth(), jumpingAnim.getHeight());
-		this.setDrawable(jumpingAnim.getDrawable());
 	}
 
 	@Override
 	public void setDoubleJumping() {
 		currState = State.DOUBLEJUMPING;
-		this.setSize(doubleJumpingAnim.getWidth(), doubleJumpingAnim.getHeight());
-		this.setDrawable(doubleJumpingAnim.getDrawable());
 	}
 
 	@Override
