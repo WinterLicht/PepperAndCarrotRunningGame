@@ -102,7 +102,6 @@ public abstract class Pet extends Image {
 				idleAnim.drawable.pause();
 			}
 		}
-		this.setSize(idleAnim.getWidth(), idleAnim.getHeight());
 		this.setDrawable(idleAnim.getDrawable());
 	}
 

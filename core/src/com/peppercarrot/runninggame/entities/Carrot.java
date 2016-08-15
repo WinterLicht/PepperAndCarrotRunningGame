@@ -33,48 +33,49 @@ public class Carrot extends Pet {
 		// sits f.e on Pepper's broom.
 		switch (currState) {
 		case DOUBLEJUMPING:
-			this.setSize(doubleJumpingAnim.getWidth(), doubleJumpingAnim.getHeight());
+			this.setSize(doubleJumpingAnim.getWidth()*owner.getScaleFactor(), doubleJumpingAnim.getHeight()*owner.getScaleFactor());
 			this.setDrawable(doubleJumpingAnim.getDrawable());
-			setX(-8);
-			setY(81);
+			setX(-12*owner.getScaleFactor());
+			setY(140*owner.getScaleFactor());
 			doubleJumpingAnim.act(delta);
 			break;
 		case DYING:
-			this.setSize(hitAnim.getWidth(), hitAnim.getHeight());
+			this.setSize(hitAnim.getWidth()*owner.getScaleFactor(), hitAnim.getHeight()*owner.getScaleFactor());
 			this.setDrawable(hitAnim.getDrawable());
-			setX(-15);
-			setY(0);
+			setX(-34*owner.getScaleFactor());
+			setY(-4*owner.getScaleFactor());
 			hitAnim.act(delta);
 			break;
 		case JUMPING:
-			this.setSize(jumpingAnim.getWidth(), jumpingAnim.getHeight());
+			this.setSize(jumpingAnim.getWidth()*owner.getScaleFactor(), jumpingAnim.getHeight()*owner.getScaleFactor());
 			this.setDrawable(jumpingAnim.getDrawable());
-			setX(3);
-			setY(34);
+			setY(49*owner.getScaleFactor());
+			setX(0);
 			jumpingAnim.act(delta);
 			break;
 		case RUNNING:
-			this.setSize(runningAnim.getWidth(), runningAnim.getHeight());
+			this.setSize(runningAnim.getWidth()*owner.getScaleFactor(), runningAnim.getHeight()*owner.getScaleFactor());
 			this.setDrawable(runningAnim.getDrawable());
-			setX(-52);
-			setY(0);
+			setX(-100*owner.getScaleFactor());
+			setY(-4*owner.getScaleFactor());
 			runningAnim.act(delta);
 			break;
 		case FALLING:
-			this.setSize(fallingAnim.getWidth(), fallingAnim.getHeight());
+			this.setSize(fallingAnim.getWidth()*owner.getScaleFactor(), fallingAnim.getHeight()*owner.getScaleFactor());
 			this.setDrawable(fallingAnim.getDrawable());
-			setX(32);
-			setY(76);
+			setX(48*owner.getScaleFactor());
+			setY(123*owner.getScaleFactor());
 			fallingAnim.act(delta);
 			break;
 		case HIT:
-			setX(-15);
-			setY(0);
+			setX(-34*owner.getScaleFactor());
+			setY(-4*owner.getScaleFactor());
 			hitAnim.act(delta);
 			break;
 		case IDLE:
-			setX(0);
-			setY(0);
+			this.setSize(idleAnim.getWidth()*owner.getScaleFactor(), idleAnim.getHeight()*owner.getScaleFactor());
+			setX(-34*owner.getScaleFactor());
+			setY(-4*owner.getScaleFactor());
 			prozessIdleAnimation(delta);
 			break;
 		default: // Should not be reached
@@ -136,7 +137,7 @@ public class Carrot extends Pet {
 
 	public void setStunned() {
 		currState = State.HIT;
-		this.setSize(hitAnim.getWidth(), hitAnim.getHeight());
+		this.setSize(hitAnim.getWidth()*owner.getScaleFactor(), hitAnim.getHeight()*owner.getScaleFactor());
 		this.setDrawable(hitAnim.getDrawable());
 	}
 }

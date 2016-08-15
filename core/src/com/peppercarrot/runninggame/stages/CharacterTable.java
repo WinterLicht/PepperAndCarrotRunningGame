@@ -34,7 +34,7 @@ public class CharacterTable extends Table {
 		runner = new Pepper("pepper");
 		runner.setState(State.IDLE);
 		runner.noGravity = true;
-		runner.setY(240);
+		runner.setY(140);
 		runner.setX(110);
 		addActor(runner);
 		Label characterName = new Label("Pepper", Assets.I.skin, "title");
@@ -161,6 +161,7 @@ public class CharacterTable extends Table {
 		animations.add(attack).height(buttonHeight).width(buttonWidth);
 		animations.row();
 		animations.add(hit).height(buttonHeight).width(buttonWidth);
+		runner.setScaleFactor(1f);
 		idle.addListener(new ClickListener() {
 			public void clicked (InputEvent event, float x, float y) {
 				runner.stunned = false;

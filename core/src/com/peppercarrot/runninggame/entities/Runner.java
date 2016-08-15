@@ -93,6 +93,7 @@ public abstract class Runner extends Group
 	}
 
 	String name;
+	private float scaleFactor = 0.62f; //In-game scale applied to original sprite
 	public boolean stunned = false;
 	public boolean noGravity = false;
 	public State currState = State.RUNNING;
@@ -132,8 +133,10 @@ public abstract class Runner extends Group
 		this.name = name;
 		runnerImage = new Image(new TextureRegion(Assets.I.atlas.findRegion(name + "_run")));
 		addActor(runnerImage);
-		setWidth(runnerImage.getWidth());
-		setHeight(runnerImage.getHeight());
+		//Scale down image, image on original size is needed for preview
+		setSize(runnerImage.getWidth()*scaleFactor, runnerImage.getHeight()*scaleFactor);
+		runnerImage.setSize(runnerImage.getWidth()*scaleFactor, runnerImage.getHeight()*scaleFactor);
+		runnerImage.setOrigin(Align.center);
 		initAbilities();
 		initAnimations();
 		initPet();
@@ -253,9 +256,11 @@ public abstract class Runner extends Group
 			// and he was previously running.
 			setFalling();
 		}
-		// Player can't fall under/below the ground
-		if (getY() < Constants.OFFSET_TO_GROUND) {
-			land(Constants.OFFSET_TO_GROUND);
+		if (!noGravity) {
+			// Player can't fall under/below the ground
+			if (getY() < Constants.OFFSET_TO_GROUND) {
+				land(Constants.OFFSET_TO_GROUND);
+			}
 		}
 	}
 
@@ -351,6 +356,18 @@ public abstract class Runner extends Group
 
 	public void setState(State state) {
 		currState = state;
+	}
+
+	public void setScaleFactor(float newScaleFactor) {
+		this.scaleFactor = newScaleFactor;
+		float currentW = runningAnim.getCopyOfAnimation().getKeyFrame(0).getRegionWidth();
+		float currentH = runningAnim.getCopyOfAnimation().getKeyFrame(0).getRegionHeight();
+		setSize(currentW*scaleFactor, currentH*scaleFactor);
+		runnerImage.setSize(currentW*scaleFactor, currentH*scaleFactor);
+	}
+
+	public float getScaleFactor() {
+		return scaleFactor;
 	}
 
 	public void setStunned() {

@@ -49,6 +49,7 @@ public class CarrotCharge extends Ability {
 		public Effect(Runner runner) {
 			super(new AnimatedDrawable(
 					new Animation(0.06f, Assets.I.getRegions("carrot_run"), Animation.PlayMode.LOOP)));
+			setScale(runner.getScaleFactor(), runner.getScaleFactor());
 			setOrigin(Align.center);
 			this.runner = runner;
 			moveTo = Actions.action(MoveToAction.class);
