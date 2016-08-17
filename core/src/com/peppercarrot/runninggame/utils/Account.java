@@ -31,10 +31,11 @@ public enum Account {
 	public String brewedPotion = "";
 	public int brewedPotionProgress = 0;
 
-	//Helper 
+	//Helper and temporal variables
 	public int startedLvlID = -1;
 	public boolean pacifist = true; //false when at least 1 enemy is killed during a game session
 	public boolean nimbleness = true; //false when at least 1 heart is lost during a game session
+	public List<String> currentlyCollectedIngredients = new ArrayList<String>(); //in actual game session
 
 	Account() {
 		load();
@@ -160,9 +161,27 @@ public enum Account {
 		saveData();
 	}
 
+	/**
+	 * Use this for exit the game, so account is saved.
+	 */
 	public void exit() {
 		saveData();
 		Gdx.app.exit();
+	}
+
+	/**
+	 * Called once after a game session is won.
+	 */
+	public void updateAccountAfterWin() {
+		if (nimbleness) levelsWithoutHealthLost += 1;
+		if (pacifist) levelsWithoutKilling += 1;
+		completeLevels += 1;
+		if (progress < startedLvlID) progress = startedLvlID;
+		for (String ingredient : currentlyCollectedIngredients) {
+			ingredients.add(ingredient);
+		}
+		saveData();
+		Account.I.resetHelper();
 	}
 
 	/**
@@ -171,5 +190,6 @@ public enum Account {
 	public void resetHelper() {
 		pacifist = true;
 		nimbleness = true;
+		currentlyCollectedIngredients.clear();
 	}
 }

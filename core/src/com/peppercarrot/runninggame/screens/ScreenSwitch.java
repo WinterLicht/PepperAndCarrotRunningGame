@@ -42,15 +42,13 @@ public class ScreenSwitch {
 	}
 
 	public void setWinScreen(Stage worldStage) {
-		if (Account.I.nimbleness) Account.I.levelsWithoutHealthLost += 1;
-		if (Account.I.pacifist) Account.I.levelsWithoutKilling += 1;
-		Account.I.completeLevels += 1;
-		if (Account.I.progress < Account.I.startedLvlID) Account.I.progress = Account.I.startedLvlID;
-		Account.I.saveData();
+		//Not to forget to update Account with the progress
+		Account.I.updateAccountAfterWin();
 		game.setScreen(new WinScreen(worldStage));
 	}
 
 	public void setWorldScreen(List<String> levelSegments) {
+		//Not to forget to reset data from previous session
 		Account.I.resetHelper();
 		game.setScreen(new WorldScreen(levelSegments));
 	}

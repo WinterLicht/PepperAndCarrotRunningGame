@@ -105,6 +105,7 @@ public class WinScreen extends ScreenAdapter {
 			@Override
 			public void run() {
 				if (goToWorldMap) {
+					//Play again
 					ScreenSwitch.getInstance().setWorldScreen(((WorldStage) sceneToRender).getLevelStream().getAllFileNames());
 				}
 				if (goToStartScreen) {

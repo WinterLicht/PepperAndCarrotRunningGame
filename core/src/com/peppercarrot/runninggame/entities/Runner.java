@@ -9,12 +9,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.nGame.utils.scene2d.AnimatedImage;
+import com.peppercarrot.runninggame.entities.Potion.Type;
 import com.peppercarrot.runninggame.utils.Account;
 import com.peppercarrot.runninggame.utils.Assets;
 import com.peppercarrot.runninggame.utils.Constants;
 import com.peppercarrot.runninggame.world.LevelSegment;
 import com.peppercarrot.runninggame.world.collision.IEnemyCollisionAwareActor;
-import com.peppercarrot.runninggame.world.collision.IIngredientCollisionAwareActor;
 import com.peppercarrot.runninggame.world.collision.IPlatformCollisionAwareActor;
 import com.peppercarrot.runninggame.world.collision.IPotionCollisionAwareActor;
 
@@ -26,7 +26,7 @@ import com.peppercarrot.runninggame.world.collision.IPotionCollisionAwareActor;
  *
  */
 public abstract class Runner extends Group
-		implements IPlatformCollisionAwareActor, IEnemyCollisionAwareActor, IPotionCollisionAwareActor, IIngredientCollisionAwareActor {
+		implements IPlatformCollisionAwareActor, IEnemyCollisionAwareActor, IPotionCollisionAwareActor {
 
 	/**
 	 * For UI.
@@ -407,35 +407,29 @@ public abstract class Runner extends Group
 	public boolean onHitPotion(Potion potion) {
 		if (potion.isVisible()) {
 			potion.collected();
-			Account.I.collectedPotions += 1;
-			switch (potion.type) {
-			case ORANGE:
-				ability1.increaseEnergy(1);
-				break;
-			case GREEN:
-				ability2.increaseEnergy(1);
-				break;
-			case BLUE:
-				ability3.increaseEnergy(1);
-				break;
-			case PINK:
-				health.updateHP(+1);
-				break;
-			default:
-				System.out.println("for this potion is nothing defined.");
-				break;
+			if (potion.type == Type.POTION) {
+				Account.I.collectedPotions += 1;
+				switch (potion.getName()) {
+				case "orange":
+					ability1.increaseEnergy(1);
+					break;
+				case "green":
+					ability2.increaseEnergy(1);
+					break;
+				case "blue":
+					ability3.increaseEnergy(1);
+					break;
+				case "pink":
+					health.updateHP(+1);
+					break;
+				default:
+					System.out.println("for this potion is nothing defined.");
+					break;
+				}
+				return true;
+			} else if (potion.type == Type.INGREDIENT) {
+				Account.I.currentlyCollectedIngredients.add(potion.getName());
 			}
-			return true;
-		}
-		return false;
-	}
-
-	@Override
-	public boolean onHitIngredient(Ingredient ingredient) {
-		if (ingredient.isVisible()) {
-			ingredient.collected();
-			Account.I.ingredients.add(ingredient.getName());
-			return true;
 		}
 		return false;
 	}

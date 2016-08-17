@@ -199,10 +199,14 @@ public class LevelSegment {
 							enemies.add(createEnemy(enemyName, column, row, tilewidth, tileheight, centerOffsetX,
 									centerOffsetY, zIndex));
 						}
-
 						if ("potion".equals(type)) {
-							final String potionColor = cell.getTile().getProperties().get("color", String.class);
-							potions.add(createPotion(potionColor, column, row, tilewidth, tileheight, centerOffsetX,
+							final String name = cell.getTile().getProperties().get("color", String.class);
+							potions.add(createPotion(name, Potion.Type.POTION, column, row, tilewidth, tileheight, centerOffsetX,
+									centerOffsetY, zIndex));
+						}
+						if ("ingredient".equals(type)) {
+							final String name = cell.getTile().getProperties().get("name", String.class);
+							potions.add(createPotion(name, Potion.Type.INGREDIENT, column, row, tilewidth, tileheight, centerOffsetX,
 									centerOffsetY, zIndex));
 						}
 					}
@@ -265,11 +269,11 @@ public class LevelSegment {
 		}
 	}
 
-	private Potion createPotion(String color, int column, int row, int tilewidth, int tileheight, float centerOffsetX,
-			float centerOffsetY, int zIndex) {
+	private Potion createPotion(String name, Potion.Type type, int column, int row, int tilewidth,
+			int tileheight, float centerOffsetX, float centerOffsetY, int zIndex) {
 		final float posX = (column + 0.5f) * tilewidth;
 		final float posY = (row + 0.5f) * tileheight;
-		final Potion potion = new Potion(color);
+		final Potion potion = new Potion(name, type);
 		potion.setOrigin(Align.center);
 		potion.setX(posX - potion.getWidth() / 2);
 		potion.setY(posY - potion.getHeight() / 2);
