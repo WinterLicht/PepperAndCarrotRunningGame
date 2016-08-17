@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.peppercarrot.runninggame.entities.Runner.State;
 import com.peppercarrot.runninggame.stages.WorldStage;
+import com.peppercarrot.runninggame.utils.Account;
 import com.peppercarrot.runninggame.utils.CollisionUtil;
 import com.peppercarrot.runninggame.world.collision.IEnemyCollisionAwareActor;
 
@@ -33,6 +34,7 @@ public class SweepAttack extends Ability {
 		@Override
 		public boolean onHitEnemy(Enemy enemy) {
 			if (enemy.isAlive() && !enemy.indestructible) {
+				Account.I.huntEnemies += 1;
 				enemy.die();
 			}
 

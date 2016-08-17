@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
+import com.peppercarrot.runninggame.utils.Account;
 import com.peppercarrot.runninggame.utils.Assets;
 import com.peppercarrot.runninggame.utils.Constants;
 
@@ -97,7 +98,7 @@ public class PauseScreen extends ScreenAdapter {
 			resumeGame();
 		}
 		if (Gdx.input.isKeyJustPressed(Keys.BACK) || Gdx.input.isKeyJustPressed(Keys.ESCAPE)) {
-			Gdx.app.exit();
+			Account.I.exit();
 		}
 	}
 

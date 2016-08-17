@@ -1,6 +1,5 @@
 package com.peppercarrot.runninggame.stages;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -11,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.peppercarrot.runninggame.screens.ScreenSwitch;
+import com.peppercarrot.runninggame.utils.Account;
 import com.peppercarrot.runninggame.utils.Assets;
 import com.peppercarrot.runninggame.utils.Constants;
 
@@ -110,7 +110,7 @@ public class MainMenu extends Stage {
 	private void switchScreen(int n) {
 		switch (n) {
 		case 0:
-			Gdx.app.exit();
+			Account.I.exit();
 			break;
 		case 1:
 			ScreenSwitch.getInstance().setStartScreen();

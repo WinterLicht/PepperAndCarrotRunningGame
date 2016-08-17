@@ -12,6 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.peppercarrot.runninggame.stages.CreditsTable;
 import com.peppercarrot.runninggame.stages.MainMenu;
+import com.peppercarrot.runninggame.stages.SettingsTable;
+import com.peppercarrot.runninggame.utils.Account;
 import com.peppercarrot.runninggame.utils.Assets;
 import com.peppercarrot.runninggame.utils.Constants;
 
@@ -19,6 +21,7 @@ public class SettingsScreen extends ScreenAdapter {
 	Stage stage;
 	ButtonGroup<TextButton> tabs;
 	Table about;
+	SettingsTable settings;
 
 	public SettingsScreen() {
 		stage = new Stage(DefaultScreenConfiguration.getInstance().getViewport());
@@ -36,19 +39,6 @@ public class SettingsScreen extends ScreenAdapter {
 		tabs = new ButtonGroup<TextButton>();
 		int buttonWidth = 210;
 		int buttonHeight = 85;
-		TextButton settingsbtn = new TextButton("settings", Assets.I.skin, "transparent-bg");
-		settingsbtn.addListener(new ClickListener() {
-			public void clicked (InputEvent event, float x, float y) {
-				hideAllTabs();
-				//
-				event.cancel();
-			}
-		});
-		settingsbtn.setWidth(buttonWidth);
-		settingsbtn.setHeight(buttonHeight);
-		tabs.add(settingsbtn);
-		rootTable.add(settingsbtn).width(buttonWidth).height(buttonHeight);
-
 		TextButton creditsbtn = new TextButton("credits", Assets.I.skin, "transparent-bg");
 		creditsbtn.addListener(new ClickListener() {
 			public void clicked (InputEvent event, float x, float y) {
@@ -61,21 +51,39 @@ public class SettingsScreen extends ScreenAdapter {
 		creditsbtn.setHeight(buttonHeight);
 		tabs.add(creditsbtn);
 		rootTable.add(creditsbtn).width(buttonWidth).height(buttonHeight);
+
+		TextButton settingsbtn = new TextButton("reset game data", Assets.I.skin, "transparent-bg");
+		settingsbtn.addListener(new ClickListener() {
+			public void clicked (InputEvent event, float x, float y) {
+				hideAllTabs();
+				settings.setVisible(true);
+				event.cancel();
+			}
+		});
+		settingsbtn.setWidth(buttonWidth);
+		settingsbtn.setHeight(buttonHeight);
+		tabs.add(settingsbtn);
+		rootTable.add(settingsbtn).width(buttonWidth).height(buttonHeight);
 		rootTable.row();
 		//
 		about = new CreditsTable();
-		about.setVisible(false);
 		about.setX(MainMenu.getInstance().buttonWidth);
-		about.setY(0);
 		about.setWidth(rootTable.getWidth());
 		about.setHeight(rootTable.getHeight()-Assets.I.bgTopTexture.getHeight());
 		rootTable.addActor(about);
+		settings = new SettingsTable();
+		settings.setVisible(false);
+		settings.setX(MainMenu.getInstance().buttonWidth);
+		settings.setWidth(rootTable.getWidth());
+		settings.setHeight(rootTable.getHeight()-Assets.I.bgTopTexture.getHeight());
+		rootTable.addActor(settings);
 
 		stage.addActor(rootTable);
 	}
 
 	private void hideAllTabs() {
 		about.setVisible(false);
+		settings.setVisible(false);
 	}
 
 	@Override
@@ -94,7 +102,7 @@ public class SettingsScreen extends ScreenAdapter {
 		MainMenu.getInstance().render(delta);
 
 		if (Gdx.input.isKeyJustPressed(Keys.BACK) || Gdx.input.isKeyPressed(Keys.ESCAPE)) {
-			Gdx.app.exit();
+			Account.I.exit();
 		}
 	}
 

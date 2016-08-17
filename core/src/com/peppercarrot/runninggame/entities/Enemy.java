@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Align;
 import com.nGame.utils.scene2d.AnimatedDrawable;
 import com.nGame.utils.scene2d.AnimatedImage;
+import com.peppercarrot.runninggame.utils.Account;
 import com.peppercarrot.runninggame.utils.Assets;
 import com.peppercarrot.runninggame.utils.CollisionUtil;
 
@@ -64,6 +65,7 @@ public class Enemy extends Image {
 	 * Sets also image invisible.
 	 */
 	public void die() {
+		Account.I.pacifist = false;
 		if (dyingAnim == null) {
 			this.setVisible(false);
 		} else {

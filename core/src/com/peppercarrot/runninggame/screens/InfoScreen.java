@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.peppercarrot.runninggame.stages.MainMenu;
 import com.peppercarrot.runninggame.stages.TutorialTable;
+import com.peppercarrot.runninggame.utils.Account;
 import com.peppercarrot.runninggame.utils.Assets;
 import com.peppercarrot.runninggame.utils.Constants;
 
@@ -84,7 +85,7 @@ public class InfoScreen extends ScreenAdapter {
 		MainMenu.getInstance().render(delta);
 
 		if (Gdx.input.isKeyJustPressed(Keys.BACK) || Gdx.input.isKeyPressed(Keys.ESCAPE)) {
-			Gdx.app.exit();
+			Account.I.exit();
 		}
 	}
 

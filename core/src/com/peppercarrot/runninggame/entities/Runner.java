@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.nGame.utils.scene2d.AnimatedImage;
+import com.peppercarrot.runninggame.utils.Account;
 import com.peppercarrot.runninggame.utils.Assets;
 import com.peppercarrot.runninggame.utils.Constants;
 import com.peppercarrot.runninggame.world.LevelSegment;
@@ -154,6 +155,7 @@ public abstract class Runner extends Group
 
 	public void jump() {
 		if (isRunnig()) {
+			Account.I.jumps += 1;
 			setJumping();
 			speedY = maxJumpSpeed;
 		} else if (isJumping()) {
@@ -404,6 +406,7 @@ public abstract class Runner extends Group
 	public boolean onHitPotion(Potion potion) {
 		if (potion.isVisible()) {
 			potion.collected();
+			Account.I.collectedPotions += 1;
 			switch (potion.type) {
 			case ORANGE:
 				ability1.increaseEnergy(1);
@@ -429,11 +432,13 @@ public abstract class Runner extends Group
 	@Override
 	public boolean onHitEnemy(Enemy enemy) {
 		if (enemy.isAlive() && !enemy.alreadyCollidedWPlayer) {
+			Account.I.nimbleness = false;
 			setStunned();
 			health.updateHP(-enemy.damage);
 			//Enemy can collide with player only once
 			enemy.alreadyCollidedWPlayer = true;
 			if (health.points <= 0) {
+				Account.I.died += 1;
 				setDying();
 			}
 			return true;

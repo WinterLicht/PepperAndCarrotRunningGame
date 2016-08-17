@@ -1,10 +1,13 @@
 package com.peppercarrot.runninggame.screens;
 
+import java.util.List;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.peppercarrot.runninggame.stages.MainMenu;
 import com.peppercarrot.runninggame.story.Storyboard;
+import com.peppercarrot.runninggame.utils.Account;
 
 /**
  * 
@@ -34,15 +37,22 @@ public class ScreenSwitch {
 	}
 
 	public void setLoseScreen(Stage worldStage) {
+		Account.I.saveData();
 		game.setScreen(new LoseScreen(worldStage));
 	}
 
 	public void setWinScreen(Stage worldStage) {
+		if (Account.I.nimbleness) Account.I.levelsWithoutHealthLost += 1;
+		if (Account.I.pacifist) Account.I.levelsWithoutKilling += 1;
+		Account.I.completeLevels += 1;
+		if (Account.I.progress < Account.I.startedLvlID) Account.I.progress = Account.I.startedLvlID;
+		Account.I.saveData();
 		game.setScreen(new WinScreen(worldStage));
 	}
 
-	public void setWorldScreen() {
-		game.setScreen(new WorldScreen());
+	public void setWorldScreen(List<String> levelSegments) {
+		Account.I.resetHelper();
+		game.setScreen(new WorldScreen(levelSegments));
 	}
 
 	public void setPauseScreen(Screen worldScreen, Stage worldStage) {

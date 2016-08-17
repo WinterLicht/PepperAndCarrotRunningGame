@@ -63,7 +63,7 @@ public class WorldStage extends AbstractStage {
 
 	private final List<Potion> tempPotions = new ArrayList<Potion>();
 
-	public WorldStage(int virtualWidth, int virtualHeight, Runner runner) {
+	public WorldStage(int virtualWidth, int virtualHeight, Runner runner, List<String> levelSegments) {
 		camera = new OrthographicCamera(virtualWidth, virtualHeight);
 		camera.setToOrtho(false, Constants.VIRTUAL_WIDTH, Constants.VIRTUAL_HEIGHT);
 		setViewport(new FitViewport(Constants.VIRTUAL_WIDTH, Constants.VIRTUAL_HEIGHT, camera));
@@ -71,7 +71,7 @@ public class WorldStage extends AbstractStage {
 		background = new Background("testbg.png", virtualWidth, virtualHeight);
 		addActor(background);
 
-		levelStream = new LevelStream(camera, getBatch(), 0, virtualWidth, getRoot(), runner);
+		levelStream = new LevelStream(camera, getBatch(), 0, virtualWidth, getRoot(), runner, levelSegments);
 		levelStream.setY(Constants.OFFSET_TO_GROUND);
 		addActor(levelStream);
 		//Count segments

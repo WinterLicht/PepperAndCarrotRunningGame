@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.peppercarrot.runninggame.stages.MainMenu;
 import com.peppercarrot.runninggame.stages.StartStage;
+import com.peppercarrot.runninggame.utils.Account;
 
 /**
  * The game starts in Pepper's kitchen.
@@ -53,7 +54,7 @@ public class StartScreen extends ScreenAdapter {
 		MainMenu.getInstance().render(delta);
 
 		if (Gdx.input.isKeyJustPressed(Keys.BACK) || Gdx.input.isKeyPressed(Keys.ESCAPE)) {
-			Gdx.app.exit();
+			Account.I.exit();
 		}
 	}
 }

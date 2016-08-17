@@ -13,6 +13,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
+import com.peppercarrot.runninggame.stages.WorldStage;
+import com.peppercarrot.runninggame.utils.Account;
 import com.peppercarrot.runninggame.utils.Assets;
 import com.peppercarrot.runninggame.utils.Constants;
 
@@ -87,7 +89,7 @@ public class LoseScreen extends ScreenAdapter {
 		}
 
 		if (Gdx.input.isKeyJustPressed(Keys.BACK) || Gdx.input.isKeyPressed(Keys.ESCAPE)) {
-			Gdx.app.exit();
+			Account.I.exit();
 		}
 	}
 
@@ -109,7 +111,7 @@ public class LoseScreen extends ScreenAdapter {
 			@Override
 			public void run() {
 				if (goToWorldMap) {
-					ScreenSwitch.getInstance().setWorldScreen();
+					ScreenSwitch.getInstance().setWorldScreen(((WorldStage) sceneToRender).getLevelStream().getAllFileNames());
 				}
 				if (goToStartScreen) {
 					ScreenSwitch.getInstance().setStartScreen();

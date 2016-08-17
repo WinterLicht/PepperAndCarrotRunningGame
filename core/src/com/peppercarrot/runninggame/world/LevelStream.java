@@ -36,8 +36,8 @@ public class LevelStream extends Actor {
 	/**
 	 * TODO: The segments have to be seperated by difficulty.
 	 */
-	private final List<String> allFiles = Arrays.asList("level1.tmx","level2.tmx","level3.tmx",
-			"level4.tmx","level5.tmx","level6.tmx","level7.tmx");
+	private final List<String> allFiles;// = Arrays.asList("level1.tmx","level2.tmx","level3.tmx",
+			//"level4.tmx","level5.tmx","level6.tmx","level7.tmx");
 
 	private int lastLoadedIndex = 0;
 
@@ -141,7 +141,9 @@ public class LevelStream extends Actor {
 	private boolean allFilesPassed = false;
 
 	public LevelStream(OrthographicCamera camera, Batch batch, float segmentStartOffset,
-			float firstSegmentAdditionalStartOffset, Group worldGroup, Actor runner) {
+			float firstSegmentAdditionalStartOffset, Group worldGroup, Actor runner,
+			List<String> levelSegments) {
+		this.allFiles = levelSegments;
 		this.camera = camera;
 		this.worldGroup = worldGroup;
 		this.runner = runner;
@@ -405,6 +407,10 @@ public class LevelStream extends Actor {
 
 	public boolean allSegmentsPassed() {
 		return allFilesPassed;
+	}
+
+	public List<String> getAllFileNames() {
+		return allFiles;
 	}
 
 	/**

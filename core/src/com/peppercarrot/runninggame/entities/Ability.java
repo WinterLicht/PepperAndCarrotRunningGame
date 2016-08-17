@@ -1,6 +1,7 @@
 package com.peppercarrot.runninggame.entities;
 
 import com.peppercarrot.runninggame.stages.WorldStage;
+import com.peppercarrot.runninggame.utils.Account;
 
 /**
  * Player's abilities extend this.
@@ -122,6 +123,7 @@ public abstract class Ability {
 				currentDuration = 0f;
 				energy = 0;
 				running = true;
+				Account.I.usedSkills += 1;
 				execute(worldStage);
 			} else {
 				//Not enough energy

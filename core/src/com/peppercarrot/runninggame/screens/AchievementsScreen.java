@@ -12,6 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.peppercarrot.runninggame.stages.CharacterTable;
 import com.peppercarrot.runninggame.stages.MainMenu;
+import com.peppercarrot.runninggame.stages.StatisticsTable;
+import com.peppercarrot.runninggame.utils.Account;
 import com.peppercarrot.runninggame.utils.Assets;
 import com.peppercarrot.runninggame.utils.Constants;
 
@@ -19,6 +21,7 @@ public class AchievementsScreen extends ScreenAdapter {
 	Stage stage;
 	ButtonGroup<TextButton> tabs;
 	CharacterTable charInfo;
+	StatisticsTable statistics;
 
 	public AchievementsScreen() {
 		stage = new Stage(DefaultScreenConfiguration.getInstance().getViewport());
@@ -48,6 +51,18 @@ public class AchievementsScreen extends ScreenAdapter {
 		charbtn.setHeight(buttonHeight);
 		tabs.add(charbtn);
 		rootTable.add(charbtn).width(buttonWidth).height(buttonHeight);
+		TextButton statisticsbtn = new TextButton("statistics", Assets.I.skin, "transparent-bg");
+		statisticsbtn.addListener(new ClickListener() {
+			public void clicked (InputEvent event, float x, float y) {
+				hideAllTabs();
+				statistics.setVisible(true);
+				event.cancel();
+			}
+		});
+		statisticsbtn.setWidth(buttonWidth);
+		statisticsbtn.setHeight(buttonHeight);
+		tabs.add(statisticsbtn);
+		rootTable.add(statisticsbtn).width(buttonWidth).height(buttonHeight);
 
 		charInfo = new CharacterTable();
 		charInfo.setX(MainMenu.getInstance().buttonWidth);
@@ -55,11 +70,19 @@ public class AchievementsScreen extends ScreenAdapter {
 		charInfo.setHeight(rootTable.getHeight()-Assets.I.bgTopTexture.getHeight());
 		rootTable.addActor(charInfo);
 
+		statistics = new StatisticsTable();
+		statistics.setVisible(false);
+		statistics.setX(MainMenu.getInstance().buttonWidth);
+		statistics.setWidth(rootTable.getWidth());
+		statistics.setHeight(rootTable.getHeight()-Assets.I.bgTopTexture.getHeight());
+		rootTable.addActor(statistics);
+
 		stage.addActor(rootTable);
 	}
 
 	private void hideAllTabs() {
 		charInfo.setVisible(false);
+		statistics.setVisible(false);
 	}
 
 	@Override
@@ -78,7 +101,7 @@ public class AchievementsScreen extends ScreenAdapter {
 		MainMenu.getInstance().render(delta);
 
 		if (Gdx.input.isKeyJustPressed(Keys.BACK) || Gdx.input.isKeyPressed(Keys.ESCAPE)) {
-			Gdx.app.exit();
+			Account.I.exit();
 		}
 	}
 

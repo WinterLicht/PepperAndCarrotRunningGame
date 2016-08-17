@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.peppercarrot.runninggame.stages.WorldStage;
+import com.peppercarrot.runninggame.utils.Account;
 import com.peppercarrot.runninggame.utils.Assets;
 import com.peppercarrot.runninggame.utils.CollisionUtil;
 import com.peppercarrot.runninggame.utils.ParticleEffectActor;
@@ -81,6 +82,7 @@ public class TimeDistortion extends Ability {
 		@Override
 		public boolean onHitEnemy(Enemy enemy) {
 			if (enemy.isAlive() && !enemy.indestructible) {
+				Account.I.huntEnemies += 1;
 				enemy.die();
 			}
 			return false;

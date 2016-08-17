@@ -1,5 +1,7 @@
 package com.peppercarrot.runninggame.screens;
 
+import java.util.List;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.ScreenAdapter;
@@ -38,10 +40,10 @@ public class WorldScreen extends ScreenAdapter {
 
 	private final WorldUiStage ui;
 
-	public WorldScreen() {
+	public WorldScreen(List<String> levelSegments) {
 		runner = new Pepper("pepper");
 
-		stage = new WorldStage(Constants.VIRTUAL_WIDTH, Constants.VIRTUAL_HEIGHT, runner);
+		stage = new WorldStage(Constants.VIRTUAL_WIDTH, Constants.VIRTUAL_HEIGHT, runner, levelSegments);
 
 		ui = initializeUi();
 		//After stage with levelStream is loaded:
@@ -131,9 +133,7 @@ public class WorldScreen extends ScreenAdapter {
 			//Win Condition
 			switchToWinScreen();
 		}
-
 		ui.act(delta);
-
 		// Print progress
 		// Gdx.app.log("Passed stuff", "segments=" +
 		// stage.getLevelStream().getPassedSegments() + ", tiles="

@@ -1,0 +1,9 @@
+Progress -1
+CompleteLevels 0
+HuntEnemies 0
+UsedSkills 0
+Jumps 0
+CollectedPotions 0
+Died 0
+LevelsWithoutKilling 0
+LevelsWithoutHealthLost 0

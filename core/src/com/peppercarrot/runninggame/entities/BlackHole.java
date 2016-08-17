@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.nGame.utils.scene2d.AnimatedImage;
 import com.peppercarrot.runninggame.stages.WorldStage;
+import com.peppercarrot.runninggame.utils.Account;
 import com.peppercarrot.runninggame.utils.Assets;
 import com.peppercarrot.runninggame.utils.Constants;
 
@@ -126,7 +127,7 @@ public class BlackHole extends Ability {
 		worldStage.getLevelStream().getEnemiesNear(effectXPosition, effectYPosition, RADIUS, tempAffectedEnemies);
 		for (final Enemy enemy : tempAffectedEnemies) {
 			if (enemy.isAlive() && !enemy.indestructible) {
-
+				Account.I.huntEnemies += 1;
 				enemy.die();
 				enemy.setVisible(false);
 
