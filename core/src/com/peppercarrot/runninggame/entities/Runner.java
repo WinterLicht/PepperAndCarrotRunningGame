@@ -14,6 +14,7 @@ import com.peppercarrot.runninggame.utils.Assets;
 import com.peppercarrot.runninggame.utils.Constants;
 import com.peppercarrot.runninggame.world.LevelSegment;
 import com.peppercarrot.runninggame.world.collision.IEnemyCollisionAwareActor;
+import com.peppercarrot.runninggame.world.collision.IIngredientCollisionAwareActor;
 import com.peppercarrot.runninggame.world.collision.IPlatformCollisionAwareActor;
 import com.peppercarrot.runninggame.world.collision.IPotionCollisionAwareActor;
 
@@ -25,7 +26,7 @@ import com.peppercarrot.runninggame.world.collision.IPotionCollisionAwareActor;
  *
  */
 public abstract class Runner extends Group
-		implements IPlatformCollisionAwareActor, IEnemyCollisionAwareActor, IPotionCollisionAwareActor {
+		implements IPlatformCollisionAwareActor, IEnemyCollisionAwareActor, IPotionCollisionAwareActor, IIngredientCollisionAwareActor {
 
 	/**
 	 * For UI.
@@ -424,6 +425,16 @@ public abstract class Runner extends Group
 				System.out.println("for this potion is nothing defined.");
 				break;
 			}
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean onHitIngredient(Ingredient ingredient) {
+		if (ingredient.isVisible()) {
+			ingredient.collected();
+			Account.I.ingredients.add(ingredient.getName());
 			return true;
 		}
 		return false;

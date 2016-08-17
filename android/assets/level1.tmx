@@ -68,6 +68,27 @@
    </properties>
   </tile>
  </tileset>
+ <tileset firstgid="42" name="ingredients" tilewidth="95" tileheight="95">
+  <image source="ingredients.png" width="285" height="95"/>
+  <tile id="0">
+   <properties>
+    <property name="name" value="ingredient_sour-1"/>
+    <property name="type" value="ingredient"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="name" value="ingredient_sour-2"/>
+    <property name="type" value="ingredient"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="name" value="ingredient_sour-3"/>
+    <property name="type" value="ingredient"/>
+   </properties>
+  </tile>
+ </tileset>
  <layer name="background" width="35" height="7" visible="0">
   <data encoding="base64" compression="zlib">
    eJxjYBgFo2AUDCcAAAPUAAE=
@@ -111,7 +132,7 @@
    <property name="events" value="true"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYBgYwIjEZkKTY6GnQ6gImAfaAcMMDNV0MNAAACdIAA8=
+   eJxjYBgYwIjEZkKTY6GnQ6gImAfaAcMMkJoOtJDY2mhyOhS6ZSgBAKV8AJA=
   </data>
  </layer>
 </map>

@@ -152,7 +152,7 @@ public class BlackHole extends Ability {
 			if (potion.isVisible()) {
 				potion.collected();
 
-				final Image potionImage = new Image(potion.potionImage.getDrawable());
+				final Image potionImage = new Image(potion.image.getDrawable());
 				potionImage.setVisible(true);
 
 				// Set image on initial potion position

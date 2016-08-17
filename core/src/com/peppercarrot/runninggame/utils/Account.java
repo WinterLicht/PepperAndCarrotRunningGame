@@ -2,6 +2,8 @@ package com.peppercarrot.runninggame.utils;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
@@ -24,6 +26,10 @@ public enum Account {
 	public int died = 0;
 	public int levelsWithoutKilling = 0;
 	public int levelsWithoutHealthLost = 0;
+
+	public List<String> ingredients = new ArrayList<String>();
+	public String brewedPotion = "";
+	public int brewedPotionProgress = 0;
 
 	//Helper 
 	public int startedLvlID = -1;
@@ -70,6 +76,17 @@ public enum Account {
 					case "LevelsWithoutHealthLost":
 						levelsWithoutHealthLost = Integer.parseInt(words[1]);
 						break;
+					case "Ingredients":
+						int amount = Integer.parseInt(words[1]);
+						for (int n = 2; n < amount+2; n++) {
+							String ingredient = words[n];
+							ingredients.add(ingredient);
+						}
+						break;
+					case "BrewedPotion":
+						brewedPotion = words[1];
+						brewedPotionProgress = Integer.parseInt(words[2]);
+						break;
 					default:
 						break;
 				}
@@ -105,18 +122,28 @@ public enum Account {
 	public String toString(){
 		String newLine = System.getProperty("line.separator");
 		String output;
-		output= ("Progress" + " " + progress + newLine);
-		output = output.concat("CompleteLevels"+ " " + completeLevels + newLine);
-		output = output.concat("HuntEnemies"+ " " + huntEnemies + newLine);
-		output = output.concat("UsedSkills" + " "+ usedSkills + newLine);
-		output = output.concat("Jumps" + " "+ jumps + newLine);
-		output = output.concat("CollectedPotions" + " "+ collectedPotions + newLine);
-		output = output.concat("Died" + " "+ died + newLine);
-		output = output.concat("LevelsWithoutKilling" + " "+ levelsWithoutKilling + newLine);
-		output = output.concat("LevelsWithoutHealthLost" + " "+ levelsWithoutHealthLost + newLine);
+		output= ("Progress " + progress + newLine);
+		output = output.concat("CompleteLevels " + completeLevels + newLine);
+		output = output.concat("HuntEnemies " + huntEnemies + newLine);
+		output = output.concat("UsedSkills "+ usedSkills + newLine);
+		output = output.concat("Jumps "+ jumps + newLine);
+		output = output.concat("CollectedPotions "+ collectedPotions + newLine);
+		output = output.concat("Died " + died + newLine);
+		output = output.concat("LevelsWithoutKilling " + levelsWithoutKilling + newLine);
+		output = output.concat("LevelsWithoutHealthLost " + levelsWithoutHealthLost + newLine);
+		String ingredients_ = "";
+		for (String ingredient : ingredients) {
+			ingredients_ += ingredient;
+			ingredients_ += " ";
+		}
+		output = output.concat("Ingredients " + ingredients.size() + " " + ingredients_ + newLine);
+		output = output.concat("BrewedPotion " + brewedPotion + " " + brewedPotionProgress + newLine);
 		return output;
 	}
 
+	/**
+	 * Reset game progress.
+	 */
 	public void reset() {
 		progress = -1;
 		completeLevels = 0;
@@ -127,6 +154,9 @@ public enum Account {
 		died = 0;
 		levelsWithoutKilling = 0;
 		levelsWithoutHealthLost = 0;
+		ingredients = new ArrayList<String>();
+		brewedPotion = "";
+		brewedPotionProgress = 0;
 		saveData();
 	}
 

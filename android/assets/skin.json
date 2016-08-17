@@ -45,7 +45,8 @@
 
 	com.badlogic.gdx.scenes.scene2d.ui.ProgressBar$ProgressBarStyle: {
       hp: { background: hp_empty, knobBefore: hp },
-      level: { background: none, knobBefore: bar, disabledKnobBefore: none }
+      level: { background: none, knobBefore: bar, disabledKnobBefore: none },
+      default: { background: bg_dark_brown, knobBefore: bg_light_brown  }
      }
 
     com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle: {
