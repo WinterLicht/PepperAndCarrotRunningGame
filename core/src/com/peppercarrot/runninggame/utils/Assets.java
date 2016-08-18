@@ -25,6 +25,8 @@ public enum Assets {
 	public Image bgTexture;
 	public Image bgTopTexture;
 
+	public Image evolutionSketch;
+
 	Assets() {
 		setUp();
 	}
@@ -44,6 +46,10 @@ public enum Assets {
 		texture.setFilter(TextureFilter.MipMapLinearNearest, TextureFilter.Nearest);
 		bgTopTexture = new Image(texture);
 		bgTopTexture.setY(Constants.VIRTUAL_HEIGHT-bgTopTexture.getHeight());
+
+		texture = new Texture(Gdx.files.internal("tree.png"), true);
+		texture.setFilter(TextureFilter.MipMapLinearNearest, TextureFilter.Nearest);
+		evolutionSketch = new Image(texture);
 	}
 
 	public Array<TextureAtlas.AtlasRegion> getRegions(String name) {

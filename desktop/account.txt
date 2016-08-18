@@ -1,11 +1,12 @@
-Progress 1
-CompleteLevels 5
-HuntEnemies 27
-UsedSkills 26
-Jumps 19
-CollectedPotions 28
+Progress -1
+CompleteLevels 0
+HuntEnemies 0
+UsedSkills 0
+Jumps 0
+CollectedPotions 0
 Died 0
 LevelsWithoutKilling 0
-LevelsWithoutHealthLost 5
-Ingredients 8 ingredient_sour-1 ingredient_sour-1 ingredient_sour-3 ingredient_sour-1 ingredient_sour-1 ingredient_sour-1 ingredient_sour-1 ingredient_sour-1 
+LevelsWithoutHealthLost 0
+Ingredients 0 
 BrewedPotion  0
+Ghost 0

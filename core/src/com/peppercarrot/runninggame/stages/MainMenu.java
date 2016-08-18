@@ -96,7 +96,7 @@ public class MainMenu extends Stage {
 			case 5:
 				button.setX(Constants.VIRTUAL_WIDTH-buttonWidth);
 				button.setY(0);
-				button.setText("Magic Book");
+				button.setText("Statistics");
 				break;
 			}
 			buttons.setMaxCheckCount(2);

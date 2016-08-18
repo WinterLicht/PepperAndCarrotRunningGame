@@ -10,7 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.peppercarrot.runninggame.stages.CreditsTable;
 import com.peppercarrot.runninggame.stages.MainMenu;
 import com.peppercarrot.runninggame.stages.SettingsTable;
 import com.peppercarrot.runninggame.utils.Account;
@@ -20,7 +19,7 @@ import com.peppercarrot.runninggame.utils.Constants;
 public class SettingsScreen extends ScreenAdapter {
 	Stage stage;
 	ButtonGroup<TextButton> tabs;
-	Table about;
+	//Table about;
 	SettingsTable settings;
 
 	public SettingsScreen() {
@@ -39,6 +38,7 @@ public class SettingsScreen extends ScreenAdapter {
 		tabs = new ButtonGroup<TextButton>();
 		int buttonWidth = 210;
 		int buttonHeight = 85;
+		/*
 		TextButton creditsbtn = new TextButton("credits", Assets.I.skin, "transparent-bg");
 		creditsbtn.addListener(new ClickListener() {
 			public void clicked (InputEvent event, float x, float y) {
@@ -51,7 +51,7 @@ public class SettingsScreen extends ScreenAdapter {
 		creditsbtn.setHeight(buttonHeight);
 		tabs.add(creditsbtn);
 		rootTable.add(creditsbtn).width(buttonWidth).height(buttonHeight);
-
+		*/
 		TextButton settingsbtn = new TextButton("reset game data", Assets.I.skin, "transparent-bg");
 		settingsbtn.addListener(new ClickListener() {
 			public void clicked (InputEvent event, float x, float y) {
@@ -66,13 +66,14 @@ public class SettingsScreen extends ScreenAdapter {
 		rootTable.add(settingsbtn).width(buttonWidth).height(buttonHeight);
 		rootTable.row();
 		//
+		/*
 		about = new CreditsTable();
 		about.setX(MainMenu.getInstance().buttonWidth);
 		about.setWidth(rootTable.getWidth());
 		about.setHeight(rootTable.getHeight()-Assets.I.bgTopTexture.getHeight());
 		rootTable.addActor(about);
+		*/
 		settings = new SettingsTable();
-		settings.setVisible(false);
 		settings.setX(MainMenu.getInstance().buttonWidth);
 		settings.setWidth(rootTable.getWidth());
 		settings.setHeight(rootTable.getHeight()-Assets.I.bgTopTexture.getHeight());
@@ -82,7 +83,7 @@ public class SettingsScreen extends ScreenAdapter {
 	}
 
 	private void hideAllTabs() {
-		about.setVisible(false);
+		//about.setVisible(false);
 		settings.setVisible(false);
 	}
 

@@ -30,6 +30,8 @@ public enum Account {
 	public List<String> ingredients = new ArrayList<String>();
 	public String brewedPotion = "";
 	public int brewedPotionProgress = 0;
+	
+	public int ghostID = 0;
 
 	//Helper and temporal variables
 	public int startedLvlID = -1;
@@ -88,6 +90,9 @@ public enum Account {
 						brewedPotion = words[1];
 						brewedPotionProgress = Integer.parseInt(words[2]);
 						break;
+					case "Ghost":
+						ghostID = Integer.parseInt(words[1]);
+						break;
 					default:
 						break;
 				}
@@ -139,6 +144,7 @@ public enum Account {
 		}
 		output = output.concat("Ingredients " + ingredients.size() + " " + ingredients_ + newLine);
 		output = output.concat("BrewedPotion " + brewedPotion + " " + brewedPotionProgress + newLine);
+		output = output.concat("Ghost " + ghostID + newLine);
 		return output;
 	}
 
@@ -158,6 +164,7 @@ public enum Account {
 		ingredients = new ArrayList<String>();
 		brewedPotion = "";
 		brewedPotionProgress = 0;
+		ghostID = 0;
 		saveData();
 	}
 

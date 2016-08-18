@@ -31,27 +31,33 @@ public class CreditsTable extends Table {
 		texture = new Texture(Gdx.files.internal("logo_original_webcomic.png"), true);
 		texture.setFilter(TextureFilter.MipMapLinearNearest, TextureFilter.Nearest);
 		Image originalLogo = new Image(texture);
+		//TODO:
+		//deactivated temporary
+		/*
 		originalLogo.addListener(new ClickListener() {
 			public void clicked (InputEvent event, float x, float y) {
 				Gdx.net.openURI("http://www.peppercarrot.com/");
 				event.cancel();
 	        }
 	    });
+	    */
 		texture = new Texture(Gdx.files.internal("Pepper_And_Carrot_Running_Game.png"), true);
 		texture.setFilter(TextureFilter.MipMapLinearNearest, TextureFilter.Nearest);
 		Image gameLogo = new Image(texture);
+		/*
 		gameLogo.addListener(new ClickListener() {
 			public void clicked (InputEvent event, float x, float y) {
 				Gdx.net.openURI("https://github.com/WinterLicht/PepperAndCarrotRunningGame");
 				event.cancel();
 	        }
 	    });
+	    */
 		Label label1 = new Label("This is a derivative of universe of the webcomic" +
 				" Pepper&Carrot created by David Revoy and licensed under CC-BY 4.0", Assets.I.skin, "default");
 		label1.setWrap(true);
-		Label label2 = new Label("Visit original Pepper&Carrot website.", Assets.I.skin, "default");
+		Label label2 = new Label("Visit original Pepper&Carrot website. (Link in this Version is deactivated)", Assets.I.skin, "default");
 		label2.setWrap(true);
-		Label label3 = new Label("This game is open source and can be found on GitHub", Assets.I.skin, "default");
+		Label label3 = new Label("This game is open source and can be found on GitHub. (Link in this Version is deactivated)", Assets.I.skin, "default");
 		label3.setWrap(true);
 		content.add(label1).width(700).colspan(2);
 		content.row();
