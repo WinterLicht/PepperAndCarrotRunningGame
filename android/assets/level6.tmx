@@ -68,9 +68,35 @@
    </properties>
   </tile>
  </tileset>
- <layer name="background" width="35" height="7" visible="0">
+ <tileset firstgid="42" name="ingredients" tilewidth="95" tileheight="95">
+  <image source="ingredients.png" width="285" height="95"/>
+  <tile id="0">
+   <properties>
+    <property name="name" value="ingredient_sour-1"/>
+    <property name="type" value="ingredient"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="name" value="ingredient_sour-2"/>
+    <property name="type" value="ingredient"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="name" value="ingredient_sour-3"/>
+    <property name="type" value="ingredient"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="background" width="35" height="7">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUDCcAAAPUAAE=
+   eJxjYKANEIfgBkrMEEbj8xNQL4ZDXAaCKXILIUDIbeQAfGEoQ0CvLFCfLJpZEnjMIwSoGYaK1DAED5ACYmkoGzkNobNB6vCFoxQWfUMBAAD9XQWi
+  </data>
+ </layer>
+ <layer name="background 2" width="35" height="7">
+  <data encoding="base64" compression="zlib">
+   eJxjYBh6QA2KBxqoArEKELMPtENGAVWA2EA7gEoAANCzALM=
   </data>
  </layer>
  <layer name="platforms" width="35" height="7">
@@ -79,15 +105,15 @@
    <property name="z-index" value="0"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYMAPOICYDQmzE1BPb6DCQB93oYeDMhHuItZN6GYP1rCmJoD5ebj5EeQvWNqApU1SMXLawmYGrrQHS3MA/P4CRw==
+   eJxjYMAPWIGYDQmzE1BPb6DCQB93cTCghoMyEe4i1k3oZg/WsKYmgPl5uPkR5C9Y2oClTVIxctrCZgautAdLcwDx4gJE
   </data>
  </layer>
- <layer name="foreground" width="35" height="7" visible="0">
+ <layer name="foreground" width="35" height="7">
   <properties>
    <property name="z-index" value="60"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUDCcAAAPUAAE=
+   eJxjYCAOyBOpbrgDOSAWB2IJBG4A8htAcmpQTInZIExKWCsCsSyUDaQbZKBuoQYAmSdLWBmKWwYLIOQWoL8eALEDNe0UxiEOjBMGUShGBrB4hoazAro8ISCGQxwAPDwHpQ==
   </data>
  </layer>
  <layer name="obstacles" width="35" height="7">
@@ -95,7 +121,7 @@
    <property name="events" value="true"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYBhaQA0NDyYwWN01CugPVKmgH58Z6PkAOc0BAC4hAjg=
+   eJxjYBhaQA0HezCBwequUUA/oEoF/fjMUMOCYQAAgVMBoA==
   </data>
  </layer>
  <layer name="enemies" width="35" height="7" visible="0">
@@ -111,7 +137,7 @@
    <property name="events" value="true"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYBgFjAPtgFFAF8BMpj4mqrqC9gAACrwABw==
+   eJxjYBgFjFBaZ0BdMXyAFpTWRhIbDGHLTKY+Jqq6gvYAAEHjALQ=
   </data>
  </layer>
 </map>

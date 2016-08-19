@@ -68,9 +68,35 @@
    </properties>
   </tile>
  </tileset>
- <layer name="background" width="35" height="7" visible="0">
+ <tileset firstgid="42" name="ingredients" tilewidth="95" tileheight="95">
+  <image source="ingredients.png" width="285" height="95"/>
+  <tile id="0">
+   <properties>
+    <property name="name" value="ingredient_sour-1"/>
+    <property name="type" value="ingredient"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="name" value="ingredient_sour-2"/>
+    <property name="type" value="ingredient"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="name" value="ingredient_sour-3"/>
+    <property name="type" value="ingredient"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="background" width="35" height="7">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUDCcAAAPUAAE=
+   eJxjYBhaQIqB4QA29lAGUgPtABoCWQaGB0DsMFB2SaHKNwCxAjY5bICUeBGG4oEGIDcDAPYLBes=
+  </data>
+ </layer>
+ <layer name="background 2" width="35" height="7">
+  <data encoding="base64" compression="zlib">
+   eJxjYBh4IMvAsACIFfDIHwDiBPq5CDcAuXWg3YAPQMMyYaDdAQIgd8gi2GTFIaG0gUcfTvugZlIMgGY8AGIHKhiFAaTQaGIALJwAvooLOQ==
   </data>
  </layer>
  <layer name="platforms" width="35" height="7">
@@ -82,12 +108,12 @@
    eJxjYMAEHECsjEUcHagAMTsR6kbB0AGguGeD4tG4JQ8ghyE5GFu4w8zEli9V0PQBAJ+PAT0=
   </data>
  </layer>
- <layer name="foreground" width="35" height="7" visible="0">
+ <layer name="foreground" width="35" height="7">
   <properties>
    <property name="z-index" value="60"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUDCcAAAPUAAE=
+   eJxjYBicQJaB4QAQJ4DY4kAswcDQIAGhYWx0PkhdA43cskAWylaE8JHlGmB8qDvB7lCkkVuQgQyavchhIAN1pwwOtyCHLzYgT6abkMMHm7043LJAFl2QCkARiS1DpFuoDeSgGBZXyOEOEoeFM8h95IY5OgAAetwSZQ==
   </data>
  </layer>
  <layer name="obstacles" width="35" height="7">
@@ -111,7 +137,7 @@
    <property name="events" value="true"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYKAvYKKzfaOAeMBMhh5GMu1iIVPfKCAMABb4AAs=
+   eJxjYKAvYKKzfaOAeMBMhh5GMu1iIVMfuUCHzvYNJAAAP4gANw==
   </data>
  </layer>
 </map>

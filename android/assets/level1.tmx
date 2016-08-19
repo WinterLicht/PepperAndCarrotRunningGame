@@ -89,9 +89,14 @@
    </properties>
   </tile>
  </tileset>
- <layer name="background" width="35" height="7" visible="0">
+ <layer name="background" width="35" height="7">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUDCcAAAPUAAE=
+   eJxjYBg4IAnFQxHIMjAcAOIEEFsciCWQMJC/gM5uWQDECiC2IoQPB0B+A4wtw8DgAKUP0MNdilCaH4gFgFgQSQ4YRgnAsDogTqFbpKC0KBpGBzJIbGh4EQTI5oHiG5u51AZiUEwJAABVSgrs
+  </data>
+ </layer>
+ <layer name="background2" width="35" height="7">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgYIMvAcACIEwbI+kENgOGyQBaJLw7EEgwMDRIQdsPAuAoCZBjA7gPhBkUS3CJPMxdBALpbgO5zoLGVgxYAAOdkBic=
   </data>
  </layer>
  <layer name="platforms" width="35" height="7">
@@ -100,15 +105,15 @@
    <property name="z-index" value="0"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYBgFHEDMhoTZB9Y5VAEwPw0HvwwFgJ6GcGFy4gOX2bjMAgCvzACp
+   eJxjYBgFHEDMhoTZB9Y5VAGsDMPHL0MBoKchXJic+MBlNi6zAKnYAKY=
   </data>
  </layer>
- <layer name="foreground" width="35" height="7" visible="0">
+ <layer name="foreground" width="35" height="7">
   <properties>
    <property name="z-index" value="60"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUDCcAAAPUAAE=
+   eJxjYKAuEAdiCQhuAGEgv4HKVhANFIFYFsoG0g2KBNwiR0O3yKDxCbmFnmAwuUVmELmFEACmqQNAnIAsJgXE8mjq5NHEpKCYEwljAyJI6tHtwOKWBbC0DgBKiAjN
   </data>
  </layer>
  <layer name="obstacles" width="35" height="7" visible="0">
@@ -132,7 +137,7 @@
    <property name="events" value="true"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYBgYwIjEZkKTY6GnQ6gImAfaAcMMkJoOtJCwNhpfB40Pw8MRAAAqGgI0
+   eJxjYBgYwIjEZkKTY6GnQ6gImAfaAUQArYF2AAlgqKaDgQYAdrAAOQ==
   </data>
  </layer>
 </map>

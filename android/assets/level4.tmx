@@ -68,9 +68,35 @@
    </properties>
   </tile>
  </tileset>
- <layer name="background" width="35" height="7" visible="0">
+ <tileset firstgid="42" name="ingredients" tilewidth="95" tileheight="95">
+  <image source="ingredients.png" width="285" height="95"/>
+  <tile id="0">
+   <properties>
+    <property name="name" value="ingredient_sour-1"/>
+    <property name="type" value="ingredient"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="name" value="ingredient_sour-2"/>
+    <property name="type" value="ingredient"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="name" value="ingredient_sour-3"/>
+    <property name="type" value="ingredient"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="background" width="35" height="7">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUDCcAAAPUAAE=
+   eJxjYBh8QByIJRC4AY1GFgdjkB4BKKY2UCRDDzvVXQEB+NzCz4DwP3JYCEJpDiBWBmJVJEwJkKFQPz2AMBpfEooZkGh0gCwuRQU3SGMRUwNiFQZIfICAKpQPSzeguGJDkoepVSPSTgBD1QcW
+  </data>
+ </layer>
+ <layer name="background 2" width="35" height="7">
+  <data encoding="base64" compression="zlib">
+   eJxjYKAeEKaiWcQAKSDmh7LlSNAny8DwAIgdSFAPB+JALAHF+AAfkeYDzW6QJawMK5BhQHUbDMDCQg2h7gCZVlAFgMIM5BZgmB0QR3ILkO0AEpOgo/tkGBDhggvgkwelcSkoTY30TolbcAEAE3sJdA==
   </data>
  </layer>
  <layer name="platforms" width="35" height="7">
@@ -79,15 +105,15 @@
    <property name="z-index" value="0"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYCAdcAAxGxJmJ8MMWgIVBvq4Cz0clIlw12ALq8EE6BVv9AagdEIobZACYOGEDYPCDgBn9gFm
+   eJxjYCAdsAIxGxJmJ8MMWgIVBvq4Cz0clIlw12ALq8EE6BVv9AYcDITTBikAFk7YMCjsAFVOAWA=
   </data>
  </layer>
- <layer name="foreground" width="35" height="7" visible="0">
+ <layer name="foreground" width="35" height="7">
   <properties>
    <property name="z-index" value="60"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUDCcAAAPUAAE=
+   eJxjYCAfyEHxSAfUDgNZBoYDQJxAZWPJAkB3LJAdaEcMESAJxMJQWpICM0CAjwi10lBaDo0PAN0jA2g=
   </data>
  </layer>
  <layer name="obstacles" width="35" height="7">
@@ -111,7 +137,7 @@
    <property name="events" value="true"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYKAuYKKyedgAIx3sGGmAeaAdMAqoBgATYAAH
+   eJxjYKAuYKKyedgAI4nqtWniiqEBdIhUx0xTVyCAFp3sIQcMl3QCAEOvALM=
   </data>
  </layer>
 </map>

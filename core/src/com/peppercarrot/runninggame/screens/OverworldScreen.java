@@ -136,69 +136,78 @@ public class OverworldScreen extends ScreenAdapter {
 		this.levelButtons[0].addListener(new ClickListener() {
 			public void clicked (InputEvent event, float x, float y) {
 				Account.I.startedLvlID = 0;
-				ScreenSwitch.getInstance().setWorldScreen(Arrays.asList("level1.tmx","level2.tmx"));
+				ScreenSwitch.getInstance().setWorldScreen(Arrays.asList("level1.tmx","level2.tmx","level2.tmx",
+						"level1.tmx","level1.tmx"));
 				event.cancel();
 			}
 		});
 		this.levelButtons[1].addListener(new ClickListener() {
 			public void clicked (InputEvent event, float x, float y) {
 				Account.I.startedLvlID = 1;
-				ScreenSwitch.getInstance().setWorldScreen(Arrays.asList("level1.tmx","level2.tmx"));
+				ScreenSwitch.getInstance().setWorldScreen(Arrays.asList("level2.tmx","level3.tmx","level2.tmx",
+						"level1.tmx","level3.tmx","level2.tmx"));
 				event.cancel();
 			}
 		});
 		this.levelButtons[2].addListener(new ClickListener() {
 			public void clicked (InputEvent event, float x, float y) {
-				Account.I.startedLvlID = 1;
-				ScreenSwitch.getInstance().setWorldScreen(Arrays.asList("level1.tmx","level2.tmx"));
+				Account.I.startedLvlID = 2;
+				ScreenSwitch.getInstance().setWorldScreen(Arrays.asList("level1.tmx","level2.tmx","level3.tmx",
+						"level4.tmx","level3.tmx","level3.tmx","level1.tmx"));
 				event.cancel();
 			}
 		});
 		this.levelButtons[3].addListener(new ClickListener() {
 			public void clicked (InputEvent event, float x, float y) {
-				Account.I.startedLvlID = 1;
-				ScreenSwitch.getInstance().setWorldScreen(Arrays.asList("level1.tmx","level2.tmx"));
+				Account.I.startedLvlID = 3;
+				ScreenSwitch.getInstance().setWorldScreen(Arrays.asList("level1.tmx","level2.tmx","level3.tmx",
+						"level4.tmx","level3.tmx","level3.tmx","level1.tmx"));
 				event.cancel();
 			}
 		});
 		this.levelButtons[4].addListener(new ClickListener() {
 			public void clicked (InputEvent event, float x, float y) {
-				Account.I.startedLvlID = 1;
-				ScreenSwitch.getInstance().setWorldScreen(Arrays.asList("level1.tmx","level2.tmx"));
+				Account.I.startedLvlID = 4;
+				ScreenSwitch.getInstance().setWorldScreen(Arrays.asList("level3.tmx","level1.tmx","level3.tmx",
+						"level4.tmx","level3.tmx","level4.tmx","level1.tmx"));
 				event.cancel();
 			}
 		});
 		this.levelButtons[5].addListener(new ClickListener() {
 			public void clicked (InputEvent event, float x, float y) {
-				Account.I.startedLvlID = 1;
-				ScreenSwitch.getInstance().setWorldScreen(Arrays.asList("level1.tmx","level2.tmx"));
+				Account.I.startedLvlID = 5;
+				ScreenSwitch.getInstance().setWorldScreen(Arrays.asList("level1.tmx","level3.tmx","level4.tmx",
+						"level5.tmx","level3.tmx","level2.tmx","level5.tmx","level5.tmx"));
 				event.cancel();
 			}
 		});
 		this.levelButtons[6].addListener(new ClickListener() {
 			public void clicked (InputEvent event, float x, float y) {
-				Account.I.startedLvlID = 1;
-				ScreenSwitch.getInstance().setWorldScreen(Arrays.asList("level1.tmx","level2.tmx"));
+				Account.I.startedLvlID = 6;
+				ScreenSwitch.getInstance().setWorldScreen(Arrays.asList("level1.tmx","level6.tmx","level4.tmx",
+						"level3.tmx","level2.tmx","level4.tmx","level5.tmx","level4.tmx"));
 				event.cancel();
 			}
 		});
 		this.levelButtons[7].addListener(new ClickListener() {
 			public void clicked (InputEvent event, float x, float y) {
-				Account.I.startedLvlID = 1;
-				ScreenSwitch.getInstance().setWorldScreen(Arrays.asList("level1.tmx","level2.tmx"));
+				Account.I.startedLvlID = 7;
+				ScreenSwitch.getInstance().setWorldScreen(Arrays.asList("level6.tmx","level7.tmx","level7.tmx",
+						"level2.tmx","level3.tmx","level1.tmx","level6.tmx","level5.tmx"));
 				event.cancel();
 			}
 		});
 		this.levelButtons[8].addListener(new ClickListener() {
 			public void clicked (InputEvent event, float x, float y) {
-				Account.I.startedLvlID = 1;
-				ScreenSwitch.getInstance().setWorldScreen(Arrays.asList("level1.tmx","level2.tmx"));
+				Account.I.startedLvlID = 8;
+				ScreenSwitch.getInstance().setWorldScreen(Arrays.asList("level7.tmx","level3.tmx","level7.tmx",
+						"level5.tmx","level6.tmx","level7.tmx","level7.tmx","level4.tmx","level4.tmx"));
 				event.cancel();
 			}
 		});
 		this.levelButtons[9].addListener(new ClickListener() {
 			public void clicked (InputEvent event, float x, float y) {
-				Account.I.startedLvlID = 1;
+				Account.I.startedLvlID = 8;
 				ScreenSwitch.getInstance().setWorldScreen(Arrays.asList("level1.tmx","level2.tmx","level3.tmx",
 						"level4.tmx","level5.tmx","level6.tmx","level7.tmx"));
 				event.cancel();

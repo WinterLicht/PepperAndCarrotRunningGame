@@ -40,7 +40,7 @@ public class StartStage extends AbstractStage {
 	private final int CAULDRON_POS_X = 933;
 	private final int CAULDRON_POS_Y = 127;
 	//TODO later every potion can have its own amount!
-	private final int INGREDIENTS_NEEDED_FOR_POTION = 10;
+	private final int INGREDIENTS_NEEDED_FOR_POTION = 15;
 
 	public StartStage() {
 		rootTable = new Table();
