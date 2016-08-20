@@ -34,7 +34,7 @@ public enum Assets {
 	public void setUp() {
 		manager = new AssetManager();
 		manager.load("skin.atlas", TextureAtlas.class);
-		manager.finishLoading();
+		
 		atlas = manager.get("skin.atlas", TextureAtlas.class);
 		skin = new Skin(Gdx.files.internal("skin.json"));
 
@@ -50,6 +50,9 @@ public enum Assets {
 		texture = new Texture(Gdx.files.internal("tree.png"), true);
 		texture.setFilter(TextureFilter.MipMapLinearNearest, TextureFilter.Nearest);
 		evolutionSketch = new Image(texture);
+		
+		// keep this at the end to ensure all assets are loaded
+		manager.finishLoading();
 	}
 
 	public Array<TextureAtlas.AtlasRegion> getRegions(String name) {
