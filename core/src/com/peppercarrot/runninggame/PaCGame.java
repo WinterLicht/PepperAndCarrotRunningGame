@@ -22,7 +22,7 @@ public class PaCGame extends Game {
 	public void create() {
 		DefaultScreenConfiguration.initializeInstance();
 		ScreenSwitch.initialize(this);
-		ScreenSwitch.getInstance().setStartScreen();
+		ScreenSwitch.getInstance().setLoadingScreen();
 	}
 
 	@Override

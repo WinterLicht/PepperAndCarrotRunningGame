@@ -26,8 +26,6 @@ public class DefaultScreenConfiguration {
 		camera.update();
 
 		viewport = new FitViewport(Constants.VIRTUAL_WIDTH, Constants.VIRTUAL_HEIGHT, camera);
-		
-		MainMenu.initialize(viewport);
 	}
 
 	public Batch getBatch() {
@@ -40,6 +38,13 @@ public class DefaultScreenConfiguration {
 
 	public FitViewport getViewport() {
 		return viewport;
+	}
+
+	/**
+	 * After Assets are loaded
+	 */
+	public void initializeMainMenu() {
+		MainMenu.initialize(viewport);
 	}
 
 	public static void initializeInstance() {

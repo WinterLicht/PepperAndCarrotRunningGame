@@ -31,6 +31,10 @@ public class ScreenSwitch {
 		this.game = game;
 	}
 
+	public void setLoadingScreen() {
+		game.setScreen(new LoadingScreen());
+	}
+
 	public void setStartScreen() {
 		game.setScreen(new StartScreen());
 		MainMenu.getInstance().setChecked(1);

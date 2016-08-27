@@ -49,6 +49,7 @@ public class StartStage extends AbstractStage {
 		rootTable.padRight(MainMenu.getInstance().buttonWidth+paddingToMainMenu);
 		rootTable.padLeft(MainMenu.getInstance().buttonWidth+paddingToMainMenu);
 		rootTable.top();
+		rootTable.addActor(Assets.I.bgTopTexture);
 		//Add Pepper
 		Pepper runner = new Pepper("pepper");
 		runner.setState(State.IDLE);

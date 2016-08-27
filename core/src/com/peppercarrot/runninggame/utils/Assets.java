@@ -1,7 +1,7 @@
 package com.peppercarrot.runninggame.utils;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.TextureLoader.TextureParameter;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -28,31 +28,35 @@ public enum Assets {
 	public Image evolutionSketch;
 
 	Assets() {
-		setUp();
 	}
 
-	public void setUp() {
+	/**
+	 * Add everything to be loaded.
+	 */
+	public void prepareForLoading() {
+		TextureParameter tParam = new TextureParameter();
+		tParam.minFilter = TextureFilter.MipMapLinearNearest;
+		tParam.genMipMaps = true;
+		
 		manager = new AssetManager();
 		manager.load("skin.atlas", TextureAtlas.class);
+		manager.load("skin.json", Skin.class);
+		manager.load("texture.png", Texture.class, tParam);
+		manager.load("top_bg.png", Texture.class, tParam);
+		manager.load("tree.png", Texture.class, tParam);
+	}
+
+	/**
+	 * After assets are ready.
+	 */
+	public void setUp() {
+		bgTexture = new Image(manager.get("texture.png", Texture.class));
+		bgTopTexture = new Image(manager.get("top_bg.png", Texture.class));
+		bgTopTexture.setY(Constants.VIRTUAL_HEIGHT-bgTopTexture.getHeight());
+		evolutionSketch = new Image(manager.get("tree.png", Texture.class));
 		
 		atlas = manager.get("skin.atlas", TextureAtlas.class);
-		skin = new Skin(Gdx.files.internal("skin.json"));
-
-		Texture texture;
-		texture = new Texture(Gdx.files.internal("texture.png"), true);
-		texture.setFilter(TextureFilter.MipMapLinearNearest, TextureFilter.Nearest);
-		bgTexture = new Image(texture);
-		texture = new Texture(Gdx.files.internal("top_bg.png"), true);
-		texture.setFilter(TextureFilter.MipMapLinearNearest, TextureFilter.Nearest);
-		bgTopTexture = new Image(texture);
-		bgTopTexture.setY(Constants.VIRTUAL_HEIGHT-bgTopTexture.getHeight());
-
-		texture = new Texture(Gdx.files.internal("tree.png"), true);
-		texture.setFilter(TextureFilter.MipMapLinearNearest, TextureFilter.Nearest);
-		evolutionSketch = new Image(texture);
-		
-		// keep this at the end to ensure all assets are loaded
-		manager.finishLoading();
+		skin = manager.get("skin.json", Skin.class);
 	}
 
 	public Array<TextureAtlas.AtlasRegion> getRegions(String name) {
