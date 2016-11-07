@@ -137,13 +137,13 @@ public class StartStage extends AbstractStage {
 
 	private void updateHint() {
 		if (Account.I.ingredients.isEmpty()) {
-			hint.setText("Gather some ingredients first. (Goto Pepper's basement)");
+			hint.setText("Gather some ingredients first. (Go to Pepper's basement)");
 		}
 		if (Account.I.ingredients.size() > 0) {
-			hint.setText("Put ingredients into the cauldron by double-klick.");
+			hint.setText("Double-click on ingredients to put into the cauldron.");
 		}
 		if (potionIsReady()) {
-			hint.setText("Potion is ready you can use it on the ghost.");
+			hint.setText("Potion is ready! You can use it on the ghost.");
 		}
 	}
 
