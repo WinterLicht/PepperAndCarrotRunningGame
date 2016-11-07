@@ -120,6 +120,8 @@ public abstract class Runner extends Group
 	public Ability ability3;
 	public Ability ability0;
 
+	private int offsetForFeet = 16; //Offset so player lands with feet on the platform ground
+
 	/**
 	 * Possible states.
 	 */
@@ -261,8 +263,8 @@ public abstract class Runner extends Group
 		}
 		if (!noGravity) {
 			// Player can't fall under/below the ground
-			if (getY() < Constants.OFFSET_TO_GROUND) {
-				land(Constants.OFFSET_TO_GROUND);
+			if (getY() < (Constants.OFFSET_TO_GROUND-offsetForFeet)) {
+				land(Constants.OFFSET_TO_GROUND-offsetForFeet);
 			}
 		}
 	}
@@ -469,8 +471,7 @@ public abstract class Runner extends Group
 	@Override
 	public boolean onHitPlatform(LevelSegment.Platform platform, float platformHitTop) {
 		// Offset so player lands with feet on the platform ground
-		final float offset = 16;
-		land(platformHitTop - offset);
+		land(platformHitTop - offsetForFeet);
 		return true;
 	}
 

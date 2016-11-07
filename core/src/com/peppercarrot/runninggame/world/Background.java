@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.nGame.utils.ng.Assets;
+import com.peppercarrot.runninggame.utils.Constants;
 
 /**
  * An infinitely scrolling and repeating background. The viewport has to be set
@@ -23,6 +25,8 @@ public class Background extends Actor {
 	private final int textureHeight;
 
 	private final Texture texture;
+	
+	private final Texture groundTexture;
 
 	private final int columnsIfCentered;
 
@@ -31,6 +35,8 @@ public class Background extends Actor {
 	private float viewportX;
 
 	private float viewportY;
+	
+	private float diffX = 0; //difference of speed for parallax
 
 	public Background(String backgroundPicture, int virtualWidth, int virtualHeight) {
 		texture = new Texture(Gdx.files.internal(backgroundPicture), true);
@@ -40,6 +46,9 @@ public class Background extends Actor {
 
 		columnsIfCentered = virtualWidth / textureWidth + (virtualWidth % textureWidth > 0 ? 1 : 0);
 		rowsIfCentered = virtualHeight / textureHeight + (virtualHeight % textureHeight > 0 ? 1 : 0);
+
+		groundTexture = new Texture(Gdx.files.internal("ground.png"));
+		groundTexture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
 	}
 
 	public float getViewportX() {
@@ -51,7 +60,7 @@ public class Background extends Actor {
 	}
 
 	public void moveViewportLeft(float offset) {
-		viewportX += offset;
+		viewportX += (offset-diffX);
 	}
 
 	public float getViewportY() {
@@ -77,8 +86,12 @@ public class Background extends Actor {
 				// will be scrolled
 				final float tileX = clipX + col * textureWidth;
 				final float tileY = (rowOffset + row) * textureHeight;
-				batch.draw(texture, tileX, tileY, textureWidth, textureHeight);
+				batch.draw(texture, tileX, tileY, textureWidth, textureHeight);	
 			}
 		}
+		batch.draw(groundTexture,
+				0, Constants.OFFSET_TO_GROUND-groundTexture.getHeight(),
+				(int)(viewportX+diffX), 0,
+				Constants.VIRTUAL_WIDTH, groundTexture.getHeight());
 	}
 }
