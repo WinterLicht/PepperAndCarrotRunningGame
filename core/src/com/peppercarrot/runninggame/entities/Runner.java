@@ -263,8 +263,8 @@ public abstract class Runner extends Group
 		}
 		if (!noGravity) {
 			// Player can't fall under/below the ground
-			if (getY() < (Constants.OFFSET_TO_GROUND-offsetForFeet)) {
-				land(Constants.OFFSET_TO_GROUND-offsetForFeet);
+			if (getY() < (Constants.OFFSET_TO_GROUND)) {
+				land(Constants.OFFSET_TO_GROUND);
 			}
 		}
 	}

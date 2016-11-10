@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.nGame.utils.ng.Assets;
 import com.peppercarrot.runninggame.utils.Constants;
 
 /**
@@ -90,7 +89,7 @@ public class Background extends Actor {
 			}
 		}
 		batch.draw(groundTexture,
-				0, Constants.OFFSET_TO_GROUND-groundTexture.getHeight(),
+				0, 0,
 				(int)(viewportX+diffX), 0,
 				Constants.VIRTUAL_WIDTH, groundTexture.getHeight());
 	}
