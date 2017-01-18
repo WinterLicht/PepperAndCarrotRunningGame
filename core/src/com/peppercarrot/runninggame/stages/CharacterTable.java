@@ -48,9 +48,9 @@ public class CharacterTable extends Table {
 		int descriptionWidth = 460;
 
 		charDescription = new Table();
-		Label descriptionText = new Label("Beeing a witch of Chaosah, Pepper is able to summon creatures from other worlds and distort time." +
-				" Unfortunately magic of Chaosah is unpredictable and she gets in various adventures because of it." +
-				"Pepper loves to study magic and brew potions.", Assets.I.skin, "default");
+		Label descriptionText = new Label("Being a witch of Chaosah, Pepper is able to summon creatures from other worlds and can distort time." +
+				" Unfortunately, the magic of Chaosah is unpredictable and she gets in various adventures because of it." +
+				" Pepper loves to study magic and brew potions.", Assets.I.skin, "default");
 		descriptionText.setWrap(true);
 		charDescription.padLeft(paddingScrollPane);
 		charDescription.padRight(paddingScrollPane);
@@ -77,7 +77,7 @@ public class CharacterTable extends Table {
 				skillNameStrg = "Time Distortion";
 				skillDescription = "Pepper controls time for a short duration." +
 						" She moves faster and takes no damage from enemies. " +
-						"Enemies on collision are destroyed.";
+						"Enemies are destroyed on collision.";
 				break;
 			case 3:
 				skillNameStrg = "Black Hole";

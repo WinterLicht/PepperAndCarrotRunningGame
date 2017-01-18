@@ -42,12 +42,12 @@ public class PotionCollectionTable extends Table {
 			case 3:
 				potionNameStrg = "Blue Potion";
 				potionImageFileName = "potion_blue";
-				potionDescription = "Charges blue skill";
+				potionDescription = "Charges blue skill.";
 				break;
 			case 4:
 				potionNameStrg = "Health Potion";
 				potionImageFileName = "potion_pink";
-				potionDescription = "Refills one hearth.";
+				potionDescription = "Refills one heart.";
 				break;
 			case 5:
 				potionNameStrg = "Lemonade Potion";
